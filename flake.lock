@@ -1,0 +1,63 @@
+{
+  "nodes": {
+    "attrs": {
+      "locked": {
+        "dir": "btrsamsung",
+        "lastModified": 1684036014,
+        "narHash": "sha256-P3zzA/xPqfh034hkgXAGqKni9U2zIH89Gf2YO1eiQcU=",
+        "ref": "refs/heads/master",
+        "rev": "b19e9a0b1dff79d53503318f36578c7ea6097707",
+        "revCount": 5,
+        "type": "git",
+        "url": "ssh://git@github.com/bryango/attrs.git?dir=btrsamsung"
+      },
+      "original": {
+        "dir": "btrsamsung",
+        "type": "git",
+        "url": "ssh://git@github.com/bryango/attrs.git?dir=btrsamsung"
+      }
+    },
+    "home-manager": {
+      "inputs": {
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1686241374,
+        "narHash": "sha256-fxlUjZx3VtQvNPTp/YX9uY//1UPbR3CBvUL3ajDRCyE=",
+        "owner": "nix-community",
+        "repo": "home-manager",
+        "rev": "f889ec0ec366e3ad8fb94e3afa7a31f3ee1da3b9",
+        "type": "github"
+      },
+      "original": {
+        "id": "home-manager",
+        "type": "indirect"
+      }
+    },
+    "nixpkgs": {
+      "locked": {
+        "lastModified": 1686089707,
+        "narHash": "sha256-LTNlJcru2qJ0XhlhG9Acp5KyjB774Pza3tRH0pKIb3o=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "af21c31b2a1ec5d361ed8050edd0303c31306397",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "type": "indirect"
+      }
+    },
+    "root": {
+      "inputs": {
+        "attrs": "attrs",
+        "home-manager": "home-manager",
+        "nixpkgs": "nixpkgs"
+      }
+    }
+  },
+  "root": "root",
+  "version": 7
+}
