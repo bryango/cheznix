@@ -30,7 +30,7 @@
 
   outputs = { nixpkgs, home-manager, all-attrs, ... }:
     let
-      mkMachineConfig = hostname:
+      mkHomeConfig = hostname:
         let
           attrs = all-attrs.${hostname} // {
             config = {
@@ -44,8 +44,8 @@
             inherit (attrs) system config;
           };
         in {
-          homeConfigurations."${attrs.username}@${hostname}" =
-          home-manager.lib.homeManagerConfiguration {
+          name = "${attrs.username}@${hostname}";
+          value = home-manager.lib.homeManagerConfiguration {
             inherit pkgs;
 
             # Specify your home configuration modules here, for example,
@@ -60,6 +60,8 @@
           };
         };
     in {
-      inherit (mkMachineConfig "btrsamsung") homeConfigurations;
+      homeConfigurations = with builtins; listToAttrs (
+        map mkHomeConfig (attrNames all-attrs.outputs)
+      );
     };
 }
