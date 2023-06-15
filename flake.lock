@@ -1,6 +1,6 @@
 {
   "nodes": {
-    "attrs": {
+    "all-attrs": {
       "locked": {
         "lastModified": 1686833621,
         "narHash": "sha256-vnU3f8NY4KQ3HVKtuuapQQKqpuxUfQdFj1mYxUofLdI=",
@@ -50,7 +50,7 @@
     },
     "root": {
       "inputs": {
-        "attrs": "attrs",
+        "all-attrs": "all-attrs",
         "home-manager": "home-manager",
         "nixpkgs": "nixpkgs"
       }
