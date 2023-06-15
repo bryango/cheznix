@@ -80,10 +80,10 @@ in {
     packageOverrides = pkgs: with pkgs; {
 
       ## specify user mods
-      gimp-with-plugins = with nixpkgs_python2; gimp-with-plugins.override {
+      gimp-with-plugins = with pkgs; gimp-with-plugins.override {
         plugins = with gimpPlugins; [ resynthesizer ];
       };
-      gimp = with nixpkgs_python2; gimp.override {
+      gimp = with pkgs; gimp.override {
         withPython = true;
       };
 
