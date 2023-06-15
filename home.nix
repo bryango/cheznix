@@ -16,6 +16,14 @@ let
     ## https://github.com/nix-community/home-manager/issues/616#issuecomment-568612737
   };
 
+  nixpkgs_biber217 = import (builtins.fetchTarball {
+    ## from: https://hydra.nixos.org/build/202359527
+    url = "https://github.com/NixOS/nixpkgs/archive/40f79f003b6377bd2f4ed4027dde1f8f922995dd.tar.gz";
+    sha256 = "1javsbaxf04fjygyp5b9c9hb9dkh5gb4m4h9gf9gvqlanlnms4n5";
+  }) {
+    inherit (attrs) system config;
+  };
+
 in {
   # The home.packages option allows you to install Nix packages into your
   # environment.
@@ -34,6 +42,7 @@ in {
     circumflex  # Hacker News terminal
     uxplay  # airplay server
     # getoptions  # shell argument parser
+    tectonic  # with biber217, see below
 
     # python2 apps from `nixpkgs_python2`
     gimp-with-plugins
@@ -76,6 +85,10 @@ in {
       };
       gimp = with nixpkgs_python2; gimp.override {
         withPython = true;
+      };
+
+      tectonic = tectonic.override {
+        biber = nixpkgs_biber217.biber;
       };
     };
 
