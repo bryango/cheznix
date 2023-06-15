@@ -2,19 +2,17 @@
   "nodes": {
     "attrs": {
       "locked": {
-        "dir": "btrsamsung",
-        "lastModified": 1684036014,
-        "narHash": "sha256-P3zzA/xPqfh034hkgXAGqKni9U2zIH89Gf2YO1eiQcU=",
+        "lastModified": 1686833621,
+        "narHash": "sha256-vnU3f8NY4KQ3HVKtuuapQQKqpuxUfQdFj1mYxUofLdI=",
         "ref": "refs/heads/master",
-        "rev": "b19e9a0b1dff79d53503318f36578c7ea6097707",
-        "revCount": 5,
+        "rev": "b1be76f7d6c559017d8cd9a6ab9b05be9176308d",
+        "revCount": 6,
         "type": "git",
-        "url": "ssh://git@github.com/bryango/attrs.git?dir=btrsamsung"
+        "url": "ssh://git@github.com/bryango/attrs.git"
       },
       "original": {
-        "dir": "btrsamsung",
         "type": "git",
-        "url": "ssh://git@github.com/bryango/attrs.git?dir=btrsamsung"
+        "url": "ssh://git@github.com/bryango/attrs.git"
       }
     },
     "home-manager": {

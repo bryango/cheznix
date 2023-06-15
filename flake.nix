@@ -4,9 +4,8 @@
   inputs = {
 
     attrs = {
-      ## specify config attrset by `dir=`
-      url = "git+ssh://git@github.com/bryango/attrs.git?dir=btrsamsung";
-      ## ... provides `system`, `username`, `homeDirectory`, ...
+      url = "git+ssh://git@github.com/bryango/attrs.git";
+      ## ... provides attrset with `system`, `username`, `homeDirectory`, ...
       ## ... WARNING: not secret, might leak through /nix/store & cache
     };
 
@@ -33,7 +32,8 @@
 
   outputs = { nixpkgs, home-manager, attrs, ... }:
     let
-      attrs' = attrs // {
+      machine = "btrsamsung";
+      attrs' = attrs.${machine} // {
         config = {
           ## https://github.com/nix-community/home-manager/issues/2954
           ## ... home-manager/issues/2942#issuecomment-1378627909
@@ -48,7 +48,7 @@
         inherit (attrs) system config;
       };
     in {
-      homeConfigurations.${attrs.username} =
+      homeConfigurations."${attrs.username}@${machine}" =
       home-manager.lib.homeManagerConfiguration {
         inherit pkgs;
 
