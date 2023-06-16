@@ -4,6 +4,6 @@
 set -x
 cd "$(dirname "$0")" || exit
 
-nix eval --raw --impure --expr \
-  "with builtins; toString (attrNames (getFlake path:$PWD).config)" \
+nix eval --impure --expr \
+  "with builtins; attrNames (getFlake path:$PWD).legacyPackages.x86_64-linux.config" \
   | xargs
