@@ -33,7 +33,7 @@
       url = "https://github.com/NixOS/nixpkgs/archive/40f79f003b6377bd2f4ed4027dde1f8f922995dd.tar.gz";
       sha256 = "1javsbaxf04fjygyp5b9c9hb9dkh5gb4m4h9gf9gvqlanlnms4n5";
     }) {
-      # inherit system;
+      inherit system;
     };
 
     pkgs = import nixpkgs {
