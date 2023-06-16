@@ -3,7 +3,19 @@
 
   inputs = {
 
-    nixpkgs.url = "nixpkgs";  ## ... using flake registry:
+    nixpkgs.url = "nixpkgs";  ## ... using flake registry
+
+    ## python2 marked insecure: https://github.com/NixOS/nixpkgs/pull/201859
+    ## ... last hydra build before that:
+    ##     https://hydra.nixos.org/eval/1788908?filter=python2&full=#tabs-inputs
+    ## ... obtained by inspecting:
+    ##     https://hydra.nixos.org/jobset/nixpkgs/trunk/evals
+    nixpkgs_python2 = {
+      url = "github:NixOS/nixpkgs/7e63eed145566cca98158613f3700515b4009ce3"; # "https://github.com/NixOS/nixpkgs/archive/7e63eed145566cca98158613f3700515b4009ce3.tar.gz";
+      # sha256 = "1yazcc1hng3pbvml1s7i2igf3a90q8v8g6fygaw70vis32xibhz9";
+      ## ... generated from `nix-prefetch-url --unpack`
+    }; #) {};
+
 
     ## alternatively,
     # nixpkgs.url = "nixpkgs/a3a3dda3bacf61e8a39258a0ed9c924eeca8e293";
@@ -12,21 +24,16 @@
 
   };
 
-  outputs = { nixpkgs, ... }:
+  outputs = { nixpkgs, nixpkgs_python2, ... }:
   let
 
     system = "x86_64-linux";
-
-    ## python2 marked insecure: https://github.com/NixOS/nixpkgs/pull/201859
-    ## ... last hydra build before that:
-    ##     https://hydra.nixos.org/eval/1788908?filter=python2&full=#tabs-inputs
-    ## ... obtained by inspecting:
-    ##     https://hydra.nixos.org/jobset/nixpkgs/trunk/evals
-    nixpkgs_python2 = import (builtins.fetchTarball {
-      url = "https://github.com/NixOS/nixpkgs/archive/7e63eed145566cca98158613f3700515b4009ce3.tar.gz";
-      sha256 = "1yazcc1hng3pbvml1s7i2igf3a90q8v8g6fygaw70vis32xibhz9";
-      ## ... generated from `nix-prefetch-url --unpack`
-    }) {};
+    cfg = {
+      ## https://github.com/nix-community/home-manager/issues/2954
+      ## ... home-manager/issues/2942#issuecomment-1378627909
+      allowBroken = true;
+      allowUnfree = true;
+    };
 
     nixpkgs_biber217 = import (builtins.fetchTarball {
       ## from: https://hydra.nixos.org/build/202359527
@@ -36,21 +43,24 @@
       inherit system;
     };
 
+    pkgs_python2 = import nixpkgs_python2 {
+      inherit system;
+      config = cfg;
+    };
+
     pkgs = import nixpkgs {
       inherit system;
       config = {
-        ## https://github.com/nix-community/home-manager/issues/2954
-        ## ... home-manager/issues/2942#issuecomment-1378627909
-        allowBroken = true;
-        allowUnfree = true;
+
+        inherit (cfg) allowBroken allowUnfree;
 
         packageOverrides = pkgs: with pkgs; {
 
           ## specify user mods
-          gimp-with-plugins = with pkgs; gimp-with-plugins.override {
+          gimp-with-plugins = with pkgs_python2; gimp-with-plugins.override {
             plugins = with gimpPlugins; [ resynthesizer ];
           };
-          gimp = with pkgs; gimp.override {
+          gimp = with pkgs_python2; gimp.override {
             withPython = true;
           };
 
