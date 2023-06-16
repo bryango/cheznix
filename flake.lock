@@ -37,14 +37,15 @@
     "nixpkgs": {
       "inputs": {
         "nixpkgs": "nixpkgs_2",
+        "nixpkgs_biber217": "nixpkgs_biber217",
         "nixpkgs_python2": "nixpkgs_python2"
       },
       "locked": {
-        "lastModified": 1686896219,
-        "narHash": "sha256-x5zg+tIiHbEWFt8RLeQurqQCnzfw6pIGgFtjmc2SzHw=",
+        "lastModified": 1686936407,
+        "narHash": "sha256-XH9LbuYJV26hcysFJGTHklDfr3A/BwDxulHOV+eC5Oo=",
         "owner": "bryango",
         "repo": "nixpkgs-config",
-        "rev": "f09066e0bccbd075c3bfdf07443da4a06e799187",
+        "rev": "4af9438ebe96d1dbc6db9531bc82ad5f36f1bfcd",
         "type": "github"
       },
       "original": {
@@ -67,6 +68,21 @@
         "type": "indirect"
       }
     },
+    "nixpkgs_biber217": {
+      "locked": {
+        "lastModified": 1686582075,
+        "narHash": "sha256-vtflsfKkHtF8IduxDNtbme4cojiqvlvjp5QNYhvoHXc=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "40f79f003b6377bd2f4ed4027dde1f8f922995dd",
+        "type": "github"
+      },
+      "original": {
+        "id": "nixpkgs",
+        "rev": "40f79f003b6377bd2f4ed4027dde1f8f922995dd",
+        "type": "indirect"
+      }
+    },
     "nixpkgs_python2": {
       "locked": {
         "lastModified": 1686582075,
@@ -77,10 +93,9 @@
         "type": "github"
       },
       "original": {
-        "owner": "NixOS",
-        "repo": "nixpkgs",
+        "id": "nixpkgs",
         "rev": "7e63eed145566cca98158613f3700515b4009ce3",
-        "type": "github"
+        "type": "indirect"
       }
     },
     "root": {
