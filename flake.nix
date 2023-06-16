@@ -15,6 +15,8 @@
   outputs = { nixpkgs, ... }:
   let
 
+    system = "x86_64-linux";
+
     ## python2 marked insecure: https://github.com/NixOS/nixpkgs/pull/201859
     ## ... last hydra build before that:
     ##     https://hydra.nixos.org/eval/1788908?filter=python2&full=#tabs-inputs
@@ -30,9 +32,12 @@
       ## from: https://hydra.nixos.org/build/202359527
       url = "https://github.com/NixOS/nixpkgs/archive/40f79f003b6377bd2f4ed4027dde1f8f922995dd.tar.gz";
       sha256 = "1javsbaxf04fjygyp5b9c9hb9dkh5gb4m4h9gf9gvqlanlnms4n5";
-    }) {};
+    }) {
+      # inherit system;
+    };
 
-  in import nixpkgs {
+    pkgs = import nixpkgs {
+      inherit system;
       config = {
         ## https://github.com/nix-community/home-manager/issues/2954
         ## ... home-manager/issues/2942#issuecomment-1378627909
@@ -61,4 +66,7 @@
 
       };
     };
+  in {
+    legacyPackages.${system} = pkgs;
+  };
 }
