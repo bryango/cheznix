@@ -8,14 +8,8 @@
     ## ... WARNING: not secret, might leak through /nix/store & cache
     all-attrs.url = "git+ssh://git@github.com/bryango/attrs.git";
 
-    ## specify the source of home-manager and nixpkgs
-    ## ... using flake registry:
-    nixpkgs.url = "nixpkgs";
-
-    ## alternatively,
-    # nixpkgs.url = "nixpkgs/a3a3dda3bacf61e8a39258a0ed9c924eeca8e293";
-    # nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    ## ... `unstable` lags a little bit behind `master`
+    ## specify the source of p13n nixpkgs with config
+    nixpkgs.url = "github:bryango/nixpkgs-config";
 
     home-manager = {
       url = "home-manager";
@@ -32,16 +26,10 @@
     let
       mkHomeConfig = hostname:
         let
+          system = all-attrs.${hostname}.system;
+          pkgs = nixpkgs.legacyPackages.${system};
           attrs = all-attrs.${hostname} // {
-            config = {
-              ## https://github.com/nix-community/home-manager/issues/2954
-              ## ... home-manager/issues/2942#issuecomment-1378627909
-              allowBroken = true;
-              allowUnfree = true;
-            };
-          };
-          pkgs = import nixpkgs {
-            inherit (attrs) system config;
+            config = pkgs.config;
           };
         in {
           name = "${attrs.username}@${hostname}";
