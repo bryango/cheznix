@@ -3,56 +3,47 @@
 
   inputs = {
 
-    nixpkgs.url = "nixpkgs";  ## ... using flake registry
+    nixpkgs.url = "nixpkgs";
+    ## ... using flake registry
+    ## ... hydra builds: https://hydra.nixos.org/jobset/nixpkgs/trunk/evals
+
+    ## alternatively, use `unstable` which is slightly behind `master`
+    # nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
+    # nixpkgs.url = "nixpkgs/a3a3dda3bacf61e8a39258a0ed9c924eeca8e293";
 
     ## python2 marked insecure: https://github.com/NixOS/nixpkgs/pull/201859
-    ## ... last hydra build before that:
-    ##     https://hydra.nixos.org/eval/1788908?filter=python2&full=#tabs-inputs
-    ## ... obtained by inspecting:
-    ##     https://hydra.nixos.org/jobset/nixpkgs/trunk/evals
-    nixpkgs_python2 = {
-      url = "github:NixOS/nixpkgs/7e63eed145566cca98158613f3700515b4009ce3"; # "https://github.com/NixOS/nixpkgs/archive/7e63eed145566cca98158613f3700515b4009ce3.tar.gz";
-      # sha256 = "1yazcc1hng3pbvml1s7i2igf3a90q8v8g6fygaw70vis32xibhz9";
-      ## ... generated from `nix-prefetch-url --unpack`
-    }; #) {};
+    ## ... pin to a successful build:
+    nixpkgs_python2.url = "nixpkgs/7e63eed145566cca98158613f3700515b4009ce3";
 
-
-    ## alternatively,
-    # nixpkgs.url = "nixpkgs/a3a3dda3bacf61e8a39258a0ed9c924eeca8e293";
-    # nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    ## ... `unstable` lags a little bit behind `master`
+    nixpkgs_biber217.url = "nixpkgs/40f79f003b6377bd2f4ed4027dde1f8f922995dd";
+    ## ... from: https://hydra.nixos.org/build/202359527
 
   };
 
-  outputs = { nixpkgs, nixpkgs_python2, ... }:
+  outputs = { nixpkgs, ... } @ inputs:
   let
 
     system = "x86_64-linux";
-    cfg = {
+    config = {
       ## https://github.com/nix-community/home-manager/issues/2954
       ## ... home-manager/issues/2942#issuecomment-1378627909
       allowBroken = true;
       allowUnfree = true;
     };
 
-    nixpkgs_biber217 = import (builtins.fetchTarball {
-      ## from: https://hydra.nixos.org/build/202359527
-      url = "https://github.com/NixOS/nixpkgs/archive/40f79f003b6377bd2f4ed4027dde1f8f922995dd.tar.gz";
-      sha256 = "1javsbaxf04fjygyp5b9c9hb9dkh5gb4m4h9gf9gvqlanlnms4n5";
-    }) {
-      inherit system;
+    pkgs_python2 = import inputs.nixpkgs_python2 {
+      inherit system config;
     };
 
-    pkgs_python2 = import nixpkgs_python2 {
-      inherit system;
-      config = cfg;
+    pkgs_biber217 = import inputs.nixpkgs_biber217 {
+      inherit system config;
     };
 
     pkgs = import nixpkgs {
       inherit system;
       config = {
 
-        inherit (cfg) allowBroken allowUnfree;
+        inherit (config) allowBroken allowUnfree;
 
         packageOverrides = pkgs: with pkgs; {
 
@@ -65,7 +56,7 @@
           };
 
           tectonic = tectonic.override {
-            biber = nixpkgs_biber217.biber;
+            biber = pkgs_biber217.biber;
           };
         };
 
