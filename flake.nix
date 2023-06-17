@@ -31,15 +31,9 @@
       allowUnfree = true;
     };
 
-    # pkgs_python2 = import inputs.nixpkgs_python2 {
-    #   inherit system config;
-    # };
-
-    # pkgs_python2 = import (builtins.fetchTarball {
-    #   url = "https://github.com/NixOS/nixpkgs/archive/7e63eed145566cca98158613f3700515b4009ce3.tar.gz";
-    #   sha256 = "1yazcc1hng3pbvml1s7i2igf3a90q8v8g6fygaw70vis32xibhz9";
-    #   ## ... generated from `nix-prefetch-url --unpack`
-    # }) {};
+    pkgs_python2 = import inputs.nixpkgs_python2 {
+      inherit system config;
+    };
 
     pkgs_biber217 = import inputs.nixpkgs_biber217 {
       inherit system config;
@@ -57,7 +51,7 @@
           gimp-with-plugins = with pkgs; gimp-with-plugins.override {
             plugins = with gimpPlugins; [ resynthesizer ];
           };
-          gimp = pkgs.gimp.override {
+          gimp = pkgs_python2.gimp.override {
             withPython = true;
           };
 
