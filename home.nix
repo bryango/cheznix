@@ -110,7 +110,7 @@
     max-jobs = "auto";
     
     ## need to set `trusted-substituters` in `/etc/nix/nix.conf`
-    extra-substituters = "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store";
+    extra-substituters = "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store?priority=20";
     # extra-substituters = "https://mirror.sjtu.edu.cn/nix-channels/store";
   };
   nix.extraOptions = ''
