@@ -29,6 +29,11 @@
       ## ... home-manager/issues/2942#issuecomment-1378627909
       allowBroken = true;
       allowUnfree = true;
+
+      permittedInsecurePackages = [
+        "python-2.7.18.6"
+        "python-2.7.18.6-env"
+      ];
     };
 
     pkgs_python2 = import inputs.nixpkgs_python2 {
@@ -43,7 +48,7 @@
       inherit system;
       config = {
 
-        inherit (config) allowBroken allowUnfree;
+        inherit (config) allowBroken allowUnfree permittedInsecurePackages;
 
         packageOverrides = pkgs: {
 
@@ -51,19 +56,15 @@
           gimp-with-plugins = with pkgs; gimp-with-plugins.override {
             plugins = with gimpPlugins; [ resynthesizer ];
           };
-          gimp = pkgs_python2.gimp.override {
+          gimp = pkgs.gimp.override {
             withPython = true;
+            python2 = pkgs_python2.python2;
           };
 
           tectonic = pkgs.tectonic.override {
             biber = pkgs_biber217.biber;
           };
         };
-
-        permittedInsecurePackages = [
-          "python-2.7.18.6"
-          "python-2.7.18.6-env"
-        ];
 
       };
     };
