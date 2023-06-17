@@ -45,17 +45,17 @@
 
         inherit (config) allowBroken allowUnfree;
 
-        packageOverrides = pkgs: with pkgs; {
+        packageOverrides = pkgs: {
 
           ## specify user mods
           gimp-with-plugins = with pkgs_python2; gimp-with-plugins.override {
             plugins = with gimpPlugins; [ resynthesizer ];
           };
-          gimp = with pkgs_python2; gimp.override {
+          gimp = pkgs_python2.gimp.override {
             withPython = true;
           };
 
-          tectonic = tectonic.override {
+          tectonic = pkgs.tectonic.override {
             biber = pkgs_biber217.biber;
           };
         };
