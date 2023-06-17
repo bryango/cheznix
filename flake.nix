@@ -23,7 +23,6 @@
   outputs = { nixpkgs, ... } @ inputs:
   let
 
-    system = "x86_64-linux";
     config = {
       ## https://github.com/nix-community/home-manager/issues/2954
       ## ... home-manager/issues/2942#issuecomment-1378627909
@@ -36,39 +35,49 @@
       ];
     };
 
-    pkgs_python2 = import inputs.nixpkgs_python2 {
-      inherit system config;
-    };
+    pkgsForSystem = system:
+    let
 
-    pkgs_biber217 = import inputs.nixpkgs_biber217 {
-      inherit system config;
-    };
-
-    pkgs = import nixpkgs {
-      inherit system;
-      config = {
-
-        inherit (config) allowBroken allowUnfree permittedInsecurePackages;
-
-        packageOverrides = pkgs: {
-
-          ## specify user mods
-          gimp-with-plugins = with pkgs; gimp-with-plugins.override {
-            plugins = with gimpPlugins; [ resynthesizer ];
-          };
-          gimp = pkgs.gimp.override {
-            withPython = true;
-            python2 = pkgs_python2.python2;
-          };
-
-          tectonic = pkgs.tectonic.override {
-            biber = pkgs_biber217.biber;
-          };
-        };
-
+      pkgs_python2 = import inputs.nixpkgs_python2 {
+        inherit system config;
       };
+
+      pkgs_biber217 = import inputs.nixpkgs_biber217 {
+        inherit system config;
+      };
+
+      pkgs = import nixpkgs {
+        inherit system;
+        config = {
+
+          inherit (config) allowBroken allowUnfree permittedInsecurePackages;
+
+          packageOverrides = pkgs: {
+
+            ## specify user mods
+            gimp-with-plugins = with pkgs; gimp-with-plugins.override {
+              plugins = with gimpPlugins; [ resynthesizer ];
+            };
+            gimp = pkgs.gimp.override {
+              withPython = true;
+              python2 = pkgs_python2.python2;
+            };
+
+            tectonic = pkgs.tectonic.override {
+              biber = pkgs_biber217.biber;
+            };
+          };
+
+        };
+      };
+    in {
+      name = "${system}";
+      value = pkgs;
     };
+
   in {
-    legacyPackages.${system} = pkgs;
+    legacyPackages = with builtins; listToAttrs (
+      map pkgsForSystem [ "x86_64-linux" ]
+    );
   };
 }
