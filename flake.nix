@@ -71,7 +71,7 @@
         };
       };
     in {
-      name = "${system}";
+      name = system;
       value = pkgs;
     };
 
