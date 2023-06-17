@@ -1,8 +1,9 @@
 { pkgs, attrs, ... }:
 
 {
-  # The home.packages option allows you to install Nix packages into your
-  # environment.
+  home.username = attrs.username;
+  home.homeDirectory = attrs.homeDirectory;
+
   home.packages = with pkgs; [
 
     ## nix utils
@@ -19,8 +20,6 @@
     uxplay  # airplay server
     # getoptions  # shell argument parser
     tectonic  # with biber217, see below
-
-    # python2 apps from `nixpkgs_python2`
     gimp-with-plugins
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
@@ -36,11 +35,6 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
-
-  # Home Manager needs a bit of information about you and the paths it should
-  # manage. ### WARNING: requires `attrs` from `bryango/attrs`
-  home.username = attrs.username;
-  home.homeDirectory = attrs.homeDirectory;
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
