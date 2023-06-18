@@ -10,6 +10,7 @@
     ## alternatively, use `unstable` which is slightly behind `master`
     # nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     # nixpkgs.url = "nixpkgs/a3a3dda3bacf61e8a39258a0ed9c924eeca8e293";
+    ## ... WARNING: this doesn't seem to work properly!
 
     ## python2 marked insecure: https://github.com/NixOS/nixpkgs/pull/201859
     ## ... pin to a successful build:
@@ -23,6 +24,8 @@
   outputs = { nixpkgs, ... } @ inputs:
   let
 
+    forMySystems = nixpkgs.lib.genAttrs [ "x86_64-linux" ];
+
     config = {
       ## https://github.com/nix-community/home-manager/issues/2954
       ## ... home-manager/issues/2942#issuecomment-1378627909
@@ -35,10 +38,8 @@
       ];
     };
 
-    forAllSystems = nixpkgs.lib.genAttrs [ "x86_64-linux" ];
-
   in {
-    legacyPackages = forAllSystems (system:
+    legacyPackages = forMySystems (system:
       let
 
         pkgs_python2 = import inputs.nixpkgs_python2 {
@@ -53,15 +54,18 @@
         inherit system;
         config = {
 
-          inherit (config) allowBroken allowUnfree permittedInsecurePackages;
+          inherit (config)
+            allowBroken
+            allowUnfree
+            permittedInsecurePackages;
 
           packageOverrides = pkgs: {
 
             ## specify user mods
-            gimp-with-plugins = with pkgs; gimp-with-plugins.override {
+            gimp-with-plugins = with pkgs_python2; gimp-with-plugins.override {
               plugins = with gimpPlugins; [ resynthesizer ];
             };
-            gimp = pkgs.gimp.override {
+            gimp = pkgs_python2.gimp.override {
               withPython = true;
               python2 = pkgs_python2.python2;
             };
