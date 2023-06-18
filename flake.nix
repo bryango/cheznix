@@ -78,5 +78,7 @@
         };
       }
     );
+
+    lib = nixpkgs.lib;
   };
 }
