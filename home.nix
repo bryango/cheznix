@@ -19,7 +19,7 @@
     circumflex  # Hacker News terminal
     uxplay  # airplay server
     # getoptions  # shell argument parser
-    tectonic  # with biber217, see below
+    tectonic-with-biber  # from `bryango/nixpkgs-config`
     gimp-with-plugins
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
