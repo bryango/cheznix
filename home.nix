@@ -74,6 +74,9 @@
   # if you don't want to manage your shell through Home Manager.
   home.sessionVariables = {
     # EDITOR = "emacs";
+
+    ## use system locale; see `disabledModules`
+    LOCALE_ARCHIVE = "/usr/lib/locale/locale-archive";
   };
 
   # Let Home Manager install and manage itself.
@@ -82,7 +85,16 @@
   ## use system manpage
   programs.man.enable = false;
 
-  ## modules override
+  ## modules overrides
+  disabledModules = [
+
+    ## https://github.com/nix-community/home-manager/issues/2333
+    ## https://github.com/nix-community/home-manager/blob/master/modules/config/i18n.nix
+    ## use system locale; see `sessionVariables`
+    "config/i18n.nix"
+
+  ];
+
   imports = [
     ./redshift-many
   ];
