@@ -70,9 +70,10 @@
               python2 = pkgs_python2.python2;
             };
 
-            tectonic = pkgs.tectonic.override {
-              biber = pkgs_biber217.biber;
-            };
+            tectonic-with-biber =
+              pkgs.callPackage ./pkgs/tectonic-with-biber.nix {
+                biber = pkgs_biber217.biber;
+              };
           };
 
         };
