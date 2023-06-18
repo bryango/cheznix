@@ -56,5 +56,6 @@
         };
     in {
       homeConfigurations = forMyMachines mkHomeConfig;
+      packages = home-manager.packages;
     };
 }
