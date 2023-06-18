@@ -35,18 +35,21 @@
       ];
     };
 
-    pkgsForSystem = system:
-    let
+    forAllSystems = nixpkgs.lib.genAttrs [ "x86_64-linux" ];
 
-      pkgs_python2 = import inputs.nixpkgs_python2 {
-        inherit system config;
-      };
+  in {
+    legacyPackages = forAllSystems (system:
+      let
 
-      pkgs_biber217 = import inputs.nixpkgs_biber217 {
-        inherit system config;
-      };
+        pkgs_python2 = import inputs.nixpkgs_python2 {
+          inherit system config;
+        };
 
-      pkgs = import nixpkgs {
+        pkgs_biber217 = import inputs.nixpkgs_biber217 {
+          inherit system config;
+        };
+
+      in import nixpkgs {
         inherit system;
         config = {
 
@@ -69,15 +72,7 @@
           };
 
         };
-      };
-    in {
-      name = system;
-      value = pkgs;
-    };
-
-  in {
-    legacyPackages = with builtins; listToAttrs (
-      map pkgsForSystem [ "x86_64-linux" ]
+      }
     );
   };
 }
