@@ -24,11 +24,18 @@
 
   outputs = { nixpkgs, home-manager, all-attrs, ... }:
     let
+
+      machines = all-attrs.outputs;
+
+      forMyMachines = f: with builtins; listToAttrs (
+        map f (attrNames machines)
+      );
+
       mkHomeConfig = hostname:
         let
-          system = all-attrs.${hostname}.system;
+          system = machines.${hostname}.system;
           pkgs = nixpkgs.legacyPackages.${system};
-          attrs = all-attrs.${hostname} // {
+          attrs = machines.${hostname} // {
             config = pkgs.config;
           };
         in {
@@ -48,8 +55,6 @@
           };
         };
     in {
-      homeConfigurations = with builtins; listToAttrs (
-        map mkHomeConfig (attrNames all-attrs.outputs)
-      );
+      homeConfigurations = forMyMachines mkHomeConfig;
     };
 }
