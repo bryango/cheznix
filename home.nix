@@ -122,6 +122,14 @@
     };
   };
 
+  i18n.inputMethod = {
+    enabled = "fcitx5";
+    fcitx5.addons = with pkgs; [
+      ## https://github.com/NixOS/nixpkgs/blob/master/pkgs/tools/inputmethods/fcitx5/with-addons.nix
+      fcitx5-chinese-addons
+    ];
+  };
+
   ## nix settings
   nix.package = pkgs.nix;
   nix.settings = {
