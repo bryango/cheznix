@@ -23,6 +23,7 @@
     gimp-with-plugins
 
     gnomeExtensions.caffeine
+    gnomeExtensions.kimpanel
 
     # # It is sometimes useful to fine-tune packages, for example, by applying
     # # overrides. You can do that directly here, just don't forget the
@@ -37,6 +38,14 @@
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
+
+  nixpkgs.config = {
+    packageOverrides = pkgs: {
+      fcitx5-configtool = pkgs.fcitx5-configtool.override {
+        kcmSupport = false;
+      };
+    };
+  };
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
@@ -110,6 +119,14 @@
       temperature.always = 3600;
       # temperature.always = 4800;
     };
+  };
+
+  i18n.inputMethod = {
+    enabled = "fcitx5";
+    fcitx5.addons = with pkgs; [
+      ## https://github.com/NixOS/nixpkgs/blob/master/pkgs/tools/inputmethods/fcitx5/with-addons.nix
+      fcitx5-chinese-addons
+    ];
   };
 
   ## nix settings
