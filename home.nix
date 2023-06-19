@@ -41,9 +41,7 @@
 
   nixpkgs.config = {
     packageOverrides = pkgs: {
-      fcitx5-configtool = pkgs.libsForQt5.callPackage ./fcitx5-configtool.nix {
-        kcmSupport = false;
-      };
+      ## home overrides
     };
   };
 
@@ -119,14 +117,6 @@
       temperature.always = 3600;
       # temperature.always = 4800;
     };
-  };
-
-  i18n.inputMethod = {
-    enabled = "fcitx5";
-    fcitx5.addons = with pkgs; [
-      ## https://github.com/NixOS/nixpkgs/blob/master/pkgs/tools/inputmethods/fcitx5/with-addons.nix
-      fcitx5-chinese-addons
-    ];
   };
 
   ## nix settings
