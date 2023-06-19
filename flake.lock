@@ -41,11 +41,11 @@
         "nixpkgs_python2": "nixpkgs_python2"
       },
       "locked": {
-        "lastModified": 1687083798,
-        "narHash": "sha256-K11Qgn1tcGTBBRgftkOvrxUWKljTYjt0VnYyJfag4n0=",
+        "lastModified": 1687192679,
+        "narHash": "sha256-tXxgPW7NCUVcUcrVv7jZ2wtdBxCYMHSCXWCTNovfA9M=",
         "owner": "bryango",
         "repo": "nixpkgs-config",
-        "rev": "397ae802df726576f81dfd988b3c50017f18fa85",
+        "rev": "935ac6f6188fe516a5e66cb4fa01a0c849356fa0",
         "type": "github"
       },
       "original": {
