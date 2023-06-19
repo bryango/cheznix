@@ -74,8 +74,13 @@
               pkgs.callPackage ./pkgs/tectonic-with-biber.nix {
                 biber = pkgs_biber217.biber;
               };
-          };
 
+            fcitx5-configtool =
+              pkgs.libsForQt5.callPackage ./pkgs/fcitx5-configtool.nix {
+                kcmSupport = false;
+              };
+
+          };
         };
       }
     );
