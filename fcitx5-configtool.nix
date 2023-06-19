@@ -3,21 +3,12 @@
 , fetchFromGitHub
 , cmake
 , extra-cmake-modules
-, fcitx5
 , fcitx5-qt
 , qtx11extras
-, qtquickcontrols2
 , kwidgetsaddons
 , kitemviews
-, kcoreaddons
-, ki18n
 , kdeclarative
 , kirigami2
-, isocodes
-, xkeyboardconfig
-, libxkbfile
-, libXdmcp
-, plasma5Packages
 , plasma-framework
 , kcmSupport ? true
 }:
@@ -43,22 +34,13 @@ mkDerivation rec {
   ];
 
   buildInputs = [
-    fcitx5
     fcitx5-qt
     qtx11extras
-    qtquickcontrols2
-    isocodes
-    xkeyboardconfig
-    libxkbfile
-    libXdmcp
     kwidgetsaddons
     kitemviews
-    kcoreaddons
-    ki18n
   ] ++ lib.optionals kcmSupport [
     kirigami2
     kdeclarative
-    plasma5Packages.kiconthemes
     plasma-framework
   ];
 
