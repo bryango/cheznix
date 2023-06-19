@@ -8,6 +8,7 @@
 , qtx11extras
 , qtquickcontrols2
 , kwidgetsaddons
+, kitemviews
 , kdeclarative
 , kirigami2
 , isocodes
@@ -44,14 +45,15 @@ mkDerivation rec {
     fcitx5-qt
     qtx11extras
     qtquickcontrols2
-    kirigami2
     isocodes
     xkeyboardconfig
     libxkbfile
     libXdmcp
-  ] ++ lib.optionals kcmSupport [
-    kdeclarative
     kwidgetsaddons
+    kitemviews
+  ] ++ lib.optionals kcmSupport [
+    kirigami2
+    kdeclarative
     plasma5Packages.kiconthemes
     plasma-framework
   ];

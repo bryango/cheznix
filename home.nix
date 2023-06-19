@@ -41,7 +41,7 @@
 
   nixpkgs.config = {
     packageOverrides = pkgs: {
-      fcitx5-configtool = pkgs.fcitx5-configtool.override {
+      fcitx5-configtool = pkgs.libsForQt5.callPackage ./fcitx5-configtool.nix {
         kcmSupport = false;
       };
     };
