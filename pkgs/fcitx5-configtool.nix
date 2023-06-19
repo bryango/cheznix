@@ -8,18 +8,28 @@
 , qtx11extras
 , qtquickcontrols2
 , kwidgetsaddons
+, kitemviews
 , kdeclarative
 , kirigami2
 , isocodes
 , xkeyboardconfig
 , libxkbfile
 , libXdmcp
-, plasma5Packages
 , plasma-framework
 , kcmSupport ? true
 }:
 
-mkDerivation rec {
+let
+
+  ## for kcm & build support
+  optionalInputs = [
+    kdeclarative
+    kirigami2
+    plasma-framework
+  ];
+
+in mkDerivation rec {
+
   pname = "fcitx5-configtool";
   version = "5.0.17";
 
@@ -37,24 +47,20 @@ mkDerivation rec {
   nativeBuildInputs = [
     cmake
     extra-cmake-modules
-  ];
+  ] ++ optionalInputs;
 
   buildInputs = [
     fcitx5
     fcitx5-qt
     qtx11extras
     qtquickcontrols2
-    kirigami2
     isocodes
     xkeyboardconfig
     libxkbfile
     libXdmcp
-  ] ++ lib.optionals kcmSupport [
-    kdeclarative
     kwidgetsaddons
-    plasma5Packages.kiconthemes
-    plasma-framework
-  ];
+    kitemviews
+  ] ++ lib.optionals kcmSupport optionalInputs;
 
   meta = with lib; {
     description = "Configuration Tool for Fcitx5";
