@@ -10,6 +10,7 @@
 , kwidgetsaddons
 , kitemviews
 , kcoreaddons
+, ki18n
 , kdeclarative
 , kirigami2
 , isocodes
@@ -53,6 +54,7 @@ mkDerivation rec {
     kwidgetsaddons
     kitemviews
     kcoreaddons
+    ki18n
   ] ++ lib.optionals kcmSupport [
     kirigami2
     kdeclarative
