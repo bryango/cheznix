@@ -4,21 +4,22 @@ let
 
   baseModuleName = "redshift-many";
   xdgConfigHome = config.xdg.configHome;
-  cfg = config.services.${baseModuleName};
   opts = options.services.redshift;
 
-  instance = { instanceName, instanceCfg }: import ./instance.nix {
+  instance = instanceName: instanceCfg: import ./instance.nix {
     inherit instanceName instanceCfg;
     inherit xdgConfigHome;
     inherit lib pkgs modulesPath;
   };
 
-  mergeConfig = configPath: with lib; mkMerge (
-    mapAttrsToList (
-      instanceName: instanceCfg:
-        getAttrFromPath (["config"] ++ configPath)
-        (instance { inherit instanceName instanceCfg; })
-    ) cfg
+  instanceConfigGet = configAttrPath:
+    instanceName: instanceCfg:
+      lib.getAttrFromPath (["config"] ++ configAttrPath)
+      (instance instanceName instanceCfg);
+
+  mergeConfig = configAttrPath: with lib; mkMerge (
+    mapAttrsToList (instanceConfigGet configAttrPath)
+    config.services.${baseModuleName}
   );
 
 in {

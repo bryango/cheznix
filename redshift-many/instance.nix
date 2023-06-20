@@ -60,6 +60,7 @@ let
   ));
 
   ## a custom version of `dischargeProperties`
+  ## https://github.com/NixOS/nixpkgs/blob/master/lib/modules.nix
   dischargeMkIf = def:
     if def._type or "" == "if" then
       if lib.isBool def.condition then
@@ -73,13 +74,13 @@ let
     else
       def;
 
+  ## remove null valued attr
+  removeNulls = lib.filterAttrsRecursive (name: value: value != null);
+
   updateInputs = { config, ... } @ inputs:
     lib.recursiveUpdate inputs (
-
-      ## remove null valued attr
-      lib.filterAttrsRecursive (name: value: value != null)
-      (dischargeMkIf (instanceModule inputs))
-
+      removeNulls (dischargeMkIf (instanceModule inputs))
     );
 
 in updateInputs (updateInputs { inherit config; })
+## ... somehow `lib.converge` does not work so do it manually
