@@ -13,21 +13,20 @@ let
     inherit lib pkgs modulesPath;
   };
 
-  mergeConfig = configPath: with lib; mkMerge (
-    mapAttrsToList (
-      instanceName: instanceCfg:
-        getAttrFromPath (["config"] ++ configPath)
-        (instance { inherit instanceName instanceCfg; })
-    ) cfg
-  );
-
 in {
 
-  config = {
-    xdg.configFile = mergeConfig ["xdg" "configFile"];
-    systemd = mergeConfig ["systemd"];
-    home.packages = mergeConfig ["home" "packages"];
-  };
+  config = with lib; mkMerge (
+    mapAttrsToList (
+      instanceName: instanceCfg:
+        let
+          inherit (instance { inherit instanceName instanceCfg; }) config;
+        in {
+          inherit (config) systemd;
+          inherit (config.xdg) configFile;
+          inherit (config.home) packages;
+        }
+    ) cfg
+  );
 
   options.services.${baseModuleName} = with lib; mkOption {
     default = { };
