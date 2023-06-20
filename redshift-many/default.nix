@@ -7,21 +7,17 @@ let
   cfg = config.services.${baseModuleName};
   opts = options.services.redshift;
 
-in
-
-let
-
-  instance = { instanceName, instanceConfig }: import ./instance.nix {
-    inherit instanceName instanceConfig;
+  instance = { instanceName, instanceCfg }: import ./instance.nix {
+    inherit instanceName instanceCfg;
     inherit xdgConfigHome;
     inherit lib pkgs modulesPath;
   };
 
   mergeConfig = configPath: with lib; mkMerge (
     mapAttrsToList (
-      instanceName: instanceConfig:
+      instanceName: instanceCfg:
         getAttrFromPath configPath
-        (instance { inherit instanceName instanceConfig; })
+        (instance { inherit instanceName instanceCfg; })
     ) cfg
   );
 

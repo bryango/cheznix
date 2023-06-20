@@ -1,6 +1,6 @@
 ## adapted from `redshift.nix`
 
-{ instanceName, instanceConfig, xdgConfigHome, lib, pkgs, modulesPath, ... }:
+{ instanceName, instanceCfg, xdgConfigHome, lib, pkgs, modulesPath, ... }:
 
 let
 
@@ -15,11 +15,8 @@ let
         adjustment-method = "randr";
       };
 
-    } instanceConfig;
+    } instanceCfg;
 
-in
-
-let
   ## pretend the instance config is the full config
   config = {
     services.${moduleName} =
@@ -44,10 +41,6 @@ let
 
     xdg.configHome = xdgConfigHome;
   };
-
-in
-
-let
 
   instanceModule = ({ config, ... }: (
     import (

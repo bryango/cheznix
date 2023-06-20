@@ -31,12 +31,14 @@
         map f (attrNames machines)
       );
 
-      mkHomeConfig = hostname:
+      mkHomeConfig = profile:
         let
-          system = machines.${hostname}.system;
+          hostname = machines.${profile}.hostname or profile;
+          system = machines.${profile}.system;
           pkgs = nixpkgs.legacyPackages.${system};
-          attrs = machines.${hostname} // {
-            config = pkgs.config;
+          attrs = machines.${profile} // {
+            inherit hostname;
+            inherit (pkgs) config;
           };
         in {
           name = "${attrs.username}@${hostname}";
