@@ -16,7 +16,7 @@ let
   mergeConfig = configPath: with lib; mkMerge (
     mapAttrsToList (
       instanceName: instanceCfg:
-        getAttrFromPath configPath
+        getAttrFromPath (["config"] ++ configPath)
         (instance { inherit instanceName instanceCfg; })
     ) cfg
   );
@@ -24,8 +24,9 @@ let
 in {
 
   config = {
-    xdg.configFile = mergeConfig ["config" "xdg" "configFile"];
-    # systemd = mergeConfig ["config" "systemd"];
+    xdg.configFile = mergeConfig ["xdg" "configFile"];
+    systemd = mergeConfig ["systemd"];
+    home.packages = mergeConfig ["home" "packages"];
   };
 
   options.services.${baseModuleName} = with lib; mkOption {
