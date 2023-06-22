@@ -42,6 +42,9 @@
   nixpkgs.config = {
     packageOverrides = pkgs: {
       ## home overrides
+      redshift = pkgs.redshift.override {
+        withGeolocation = false;
+      };
     };
   };
 
