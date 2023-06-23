@@ -5,6 +5,7 @@ let
   baseModuleName = "redshift-many";
   xdgConfigHome = config.xdg.configHome;
   opts = options.services.redshift;
+  allInstances = config.services.${baseModuleName};
 
   instance = instanceName: instanceCfg: import ./instance.nix {
     inherit instanceName instanceCfg;
@@ -19,7 +20,14 @@ let
 
   mergeConfig = configAttrPath: with lib; mkMerge (
     mapAttrsToList (instanceConfigGet configAttrPath)
-    config.services.${baseModuleName}
+    allInstances
+  );
+
+  redshift-ctrl = pkgs.writeScriptBin "redshift-ctrl" (
+    builtins.readFile (pkgs.substituteAll {
+      src = ./. + "/redshift-ctrl.sh";
+      allInstanceNames = with builtins; toString (attrNames allInstances);
+    })
   );
 
 in {
@@ -27,7 +35,10 @@ in {
   config = {
     xdg.configFile = mergeConfig ["xdg" "configFile"];
     systemd = mergeConfig ["systemd"];
-    home.packages = mergeConfig ["home" "packages"];
+    home.packages = lib.mkMerge [
+      ( mergeConfig ["home" "packages"] )
+      [ redshift-ctrl ]
+    ];
   };
 
   options.services.${baseModuleName} = with lib; mkOption {
