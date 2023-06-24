@@ -45,8 +45,6 @@
       redshift = pkgs.redshift.override {
         withGeolocation = false;
       };
-
-      makeWrapper = pkgs.makeBinaryWrapper;
     };
   };
 
