@@ -69,7 +69,7 @@
       byobu-with-tmux = pkgs.callPackage (
         { byobu, tmux, symlinkJoin, emptyDirectory }:
         symlinkJoin {
-          name = "byobu-with-tmux";
+          name = "byobu-with-tmux-${byobu.version}";
           paths = [
             tmux
             (byobu.override {
@@ -78,6 +78,7 @@
               vim = emptyDirectory;
             })
           ];
+          inherit (byobu) meta;
         }
       ) {};
 
