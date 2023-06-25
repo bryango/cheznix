@@ -23,7 +23,6 @@
     proxychains-ng
     procps
     git
-    zsh
 
     ## apps
     # getoptions  # shell argument parser
