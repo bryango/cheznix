@@ -23,6 +23,16 @@
     procps
     git
     chezmoi
+    age
+    direnv
+    cargo-binstall
+    fd
+    jq
+    progress
+    tldr
+    tree
+    zoxide
+    lsof
 
     proxychains-ng
     (pkgs.writeShellScriptBin "proxychains" ''exec proxychains4 "$@"'')
