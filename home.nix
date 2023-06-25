@@ -6,20 +6,31 @@
 
   home.packages = with pkgs; [
 
-    ## nix utils
-    # nix  # manage itself
-    nvd
-    nix-tree
+    ## nix
+    nix  # manage itself
+    nvd  # version diff
+    nil  # language server
     nixpkgs-fmt  # the official (?) formatter
-    nil
+    nix-tree
     cachix
     hydra-check
 
-    # apps
-    circumflex  # Hacker News terminal
-    uxplay  # airplay server
+    ## cli
+    bat
+    fzf
+    byobu
+    diff-so-fancy
+    proxychains-ng
+    procps
+    git
+    zsh
+
+    ## apps
     # getoptions  # shell argument parser
+    circumflex  # hacker news terminal
+    uxplay  # airplay server
     tectonic-with-biber  # from `bryango/nixpkgs-config`
+    pulsar  # atom fork
     gimp-with-plugins
 
     gnomeExtensions.caffeine
@@ -40,10 +51,20 @@
   ];
 
   nixpkgs.config = {
-    packageOverrides = pkgs: {
-      ## home overrides
+    packageOverrides = pkgs:
+    let
+      empty = pkgs.emptyDirectory;
+    in {
+      ## upstream overrides: https://github.com/bryango/nixpkgs-config
+      ## home overrides:
       redshift = pkgs.redshift.override {
         withGeolocation = false;
+      };
+
+      byobu = pkgs.byobu.override {
+        textual-window-manager = pkgs.tmux;
+        screen = empty;
+        vim = empty;
       };
     };
   };
@@ -107,9 +128,16 @@
 
   imports = [
     ./redshift-many
+    ./v2ray
   ];
 
-  ## redshift
+  programs.v2ray-ctrl = {
+    # enable = false;
+    outbounds = "dal6";
+    # routings =
+    #   "private-direct,cn-direct,tencent-direct,ms-transit,zoom-transit";
+  };
+
   services.redshift-many = {
     redshift = {
       settings.randr.crtc = 0;
