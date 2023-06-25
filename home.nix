@@ -18,11 +18,13 @@
     ## cli
     bat
     fzf
-    byobu
+    byobu-with-tmux
     diff-so-fancy
-    proxychains-ng
     procps
     git
+
+    proxychains-ng
+    (pkgs.writeShellScriptBin "proxychains" ''exec proxychains4 "$@"'')
 
     ## apps
     # getoptions  # shell argument parser
@@ -50,21 +52,18 @@
   ];
 
   nixpkgs.config = {
-    packageOverrides = pkgs:
-    let
-      empty = pkgs.emptyDirectory;
-    in {
+    packageOverrides = pkgs: {
+
       ## upstream overrides: https://github.com/bryango/nixpkgs-config
       ## home overrides:
+      gimp-with-plugins = with pkgs; gimp-with-plugins.override {
+        plugins = with gimpPlugins; [ resynthesizer ];
+      };
+
       redshift = pkgs.redshift.override {
         withGeolocation = false;
       };
 
-      byobu = pkgs.byobu.override {
-        textual-window-manager = pkgs.tmux;
-        screen = empty;
-        vim = empty;
-      };
     };
   };
 
