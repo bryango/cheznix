@@ -38,53 +38,69 @@
       ];
     };
 
+    generateOverrides = system:
+    let
+
+      pkgs_python2 = import inputs.nixpkgs_python2 {
+        inherit system config;
+      };
+
+      pkgs_biber217 = import inputs.nixpkgs_biber217 {
+        inherit system config;
+      };
+
+    in (pkgs: {
+
+      gimp = pkgs.gimp.override {
+        withPython = true;
+        python2 = pkgs_python2.python2;
+      };
+
+      tectonic-with-biber =
+        pkgs.callPackage ./pkgs/tectonic-with-biber.nix {
+          biber = pkgs_biber217.biber;
+        };
+
+      fcitx5-configtool =
+        pkgs.libsForQt5.callPackage ./pkgs/fcitx5-configtool.nix {
+          kcmSupport = false;
+        };
+
+      byobu-with-tmux = pkgs.callPackage (
+        { byobu, tmux, symlinkJoin, emptyDirectory }:
+        symlinkJoin {
+          name = "byobu-with-tmux";
+          paths = [
+            tmux
+            (byobu.override {
+              textual-window-manager = tmux;
+              screen = emptyDirectory;
+              vim = emptyDirectory;
+            })
+          ];
+        }
+      ) {};
+
+    });
+
   in {
-    legacyPackages = forMySystems (system:
-      let
 
-        pkgs_python2 = import inputs.nixpkgs_python2 {
-          inherit system config;
-        };
+    legacyPackages = forMySystems (system: import nixpkgs {
 
-        pkgs_biber217 = import inputs.nixpkgs_biber217 {
-          inherit system config;
-        };
+      inherit system;
+      config = {
 
-      in import nixpkgs {
-        inherit system;
-        config = {
+        inherit (config)
+          allowBroken
+          allowUnfree
+          permittedInsecurePackages;
 
-          inherit (config)
-            allowBroken
-            allowUnfree
-            permittedInsecurePackages;
+        packageOverrides = generateOverrides system;
 
-          packageOverrides = pkgs: {
-
-            ## specify user mods
-            gimp-with-plugins = with pkgs_python2; gimp-with-plugins.override {
-              plugins = with gimpPlugins; [ resynthesizer ];
-            };
-            gimp = pkgs_python2.gimp.override {
-              withPython = true;
-              python2 = pkgs_python2.python2;
-            };
-
-            tectonic-with-biber =
-              pkgs.callPackage ./pkgs/tectonic-with-biber.nix {
-                biber = pkgs_biber217.biber;
-              };
-
-            fcitx5-configtool =
-              pkgs.libsForQt5.callPackage ./pkgs/fcitx5-configtool.nix {
-                kcmSupport = false;
-              };
-
-          };
-        };
-      }
-    );
+      };
+    });
 
     lib = nixpkgs.lib;
+
   };
 }
