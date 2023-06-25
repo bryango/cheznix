@@ -22,6 +22,7 @@
     diff-so-fancy
     procps
     git
+    chezmoi
 
     proxychains-ng
     (pkgs.writeShellScriptBin "proxychains" ''exec proxychains4 "$@"'')
