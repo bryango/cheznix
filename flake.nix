@@ -51,6 +51,8 @@
 
     in (pkgs: {
 
+      binaryFallback = pkgs.callPackage ./pkgs/binary-fallback;
+
       gimp = pkgs.gimp.override {
         withPython = true;
         python2 = pkgs_python2.python2;
