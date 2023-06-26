@@ -1,11 +1,11 @@
 { stdenvNoCC, writeShellApplication, substituteAll, which
-, name, runtimeInputs }:
+, name, package }:
 
 writeShellApplication {
   inherit name;
-  runtimeInputs = [ stdenvNoCC which ] ++ runtimeInputs;
+  runtimeInputs = [ stdenvNoCC which ];
   text = builtins.readFile ( substituteAll {
     src = ./binary-fallback.sh;
-    inherit name;
+    inherit name package;
   });
 }

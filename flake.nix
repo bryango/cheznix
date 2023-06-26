@@ -51,9 +51,9 @@
 
     in (pkgs: {
 
-      binaryFallback = name: runtimeInputs:
+      binaryFallback = name: package:
         pkgs.callPackage ./pkgs/binary-fallback {
-          inherit name runtimeInputs;
+          inherit name package;
         };
 
       gimp = pkgs.gimp.override {

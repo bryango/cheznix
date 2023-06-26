@@ -1,11 +1,11 @@
-target=$(
+system_binary=$(
     which -a "@name@" \
-    | grep -v "^$0$" \
+    | grep -v "$0" \
     | head -1
 )
 
-if [[ -x $target ]]; then
-    exec "$target" "$@"
+if [[ -x $system_binary ]]; then
+    exec "$system_binary" "$@"
 else
-    exec "@name@" "$@"
+    exec "@package@" "$@"
 fi
