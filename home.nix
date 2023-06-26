@@ -35,7 +35,15 @@
     lsof
 
     proxychains-ng
-    (pkgs.writeShellScriptBin "proxychains" ''exec proxychains4 "$@"'')
+    (writeShellScriptBin "proxychains" ''exec proxychains4 "$@"'')
+
+    (writeShellScriptBin "aria2c" ''
+      system_binary=/bin/aria2c
+      if [[ -x $system_binary ]]; then
+        "$system_binary" "$@"
+      else
+        ${aria2}/bin/aria2c "$@"
+    '')
 
     ## apps
     # getoptions  # shell argument parser
