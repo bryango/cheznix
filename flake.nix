@@ -51,6 +51,8 @@
 
     in (pkgs: {
 
+      ## exec "$name" from system "$PATH"
+      ## if not found, fall back to "$package/bin/$name"
       binaryFallback = name: package:
         pkgs.callPackage ./pkgs/binary-fallback {
           inherit name package;
