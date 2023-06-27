@@ -37,6 +37,7 @@ let
       tldr
       zoxide
       lsof
+      wget
 
       proxychains-ng
       (writeShellScriptBin "proxychains" ''exec proxychains4 "$@"'')
@@ -48,6 +49,8 @@ let
       jq
       direnv
       cargo-binstall
+      shellcheck
+      inetutils  # telnet
       # getoptions  # shell argument parser
     ];
 
