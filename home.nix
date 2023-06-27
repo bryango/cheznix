@@ -16,7 +16,6 @@
     hydra-check
 
     ## cli
-    stdenvNoCC
     bat
     fzf
     byobu-with-tmux
@@ -35,6 +34,11 @@
     zoxide
     lsof
     which
+    file
+
+    ## https://github.com/NixOS/nixpkgs/blob/master/pkgs/stdenv/generic/common-path.nix
+    coreutils findutils diffutils
+    gnused gnugrep gnumake
 
     proxychains-ng
     (writeShellScriptBin "proxychains" ''exec proxychains4 "$@"'')
