@@ -1,72 +1,96 @@
 { pkgs, attrs, ... }:
 
-{
+let
+
+  packages = with pkgs; {
+
+    os.basic = [
+      ## https://github.com/NixOS/nixpkgs/blob/master/pkgs/stdenv/generic/common-path.nix
+      coreutils findutils diffutils
+      gnused gnugrep gnumake
+      which tree file procps
+    ];
+
+    nix.basic = [
+      # nix  # manage itself ## daemon managed by root
+      cachix
+      nix-tree
+    ];
+
+    nix.dev = [
+      # nvd  # version diff
+      nil  # language server
+      nixpkgs-fmt  # the official (?) formatter
+      hydra-check
+    ];
+
+    cli.basic = [
+      bat
+      fzf
+      byobu-with-tmux
+      diff-so-fancy
+      git
+      chezmoi
+      age
+      fd
+      progress
+      tldr
+      zoxide
+      lsof
+
+      proxychains-ng
+      (writeShellScriptBin "proxychains" ''exec proxychains4 "$@"'')
+
+      (binaryFallback "aria2c" aria2)
+    ];
+
+    cli.dev = [
+      jq
+      direnv
+      cargo-binstall
+      # getoptions  # shell argument parser
+    ];
+
+    cli.app = [
+      circumflex  # hacker news terminal
+      uxplay  # airplay server
+      tectonic-with-biber  # from `bryango/nixpkgs-config`
+    ];
+
+    gui.app = [
+      pulsar  # atom fork
+      gimp-with-plugins
+
+      gnomeExtensions.caffeine
+      gnomeExtensions.kimpanel
+    ];
+
+  };
+
+in {
   home.username = attrs.username;
   home.homeDirectory = attrs.homeDirectory;
 
-  home.packages = with pkgs; [
+  home.packages = with packages;
+    os.basic ++
+    nix.basic ++
+    nix.dev ++
+    cli.basic ++
+    cli.dev ++
+    cli.app ++
+    gui.app ++
+  [
+      ## It is sometimes useful to fine-tune packages, for example, by applying
+      ## overrides. You can do that directly here, just don't forget the
+      ## parentheses:
+      # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
 
-    ## nix
-    nix  # manage itself
-    nvd  # version diff
-    nil  # language server
-    nixpkgs-fmt  # the official (?) formatter
-    nix-tree
-    cachix
-    hydra-check
-
-    ## cli
-    bat
-    fzf
-    byobu-with-tmux
-    diff-so-fancy
-    procps
-    git
-    chezmoi
-    age
-    direnv
-    cargo-binstall
-    fd
-    jq
-    progress
-    tldr
-    tree
-    zoxide
-    lsof
-    which
-    file
-
-    ## https://github.com/NixOS/nixpkgs/blob/master/pkgs/stdenv/generic/common-path.nix
-    coreutils findutils diffutils
-    gnused gnugrep gnumake
-
-    proxychains-ng
-    (writeShellScriptBin "proxychains" ''exec proxychains4 "$@"'')
-
-    (binaryFallback "aria2c" aria2)
-
-    ## apps
-    # getoptions  # shell argument parser
-    circumflex  # hacker news terminal
-    uxplay  # airplay server
-    tectonic-with-biber  # from `bryango/nixpkgs-config`
-    pulsar  # atom fork
-    gimp-with-plugins
-
-    gnomeExtensions.caffeine
-    gnomeExtensions.kimpanel
-
-    ## It is sometimes useful to fine-tune packages, for example, by applying
-    ## overrides. You can do that directly here, just don't forget the
-    ## parentheses:
-    # (pkgs.nerdfonts.override { fonts = [ "FantasqueSansMono" ]; })
-
-    ## You can also create simple shell scripts directly inside your
-    ## configuration. For example, this adds a command 'my-hello' to your
-    ## environment:
-    # (pkgs.writeShellScriptBin "my-hello" ''
-    #   echo "Hello, ${config.home.username}!"
-    # '')
+      ## You can also create simple shell scripts directly inside your
+      ## configuration. For example, this adds a command 'my-hello' to your
+      ## environment:
+      # (pkgs.writeShellScriptBin "my-hello" ''
+      #   echo "Hello, ${config.home.username}!"
+      # '')
   ];
 
   nixpkgs.config = {
