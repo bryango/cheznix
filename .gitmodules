@@ -1,0 +1,3 @@
+[submodule "nixpkgs-config"]
+	path = nixpkgs-config
+	url = git@github.com:bryango/nixpkgs-config.git

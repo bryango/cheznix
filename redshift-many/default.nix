@@ -25,7 +25,7 @@ let
 
   redshift-ctrl = pkgs.writeScriptBin "redshift-ctrl" (
     builtins.readFile (pkgs.substituteAll {
-      src = ./. + "/redshift-ctrl.sh";
+      src = ./redshift-ctrl.sh;
       allInstanceNames = with builtins; toString (attrNames allInstances);
     })
   );
