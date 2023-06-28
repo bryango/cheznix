@@ -1,7 +1,7 @@
 #!/bin/bash
 # set brightness of external monitor
 
-[[ -z $XRANDR_OUTPUT ]] && XRANDR_OUTPUT=@output@
+[[ -z $XRANDR_OUTPUT ]] && XRANDR_OUTPUT=@device@
 
 redshift-ctrl purge
 

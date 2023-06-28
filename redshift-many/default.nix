@@ -28,9 +28,12 @@ let
     allInstanceNames = with builtins; toString (attrNames allInstances);
   };
 
+  xrandr = pkgs.xorg.xrandr;
+
   xrandr-brightness = pkgs.binarySubstitute "xrandr-brightness" {
     src = ./xrandr-brightness.sh;
-    inherit (config.programs.xrandr-brightness) output;
+    device = config.programs.xrandr-brightness.output;
+    ## ... `output` is a internal nix keyword
   };
 
 in {
@@ -40,8 +43,9 @@ in {
     systemd = mergeConfig ["systemd"];
     home.packages = lib.mkMerge [
       ( mergeConfig ["home" "packages"] )
-      [
+      [ ## more control scripts & packages
         redshift-ctrl
+        xrandr
         xrandr-brightness
       ]
     ];
