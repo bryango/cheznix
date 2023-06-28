@@ -176,7 +176,7 @@ in {
 
     ## backward compatible to nix channels
     ## also prevents nixpkgs from being garbage collected
-    ".nix-defexpr/channels/nixpkgs".source = pkgs.path;
+    ".nix-defexpr/channels/nixpkgs".source = pkgs.outPath;
 
     ## Building this configuration will create a copy of 'dotfiles/screenrc' in
     ## the Nix store. Activating the configuration will then make '~/.screenrc' a
@@ -207,7 +207,7 @@ in {
     LOCALE_ARCHIVE = "/usr/lib/locale/locale-archive";
 
     ## override /usr/lib/environment.d/nix-daemon.conf
-    NIX_PATH = "nixpkgs=${pkgs.path}";
+    NIX_PATH = "nixpkgs=${pkgs.outPath}";
   };
 
 
