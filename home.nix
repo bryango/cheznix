@@ -159,9 +159,13 @@ in {
   nix.settings = {
     max-jobs = "auto";
     
-    ## need to set `trusted-substituters` in `/etc/nix/nix.conf`
-    extra-substituters = "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store?priority=20";
-    # extra-substituters = "https://mirror.sjtu.edu.cn/nix-channels/store";
+    ## need to set `trusted-users = @wheel` in `/etc/nix/nix.conf`
+    # tarball-ttl = 4294967295;
+    auto-optimise-store = true;
+    extra-substituters = [  ## with `?priority`
+      "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store?priority=20"
+      # "https://mirror.sjtu.edu.cn/nix-channels/store?priority=20"
+    ];
   };
   nix.extraOptions = ''
 
@@ -177,6 +181,8 @@ in {
     ## backward compatible to nix channels
     ## also prevents nixpkgs from being garbage collected
     ".nix-defexpr/channels/nixpkgs".source = pkgs.outPath;
+    ## override /usr/lib/environment.d/nix-daemon.conf
+    ".config/environment.d/nix-daemon.conf".text = "";
 
     ## Building this configuration will create a copy of 'dotfiles/screenrc' in
     ## the Nix store. Activating the configuration will then make '~/.screenrc' a
@@ -206,8 +212,8 @@ in {
     ## use system locale; see `disabledModules`
     LOCALE_ARCHIVE = "/usr/lib/locale/locale-archive";
 
-    ## override /usr/lib/environment.d/nix-daemon.conf
-    NIX_PATH = "nixpkgs=${pkgs.outPath}";
+    # ## override /usr/lib/environment.d/nix-daemon.conf
+    # NIX_PATH = "nixpkgs=${pkgs.outPath}";
   };
 
 
