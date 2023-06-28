@@ -58,6 +58,12 @@
           inherit name package;
         };
 
+      ## create "bin/$name" from a template
+      ## with `pkgs.substituteAll attrset`
+      binarySubstitute = name: attrset: pkgs.writeScriptBin name (
+        builtins.readFile (pkgs.substituteAll attrset)
+      );
+
       gimp = pkgs.gimp.override {
         withPython = true;
         python2 = pkgs_python2.python2;
