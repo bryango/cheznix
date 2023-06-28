@@ -28,6 +28,11 @@ let
     allInstanceNames = with builtins; toString (attrNames allInstances);
   };
 
+  xrandr-brightness = pkgs.binarySubstitute "xrandr-brightness" {
+    src = ./xrandr-brightness.sh;
+    inherit (config.programs.xrandr-brightness) output;
+  };
+
 in {
 
   config = {
@@ -35,8 +40,22 @@ in {
     systemd = mergeConfig ["systemd"];
     home.packages = lib.mkMerge [
       ( mergeConfig ["home" "packages"] )
-      [ redshift-ctrl ]
+      [
+        redshift-ctrl
+        xrandr-brightness
+      ]
     ];
+  };
+
+  options.programs.xrandr-brightness = {
+    output = with lib; mkOption {
+      type = types.str;
+      default = "HDMI-1";
+      description = ''
+        Set the default `--output` device for `xrandr-brightness`.
+        Can be overriden at runtime with env `XRANDR_OUTPUT`.
+      '';
+    };
   };
 
   options.services.${baseModuleName} = with lib; mkOption {
