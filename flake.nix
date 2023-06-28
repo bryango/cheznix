@@ -95,6 +95,9 @@
         }
       ) {};
 
+      ## exposes nixpkgs source, i.e. `outPath`, in `pkgs`
+      inherit (nixpkgs) outPath;
+
     });
 
   in {
