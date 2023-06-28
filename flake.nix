@@ -9,7 +9,8 @@
     all-attrs.url = "git+ssh://git@github.com/bryango/attrs.git";
 
     ## specify the source of p13n nixpkgs with config
-    nixpkgs.url = "github:bryango/nixpkgs-config";
+    # nixpkgs.url = "github:bryango/nixpkgs-config";
+    nixpkgs.url = "git+file:./nixpkgs-config";
 
     home-manager = {
       url = "home-manager";

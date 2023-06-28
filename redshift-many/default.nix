@@ -23,12 +23,14 @@ let
     allInstances
   );
 
-  redshift-ctrl = pkgs.writeScriptBin "redshift-ctrl" (
-    builtins.readFile (pkgs.substituteAll {
-      src = ./redshift-ctrl.sh;
-      allInstanceNames = with builtins; toString (attrNames allInstances);
-    })
+  binarySubstitute = name: attrset: pkgs.writeScriptBin name (
+    builtins.readFile (pkgs.substituteAll attrset)
   );
+
+  redshift-ctrl = binarySubstitute "redshift-ctrl" {
+    src = ./redshift-ctrl.sh;
+    allInstanceNames = with builtins; toString (attrNames allInstances);
+  };
 
 in {
 

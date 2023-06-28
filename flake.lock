@@ -43,15 +43,15 @@
       "locked": {
         "lastModified": 1687775179,
         "narHash": "sha256-9wduCTN/HBoP6M4JQpaXB7e4YvKimUmXcpr6uldU4jg=",
-        "owner": "bryango",
-        "repo": "nixpkgs-config",
+        "ref": "refs/heads/master",
         "rev": "5e6b91cf638a58da7a6f8a8351dd5db415ed225f",
-        "type": "github"
+        "revCount": 37,
+        "type": "git",
+        "url": "file:./nixpkgs-config"
       },
       "original": {
-        "owner": "bryango",
-        "repo": "nixpkgs-config",
-        "type": "github"
+        "type": "git",
+        "url": "file:./nixpkgs-config"
       }
     },
     "nixpkgs_2": {
