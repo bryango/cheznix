@@ -4,7 +4,6 @@ let
 
   app = "v2ray";
   module = "${app}-ctrl";
-  script = "vv";
 
   opts = {
     enable = lib.mkEnableOption module // {
@@ -34,13 +33,14 @@ let
 
   cfg = config.programs.${module};
 
-  v2ray-ctrl = pkgs.writeScriptBin script (
-    builtins.readFile (pkgs.substituteAll {
-      src = ./. + "/${script}.sh";
-      inherit (cfg) outbounds routings;
-      # allInstanceNames = with builtins; toString (attrNames allInstances);
-    })
-  );
+  v2ray-ctrl = pkgs.binarySubstitute "vv" {
+    src = ./vv.sh;
+    inherit (cfg) outbounds routings;
+  };
+
+  v2config = pkgs.binarySubstitute "v2config" {
+    src = ./v2config.py;
+  };
 
 in {
 
@@ -50,6 +50,7 @@ in {
     with pkgs; [
       v2ray
       v2ray-ctrl
+      v2config
     ]
   );
 
