@@ -114,8 +114,8 @@ in {
 
 
   imports = [
-    ./redshift-many
-    ./v2ray
+    ./modules/redshift-many
+    ./modules/v2ray-ctrl
   ];
 
   programs.v2ray-ctrl = {
@@ -155,7 +155,7 @@ in {
   ];
 
   ## nix settings
-  nix.package = pkgs.nix;
+  nix.package = pkgs.nix;  ## necessary for `nix show-config`
   nix.settings = {
     max-jobs = "auto";
     
