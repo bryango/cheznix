@@ -116,7 +116,6 @@ in {
   imports = [
     ./modules/redshift-many
     ./modules/v2ray-ctrl
-    ./modules/generic-linux.nix
   ];
 
   programs.v2ray-ctrl = {
