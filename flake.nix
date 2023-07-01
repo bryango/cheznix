@@ -23,7 +23,7 @@
 
   };
 
-  outputs = { nixpkgs, home-manager, all-attrs, ... }:
+  outputs = { self, nixpkgs, home-manager, all-attrs, ... }:
     let
 
       machines = all-attrs.outputs;
@@ -54,11 +54,13 @@
             # to pass through arguments to home.nix
             extraSpecialArgs = {
               inherit attrs;
+              cheznix = self;
             };
           };
         };
     in {
       homeConfigurations = forMyMachines mkHomeConfig;
       packages = home-manager.packages;
+      inherit (nixpkgs) lib legacyPackages;
     };
 }

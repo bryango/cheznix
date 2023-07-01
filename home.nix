@@ -116,6 +116,7 @@ in {
   imports = [
     ./modules/redshift-many
     ./modules/v2ray-ctrl
+    ./modules/flake-channels.nix
   ];
 
   programs.v2ray-ctrl = {
@@ -177,10 +178,6 @@ in {
   ;
 
   home.file = {
-
-    ## backward compatible to nix channels
-    ## also prevents nixpkgs from being garbage collected
-    ".nix-defexpr/channels/nixpkgs".source = pkgs.outPath;
     ## override /usr/lib/environment.d/nix-daemon.conf
     ".config/environment.d/nix-daemon.conf".text = "";
 
