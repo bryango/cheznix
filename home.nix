@@ -20,6 +20,7 @@ let
     nix.dev = [
       # nvd  # version diff
       nil  # language server
+      nixd  # better? language server
       nixpkgs-fmt  # the official (?) formatter
       hydra-check
     ];
