@@ -21,7 +21,7 @@
 
   };
 
-  outputs = { nixpkgs, ... } @ inputs:
+  outputs = { self, nixpkgs, ... } @ inputs:
   let
 
     lib = nixpkgs.lib;
@@ -51,7 +51,15 @@
         inherit system config;
       };
 
+      collectFlakeInputs = name: flake: {
+        ${name} = flake;
+      } // lib.concatMapAttrs collectFlakeInputs (flake.inputs or {});
+      ## https://github.com/NixOS/nix/issues/3995#issuecomment-1537108310
+
     in (pkgs: {
+
+      inherit collectFlakeInputs;
+      flakeInputs = collectFlakeInputs "nixpkgs-config" self;
 
       ## exec "$name" from system "$PATH"
       ## if not found, fall back to "$package/bin/$name"
