@@ -6,11 +6,11 @@
     ## specify system attributes: for each system,
     ## ... provide attrsets with `system`, `username`, `homeDirectory`, ...
     ## ... WARNING: not secret, might leak through /nix/store & cache
-    all-attrs.url = "git+ssh://git@github.com/bryango/attrs.git";
+    home-attrs.url = "git+ssh://git@github.com/bryango/attrs.git";
 
     ## specify the source of p13n nixpkgs with config
     # nixpkgs.url = "github:bryango/nixpkgs-config";
-    nixpkgs.url = "git+file:./nixpkgs-config";
+    nixpkgs-config.url = "git+file:./nixpkgs-config";
 
     home-manager = {
       url = "home-manager";
@@ -18,15 +18,16 @@
 
       ## home-manager is also a flake
       ## ... but we ask it to follow our nixpkgs:
-      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs-config";
     };
 
   };
 
-  outputs = { self, nixpkgs, home-manager, all-attrs, ... }:
+  outputs = { self, nixpkgs-config, home-manager, home-attrs, ... }:
     let
 
-      machines = all-attrs.outputs;
+      nixpkgs = nixpkgs-config;
+      machines = home-attrs.outputs;
 
       forMyMachines = f: with builtins; listToAttrs (
         map f (attrNames machines)

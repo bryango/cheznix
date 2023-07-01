@@ -1,12 +1,12 @@
 {
   "nodes": {
-    "all-attrs": {
+    "home-attrs": {
       "locked": {
-        "lastModified": 1686833621,
-        "narHash": "sha256-vnU3f8NY4KQ3HVKtuuapQQKqpuxUfQdFj1mYxUofLdI=",
+        "lastModified": 1688204747,
+        "narHash": "sha256-IA1J803WPD5WJ5S2FtGbGd1roLvnvz7is/V78hwqfFc=",
         "ref": "refs/heads/master",
-        "rev": "b1be76f7d6c559017d8cd9a6ab9b05be9176308d",
-        "revCount": 6,
+        "rev": "5a4fca3d2f732a5278e806bed94241012cd012d1",
+        "revCount": 7,
         "type": "git",
         "url": "ssh://git@github.com/bryango/attrs.git"
       },
@@ -18,7 +18,7 @@
     "home-manager": {
       "inputs": {
         "nixpkgs": [
-          "nixpkgs"
+          "nixpkgs-config"
         ]
       },
       "locked": {
@@ -35,26 +35,6 @@
       }
     },
     "nixpkgs": {
-      "inputs": {
-        "nixpkgs": "nixpkgs_2",
-        "nixpkgs_biber217": "nixpkgs_biber217",
-        "nixpkgs_python2": "nixpkgs_python2"
-      },
-      "locked": {
-        "lastModified": 1688193167,
-        "narHash": "sha256-V5JtJq7jS1V5wjRzxorFqiLkLemNEixQsi6pePshfwQ=",
-        "ref": "refs/heads/master",
-        "rev": "6949fedb598bbe507a11179df937e4476a6fe5ed",
-        "revCount": 44,
-        "type": "git",
-        "url": "file:./nixpkgs-config"
-      },
-      "original": {
-        "type": "git",
-        "url": "file:./nixpkgs-config"
-      }
-    },
-    "nixpkgs_2": {
       "locked": {
         "lastModified": 1687011986,
         "narHash": "sha256-ZNSi/wBw12d7LO8YcZ4aehIlPp4lgSkKbrHaoF80IKI=",
@@ -66,6 +46,26 @@
       "original": {
         "id": "nixpkgs",
         "type": "indirect"
+      }
+    },
+    "nixpkgs-config": {
+      "inputs": {
+        "nixpkgs": "nixpkgs",
+        "nixpkgs_biber217": "nixpkgs_biber217",
+        "nixpkgs_python2": "nixpkgs_python2"
+      },
+      "locked": {
+        "lastModified": 1688204284,
+        "narHash": "sha256-1a20Oc8/QHmb3dumyYgjrGNVtn6G74HsIDiqupnYhts=",
+        "ref": "refs/heads/master",
+        "rev": "ee1cc8ee726f77e5199005cfda9010a8066d68f1",
+        "revCount": 45,
+        "type": "git",
+        "url": "file:./nixpkgs-config"
+      },
+      "original": {
+        "type": "git",
+        "url": "file:./nixpkgs-config"
       }
     },
     "nixpkgs_biber217": {
@@ -102,9 +102,9 @@
     },
     "root": {
       "inputs": {
-        "all-attrs": "all-attrs",
+        "home-attrs": "home-attrs",
         "home-manager": "home-manager",
-        "nixpkgs": "nixpkgs"
+        "nixpkgs-config": "nixpkgs-config"
       }
     }
   },
