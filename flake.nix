@@ -24,7 +24,9 @@
   outputs = { nixpkgs, ... } @ inputs:
   let
 
-    forAllSystems = nixpkgs.lib.genAttrs nixpkgs.lib.systems.flakeExposed;
+    lib = nixpkgs.lib;
+    mySystems = [ "x86_64-linux" ];
+    forMySystems = lib.genAttrs mySystems;
 
     config = {
       ## https://github.com/nix-community/home-manager/issues/2954
@@ -102,7 +104,7 @@
 
   in {
 
-    legacyPackages = forAllSystems (system: import nixpkgs {
+    legacyPackages = forMySystems (system: import nixpkgs {
 
       inherit system;
       config = {
@@ -117,7 +119,9 @@
       };
     });
 
-    lib = nixpkgs.lib;
+    lib = lib.recursiveUpdate lib {
+      systems.flakeExposed = mySystems;
+    };
 
   };
 }
