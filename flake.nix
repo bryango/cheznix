@@ -23,10 +23,13 @@
 
   };
 
-  outputs = { self, nixpkgs-config, home-manager, home-attrs, ... }:
+  outputs = { self, home-manager, home-attrs, ... }:
     let
 
-      nixpkgs = nixpkgs-config;
+      cheznix = self;
+      nixpkgs-follows = "nixpkgs-config";
+
+      nixpkgs = self.inputs.${nixpkgs-follows};
       machines = home-attrs.outputs;
 
       forMyMachines = f: with builtins; listToAttrs (
@@ -54,8 +57,7 @@
             # Optionally use extraSpecialArgs
             # to pass through arguments to home.nix
             extraSpecialArgs = {
-              inherit attrs;
-              cheznix = self;
+              inherit attrs cheznix nixpkgs-follows;
             };
           };
         };

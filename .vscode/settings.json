@@ -1,5 +1,9 @@
 {
     "nix.serverPath": "nil",
+    "nix.serverSettings.nil.nix.flake": {
+        "autoEvalInputs": true,
+        "nixpkgsInputName": "nixpkgs-config",
+    },
     // "nix.serverPath": "nixd",
     "nix.serverSettings.nixd": {
         "options": {

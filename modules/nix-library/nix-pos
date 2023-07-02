@@ -1,0 +1,14 @@
+#!/bin/bash
+# get a flake and enter nix repl
+
+FILE=$HOME/@pkgslib@/pkgs-pos.nix
+CODE_VIEWER=@viewer@
+
+pos=$(
+    nix eval --impure --expr "import $FILE { package = \"$1\"; }" \
+        --raw --apply toString \
+    | xargs
+)
+
+# shellcheck disable=2086
+$CODE_VIEWER $pos

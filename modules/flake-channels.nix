@@ -1,7 +1,9 @@
-{ pkgs, lib, cheznix, ... }:
+{ pkgs, lib, cheznix, nixpkgs-follows, ... }:
 
 let
 
+  ## backward compatible to nix channels
+  prefix = ".nix-defexpr/channels";
   flakeInputs = pkgs.collectFlakeInputs "cheznix" cheznix;
 
   generateLinks = prefix: name: flake: {
@@ -9,13 +11,27 @@ let
     value = { source = flake.outPath; };
   };
 
-  links = lib.mapAttrs'
-    (generateLinks ".nix-defexpr/channels")
-    flakeInputs;
+  links = lib.mapAttrs' (generateLinks prefix) flakeInputs;
+  nixpkgs-flake = cheznix.inputs.${nixpkgs-follows};
 
 in {
 
-  ## backward compatible to nix channels
-  ## prevents cheznix inputs from being garbage collected
-  config.home.file = links;
+  config = {
+
+    ## prevent cheznix inputs from being garbage collected
+    home.file = links;
+
+    ## add `nixpkgs-follows` to flake registry at "runtime"
+    home.activation.userFlakeRegistry
+      = lib.hm.dag.entryAfter [ "installPackages" ] ''
+        nix registry add ${nixpkgs-follows} ${nixpkgs-flake}
+      '';
+
+    ## use `nixpkgs-follows` as a flakeref
+    programs.nix-library = {
+      enable = true;
+      flakeref = nixpkgs-follows;
+    };
+  };
+
 }

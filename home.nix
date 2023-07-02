@@ -18,11 +18,11 @@ let
     ];
 
     nix.dev = [
-      # nvd  # version diff
       nil  # language server
-      nixd  # better? language server
       nixpkgs-fmt  # the official (?) formatter
       hydra-check
+      # nixd  # better? language server ## not stable
+      # nvd  # version diff
     ];
 
     cli.basic = [
@@ -72,6 +72,7 @@ let
   };
 
 in {
+
   home.username = attrs.username;
   home.homeDirectory = attrs.homeDirectory;
 
@@ -118,6 +119,7 @@ in {
     ./modules/redshift-many
     ./modules/v2ray-ctrl
     ./modules/flake-channels.nix
+    ./modules/nix-library
   ];
 
   programs.v2ray-ctrl = {
