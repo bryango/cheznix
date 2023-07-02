@@ -1,7 +1,7 @@
 #!/bin/bash
 # get the position of a package
 
-FILE=$HOME/@pkgslib@/pkgs-position.nix
+FILE=$HOME/@pkgs-position@
 CODE_VIEWER=@viewer@
 
 package=$1

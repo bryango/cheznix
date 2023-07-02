@@ -1,5 +1,5 @@
 { system ? builtins.currentSystem or "x86_64-linux"
-, flakeref ? "@flakeref@"
+, flakeref ? "nixpkgs"
 , ... }:
 
 let

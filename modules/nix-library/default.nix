@@ -38,6 +38,18 @@ let
 
   cfg = config.${category}.${module};
 
+  filenames = [
+    "default"
+    "pkgs-position"
+  ];
+
+  generateLinks = filename: {
+    source = ./pkgs-lib + "/${filename}.nix";
+    target = "${cfg.pkgslib}/${filename}.nix";
+  };
+
+  links = lib.genAttrs filenames generateLinks;
+
   nix-open = pkgs.binarySubstitute "nix-open" {
     src = ./nix-open;
     inherit (cfg) pkgslib flakeref;
@@ -45,23 +57,18 @@ let
 
   nix-pos = pkgs.binarySubstitute "nix-pos" {
     src = ./nix-pos;
-    inherit (cfg) pkgslib viewer;
+    inherit (cfg) viewer;
+    pkgs-position = links.pkgs-position.target;
   };
 
-  pkgs-lib = pkgs.substituteAll {
-    src = ./pkgs-lib.nix;
-    inherit (cfg) flakeref;
-  };
+
 
 in {
 
   options.${category}.${module} = opts;
 
   config = lib.mkIf cfg.enable {
-    home.file = {
-      "${cfg.pkgslib}/default.nix".source = pkgs-lib;
-      "${cfg.pkgslib}/pkgs-position.nix".source = ./pkgs-position.nix;
-    };
+    home.file = links;
 
     home.packages = [
       nix-open
