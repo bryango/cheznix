@@ -118,8 +118,8 @@ in {
   imports = [
     ./modules/redshift-many
     ./modules/v2ray-ctrl
+    ./modules/nixpkgs-helpers
     ./modules/flake-channels.nix
-    ./modules/nix-library
   ];
 
   programs.v2ray-ctrl = {

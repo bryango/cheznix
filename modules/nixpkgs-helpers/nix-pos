@@ -1,0 +1,14 @@
+#!/bin/bash
+# get the position of a package
+
+CODE_VIEWER=@viewer@
+
+package=$1
+shift
+
+pos=$(
+    package=$package @pkgs-position@ --raw --apply toString | xargs
+)
+
+# shellcheck disable=2086
+exec $CODE_VIEWER $pos

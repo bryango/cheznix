@@ -1,7 +1,6 @@
 #!/bin/bash
 # get a flake and enter nix repl
 
-FILE=$HOME/@pkgslib@
 FLAKE=@flakeref@
 
 if [[ $# -gt 0 ]]; then
@@ -9,4 +8,4 @@ if [[ $# -gt 0 ]]; then
   shift
 fi
 
-nix repl --file "$FILE" --argstr flakeref "$FLAKE" "$@"
+exec "@pkgs-lib@" --argstr flakeref "$FLAKE" "$@"
