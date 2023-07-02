@@ -74,6 +74,12 @@
         builtins.readFile (pkgs.substituteAll attrset)
       );
 
+      ## some helper functions
+      nixpkgs-helpers = {
+        pkgs-lib = ./pkgs/nixpkgs-helpers/pkgs-lib.nix;
+        pkgs-position = ./pkgs/nixpkgs-helpers/pkgs-position.nix;
+      };  ## paths will get copied into store
+
       gimp = pkgs.gimp.override {
         withPython = true;
         python2 = pkgs_python2.python2;
