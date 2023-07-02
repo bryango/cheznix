@@ -1,4 +1,4 @@
-{ pkgs, lib, cheznix, nixpkgs-follows, ... }:
+{ options, pkgs, lib, cheznix, nixpkgs-follows, ... }:
 
 let
 
@@ -26,12 +26,16 @@ in {
       = lib.hm.dag.entryAfter [ "installPackages" ] ''
         nix registry add ${nixpkgs-follows} ${nixpkgs-flake}
       '';
+  };
+
+  config.programs = lib.mkIf (options.programs ? nixpkgs-helpers) {
 
     ## use `nixpkgs-follows` as a flakeref
-    programs.nix-library = {
+    nixpkgs-helpers = {
       enable = true;
       flakeref = nixpkgs-follows;
     };
+
   };
 
 }

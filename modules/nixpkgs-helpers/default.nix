@@ -2,7 +2,8 @@
 
 let
 
-  module = "nixpkgs-helpers";
+  program = "nixpkgs-helpers";
+  module = program;
   category = "programs";
 
   opts = {
@@ -13,6 +14,14 @@ let
       default = nixpkgs-follows;
       description = ''
         Set the default flake ref to get via `builtins.getFlake`.
+      '';
+    };
+
+    directory = with lib; mkOption {
+      type = types.str;
+      default = ".nix-defexpr/${program}";
+      description = ''
+        Set the directory to link to `${program}`.
       '';
     };
 
@@ -30,18 +39,27 @@ let
   cfg = config.${category}.${module};
 
   ## from github:bryango/nixpkgs-config
-  helpers = pkgs.nixpkgs-helpers;
+  helpers = pkgs.${program};
 
-  nix-open = pkgs.binarySubstitute "nix-open" {
+  ## generate the links one by one
+  generateLinks = helper: path: {
+    source = helpers.${helper};
+    target = "${cfg.directory}/${helper}.nix";
+  };
+  ## ... such that they can be referenced later
+  links = lib.mapAttrs generateLinks helpers;
+  targets = lib.mapAttrs (helper: link: link.target) links;
+
+  nix-open = lib.trace targets.pkgs-lib pkgs.binarySubstitute "nix-open" {
     src = ./nix-open;
     inherit (cfg) flakeref;
-    inherit (helpers) pkgs-lib;
+    pkgslib = "$HOME/${targets.pkgs-lib}";  ## `foo-bar` not valid
   };
 
   nix-pos = pkgs.binarySubstitute "nix-pos" {
     src = ./nix-pos;
     inherit (cfg) viewer;
-    inherit (helpers) pkgs-position;
+    pkgsposition = "$HOME/${targets.pkgs-position}";
   };
 
 
@@ -51,8 +69,9 @@ in {
   options.${category}.${module} = opts;
 
   config = lib.mkIf cfg.enable {
+
+    home.file = links;
     home.packages = [
-      helpers
       nix-open
       nix-pos
     ];

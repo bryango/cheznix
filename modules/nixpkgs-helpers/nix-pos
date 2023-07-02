@@ -7,7 +7,7 @@ package=$1
 shift
 
 pos=$(
-    package=$package @pkgs-position@ --raw --apply toString | xargs
+    package=$package "@pkgsposition@" --raw --apply toString | xargs
 )
 
 # shellcheck disable=2086

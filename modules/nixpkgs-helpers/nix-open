@@ -8,4 +8,4 @@ if [[ $# -gt 0 ]]; then
   shift
 fi
 
-exec "@pkgs-lib@" --argstr flakeref "$FLAKE" "$@"
+exec "@pkgslib@" --argstr flakeref "$FLAKE" "$@"
