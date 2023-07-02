@@ -1,11 +1,14 @@
 #!/bin/bash
-# get a flake and enter nix repl
+# get the position of a package
 
-FILE=$HOME/@pkgslib@/pkgs-pos.nix
+FILE=$HOME/@pkgslib@/pkgs-position.nix
 CODE_VIEWER=@viewer@
 
+package=$1
+shift
+
 pos=$(
-    nix eval --impure --expr "import $FILE { package = \"$1\"; }" \
+    package=$package nix eval --impure --file "$FILE" \
         --raw --apply toString \
     | xargs
 )

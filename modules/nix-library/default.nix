@@ -28,6 +28,7 @@ let
     viewer = with lib; mkOption {
       type = types.str;
       default = "echo";
+      example = "code --goto";
       description = ''
         Set the editor command to show the package definition.
       '';
@@ -59,7 +60,7 @@ in {
   config = lib.mkIf cfg.enable {
     home.file = {
       "${cfg.pkgslib}/default.nix".source = pkgs-lib;
-      "${cfg.pkgslib}/pkgs-pos.nix".source = ./pkgs-pos.nix;
+      "${cfg.pkgslib}/pkgs-position.nix".source = ./pkgs-position.nix;
     };
 
     home.packages = [
