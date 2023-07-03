@@ -123,6 +123,21 @@ in {
         withGeolocation = false;
       };
 
+      fzf = pkgs.fzf.override {
+        glibcLocales = "/usr";
+      };
+
+      # glibcLocales = pkgs.runCommand "no-locales" { } ''
+      #   mkdir -p $out/lib/locale
+      #   ln -s /usr/lib/locale/locale-archive $out/lib/locale/locale-archive
+
+      #   mkdir -p $out/share/i18n
+      #   ln -s /usr/share/i18n/SUPPORTED $out/share/i18n/SUPPORTED
+
+      #   mkdir -p $out/nix-support
+      #   echo "export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive" > $out/nix-support/setup-hook
+      # '';
+
     };
   };
 
