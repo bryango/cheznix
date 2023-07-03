@@ -4,7 +4,13 @@ let
 
   ## backward compatible to nix channels
   prefix = ".nix-defexpr/channels";
-  flakeInputs = pkgs.collectFlakeInputs "cheznix" cheznix;
+
+  flakeSelfName = "cheznix-itself";  ## just a tracker, could be anything
+  flakeInputs' = pkgs.collectFlakeInputs flakeSelfName cheznix;
+
+  ## remove the cheznix flake itself
+  ## to reduce trivial rebuilds
+  flakeInputs = builtins.removeAttrs flakeInputs' [ flakeSelfName ];
 
   generateLinks = prefix: name: flake: {
     name = "${prefix}/${name}";
