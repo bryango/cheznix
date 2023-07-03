@@ -50,7 +50,7 @@ let
   links = lib.mapAttrs generateLinks helpers;
   targets = lib.mapAttrs (helper: link: link.target) links;
 
-  nix-open = lib.trace targets.pkgs-lib pkgs.binarySubstitute "nix-open" {
+  nix-open = pkgs.binarySubstitute "nix-open" {
     src = ./nix-open;
     inherit (cfg) flakeref;
     pkgslib = "$HOME/${targets.pkgs-lib}";  ## `foo-bar` not valid
@@ -60,6 +60,14 @@ let
     src = ./nix-pos;
     inherit (cfg) viewer;
     pkgsposition = "$HOME/${targets.pkgs-position}";
+  };
+
+  scripts = pkgs.symlinkJoin {
+    name = "${module}-module";
+    paths = [
+      nix-open
+      nix-pos
+    ];
   };
 
 
@@ -72,8 +80,7 @@ in {
 
     home.file = links;
     home.packages = [
-      nix-open
-      nix-pos
+      scripts
     ];
   };
 

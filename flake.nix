@@ -3,21 +3,20 @@
 
   inputs = {
 
-    ## specify system attributes: for each system,
+    ## system attributes: for each system,
     ## ... provide attrsets with `system`, `username`, `homeDirectory`, ...
     ## ... WARNING: not secret, might leak through /nix/store & cache
     home-attrs.url = "git+ssh://git@github.com/bryango/attrs.git";
 
-    ## specify the source of p13n nixpkgs with config
-    # nixpkgs.url = "github:bryango/nixpkgs-config";
-    nixpkgs-config.url = "git+file:./nixpkgs-config";
+    nixpkgs.url = "nixpkgs";  ## flake-registry
+    nixpkgs-config = {  ## p13n nixpkgs with config
+      url = "git+file:./nixpkgs-config";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
 
     home-manager = {
       url = "home-manager";
       # url = "github:nix-community/home-manager";
-
-      ## home-manager is also a flake
-      ## ... but we ask it to follow our nixpkgs:
       inputs.nixpkgs.follows = "nixpkgs-config";
     };
 

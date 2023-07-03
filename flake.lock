@@ -50,7 +50,9 @@
     },
     "nixpkgs-config": {
       "inputs": {
-        "nixpkgs": "nixpkgs",
+        "nixpkgs": [
+          "nixpkgs"
+        ],
         "nixpkgs_biber217": "nixpkgs_biber217",
         "nixpkgs_python2": "nixpkgs_python2"
       },
@@ -104,6 +106,7 @@
       "inputs": {
         "home-attrs": "home-attrs",
         "home-manager": "home-manager",
+        "nixpkgs": "nixpkgs",
         "nixpkgs-config": "nixpkgs-config"
       }
     }
