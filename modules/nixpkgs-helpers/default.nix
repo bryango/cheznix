@@ -39,7 +39,7 @@ let
   cfg = config.${category}.${module};
 
   ## from github:bryango/nixpkgs-config
-  helpers = pkgs.${program};
+  helpers = pkgs.${program}.files;
 
   ## generate the links one by one
   generateLinks = helper: path: {
@@ -69,8 +69,6 @@ let
       nix-pos
     ];
   };
-
-
 
 in {
 
