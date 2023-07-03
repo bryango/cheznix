@@ -1,23 +1,9 @@
 {
     "nix.serverPath": "nil",
-    "nix.serverSettings.nil.nix.flake": {
-        "autoEvalInputs": true,
-        "nixpkgsInputName": "nixpkgs-config",
-    },
-    // "nix.serverPath": "nixd",
-    "nix.serverSettings.nixd": {
-        "options": {
-            "enable": true,
-            "target": {
-                "args": [],
-                "installable": ".#homeConfigurations.bryan@btrsamsung.options"
-            }
-        },
-        // "eval": {
-        //     "target": {
-        //         "args": [ "-f", "default.nix" ],
-        //         "installable": "flakeInputs"
-        //     }
-        // },
+    "nix.serverSettings": {
+        "nil.nix.flake": {
+            "autoEvalInputs": true,
+            "nixpkgsInputName": "nixpkgs-config",
+        }
     },
 }
