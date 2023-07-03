@@ -39,6 +39,8 @@ let
       zoxide
       lsof
       wget
+      trash-cli
+      # trashy  # better, but its zsh completion is broken
 
       proxychains-ng
       (writeShellScriptBin "proxychains" ''exec proxychains4 "$@"'')
@@ -59,6 +61,15 @@ let
       circumflex  # hacker news terminal
       uxplay  # airplay server
       tectonic-with-biber  # from `bryango/nixpkgs-config`
+    ];
+
+    cli.python = let
+      pythonPackages = python310Packages;
+    in [
+      ### do NOT expose python itself for safety reasons
+      pythonPackages.ruff-lsp  ruff  # exposes `ruff`
+      pythonPackages.jedi-language-server
+      poetry
     ];
 
     gui.app = [
@@ -83,6 +94,7 @@ in {
     cli.basic ++
     cli.dev ++
     cli.app ++
+    cli.python ++
     gui.app ++
   [
     ## It is sometimes useful to fine-tune packages, for example, by applying
