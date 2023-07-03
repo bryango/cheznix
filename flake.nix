@@ -9,7 +9,9 @@
     home-attrs.url = "git+ssh://git@github.com/bryango/attrs.git";
 
     nixpkgs.url = "nixpkgs";  ## flake-registry
-    nixpkgs-config = {  ## p13n nixpkgs with config
+
+    ## p13n nixpkgs with config
+    nixpkgs-config = {
       url = "git+file:./nixpkgs-config";
       inputs.nixpkgs.follows = "nixpkgs";
     };
@@ -27,6 +29,10 @@
 
       cheznix = self;
       nixpkgs-follows = "nixpkgs-config";
+      ## ^ refers to both the input NAME & its SOURCE directory
+      ## ... therefore these two must be the same!
+      ## ... it's very hard to ensure this programmatically
+      ## ... due to the nature of flakes
 
       nixpkgs = self.inputs.${nixpkgs-follows};
       machines = home-attrs.outputs;

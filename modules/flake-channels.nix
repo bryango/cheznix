@@ -8,9 +8,12 @@ let
   flakeSelfName = "cheznix-itself";  ## just a tracker, could be anything
   flakeInputs' = pkgs.collectFlakeInputs flakeSelfName cheznix;
 
-  ## remove the cheznix flake itself
+  ## remove the local flakes
   ## to reduce trivial rebuilds
-  flakeInputs = builtins.removeAttrs flakeInputs' [ flakeSelfName ];
+  flakeInputs = builtins.removeAttrs flakeInputs' [
+    flakeSelfName
+    nixpkgs-follows  ## "nixpkgs-config"
+  ];
 
   generateLinks = prefix: name: flake: {
     name = "${prefix}/${name}";
@@ -18,7 +21,6 @@ let
   };
 
   links = lib.mapAttrs' (generateLinks prefix) flakeInputs;
-  nixpkgs-flake = cheznix.inputs.${nixpkgs-follows};
 
 in {
 
@@ -30,8 +32,14 @@ in {
     ## add `nixpkgs-follows` to flake registry at "runtime"
     home.activation.userFlakeRegistry
       = lib.hm.dag.entryAfter [ "installPackages" ] ''
-        nix registry add ${nixpkgs-follows} ${nixpkgs-flake}
-      '';
+
+          flake=''${FLAKE_CONFIG_URI%#*}
+          nixpkgs="$flake/${nixpkgs-follows}"
+          ## ^ relies on the subdir structure of the input!
+
+          nix registry add "${nixpkgs-follows}" "$nixpkgs"
+          ln -sf -T "$nixpkgs" "$HOME/${prefix}/${nixpkgs-follows}"
+        '';
   };
 
   config.programs = lib.mkIf (options.programs ? nixpkgs-helpers) {
