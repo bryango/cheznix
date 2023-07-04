@@ -1,4 +1,4 @@
-{ runCommand, glibcLocales }:
+{ runCommand }:
 
 {
   ## link the entire host `/usr` in a package
@@ -14,7 +14,7 @@
     share-path = "share/i18n";
     archive = "locale-archive";
 
-  in (runCommand "host-locales" { } ''
+  in runCommand "host-locales" { } ''
     mkdir -p $out/${lib-path}
     ln -s {/usr,$out}/${lib-path}/${archive}
 
@@ -24,8 +24,6 @@
     mkdir -p $out/nix-support
     echo "export LOCALE_ARCHIVE=/usr/${lib-path}/${archive}" \
       > $out/nix-support/setup-hook
-  '').overrideAttrs (prev: {
-    name = glibcLocales.name;  ## copy the same name
-  });
+  '';
 
 }
