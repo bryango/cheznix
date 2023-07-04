@@ -78,6 +78,9 @@ let
 
       gnomeExtensions.caffeine
       gnomeExtensions.kimpanel
+
+      ## vscode
+      (binaryFallback "code" (writeShellScriptBin "code" ''exec echo "$@"''))
     ];
 
   };
@@ -110,36 +113,25 @@ in {
     # '')
   ];
 
-  nixpkgs.config = {
-    packageOverrides = pkgs: {
+  ## upstream overrides: https://github.com/bryango/nixpkgs-config
+  ## home overlays:
+  nixpkgs.overlays = [
+    (final: prev: {
 
-      ## upstream overrides: https://github.com/bryango/nixpkgs-config
-      ## home overrides:
-      gimp-with-plugins = with pkgs; gimp-with-plugins.override {
+      gimp-with-plugins = with prev; gimp-with-plugins.override {
         plugins = with gimpPlugins; [ resynthesizer ];
       };
 
-      redshift = pkgs.redshift.override {
+      redshift = prev.redshift.override {
         withGeolocation = false;
       };
 
-      fzf = pkgs.fzf.override {
+      fzf = prev.fzf.override {
         glibcLocales = "/usr";
       };
 
-      # glibcLocales = pkgs.runCommand "no-locales" { } ''
-      #   mkdir -p $out/lib/locale
-      #   ln -s /usr/lib/locale/locale-archive $out/lib/locale/locale-archive
-
-      #   mkdir -p $out/share/i18n
-      #   ln -s /usr/share/i18n/SUPPORTED $out/share/i18n/SUPPORTED
-
-      #   mkdir -p $out/nix-support
-      #   echo "export LOCALE_ARCHIVE=/usr/lib/locale/locale-archive" > $out/nix-support/setup-hook
-      # '';
-
-    };
-  };
+    })
+  ];
 
 
   imports = [
@@ -172,6 +164,8 @@ in {
     output = "DP-1";
     # output = "HDMI-1";
   };
+
+  programs.nixpkgs-helpers.viewer = "code --goto";
 
   ## use system manpage
   programs.man.enable = false;
