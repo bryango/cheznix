@@ -57,11 +57,11 @@
         "nixpkgs_python2": "nixpkgs_python2"
       },
       "locked": {
-        "lastModified": 1688460949,
-        "narHash": "sha256-3+AtRJTsorALl/8gmcJC3lQqq5hitGZvwrkKqJzCBh0=",
+        "lastModified": 1688463386,
+        "narHash": "sha256-rufz2z5a2hIlDmursDMz0DMBVIvLFbb24cqqbvqGD10=",
         "ref": "refs/heads/master",
-        "rev": "436441592fe6c528c788c158f8a922d9121a15b4",
-        "revCount": 53,
+        "rev": "34c259c1ead2a89a6c0af93814f9cc16d83e7248",
+        "revCount": 54,
         "type": "git",
         "url": "file:./nixpkgs-config"
       },

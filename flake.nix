@@ -37,16 +37,34 @@
       nixpkgs = self.inputs.${nixpkgs-follows};
       machines = home-attrs.outputs;
 
-      forMyMachines = f: with builtins; listToAttrs (
-        map f (attrNames machines)
-      );
+      inherit (nixpkgs) lib;
+      forMyMachines = f: lib.mapAttrs' f machines;
 
-      mkHomeConfig = profile:
+      inherit (lib) forMySystems;
+      overlay = final: prev: {
+
+        gimp-with-plugins = with prev; gimp-with-plugins.override {
+          plugins = with gimpPlugins; [ resynthesizer ];
+        };
+
+        redshift = prev.redshift.override {
+          withGeolocation = false;
+        };
+
+        fzf = prev.fzf.override {
+          glibcLocales = "/usr";
+        };
+
+      };
+      pkgsOverlay = system: nixpkgs.legacyPackages.${system}.extend overlay;
+      libOverlay = system: (pkgsOverlay system).lib;
+
+      mkHomeConfig = id: profile:
         let
-          hostname = machines.${profile}.hostname or profile;
-          system = machines.${profile}.system;
-          pkgs = nixpkgs.legacyPackages.${system};
-          attrs = machines.${profile} // {
+          hostname = profile.hostname or id;
+          system = profile.system;
+          pkgs = pkgsOverlay system;
+          attrs = profile // {
             inherit hostname;
             inherit (pkgs) config;
           };
@@ -70,7 +88,7 @@
       homeConfigurations = forMyMachines mkHomeConfig;
       packages = home-manager.packages;
 
-      inherit (nixpkgs) lib legacyPackages;
-      ## this ^ is before the `home.nix` overlays!
+      legacyPackages = forMySystems pkgsOverlay;
+      lib = forMySystems libOverlay;
     };
 }
