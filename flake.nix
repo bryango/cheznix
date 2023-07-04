@@ -56,11 +56,15 @@
       } // lib.concatMapAttrs collectFlakeInputs (flake.inputs or {});
       ## https://github.com/NixOS/nix/issues/3995#issuecomment-1537108310
 
-    in (pkgs: rec {
+    in (pkgs: let
 
       inherit (pkgs)
         callPackage
         recurseIntoAttrs;
+
+      hostSymlinks = recurseIntoAttrs (callPackage ./pkgs/host-links.nix {});
+
+    in { ## be careful of `rec`, might not work
 
       inherit collectFlakeInputs;
       flakeInputs = collectFlakeInputs "nixpkgs-config" self;
@@ -111,7 +115,7 @@
       ) {};
 
       ## links to host libraries
-      hostSymlinks = recurseIntoAttrs (callPackage ./pkgs/host-links.nix {});
+      inherit hostSymlinks;
       inherit (hostSymlinks)
         host-usr
         host-locales;
