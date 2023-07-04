@@ -69,6 +69,8 @@
     in {
       homeConfigurations = forMyMachines mkHomeConfig;
       packages = home-manager.packages;
+
       inherit (nixpkgs) lib legacyPackages;
+      ## this ^ is before the `home.nix` overlays!
     };
 }
