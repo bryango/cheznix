@@ -144,6 +144,7 @@
 
     lib = lib.recursiveUpdate lib {
       systems.flakeExposed = mySystems;
+      inherit forMySystems;
     };
 
   };
