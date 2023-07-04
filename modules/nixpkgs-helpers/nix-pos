@@ -1,7 +1,12 @@
 #!/bin/bash
 # get the position of a package
 
-CODE_VIEWER=@viewer@
+CODE_VIEWER="@viewer@"
+
+if [[ $# -gt 1 ]]; then
+  CODE_VIEWER=$1
+  shift
+fi
 
 package=$1
 shift
