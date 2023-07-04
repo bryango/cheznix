@@ -32,15 +32,10 @@
       ## ^ refers to both the input NAME & its SOURCE directory
       ## ... therefore these two must be the same!
       ## ... it's very hard to ensure this programmatically
-      ## ... due to the nature of flakes
+      ## ... due to the nature of flakes.
 
-      nixpkgs = self.inputs.${nixpkgs-follows};
-      machines = home-attrs.outputs;
-
-      inherit (nixpkgs) lib;
-      forMyMachines = f: lib.mapAttrs' f machines;
-
-      inherit (lib) forMySystems;
+      ## upstream overrides: inputs.${nixpkgs-follows}
+      ## home overlay:
       overlay = final: prev: {
 
         gimp-with-plugins = with prev; gimp-with-plugins.override {
@@ -56,9 +51,15 @@
         };
 
       };
+
+      nixpkgs = self.inputs.${nixpkgs-follows};
+      inherit (nixpkgs) lib;
+      inherit (lib) forMySystems;
       pkgsOverlay = system: nixpkgs.legacyPackages.${system}.extend overlay;
       libOverlay = system: (pkgsOverlay system).lib;
 
+      machines = home-attrs.outputs;
+      forMyMachines = f: lib.mapAttrs' f machines;
       mkHomeConfig = id: profile:
         let
           hostname = profile.hostname or id;
@@ -85,9 +86,8 @@
           };
         };
     in {
-      homeConfigurations = forMyMachines mkHomeConfig;
       packages = home-manager.packages;
-
+      homeConfigurations = forMyMachines mkHomeConfig;
       legacyPackages = forMySystems pkgsOverlay;
       lib = forMySystems libOverlay;
     };

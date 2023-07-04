@@ -113,27 +113,6 @@ in {
     # '')
   ];
 
-  ## upstream overrides: https://github.com/bryango/nixpkgs-config
-  ## home overlays:
-  nixpkgs.overlays = [
-    (final: prev: {
-
-      gimp-with-plugins = with prev; gimp-with-plugins.override {
-        plugins = with gimpPlugins; [ resynthesizer ];
-      };
-
-      redshift = prev.redshift.override {
-        withGeolocation = false;
-      };
-
-      fzf = prev.fzf.override {
-        glibcLocales = "/usr";
-      };
-
-    })
-  ];
-
-
   imports = [
     ./modules/redshift-many
     ./modules/v2ray-ctrl
