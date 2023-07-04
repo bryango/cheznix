@@ -56,15 +56,18 @@
       } // lib.concatMapAttrs collectFlakeInputs (flake.inputs or {});
       ## https://github.com/NixOS/nix/issues/3995#issuecomment-1537108310
 
-    in (pkgs: {
+    in (pkgs: rec {
+
+      inherit (pkgs)
+        callPackage
+        recurseIntoAttrs;
 
       inherit collectFlakeInputs;
       flakeInputs = collectFlakeInputs "nixpkgs-config" self;
 
       ## exec "$name" from system "$PATH"
       ## if not found, fall back to "$package/bin/$name"
-      binaryFallback = name: package:
-        pkgs.callPackage ./pkgs/binary-fallback {
+      binaryFallback = name: package: callPackage ./pkgs/binary-fallback {
           inherit name package;
         };
 
@@ -75,15 +78,14 @@
       );
 
       ## some helper functions
-      nixpkgs-helpers = pkgs.callPackage ./pkgs/nixpkgs-helpers {};
+      nixpkgs-helpers = callPackage ./pkgs/nixpkgs-helpers {};
 
       gimp = pkgs.gimp.override {
         withPython = true;
         python2 = pkgs_python2.python2;
       };
 
-      tectonic-with-biber =
-        pkgs.callPackage ./pkgs/tectonic-with-biber.nix {
+      tectonic-with-biber = callPackage ./pkgs/tectonic-with-biber.nix {
           biber = pkgs_biber217.biber;
         };
 
@@ -92,7 +94,7 @@
           kcmSupport = false;
         };
 
-      byobu-with-tmux = pkgs.callPackage (
+      byobu-with-tmux = callPackage (
         { byobu, tmux, symlinkJoin, emptyDirectory }:
         symlinkJoin {
           name = "byobu-with-tmux-${byobu.version}";
@@ -107,6 +109,12 @@
           inherit (byobu) meta;
         }
       ) {};
+
+      ## links to host libraries
+      hostSymlinks = recurseIntoAttrs (callPackage ./pkgs/host-links.nix {});
+      inherit (hostSymlinks)
+        host-usr
+        host-locales;
 
       ## exposes nixpkgs source, i.e. `outPath`, in `pkgs`
       inherit (nixpkgs) outPath;
