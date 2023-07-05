@@ -29,6 +29,11 @@
     mySystems = [ "x86_64-linux" ];
     forMySystems = lib.genAttrs mySystems;
 
+    collectFlakeInputs = name: flake: {
+      ${name} = flake;
+    } // lib.concatMapAttrs collectFlakeInputs (flake.inputs or {});
+    ## https://github.com/NixOS/nix/issues/3995#issuecomment-1537108310
+
     config = {
       ## https://github.com/nix-community/home-manager/issues/2954
       ## ... home-manager/issues/2942#issuecomment-1378627909
@@ -52,11 +57,6 @@
         inherit system config;
       };
 
-      collectFlakeInputs = name: flake: {
-        ${name} = flake;
-      } // lib.concatMapAttrs collectFlakeInputs (flake.inputs or {});
-      ## https://github.com/NixOS/nix/issues/3995#issuecomment-1537108310
-
     in final: prev: let
 
       inherit (prev)
@@ -67,7 +67,6 @@
 
     in { ## be careful of `rec`, might not work
 
-      inherit collectFlakeInputs;
       flakeInputs = collectFlakeInputs "nixpkgs-config" self;
 
       ## exec "$name" from system "$PATH"
@@ -117,9 +116,6 @@
 
       ## links to host libraries
       inherit hostSymlinks;
-      inherit (hostSymlinks)
-        host-usr
-        host-locales;
 
       ## exposes nixpkgs source, i.e. `outPath`, in `pkgs`
       inherit (nixpkgs) outPath;
@@ -127,7 +123,8 @@
       ## helper function to gather overlaid packages, defined below
       inherit gatherOverlaid;
 
-    };
+    } ## then we expose some subpackges:
+    // hostSymlinks;
 
     gatherOverlaid = system: final: prev: let
 
@@ -165,7 +162,8 @@
       systems.flakeExposed = mySystems;
       inherit
         mySystems
-        forMySystems;
+        forMySystems
+        collectFlakeInputs;
     };
 
   };
