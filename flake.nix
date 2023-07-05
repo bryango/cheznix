@@ -41,7 +41,7 @@
       ];
     };
 
-    generateOverrides = system:
+    pkgsOverlay = system:
     let
 
       pkgs_python2 = import inputs.nixpkgs_python2 {
@@ -57,9 +57,9 @@
       } // lib.concatMapAttrs collectFlakeInputs (flake.inputs or {});
       ## https://github.com/NixOS/nix/issues/3995#issuecomment-1537108310
 
-    in (pkgs: let
+    in final: prev: let
 
-      inherit (pkgs)
+      inherit (prev)
         callPackage
         recurseIntoAttrs;
 
@@ -78,14 +78,14 @@
 
       ## create "bin/$name" from a template
       ## with `pkgs.substituteAll attrset`
-      binarySubstitute = name: attrset: pkgs.writeScriptBin name (
-        builtins.readFile (pkgs.substituteAll attrset)
+      binarySubstitute = name: attrset: prev.writeScriptBin name (
+        builtins.readFile (prev.substituteAll attrset)
       );
 
       ## some helper functions
       nixpkgs-helpers = callPackage ./pkgs/nixpkgs-helpers {};
 
-      gimp = pkgs.gimp.override {
+      gimp = prev.gimp.override {
         withPython = true;
         python2 = pkgs_python2.python2;
       };
@@ -95,7 +95,7 @@
         };
 
       fcitx5-configtool =
-        pkgs.libsForQt5.callPackage ./pkgs/fcitx5-configtool.nix {
+        prev.libsForQt5.callPackage ./pkgs/fcitx5-configtool.nix {
           kcmSupport = false;
         };
 
@@ -124,7 +124,7 @@
       ## exposes nixpkgs source, i.e. `outPath`, in `pkgs`
       inherit (nixpkgs) outPath;
 
-    });
+    };
 
   in {
 
@@ -138,9 +138,9 @@
           allowUnfree
           permittedInsecurePackages;
 
-        packageOverrides = generateOverrides system;
-
       };
+
+      overlays = pkgsOverlay system;
     });
 
     lib = lib.recursiveUpdate lib {
