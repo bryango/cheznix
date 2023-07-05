@@ -116,6 +116,9 @@
 
       ## links to host libraries
       inherit hostSymlinks;
+      inherit (hostSymlinks)
+        host-usr
+        host-locales;
 
       ## exposes nixpkgs source, i.e. `outPath`, in `pkgs`
       inherit (nixpkgs) outPath;
@@ -123,8 +126,7 @@
       ## helper function to gather overlaid packages, defined below
       inherit gatherOverlaid;
 
-    } ## then we expose some subpackges:
-    // hostSymlinks;
+    };
 
     gatherOverlaid = system: final: prev: let
 
