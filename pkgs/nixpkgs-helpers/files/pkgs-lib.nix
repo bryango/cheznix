@@ -9,4 +9,4 @@ let
   flake = builtins.getFlake flakeref;
   pkgs = flake.legacyPackages.${system} or {};
   lib = flake.lib or pkgs.lib or {};
-in flake // { inherit pkgs lib; }
+in flake // { inherit flake pkgs lib; }

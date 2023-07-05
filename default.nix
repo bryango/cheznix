@@ -3,4 +3,4 @@
 let
   pathString = builtins.toString ./.;
   flake = builtins.getFlake pathString;
-in flake // flake.legacyPackages.${system}
+in { inherit flake; } // flake // flake.legacyPackages.${system}
