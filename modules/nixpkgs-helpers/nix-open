@@ -1,11 +1,13 @@
 #!/bin/bash
 # get a flake and enter nix repl
 
-FLAKE=@flakeref@
-
 if [[ $# -gt 0 ]]; then
   FLAKE=$1
   shift
+elif [[ -r flake.nix ]]; then
+  FLAKE=$PWD
+else
+  FLAKE="@flakeref@"
 fi
 
 exec "@pkgslib@" --argstr flakeref "$FLAKE" "$@"
