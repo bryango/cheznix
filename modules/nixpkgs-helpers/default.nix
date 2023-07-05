@@ -39,27 +39,23 @@ let
   cfg = config.${category}.${module};
 
   ## from `nixpkgs-follows`
-  helpers = pkgs.${program}.files;
+  helpers = builtins.attrNames pkgs.${program}.files;
 
-  ## generate the links one by one
-  generateLinks = helper: path: {
-    source = helpers.${helper};
-    target = "${cfg.directory}/${helper}.nix";
-  };
-  ## ... such that they can be referenced later
-  links = lib.mapAttrs generateLinks helpers;
-  targets = lib.mapAttrs (helper: link: link.target) links;
+  ## reconstruct link targets in $HOME
+  targetDir = cfg.directory;
+  link.${targetDir}.source = pkgs.${program};
+  targets = lib.genAttrs helpers (id: "$HOME/${targetDir}/${id}.nix");
 
   nix-open = pkgs.binarySubstitute "nix-open" {
     src = ./nix-open;
     inherit (cfg) flakeref;
-    pkgslib = "$HOME/${targets.pkgs-lib}";  ## `foo-bar` not valid
+    pkgslib = targets.pkgs-lib;  ## `foo-bar` not valid
   };
 
   nix-pos = pkgs.binarySubstitute "nix-pos" {
     src = ./nix-pos;
     inherit (cfg) viewer;
-    pkgsposition = "$HOME/${targets.pkgs-position}";
+    pkgsposition = targets.pkgs-position;
   };
 
   scripts = pkgs.symlinkJoin {
@@ -73,10 +69,8 @@ let
 in {
 
   options.${category}.${module} = opts;
-
   config = lib.mkIf cfg.enable {
-
-    home.file = links;
+    home.file = link;
     home.packages = [
       scripts
     ];
