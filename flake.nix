@@ -29,11 +29,6 @@
     mySystems = [ "x86_64-linux" ];
     forMySystems = lib.genAttrs mySystems;
 
-    collectFlakeInputs = name: flake: {
-      ${name} = flake;
-    } // lib.concatMapAttrs collectFlakeInputs (flake.inputs or {});
-    ## https://github.com/NixOS/nix/issues/3995#issuecomment-1537108310
-
     config = {
       ## https://github.com/nix-community/home-manager/issues/2954
       ## ... home-manager/issues/2942#issuecomment-1378627909
@@ -64,6 +59,11 @@
         recurseIntoAttrs;
 
       hostSymlinks = recurseIntoAttrs (callPackage ./pkgs/host-links.nix {});
+
+      collectFlakeInputs = name: flake: {
+        ${name} = flake;
+      } // lib.concatMapAttrs collectFlakeInputs (flake.inputs or {});
+      ## https://github.com/NixOS/nix/issues/3995#issuecomment-1537108310
 
     in { ## be careful of `rec`, might not work
 
@@ -157,8 +157,7 @@
       systems.flakeExposed = mySystems;
       inherit
         mySystems
-        forMySystems
-        collectFlakeInputs;
+        forMySystems;
     };
 
   };
