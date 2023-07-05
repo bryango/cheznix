@@ -8,6 +8,7 @@ let
   ## expose helpers via attributes
   genHelperInfo = path: let
       ## relative path, without leading "/"
+      ## ... need `toString`, otherwise the path is nix-stored
       relative = lib.removePrefix "${toString source}/" (toString path);
       id = lib.removeSuffix ".nix" relative;
     in {

@@ -124,7 +124,23 @@
       ## exposes nixpkgs source, i.e. `outPath`, in `pkgs`
       inherit (nixpkgs) outPath;
 
+      ## helper function to gather overlaid packages, defined below
+      inherit gatherOverlaid;
+
     };
+
+    gatherOverlaid = system: final: prev: let
+
+      overlaid = genOverlay system final prev;
+      derivable = lib.filterAttrs (name: lib.isDerivation) overlaid;
+
+      userOverlaid = "user-overlaid";
+      inherit (prev) linkFarm;
+
+    in {
+      ${userOverlaid} = linkFarm userOverlaid derivable;
+    };
+
 
   in {
 
@@ -140,7 +156,7 @@
 
       };
 
-      overlays = [ (genOverlay system) ];
+      overlays = [ (genOverlay system) (gatherOverlaid system) ];
     });
 
     overlays = forMySystems genOverlay;
