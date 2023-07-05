@@ -6,19 +6,18 @@ let
 
   paths = lib.filesystem.listFilesRecursive sourceDir;
   genPathInfo = path: rec {
-    basename = builtins.baseNameOf path;
-    id = lib.removeSuffix ".nix" basename;
     source = path;
-    relative = lib.removePrefix (toString sourceDir) (toString path);
+    relative = lib.removePrefix "${toString sourceDir}/" (toString path);
+    id = lib.removeSuffix ".nix" relative;
   };
   helpers = map genPathInfo paths;
 
   ## expose helpers via attributes
-  generateAttrs = helper: {
+  genHelperAttrs = helper: {
     name = helper.id;
     value = helper.source;
   };
-  files = builtins.listToAttrs (map generateAttrs helpers);
+  files = builtins.listToAttrs (map genHelperAttrs helpers);
 
 in (
   runCommand "nixpkgs-helpers" { } ''
