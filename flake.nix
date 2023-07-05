@@ -67,14 +67,7 @@
 
     in { ## be careful of `rec`, might not work
 
-      lib = lib.recursiveUpdate lib {
-        systems.flakeExposed = mySystems;
-        inherit
-          mySystems
-          forMySystems
-          collectFlakeInputs;
-      };
-
+      inherit collectFlakeInputs;
       flakeInputs = collectFlakeInputs "nixpkgs-config" self;
 
       ## exec "$name" from system "$PATH"
@@ -148,29 +141,25 @@
       ${userOverlaid} = linkFarm userOverlaid derivable;
     };
 
+  in {
+
     overlays = forMySystems genOverlay;
 
     legacyPackages = forMySystems (system: import nixpkgs {
-
-      inherit system;
-      config = {
-
-        inherit (config)
-          allowBroken
-          allowUnfree
-          permittedInsecurePackages;
-
-      };
-
-      overlays = [ overlays.${system} (gatherOverlaid system) ];
+      inherit system config;
+      overlays = [
+        (genOverlay system)
+        (gatherOverlaid system)
+      ];
     });
 
-
-  in {
-
-    inherit overlays;
-    inherit legacyPackages;
-    lib = legacyPackages.${lib.head mySystems}.lib;
+    lib = lib.recursiveUpdate lib {
+      systems.flakeExposed = mySystems;
+      inherit
+        mySystems
+        forMySystems
+        collectFlakeInputs;
+    };
 
   };
 }
