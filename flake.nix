@@ -41,7 +41,7 @@
       ];
     };
 
-    pkgsOverlay = system:
+    genOverlay = system:
     let
 
       pkgs_python2 = import inputs.nixpkgs_python2 {
@@ -140,8 +140,10 @@
 
       };
 
-      overlays = pkgsOverlay system;
+      overlays = [ (genOverlay system) ];
     });
+
+    overlays = forMySystems genOverlay;
 
     lib = lib.recursiveUpdate lib {
       systems.flakeExposed = mySystems;
