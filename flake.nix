@@ -85,12 +85,10 @@
           value = home-manager.lib.homeManagerConfiguration {
             inherit pkgs;
 
-            # Specify your home configuration modules here, for example,
-            # the path to your home.nix.
+            ## specify your home configuration modules
             modules = [ ./home.nix ];
 
-            # Optionally use extraSpecialArgs
-            # to pass through arguments to home.nix
+            ## pass through arguments to home.nix
             extraSpecialArgs = {
               inherit attrs cheznix nixpkgs-follows;
             };
