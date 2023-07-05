@@ -3,17 +3,18 @@
 
   inputs = {
 
-    nixpkgs.url = "nixpkgs";
-    ## ... using flake registry
-    ## ... hydra builds: https://hydra.nixos.org/jobset/nixpkgs/trunk/evals
-
-    ## alternatively, use `unstable` which is slightly behind `master`
-    # nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
-    # nixpkgs.url = "nixpkgs/a3a3dda3bacf61e8a39258a0ed9c924eeca8e293";
-    ## ... WARNING: this doesn't seem to work properly!
+    nixpkgs.url = "nixpkgs";  ## flake registry: nixpkgs/nixpkgs-unstable
+ 
+    /* alternatively,
+      - use `master`, which is slightly more advanced;
+      - pin to hash, e.g. "nixpkgs/a3a3dda3bacf61e8a39258a0ed9c924eeca8e293";
+        ^ note that this is once problematic, but I cannot reproduce
+        ^ find nice snapshots from hydra builds:
+          https://hydra.nixos.org/jobset/nixpkgs/trunk/evals
+    */
 
     ## python2 marked insecure: https://github.com/NixOS/nixpkgs/pull/201859
-    ## ... pin to a successful build:
+    ## ... pin to a cached build:
     nixpkgs_python2.url = "github:NixOS/nixpkgs/7e63eed145566cca98158613f3700515b4009ce3";
 
     nixpkgs_biber217.url = "github:NixOS/nixpkgs/40f79f003b6377bd2f4ed4027dde1f8f922995dd";
@@ -144,7 +145,9 @@
 
     lib = lib.recursiveUpdate lib {
       systems.flakeExposed = mySystems;
-      inherit forMySystems;
+      inherit
+        mySystems
+        forMySystems;
     };
 
   };
