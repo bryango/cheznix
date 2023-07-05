@@ -29,8 +29,6 @@
     mySystems = [ "x86_64-linux" ];
     forMySystems = lib.genAttrs mySystems;
 
-    filterDerivations = lib.filterAttrs (name: lib.isDerivation);
-
     collectFlakeInputs = name: flake: {
       ${name} = flake;
     } // lib.concatMapAttrs collectFlakeInputs (flake.inputs or {});
@@ -74,8 +72,7 @@
         inherit
           mySystems
           forMySystems
-          collectFlakeInputs
-          filterDerivations;
+          collectFlakeInputs;
       };
 
       flakeInputs = collectFlakeInputs "nixpkgs-config" self;
@@ -127,6 +124,9 @@
 
       ## links to host libraries
       inherit hostSymlinks;
+      inherit (hostSymlinks)
+        host-usr
+        host-locales;
 
       ## exposes nixpkgs source, i.e. `outPath`, in `pkgs`
       inherit (nixpkgs) outPath;
@@ -134,13 +134,12 @@
       ## helper function to gather overlaid packages, defined below
       inherit gatherOverlaid;
 
-    } ## flatten some packages:
-    // (filterDerivations hostSymlinks);
+    };
 
     gatherOverlaid = system: final: prev: let
 
       overlaid = genOverlay system final prev;
-      derivable = filterDerivations overlaid;
+      derivable = lib.filterAttrs (name: lib.isDerivation) overlaid;
 
       userOverlaid = "user-overlaid";
       inherit (prev) linkFarm;
@@ -171,8 +170,6 @@
 
     inherit overlays;
     inherit legacyPackages;
-
-    ## lib is system agnostic:
     lib = legacyPackages.${lib.head mySystems}.lib;
 
   };
