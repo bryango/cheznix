@@ -76,8 +76,7 @@
       mkHomeConfig = id: profile:
         let
           hostname = profile.hostname or id;
-          system = profile.system;
-          pkgs = pkgsOverlay system;
+          pkgs = pkgsOverlay profile.system;
           attrs = profile // {
             inherit hostname;
             inherit (pkgs) config overlays;
@@ -103,5 +102,6 @@
       homeConfigurations = forMyMachines mkHomeConfig;
       legacyPackages = forMySystems pkgsOverlay;
       lib = forMySystems libOverlay;
+      overlays.default = overlay;
     };
 }
