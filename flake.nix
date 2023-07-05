@@ -126,16 +126,20 @@
     } ## then we expose some subpackges:
     // hostSymlinks;
 
-    userOverlaid = "user-overlaid";
     gatherOverlaid = system: final: prev: let
 
       overlaid = genOverlay system final prev;
       derivable = lib.filterAttrs (name: lib.isDerivation) overlaid;
+
+      userOverlaid = "user-overlaid";
       inherit (prev) linkFarm;
 
     in {
       ${userOverlaid} = linkFarm userOverlaid derivable;
     };
+
+
+  in {
 
     legacyPackages = forMySystems (system: import nixpkgs {
 
@@ -149,18 +153,8 @@
 
       };
 
-      overlays = [ (genOverlay system) ];
+      overlays = [ (genOverlay system) (gatherOverlaid system) ];
     });
-
-  in {
-
-    inherit legacyPackages;
-
-    packages = forMySystems (
-      system: lib.genAttrs [ userOverlaid ] (
-        legacyPackages.${system}.extend (gatherOverlaid system)
-      )
-    );
 
     overlays = forMySystems genOverlay;
 
