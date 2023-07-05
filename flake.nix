@@ -69,7 +69,6 @@
       inherit (nixpkgs) lib;
       inherit (lib) forMySystems;
       pkgsOverlay = system: nixpkgs.legacyPackages.${system}.extend overlay;
-      libOverlay = system: (pkgsOverlay system).lib;
 
       machines = home-attrs.outputs;
       forMyMachines = f: lib.mapAttrs' f machines;
@@ -98,10 +97,10 @@
           };
         };
     in {
+      inherit lib;
       packages = home-manager.packages;
       homeConfigurations = forMyMachines mkHomeConfig;
       legacyPackages = forMySystems pkgsOverlay;
-      lib = forMySystems libOverlay;
       overlays.default = overlay;
     };
 }
