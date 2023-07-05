@@ -60,7 +60,7 @@ let
     cli.app = [
       circumflex  # hacker news terminal
       uxplay  # airplay server
-      tectonic-with-biber  # from `bryango/nixpkgs-config`
+      tectonic-with-biber  # from `nixpkgs-follows`
     ];
 
     cli.python = let

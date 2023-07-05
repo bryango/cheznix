@@ -3,12 +3,20 @@
 
   inputs = {
 
-    ## system attributes: for each system,
-    ## ... provide attrsets with `system`, `username`, `homeDirectory`, ...
-    ## ... WARNING: not secret, might leak through /nix/store & cache
+    ## _private_ machine profiles:
+    ## WARNING: _not_ secret, might leak through /nix/store & cache!
     home-attrs.url = "git+ssh://git@github.com/bryango/attrs.git";
+    /*
+      machines = home-attrs.outputs = {
+        id = {
+          system = ... ;
+          username = ... ;
+          homeDirectory = ... ;
+        };
+      }
+    */
 
-    nixpkgs.url = "nixpkgs";  ## flake-registry
+    nixpkgs.url = "nixpkgs";  ## flake registry
 
     ## p13n nixpkgs with config
     nixpkgs-config = {
@@ -17,8 +25,7 @@
     };
 
     home-manager = {
-      url = "home-manager";
-      # url = "github:nix-community/home-manager";
+      url = "home-manager";  ## flake registry
       inputs.nixpkgs.follows = "nixpkgs-config";
     };
 
@@ -27,12 +34,18 @@
   outputs = { self, home-manager, home-attrs, ... }:
     let
 
+      ## namings
       cheznix = self;
       nixpkgs-follows = "nixpkgs-config";
-      ## ^ refers to both the input NAME & its SOURCE directory
-      ## ... therefore these two must be the same!
-      ## ... it's very hard to ensure this programmatically
-      ## ... due to the nature of flakes.
+      /* ^ refers to both the input NAME & its SOURCE directory,
+        .. therefore these two must coincide!
+
+          assert inputs.${nixpkgs-follows}.url    ## pseudo code
+              == "git+file:./${nixpkgs-follows}"  ## doesn't work
+
+        It is very hard to ensure this programmatically,
+        .. due to the pure nature of flakes.
+      */
 
       ## upstream overrides: inputs.${nixpkgs-follows}
       ## home overlay:
@@ -67,7 +80,7 @@
           pkgs = pkgsOverlay system;
           attrs = profile // {
             inherit hostname;
-            inherit (pkgs) config;
+            inherit (pkgs) config overlays;
           };
         in {
           name = "${attrs.username}@${hostname}";

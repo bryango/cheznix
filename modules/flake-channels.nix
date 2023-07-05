@@ -12,7 +12,7 @@ let
   ## to reduce trivial rebuilds
   flakeInputs = builtins.removeAttrs flakeInputs' [
     flakeSelfName
-    nixpkgs-follows  ## "nixpkgs-config"
+    nixpkgs-follows
   ];
 
   generateLinks = prefix: name: flake: {

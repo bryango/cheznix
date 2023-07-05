@@ -38,7 +38,7 @@ let
 
   cfg = config.${category}.${module};
 
-  ## from github:bryango/nixpkgs-config
+  ## from `nixpkgs-follows`
   helpers = pkgs.${program}.files;
 
   ## generate the links one by one
