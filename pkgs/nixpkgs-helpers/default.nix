@@ -1,37 +1,33 @@
-{ lib, linkFarm }:
+{ lib, runCommand }:
 
 let
 
-  ## target directory to host the helpers
-  directory = ".";
-  paths = lib.filesystem.listFilesRecursive ./files;
+  sourceDir = ./files;
+
+  paths = lib.filesystem.listFilesRecursive sourceDir;
   genPathInfo = path: rec {
     basename = builtins.baseNameOf path;
     id = lib.removeSuffix ".nix" basename;
     source = path;
+    relative = lib.removePrefix (toString sourceDir) (toString path);
   };
   helpers = map genPathInfo paths;
-
-  inherit (builtins) listToAttrs;
-
-  ## gather helpers to the target directory
-  generateLinks = helper: {
-    name = "${directory}/${helper.basename}";
-    value = helper.source;
-  };
-  links = listToAttrs (map generateLinks helpers);
 
   ## expose helpers via attributes
   generateAttrs = helper: {
     name = helper.id;
     value = helper.source;
   };
-  files = listToAttrs (map generateAttrs helpers);
+  files = builtins.listToAttrs (map generateAttrs helpers);
 
-in (linkFarm "nixpkgs-helpers" links).overrideAttrs (
+in (
+  runCommand "nixpkgs-helpers" { } ''
+    ln -s -T "${sourceDir}" "$out"
+  ''
+).overrideAttrs (
   prev: {
     ## make helpers accessible
-    passthru = prev.passthru // files // {
+    passthru = files // {
       ## prevent mixing with other passthrus
       inherit files;
     };
