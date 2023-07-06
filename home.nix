@@ -1,4 +1,4 @@
-{ pkgs, attrs, ... }:
+{ pkgs, lib, attrs, ... }:
 
 let
 
@@ -216,6 +216,10 @@ in {
     # NIX_PATH = "nixpkgs=${pkgs.outPath}";
   };
 
+  home.activation.userScript
+    = lib.hm.dag.entryAfter [ "installPackages" ] (
+        builtins.readFile ./activate.sh
+      );
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
