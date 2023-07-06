@@ -54,14 +54,17 @@
           "nixpkgs"
         ],
         "nixpkgs_biber217": "nixpkgs_biber217",
-        "nixpkgs_python2": "nixpkgs_python2"
+        "nixpkgs_python2": [
+          "nixpkgs-config",
+          "nixpkgs"
+        ]
       },
       "locked": {
-        "lastModified": 1688581102,
-        "narHash": "sha256-JhoSNsr8h7nXGQNZf07KPWL09EnT8umuKmXn24TdOG0=",
+        "lastModified": 1688619255,
+        "narHash": "sha256-htAk9CawQMpW9U7zJhbbh8NrGRB3SMJJbPOcHrFO7i4=",
         "ref": "refs/heads/master",
-        "rev": "9a8607b25573b264d5e24e99e2340e92ef6692cc",
-        "revCount": 71,
+        "rev": "a044ac3981b78b2b5c3f20d25cf21d1c819c55f2",
+        "revCount": 74,
         "type": "git",
         "url": "file:./nixpkgs-config"
       },
@@ -83,22 +86,6 @@
         "owner": "NixOS",
         "repo": "nixpkgs",
         "rev": "40f79f003b6377bd2f4ed4027dde1f8f922995dd",
-        "type": "github"
-      }
-    },
-    "nixpkgs_python2": {
-      "locked": {
-        "lastModified": 1686582075,
-        "narHash": "sha256-vtflsfKkHtF8IduxDNtbme4cojiqvlvjp5QNYhvoHXc=",
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "7e63eed145566cca98158613f3700515b4009ce3",
-        "type": "github"
-      },
-      "original": {
-        "owner": "NixOS",
-        "repo": "nixpkgs",
-        "rev": "7e63eed145566cca98158613f3700515b4009ce3",
         "type": "github"
       }
     },
