@@ -14,8 +14,12 @@
     */
 
     ## python2 marked insecure: https://github.com/NixOS/nixpkgs/pull/201859
-    ## ... pin to a cached build:
-    nixpkgs_python2.url = "github:NixOS/nixpkgs/27bd67e55fe09f9d68c77ff151c3e44c4f81f7de";
+    nixpkgs_python2 = {
+      ## ... pin to a cached build:
+      url = "github:NixOS/nixpkgs/27bd67e55fe09f9d68c77ff151c3e44c4f81f7de";
+      follows = "nixpkgs";
+      ## ^ toggle to follow `nixpkgs`
+    };
 
     nixpkgs_biber217.url = "github:NixOS/nixpkgs/40f79f003b6377bd2f4ed4027dde1f8f922995dd";
     ## ... from: https://hydra.nixos.org/build/202359527
