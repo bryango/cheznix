@@ -33,7 +33,7 @@ in {
     home.activation.userFlakeRegistry
       = lib.hm.dag.entryAfter [ "installPackages" ] ''
 
-          flake=''${FLAKE_CONFIG_URI%#*}
+          flake=''${FLAKE_CONFIG_URI%#*}  ## "path:$HOME/..."
           nixpkgs="$flake/${nixpkgs-follows}"
           ## ^ relies on the subdir structure of the input!
 

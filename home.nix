@@ -217,9 +217,13 @@ in {
   };
 
   home.activation.userScript
-    = lib.hm.dag.entryAfter [ "installPackages" ] (
-        builtins.readFile ./activate.sh
-      );
+    = lib.hm.dag.entryAfter [ "installPackages" ] ''
+        flake=''${FLAKE_CONFIG_URI%#*}
+        flakePath=$(
+          nix eval --raw --impure --expr "builtins.getFlake $flake" | xargs
+        )
+        "$flakePath/activate.sh"  ## ^ `$flake` defined above
+      '';
 
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
