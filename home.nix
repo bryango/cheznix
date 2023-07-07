@@ -4,6 +4,11 @@ let
 
   packages = with pkgs; {
 
+    /* some packages are better installed via system pacman, e.g.
+      - zsh: better be under root to be set the default shell
+      - neovim: as the editor for sudoedit
+    */
+
     os.basic = [
       ## https://github.com/NixOS/nixpkgs/blob/master/pkgs/stdenv/generic/common-path.nix
       coreutils findutils diffutils

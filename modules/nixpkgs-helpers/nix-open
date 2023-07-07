@@ -10,4 +10,5 @@ else
   FLAKE="@flakeref@"
 fi
 
+>&2 echo "## flakeref: $FLAKE"
 exec "@pkgslib@" --argstr flakeref "$FLAKE" "$@"
