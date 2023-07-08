@@ -1,0 +1,16 @@
+[core]
+	repositoryformatversion = 0
+	filemode = true
+	bare = false
+	logallrefupdates = true
+[remote "origin"]
+	url = git@github.com:bryango/cheznix.git
+	fetch = +refs/heads/*:refs/remotes/origin/*
+[branch "master"]
+	remote = origin
+	merge = refs/heads/master
+[submodule "nixpkgs-config"]
+	url = git@github.com:bryango/nixpkgs-config.git
+	active = true
+[push]
+	recurseSubmodules = on-demand
