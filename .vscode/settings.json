@@ -1,9 +1,12 @@
 {
     "nix.serverPath": "nil",
     "nix.serverSettings": {
-        "nil.nix.flake": {
-            "autoEvalInputs": true,
-            "nixpkgsInputName": "nixpkgs-config",
-        }
+        "nil": {
+            "formatting.command": [ "nixpkgs-fmt" ],
+            "nix.flake": {
+                "autoEvalInputs": true,
+                "nixpkgsInputName": "nixpkgs-config",
+            },
+        },
     },
 }

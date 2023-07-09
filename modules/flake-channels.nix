@@ -38,7 +38,6 @@ in {
           ## ^ relies on the subdir structure of the input!
 
           nix registry add "${nixpkgs-follows}" "$nixpkgs"
-          ln -sf -T "$nixpkgs" "$HOME/${prefix}/${nixpkgs-follows}"
         '';
   };
 
