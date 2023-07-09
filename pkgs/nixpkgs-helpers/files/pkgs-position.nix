@@ -23,8 +23,9 @@ let
   nixpkgsPath = toString <nixpkgs>;  ## human readable nixpkgs path
   storePath = toString pkgs.path;  ## nixpkgs /nix/store path
 
-  attrHost = let
-      findAttrHost = lib.findFirst (lib.hasAttrByPath attrPath) {};
+  attrHost =
+    let
+      findAttrHost = lib.findFirst (lib.hasAttrByPath attrPath) { };
     in findAttrHost [
       pkgs
       lib
@@ -33,7 +34,8 @@ let
   package = lib.getAttrFromPath attrPath attrHost;
 
   shortAttr = lib.last attrPath;
-  parentAttr = let
+  parentAttr =
+    let
       dropLast = list: with builtins;
         genList (i: elemAt list i) ((length list) - 1);
       parentPath = dropLast attrPath;
@@ -41,9 +43,11 @@ let
 
   ## pkgs/stdenv/generic/make-derivation.nix
   ## pkgs/stdenv/generic/check-meta.nix
-  getAttrPos = attrname: attrset: let
+  getAttrPos = attrname: attrset:
+    let
       pos = builtins.unsafeGetAttrPos attrname attrset;
-    in "${pos.file}:${toString pos.line}:${toString pos.column}";
+    in
+      "${pos.file}:${toString pos.line}:${toString pos.column}";
 
   storePosition = package.meta.position
     or (getAttrPos shortAttr parentAttr);
