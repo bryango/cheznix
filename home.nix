@@ -25,6 +25,7 @@ let
     nix.dev = [
       nil  # language server
       nixpkgs-fmt  # the official (?) formatter
+      nixpkgs-hammering
       hydra-check
       # nixd  # better? language server ## not stable
       # nvd  # version diff
