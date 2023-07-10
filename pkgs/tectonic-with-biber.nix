@@ -20,7 +20,6 @@
       }
 */
 
-
 { lib
 , makeBinaryWrapper
 , symlinkJoin
