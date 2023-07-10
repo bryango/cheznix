@@ -60,6 +60,7 @@ let
       cargo-binstall
       shellcheck
       inetutils  # telnet
+      nodejs  # required by coc.nvim
       # getoptions  # shell argument parser
     ];
 
