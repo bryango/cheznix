@@ -10,8 +10,8 @@ let
     */
 
     os.basic = [
-      ## https://github.com/NixOS/nixpkgs/blob/master/pkgs/stdenv/generic/common-path.nix
-      coreutils findutils diffutils
+      ## <nixpkgs> pkgs/stdenv/generic/common-path.nix
+      coreutils util-linux findutils diffutils
       gnused gnugrep gnumake
       which tree file procps
     ];
@@ -32,6 +32,7 @@ let
     ];
 
     cli.basic = [
+      devbox
       bat
       fzf
       byobu-with-tmux
@@ -46,6 +47,8 @@ let
       lsof
       wget
       trash-cli
+      mosh
+      openssh  # need to unset SSH_AUTH_SOCK, maybe
       # trashy  # better, but its zsh completion is broken
 
       proxychains-ng
@@ -59,9 +62,15 @@ let
       direnv
       cargo-binstall
       shellcheck
-      inetutils  # telnet
       nodejs  # required by coc.nvim
       # getoptions  # shell argument parser
+
+      (inetutils.overrideAttrs (prev: {
+        meta = prev.meta // {
+          priority = 7;
+          ## ^ lower than: default = 5; util-linux = 6;
+        };
+      }))  # telnet
     ];
 
     cli.app = [
@@ -71,11 +80,16 @@ let
     ];
 
     cli.python = let
-      pythonPackages = python310Packages;
+      python3Packages = python310Packages;
+      /* <nixpkgs> pkgs/top-level/aliases.nix
+          pythonPackages = python.pkgs;
+          python = python2;
+      */
     in [
       ### do NOT expose python itself for safety reasons
-      pythonPackages.ruff-lsp  ruff  # exposes `ruff`
-      pythonPackages.jedi-language-server
+      python3Packages.ipython
+      python3Packages.ruff-lsp  ruff  # exposes `ruff`
+      python3Packages.jedi-language-server
       poetry
     ];
 
@@ -129,7 +143,7 @@ in {
 
   programs.v2ray-ctrl = {
     # enable = false;
-    outbounds = "dal6";
+    outbounds = "dal4";
     # routings =
     #   "private-direct,cn-direct,tencent-direct,ms-transit,zoom-transit";
   };

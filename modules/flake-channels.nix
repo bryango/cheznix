@@ -5,7 +5,7 @@ let
   ## backward compatible to nix channels
   prefix = ".nix-defexpr/channels";
 
-  flakeSelfName = "cheznix-itself";  ## just a tracker, could be anything
+  flakeSelfName = "cheznix";
   flakeInputs' = pkgs.collectFlakeInputs flakeSelfName cheznix;
 
   ## remove the local flakes
@@ -38,6 +38,7 @@ in {
           ## ^ relies on the subdir structure of the input!
 
           nix registry add "${nixpkgs-follows}" "$nixpkgs"
+          nix registry add "${flakeSelfName}" "$flake"
         '';
   };
 
