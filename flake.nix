@@ -52,8 +52,12 @@
         inherit system config;
       };
 
-      pkgs_biber217 = import inputs.nixpkgs_biber217 {
-        inherit system config;
+      biber217 = builtins.fetchClosure {
+        ## nix.settings.extra-experimental-features = [ "fetch-closure" ]
+        inputAddressed = true;
+        fromStore = "https://cache.nixos.org";
+        fromPath = /nix/store/pbv19v0mw57sxa7h6m1hzjvv33mdxxdf-perl5.36.0-biber-2.17;
+        ## ^ from: https://hydra.nixos.org/build/202359527#tabs-details
       };
 
     in final: prev: let
@@ -98,8 +102,8 @@
       };
 
       tectonic-with-biber = callPackage ./pkgs/tectonic-with-biber.nix {
-          biber = pkgs_biber217.biber;
-        };
+        biber = biber217;
+      };
 
       fcitx5-configtool =
         prev.libsForQt5.callPackage ./pkgs/fcitx5-configtool.nix {
