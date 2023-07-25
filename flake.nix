@@ -21,9 +21,6 @@
       ## ^ toggle to follow `nixpkgs`
     };
 
-    ## nix static: https://hydra.nixos.org/build/229213111
-    nix.url = "github:NixOS/nix/07d1e304b4e608bd33ae6ff7ff1760adab7385a4";
-
   };
 
   outputs = { self, nixpkgs, ... } @ inputs:
@@ -53,7 +50,16 @@
       };
 
       biber217 = builtins.fetchClosure {
-        ## nix.settings.extra-experimental-features = [ "fetch-closure" ]
+        /* experimental:
+          - after: https://github.com/NixOS/nix/pull/8370
+          - need latest static: https://hydra.nixos.org/build/229213111
+
+          nix profile install \
+            /nix/store/ik8hqwxhj1q9blqf47rp76h7gw7s3060-nix-2.17.1-x86_64-unknown-linux-musl
+
+          - /etc/nix/nix.conf: extra-experimental-features = fetch-closure
+          - systemctl restart nix-daemon.service
+        */
         inputAddressed = true;
         fromStore = "https://cache.nixos.org";
         fromPath = /nix/store/pbv19v0mw57sxa7h6m1hzjvv33mdxxdf-perl5.36.0-biber-2.17;
@@ -74,9 +80,6 @@
       ## https://github.com/NixOS/nix/issues/3995#issuecomment-1537108310
 
     in { ## be careful of `rec`, might not work
-
-      ## nix static
-      nix = inputs.nix.packages.${system}.nix-static;
 
       inherit collectFlakeInputs;
       flakeInputs = collectFlakeInputs "nixpkgs-config" self;
