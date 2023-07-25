@@ -21,8 +21,8 @@
       ## ^ toggle to follow `nixpkgs`
     };
 
-    nixpkgs_biber217.url = "github:NixOS/nixpkgs/40f79f003b6377bd2f4ed4027dde1f8f922995dd";
-    ## ... from: https://hydra.nixos.org/build/202359527
+    ## nix static: https://hydra.nixos.org/build/229213111
+    nix.url = "github:NixOS/nix/07d1e304b4e608bd33ae6ff7ff1760adab7385a4";
 
   };
 
@@ -70,6 +70,9 @@
       ## https://github.com/NixOS/nix/issues/3995#issuecomment-1537108310
 
     in { ## be careful of `rec`, might not work
+
+      ## nix static
+      nix = inputs.nix.packages.${system}.nix-static;
 
       inherit collectFlakeInputs;
       flakeInputs = collectFlakeInputs "nixpkgs-config" self;
