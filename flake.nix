@@ -13,11 +13,14 @@
           https://hydra.nixos.org/jobset/nixpkgs/trunk/evals
     */
 
-    ## python2 marked insecure: https://github.com/NixOS/nixpkgs/pull/201859
     nixpkgs_python2 = {
-      ## ... pin to a cached build:
-      url = "github:NixOS/nixpkgs/27bd67e55fe09f9d68c77ff151c3e44c4f81f7de";
-      follows = "nixpkgs";
+      /*
+        - https://github.com/NixOS/nixpkgs/pull/201859 marks insecure
+        - https://github.com/NixOS/nixpkgs/pull/245894 breaks build
+        - pin to its parent commit:
+      */
+      url = "github:NixOS/nixpkgs/020ff5ccb510f0eb1810a42bfa0f8fcd68ba4822";
+      # follows = "nixpkgs";
       ## ^ toggle to follow `nixpkgs`
     };
 
