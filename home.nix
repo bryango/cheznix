@@ -59,9 +59,12 @@ let
 
     cli.dev = [
       jq
+      jc
       direnv
-      cargo-binstall
       shellcheck
+      rtx
+      cargo-binstall  # then `cargo binstall cargo-quickinstall`
+      # evcxr  # too heavy, instead `cargo quickinstall evcxr_repl`
       nodejs  # required by coc.nvim
       # getoptions  # shell argument parser
 
@@ -143,7 +146,7 @@ in {
 
   programs.v2ray-ctrl = {
     # enable = false;
-    outbounds = "dal4";
+    outbounds = "dal6";
     # routings =
     #   "private-direct,cn-direct,tencent-direct,ms-transit,zoom-transit";
   };
