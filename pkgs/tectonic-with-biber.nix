@@ -65,4 +65,6 @@ symlinkJoin {
   '';
   ## the biber executable is exposed as `biber-${biber.version}`
 
+  passthru = { inherit biber; };
+
 }

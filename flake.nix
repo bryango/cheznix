@@ -4,7 +4,7 @@
   inputs = {
 
     nixpkgs.url = "nixpkgs";  ## flake registry: nixpkgs/nixpkgs-unstable
- 
+
     /* alternatively,
       - use `master`, which is slightly more advanced;
       - pin to hash, e.g. "nixpkgs/a3a3dda3bacf61e8a39258a0ed9c924eeca8e293";
@@ -52,7 +52,10 @@
         inherit system config;
       };
 
+    in final: prev: let
+
       biber217 = {
+        inherit (prev.biber) pname;
         version = "2.17";
         outPath = builtins.fetchClosure {
           /* experimental:
@@ -71,8 +74,6 @@
           ## ^ from: https://hydra.nixos.org/build/202359527#tabs-details
         };
       };
-
-    in final: prev: let
 
       inherit (prev)
         callPackage
@@ -110,6 +111,7 @@
         python2 = pkgs_python2.python2;
       };
 
+      inherit biber217;
       tectonic-with-biber = callPackage ./pkgs/tectonic-with-biber.nix {
         biber = biber217;
       };
