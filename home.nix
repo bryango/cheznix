@@ -52,9 +52,8 @@ let
       openssh  # need to unset SSH_AUTH_SOCK, maybe
       # trashy  # better, but its zsh completion is broken
 
-      proxychains-ng
       (writeShellScriptBin "proxychains" ''exec proxychains4 "$@"'')
-
+      (binaryFallback "proxychains4" proxychains-ng)
       (binaryFallback "aria2c" aria2)
     ];
 
