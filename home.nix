@@ -7,6 +7,7 @@ let
     /* some packages are better installed via system pacman, e.g.
       - zsh: better be under root to be set the default shell
       - neovim: as the editor for sudoedit
+      - nix: the daemon
     */
 
     os.basic = [
@@ -17,7 +18,7 @@ let
     ];
 
     nix.basic = [
-      # nix  # manage itself ## daemon managed by root
+      nixVersions.nix_2_17  # manage itself ## daemon managed by root
       cachix
       nix-tree
     ];

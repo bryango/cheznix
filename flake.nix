@@ -51,6 +51,9 @@
       ## home overlay:
       overlay = final: prev: {
 
+        ## do not overlay, or the failure propagates
+        # nix = prev.nixVersions.nix_2_17;
+
         gimp-with-plugins = with prev; gimp-with-plugins.override {
           plugins = with gimpPlugins; [ resynthesizer ];
         };
