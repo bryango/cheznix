@@ -33,27 +33,6 @@ in { ## be careful of `rec`, might not work
   ## some helper functions
   nixpkgs-helpers = callPackage ./../pkgs/nixpkgs-helpers {};
 
-  fcitx5-configtool =
-    prev.libsForQt5.callPackage ./../pkgs/fcitx5-configtool.nix {
-      kcmSupport = false;
-    };
-
-  byobu-with-tmux = callPackage (
-    { byobu, tmux, symlinkJoin, emptyDirectory }:
-    symlinkJoin {
-      name = "byobu-with-tmux-${byobu.version}";
-      paths = [
-        tmux
-        (byobu.override {
-          textual-window-manager = tmux;
-          screen = emptyDirectory;
-          vim = emptyDirectory;
-        })
-      ];
-      inherit (byobu) meta;
-    }
-  ) {};
-
   ## links to host libraries
   inherit hostSymlinks;
   inherit (hostSymlinks)

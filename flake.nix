@@ -3,7 +3,7 @@
 
   inputs = {
 
-    nixpkgs.url = "nixpkgs";  ## flake registry: nixpkgs/nixpkgs-unstable
+    nixpkgs.url = "nixpkgs";  # flake registry: nixpkgs/nixpkgs-unstable
 
     /* alternatively,
       - use `master`, which is slightly more advanced;
@@ -21,7 +21,9 @@
       */
       # url = "github:NixOS/nixpkgs/020ff5ccb510f0eb1810a42bfa0f8fcd68ba4822";
       follows = "nixpkgs";
-      ## ^ toggle to follow `nixpkgs`
+      /*
+        ^ alternatively, toggle to follow `nixpkgs`
+      */
     };
 
   };
@@ -45,6 +47,7 @@
       ];
     };
 
+    ## overlay specific to this flake
     flakeOverlay = final: prev:
     let
 
@@ -52,15 +55,9 @@
         inherit (prev) system config;
       };
 
-      collectFlakeInputs = name: flake: {
-        ${name} = flake;
-      } // lib.concatMapAttrs collectFlakeInputs (flake.inputs or {});
-      ## https://github.com/NixOS/nix/issues/3995#issuecomment-1537108310
-
     in { ## be careful of `rec`, might not work
 
-      inherit collectFlakeInputs;
-      flakeInputs = collectFlakeInputs "nixpkgs-config" self;
+      flakeInputs = prev.collectFlakeInputs "nixpkgs-config" self;
 
       gimp = prev.gimp.override {
         withPython = true;
@@ -75,14 +72,13 @@
 
     };
 
+    ## all overlays: the order matters!
     overlays = {
       utils = import ./overlays/utils.nix;
       mods = import ./overlays/mods.nix;
       biber = import ./overlays/biber.nix;
       inherit flakeOverlay;
     };
-
-    # t = lib.trace;
 
     gatherOverlaid = final: prev: let
 
