@@ -19,8 +19,8 @@
         - https://github.com/NixOS/nixpkgs/pull/245894 breaks build
         - pin to its parent commit:
       */
-      url = "github:NixOS/nixpkgs/020ff5ccb510f0eb1810a42bfa0f8fcd68ba4822";
-      # follows = "nixpkgs";
+      # url = "github:NixOS/nixpkgs/020ff5ccb510f0eb1810a42bfa0f8fcd68ba4822";
+      follows = "nixpkgs";
       ## ^ toggle to follow `nixpkgs`
     };
 
@@ -58,9 +58,9 @@
         inherit (prev.biber) pname;
         version = "2.17";
         outPath = builtins.fetchClosure {
-          /* experimental:
+          /* need experimental nix:
             - after: https://github.com/NixOS/nix/pull/8370
-            - need latest static: https://hydra.nixos.org/build/229213111
+            - static build: https://hydra.nixos.org/build/229213111
 
             nix profile install \
               /nix/store/ik8hqwxhj1q9blqf47rp76h7gw7s3060-nix-2.17.1-x86_64-unknown-linux-musl
