@@ -63,6 +63,8 @@ let
       direnv
       shellcheck
       rtx
+      fuse-overlayfs
+      watchman  # as git fsmonitor
       cargo-binstall  # then `cargo binstall cargo-quickinstall`
       # evcxr  # too heavy, instead `cargo quickinstall evcxr_repl`
       nodejs  # required by coc.nvim

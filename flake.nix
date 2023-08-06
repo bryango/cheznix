@@ -16,13 +16,8 @@
       }
     */
 
-    nixpkgs.url = "nixpkgs";  ## flake registry
-
     ## p13n nixpkgs with config
-    nixpkgs-config = {
-      url = "git+file:./nixpkgs-config";
-      inputs.nixpkgs.follows = "nixpkgs";
-    };
+    nixpkgs-config.url = "git+file:./nixpkgs-config";
 
     home-manager = {
       url = "home-manager";  ## flake registry
