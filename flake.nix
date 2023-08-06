@@ -45,41 +45,12 @@
       ];
     };
 
-    genOverlay = system:
+    flakeOverlay = final: prev:
     let
 
       pkgs_python2 = import inputs.nixpkgs_python2 {
-        inherit system config;
+        inherit (prev) system config;
       };
-
-    in final: prev: let
-
-      biber217 = {
-        inherit (prev.biber) pname;
-        version = "2.17";
-        outPath = builtins.fetchClosure {
-          /* need experimental nix:
-            - after: https://github.com/NixOS/nix/pull/8370
-            - static build: https://hydra.nixos.org/build/229213111
-
-            nix profile install \
-              /nix/store/ik8hqwxhj1q9blqf47rp76h7gw7s3060-nix-2.17.1-x86_64-unknown-linux-musl
-
-            - /etc/nix/nix.conf: extra-experimental-features = fetch-closure
-            - systemctl restart nix-daemon.service
-          */
-          inputAddressed = true;
-          fromStore = "https://cache.nixos.org";
-          fromPath = /nix/store/pbv19v0mw57sxa7h6m1hzjvv33mdxxdf-perl5.36.0-biber-2.17;
-          ## ^ from: https://hydra.nixos.org/build/202359527#tabs-details
-        };
-      };
-
-      inherit (prev)
-        callPackage
-        recurseIntoAttrs;
-
-      hostSymlinks = recurseIntoAttrs (callPackage ./pkgs/host-links.nix {});
 
       collectFlakeInputs = name: flake: {
         ${name} = flake;
@@ -91,57 +62,10 @@
       inherit collectFlakeInputs;
       flakeInputs = collectFlakeInputs "nixpkgs-config" self;
 
-      ## exec "$name" from system "$PATH"
-      ## if not found, fall back to "$package/bin/$name"
-      binaryFallback = name: package: callPackage ./pkgs/binary-fallback {
-          inherit name package;
-        };
-
-      ## create "bin/$name" from a template
-      ## with `pkgs.substituteAll attrset`
-      binarySubstitute = name: attrset: prev.writeScriptBin name (
-        builtins.readFile (prev.substituteAll attrset)
-      );
-
-      ## some helper functions
-      nixpkgs-helpers = callPackage ./pkgs/nixpkgs-helpers {};
-
       gimp = prev.gimp.override {
         withPython = true;
         python2 = pkgs_python2.python2;
       };
-
-      inherit biber217;
-      tectonic-with-biber = callPackage ./pkgs/tectonic-with-biber.nix {
-        biber = biber217;
-      };
-
-      fcitx5-configtool =
-        prev.libsForQt5.callPackage ./pkgs/fcitx5-configtool.nix {
-          kcmSupport = false;
-        };
-
-      byobu-with-tmux = callPackage (
-        { byobu, tmux, symlinkJoin, emptyDirectory }:
-        symlinkJoin {
-          name = "byobu-with-tmux-${byobu.version}";
-          paths = [
-            tmux
-            (byobu.override {
-              textual-window-manager = tmux;
-              screen = emptyDirectory;
-              vim = emptyDirectory;
-            })
-          ];
-          inherit (byobu) meta;
-        }
-      ) {};
-
-      ## links to host libraries
-      inherit hostSymlinks;
-      inherit (hostSymlinks)
-        host-usr
-        host-locales;
 
       ## exposes nixpkgs source, i.e. `outPath`, in `pkgs`
       inherit (nixpkgs) outPath;
@@ -151,9 +75,19 @@
 
     };
 
-    gatherOverlaid = system: final: prev: let
+    overlays = {
+      utils = import ./overlays/utils.nix;
+      mods = import ./overlays/mods.nix;
+      biber = import ./overlays/biber.nix;
+      inherit flakeOverlay;
+    };
 
-      overlaid = genOverlay system final prev;
+    # t = lib.trace;
+
+    gatherOverlaid = final: prev: let
+
+      applied = builtins.mapAttrs (name: f: f final prev) overlays;
+      overlaid = lib.mergeAttrsList (builtins.attrValues applied);
       derivable = lib.filterAttrs (name: lib.isDerivation) overlaid;
 
       userOverlaid = "user-overlaid";
@@ -165,14 +99,11 @@
 
   in {
 
-    overlays = forMySystems genOverlay;
+    inherit overlays;
 
     legacyPackages = forMySystems (system: import nixpkgs {
       inherit system config;
-      overlays = [
-        (genOverlay system)
-        (gatherOverlaid system)
-      ];
+      overlays = builtins.attrValues overlays ++ [ gatherOverlaid ];
     });
 
     lib = lib.recursiveUpdate lib {
