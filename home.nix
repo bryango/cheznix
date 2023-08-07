@@ -172,8 +172,8 @@ in {
 
   programs.nixpkgs-helpers.viewer = "code --goto";
 
-  ## use system manpage
-  programs.man.enable = false;
+  ## uncomment to use system manpage
+  # programs.man.enable = false;
 
   disabledModules = [
 
