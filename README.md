@@ -15,6 +15,6 @@ nix home-manager setup
 - inspect: `nix path-info -rsh "$nix_store_path" --store https://cache.nixos.org | sort -hk2`
 
 install the package:
-- temporary: `nix profile install`
-- permanent: `builtins.fetchClosure`
+- temporarily: `nix profile install`
+- permanently: `builtins.fetchClosure`
 - from source: with the nixpkgs input from hydra

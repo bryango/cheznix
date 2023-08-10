@@ -39,7 +39,7 @@ let
       byobu-with-tmux
       diff-so-fancy
       git
-      chezmoi
+      # chezmoi
       age
       fd
       progress

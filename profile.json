@@ -1,0 +1,19 @@
+{
+  "elements": [
+    {
+      "active": true,
+      "priority": 5,
+      "storePaths": [
+        "/nix/store/3q5gnnw9s39d3igar0s9s881mfwf77k6-chezmoi-2.33.1"
+      ]
+    },
+    {
+      "active": true,
+      "priority": 5,
+      "storePaths": [
+        "/nix/store/cris862vykndh0qqng5rx7gk9rzqkali-home-manager-path"
+      ]
+    }
+  ],
+  "version": 2
+}
