@@ -1,6 +1,16 @@
 # cheznix
 nix home-manager setup, documented below.
 
+## nix: more pacman beyond pacman
+
+Why?
+- arch & AUR is perfect.
+- unfortunately, Real Life is messy.
+
+Multiple versions are sometimes a requirement, which pacman refuses to handle. Fortunately, we have nix, which is also perfect!
+- read on for some quick tips
+- jump to [#intro](#nix-intro) for some basics
+
 ## strategies
 
 For package management:
@@ -34,7 +44,7 @@ install the package:
 - permanently: `builtins.fetchClosure`
 - from source: pin nix registry / flake inputs to a nice commit from hydra
 
-## nix intro: more pacman beyond pacman
+## nix intro
 
 - install from pacman for the root `nix-daemon`, following [the wiki](https://wiki.archlinux.org/title/Nix)
 - `profile`: virtual environments, managed with `nix profile`
