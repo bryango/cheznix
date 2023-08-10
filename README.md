@@ -62,5 +62,91 @@ nix registry pin nixpkgs
 nix registry add nixpkgs github:NixOS/nixpkgs/dc6263a3028cb06a178c16a0dd11e271752e537b
 ```
 
-One can also alias / override / add local repositories; this is done automatically in [**cheznix:** modules/flake-channels.nix](modules/flake-channels.nix).
+One can also alias / override / add local repositories; this is done automatically in [**modules/flake-channels.nix**](modules/flake-channels.nix).
 
+## cli quick start
+
+```bash
+nix search nixpkgs neovim
+
+## check output store path & size
+nix eval --raw nixpkgs#neovim.outPath \
+| xargs nix path-info --store https://cache.nixos.org \
+   -sh ## human readable size
+## -r: recurse closure, -S: closure size
+
+## dirty install
+nix profile install nixpkgs#neovim
+  ## --profile "~/.local/state/nix/profiles/$profile"
+```
+
+## garbage collection
+
+See https://nixos.org/manual/nix/unstable/package-management/garbage-collection.html.
+
+```bash
+# check access points (roots)
+nix-store --gc --print-roots
+
+# actual garbage collection
+nix-store -v --gc
+
+# further optimisation
+nix-store --optimise
+```
+
+More AGRESSIVE:
+
+```bash
+# delete old generations
+nix profile wipe-history --older-than "$num"d
+
+# all-in-one util
+nix-collect-garbage  # --delete-older-than, --max-freed, --dry-run
+```
+
+To get an overview of package sizes,
+```bash
+du -h --max-depth=1 /nix/store --exclude=/nix/store/.links | sort -h
+```
+
+## binary cache `substituters`
+
+Here we follow the guidance of [**tuna**](https://mirrors.tuna.tsinghua.edu.cn/help/nix/).
+
+- `~/.config/nix/nix.conf` managed in [**home.nix**](home.nix)
+- [`/etc/nix/nix.conf`](https://github.com/bryango/chezroot/blob/-/etc/nix/nix.conf)
+
+_Note:_ either `trusted-users` or `trusted-substituters` has to be declared in the root config [`/etc/nix/nix.conf`](https://github.com/bryango/chezroot/blob/-/etc/nix/nix.conf). Otherwise `substituters` will be ignored. This is not emphasized, neither in the manual nor the error message. See https://github.com/NixOS/nix/issues/6672. 
+
+## convenient `channel`
+
+**Note:** `channel` is deprecated but we can set up a convenient compatible layer with the flake registry; see the relevant settings in [**modules/flake-channels.nix**](modules/flake-channels.nix). 
+
+To add a channel temporarily, one can specify:
+- `$NIX_PATH`, or
+- `--include nixpkgs=channel:$channel`, or
+- `-I nixpkgs=flake:$channel`
+
+such that nixpkgs is easily available via `import <nixpkgs> {}`. The list of channels are found in:
+- registry: `nix registry list`
+- mirror: https://mirrors.tuna.tsinghua.edu.cn/nix-channels/
+- upstream: https://nixos.org/channels/
+
+## `profiles`
+
+```bash
+$ ls -alF --time-style=+ ~/.local/state/nix/profiles | sed -E "s/$USER/\$USER/g"          
+profile -> profile-$gen-link/
+profile-$gen-link -> /nix/store/#some-hash
+```
+- The number `$gen` in `$profile-$gen-link` is the `generation`.
+- `profile` is the default user profile
+
+The default system profile, as documented in [`man nix-env`](https://nixos.org/manual/nix/unstable/command-ref/nix-env.html), is `/nix/var/nix/profiles/default`.
+
+**Note:** the user profiles' location have changed! See https://github.com/NixOS/nix/pull/5226. 
+- `/nix/var/nix/profiles/per-user/$USER`: previous default
+- `~/.local/state/nix/profiles`: current default
+
+Manual migration might be required for some commands to work properly. 
