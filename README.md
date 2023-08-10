@@ -20,7 +20,11 @@ For home (dot)files management,
 
 ## binary cached versions
 
-- use `hydra-check --channel master`
+hydra: https://hydra.nixos.org/jobset/nixpkgs/trunk/evals
+- pick a _finished_ jobset
+- alternatively, use `hydra-check --channel master`
+
+find the package:
 - choose a successful build in the hydra web interface
 - locate the desired closure with `$nix_store_path`
 - inspect: `nix path-info -rsh "$nix_store_path" --store https://cache.nixos.org | sort -hk2`
@@ -28,9 +32,9 @@ For home (dot)files management,
 install the package:
 - temporarily: `nix profile install`
 - permanently: `builtins.fetchClosure`
-- from source: with the nixpkgs input from hydra
+- from source: pin nix registry / flake inputs to a nice commit from hydra
 
-## nix basics
+## nix intro: more pacman beyond pacman
 
 - install from pacman for the root `nix-daemon`, following [the wiki](https://wiki.archlinux.org/title/Nix)
 - `profile`: virtual environments, managed with `nix profile`
