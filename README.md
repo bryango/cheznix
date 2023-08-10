@@ -29,3 +29,34 @@ install the package:
 - temporarily: `nix profile install`
 - permanently: `builtins.fetchClosure`
 - from source: with the nixpkgs input from hydra
+
+## nix basics
+
+- install from pacman for the root `nix-daemon`, following [the wiki](https://wiki.archlinux.org/title/Nix)
+- `profile`: virtual environments, managed with `nix profile`
+- `registry`: index of packages (flakes), managed with `nix registry`
+- `channels`: _deprecated_, special `profiles` which contain snapshots of the `nixpkgs` repo
+
+See: https://nixos.org/manual/nix/unstable/package-management/profiles.html
+
+```bash
+$ ls -alF --time-style=+ --directory ~/.nix* | sed -E "s/$USER/\$USER/g" 
+.nix-channels  ## deprecated, removed
+.nix-defexpr/
+.nix-profile -> .local/state/nix/profiles/profile/
+```
+
+## registry
+
+This is the package index for nix, analogous to that of a traditional package manager such as pacman, but made reproducible through version pinning. This is just like a modern build system such as cargo. 
+
+```bash
+nix registry list
+
+## refresh index & pin (to latest / to hash)
+nix registry pin nixpkgs
+nix registry add nixpkgs github:NixOS/nixpkgs/dc6263a3028cb06a178c16a0dd11e271752e537b
+```
+
+One can also alias / override / add local repositories; this is done automatically in [**cheznix:** modules/flake-channels.nix](modules/flake-channels.nix).
+
