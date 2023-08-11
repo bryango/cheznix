@@ -7,18 +7,16 @@ let
     callPackage
     recurseIntoAttrs;
 
-  ## recursively collect & flatten flake inputs
-  collectFlakeInputs = name: flake: {
-    ${name} = flake;
-  } // lib.concatMapAttrs collectFlakeInputs (flake.inputs or {});
-  ## https://github.com/NixOS/nix/issues/3995#issuecomment-1537108310
-
 in { ## be careful of `rec`, might not work
-
-  inherit collectFlakeInputs;
 
   ## some helper functions
   nixpkgs-helpers = callPackage ../pkgs/nixpkgs-helpers {};
+
+  ## recursively collect & flatten flake inputs
+  ## https://github.com/NixOS/nix/issues/3995#issuecomment-1537108310
+  collectFlakeInputs = name: flake: {
+    ${name} = flake;
+  } // lib.concatMapAttrs final.collectFlakeInputs (flake.inputs or {});
 
   ## link to host libraries
   hostSymlinks = recurseIntoAttrs (callPackage ../pkgs/host-links.nix {});
