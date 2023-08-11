@@ -7,9 +7,6 @@ let
     callPackage
     recurseIntoAttrs;
 
-  ## link to host libraries
-  hostSymlinks = recurseIntoAttrs (callPackage ./../pkgs/host-links.nix {});
-
   ## recursively collect & flatten flake inputs
   collectFlakeInputs = name: flake: {
     ${name} = flake;
@@ -18,16 +15,16 @@ let
 
 in { ## be careful of `rec`, might not work
 
-  inherit
-    collectFlakeInputs
-    hostSymlinks;
-
-  inherit (hostSymlinks)
-    host-usr
-    host-locales;
+  inherit collectFlakeInputs;
 
   ## some helper functions
   nixpkgs-helpers = callPackage ../pkgs/nixpkgs-helpers {};
+
+  ## link to host libraries
+  hostSymlinks = recurseIntoAttrs (callPackage ../pkgs/host-links.nix {});
+  inherit (final.hostSymlinks)
+    host-usr
+    host-locales;
 
   ## exec "$name" from system "$PATH"
   ## if not found, fall back to "$package/bin/$name"

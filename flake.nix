@@ -76,7 +76,6 @@
     overlays = {
       utils = import ./overlays/utils.nix;
       mods = import ./overlays/mods.nix;
-      biber = import ./overlays/biber.nix;
       inherit flakeOverlay;
     };
 
