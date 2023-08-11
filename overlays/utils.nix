@@ -7,8 +7,10 @@ let
     callPackage
     recurseIntoAttrs;
 
+  ## link to host libraries
   hostSymlinks = recurseIntoAttrs (callPackage ./../pkgs/host-links.nix {});
 
+  ## recursively collect & flatten flake inputs
   collectFlakeInputs = name: flake: {
     ${name} = flake;
   } // lib.concatMapAttrs collectFlakeInputs (flake.inputs or {});
@@ -16,11 +18,20 @@ let
 
 in { ## be careful of `rec`, might not work
 
-  inherit collectFlakeInputs;
+  inherit
+    collectFlakeInputs
+    hostSymlinks;
+
+  inherit (hostSymlinks)
+    host-usr
+    host-locales;
+
+  ## some helper functions
+  nixpkgs-helpers = callPackage ../pkgs/nixpkgs-helpers {};
 
   ## exec "$name" from system "$PATH"
   ## if not found, fall back to "$package/bin/$name"
-  binaryFallback = name: package: callPackage ./../pkgs/binary-fallback {
+  binaryFallback = name: package: callPackage ../pkgs/binary-fallback {
       inherit name package;
     };
 
@@ -30,13 +41,7 @@ in { ## be careful of `rec`, might not work
     builtins.readFile (prev.substituteAll attrset)
   );
 
-  ## some helper functions
-  nixpkgs-helpers = callPackage ./../pkgs/nixpkgs-helpers {};
-
-  ## links to host libraries
-  inherit hostSymlinks;
-  inherit (hostSymlinks)
-    host-usr
-    host-locales;
+  ## create package from `fetchClosure`
+  closurePackage = import ../pkgs/closure-package.nix;
 
 }
