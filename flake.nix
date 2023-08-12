@@ -82,7 +82,7 @@
     gatherOverlaid = final: prev: let
 
       applied = builtins.mapAttrs (name: f: f final prev) overlays;
-      overlaid = lib.mergeAttrsList (builtins.attrValues applied);
+      overlaid = lib.attrsets.mergeAttrsList (builtins.attrValues applied);
       derivable = lib.filterAttrs (name: lib.isDerivation) overlaid;
 
       userOverlaid = "user-overlaid";
