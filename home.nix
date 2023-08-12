@@ -64,9 +64,9 @@ let
       shellcheck
       rtx
       fuse-overlayfs
-      watchman  # as git fsmonitor
       cargo-binstall  # then `cargo binstall cargo-quickinstall`
       # evcxr  # too heavy, instead `cargo quickinstall evcxr_repl`
+      # watchman  # as git fsmonitor, gigantic deps
       nodejs  # required by coc.nvim
       # getoptions  # shell argument parser
 
