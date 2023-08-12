@@ -33,21 +33,4 @@ final: prev:
     }
   ) {};
 
-  watchman = prev.watchman.overrideAttrs (prevAttrs: {
-
-    ## watchman is huge! try to reduce its size
-    cmakeFlags = (
-      ## don't do shared libraries
-      prev.lib.remove "-DBUILD_SHARED_LIBS=ON" prevAttrs.cmakeFlags
-    ) ++ [
-      ## https://aur.archlinux.org/cgit/aur.git/tree/PKGBUILD?h=watchman
-      "-Wno-dev"
-    ];
-
-    ## move `folly` to build deps
-    buildInputs = prev.lib.remove prev.folly prevAttrs.buildInputs;
-    nativeBuildInputs = prevAttrs.nativeBuildInputs ++ [ prev.folly ];
-
-  });
-
 }
