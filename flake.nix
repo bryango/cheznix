@@ -61,11 +61,7 @@
           glibcLocales = "/usr";
         };
 
-        chezmoi = prev.closurePackage {
-          pname = "chezmoi";
-          version = "2.33.1";
-          fromPath = /nix/store/3q5gnnw9s39d3igar0s9s881mfwf77k6-chezmoi-2.33.1;
-        };
+        chezmoi = prev.callPackage ./chezmoi.nix {};
 
       };
 
