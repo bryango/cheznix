@@ -61,7 +61,7 @@
           glibcLocales = "/usr";
         };
 
-        chezmoi = prev.callPackage ./chezmoi.nix {};
+        chezmoi = prev.callPackage ./chezmoi-autotemplate.nix {};
 
       };
 
