@@ -61,7 +61,24 @@
           glibcLocales = "/usr";
         };
 
-        chezmoi = prev.callPackage ./chezmoi.nix {};
+        /*
+          - `vendorHash` for `buildGoModule` cannot be overridden
+          - therefore we override `buildGoModule` itself
+          see: https://github.com/NixOS/nixpkgs/issues/86349
+        */
+        chezmoi = prev.chezmoi.override {
+          buildGoModule = args: prev.buildGoModule (args // {
+            version = "2.37.0";
+            src = prev.fetchFromGitHub {
+              owner = "twpayne";
+              repo = "chezmoi";
+              rev = "a0285982fe41e29aa086ae5ba067c8ebf7c564c2";
+              hash = "sha256-meV3sfDb/bcFx0IU2CX+UoCV/kz2am6weSF+QorC++U=";
+              ## ^ set empty & nix build, to get the value
+            };
+            vendorHash = "sha256-OU1ChDJiIeRjBBKVcxah/cEXScepW0VY9tkNDALT4fI=";
+          });
+        };
 
       };
 
