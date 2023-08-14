@@ -47,8 +47,18 @@
       ];
     };
 
+    ## all overlays: the order matters!
+    ## yet it's possible to cross ref through the `final` argument
+    overlays = {
+      utils = import ./overlays/utils.nix;
+      mods = import ./overlays/mods.nix;
+
+      inherit fromFlake;
+      ## ^ defined below
+    };
+
     ## overlay specific to this flake
-    flakeOverlay = final: prev:
+    fromFlake = final: prev:
     let
 
       pkgs_python2 = import inputs.nixpkgs_python2 {
@@ -68,28 +78,21 @@
       inherit (nixpkgs) outPath;
 
       ## helper function to gather overlaid packages, defined below
-      inherit gatherOverlaid;
+      gatherOverlaid = drvOverlays;
 
     };
 
-    ## all overlays: the order matters!
-    overlays = {
-      utils = import ./overlays/utils.nix;
-      mods = import ./overlays/mods.nix;
-      inherit flakeOverlay;
-    };
-
-    gatherOverlaid = final: prev: let
+    ## link farm all overlaid derivations
+    drvOverlays = final: prev: let
 
       applied = builtins.mapAttrs (name: f: f final prev) overlays;
-      overlaid = lib.attrsets.mergeAttrsList (builtins.attrValues applied);
-      derivable = lib.filterAttrs (name: lib.isDerivation) overlaid;
+      merged = lib.attrsets.mergeAttrsList (builtins.attrValues applied);
+      derivable = lib.filterAttrs (name: lib.isDerivation) merged;
 
-      userOverlaid = "user-overlaid";
-      inherit (prev) linkFarm;
+      name = "user-drv-overlays";
 
     in {
-      ${userOverlaid} = linkFarm userOverlaid derivable;
+      ${name} = prev.linkFarm name derivable;
     };
 
   in {
@@ -98,7 +101,7 @@
 
     legacyPackages = forMySystems (system: import nixpkgs {
       inherit system config;
-      overlays = builtins.attrValues overlays ++ [ gatherOverlaid ];
+      overlays = builtins.attrValues overlays ++ [ drvOverlays ];
     });
 
     lib = lib.recursiveUpdate lib {
