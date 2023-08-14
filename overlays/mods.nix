@@ -33,4 +33,8 @@ final: prev:
     }
   ) {};
 
+  watchman = prev.watchman.overrideAttrs (prevAttrs: {
+    dontStrip = false;
+  });
+
 }
