@@ -27,6 +27,7 @@ let
       nil  # language server
       nixpkgs-fmt  # the official (?) formatter
       nixpkgs-hammering
+      nixpkgs-review
       hydra-check
       # nixd  # better? language server ## not stable
       # nvd  # version diff
@@ -63,11 +64,10 @@ let
       direnv
       shellcheck
       rtx
-      fuse-overlayfs
+      nodejs  # required by coc.nvim
       cargo-binstall  # then `cargo binstall cargo-quickinstall`
       # evcxr  # too heavy, instead `cargo quickinstall evcxr_repl`
       # watchman  # as git fsmonitor, gigantic deps
-      nodejs  # required by coc.nvim
       # getoptions  # shell argument parser
 
       (inetutils.overrideAttrs (prev: {
@@ -82,6 +82,7 @@ let
       circumflex  # hacker news terminal
       uxplay  # airplay server
       tectonic-with-biber  # from `nixpkgs-follows`
+      fuse-overlayfs
     ];
 
     cli.python = let
