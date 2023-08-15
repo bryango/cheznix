@@ -1,15 +1,20 @@
-{ lib, runCommand } @ args:
+{ lib, runCommand, ... } @ args:
 
 let
 
   source = ./files;
+
+  ## use the supplied importer first
+  ## or fallback to the naive implementation below
   importer = args.importer or srcImporter;
   files = importer.load {
+    ## api: https://nix-community.github.io/haumea/
     src = source;
     loader = importer.loaders.verbatim;
   };
 
-  srcImporter.loaders.verbatim = {};
+  ## implement a fallback importer
+  srcImporter.loaders.verbatim = { };
   srcImporter.load = { src, ... }:
   let
 
@@ -25,7 +30,7 @@ let
         name = id;
         value = path;
       };
-  
+
   in builtins.listToAttrs (map genHelperInfo paths);
 
 in (

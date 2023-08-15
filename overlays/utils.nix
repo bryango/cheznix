@@ -10,7 +10,9 @@ let
 in { ## be careful of `rec`, might not work
 
   ## some helper functions
-  nixpkgs-helpers = callPackage ../pkgs/nixpkgs-helpers {};
+  nixpkgs-helpers = callPackage ../pkgs/nixpkgs-helpers {
+    inherit (final) importer;
+  };
 
   ## recursively collect & flatten flake inputs
   ## https://github.com/NixOS/nix/issues/3995#issuecomment-1537108310
