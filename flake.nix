@@ -17,7 +17,8 @@
       /*
         - https://github.com/NixOS/nixpkgs/pull/201859 marks insecure
         - https://github.com/NixOS/nixpkgs/pull/245894 breaks build
-        - pin to its parent commit:
+        - https://github.com/NixOS/nixpkgs/pull/246976 fixes build
+        - pin to the parent of #245894:
       */
       # url = "github:NixOS/nixpkgs/020ff5ccb510f0eb1810a42bfa0f8fcd68ba4822";
       follows = "nixpkgs";
@@ -26,12 +27,20 @@
       */
     };
 
+    ## a nice filesystem based importer
+    haumea = {
+      url = "github:nix-community/haumea/v0.2.2";
+      inputs.nixpkgs.follows = "nixpkgs";
+      ## ^ only nixpkgs.lib is actually required
+    };
+
   };
 
-  outputs = { self, nixpkgs, ... } @ inputs:
+  outputs = { self, nixpkgs, haumea, ... } @ inputs:
   let
 
-    lib = nixpkgs.lib;
+    importer = haumea.lib;
+    lib = nixpkgs.lib // { inherit importer; };
     mySystems = [ "x86_64-linux" ];
     forMySystems = lib.genAttrs mySystems;
 
@@ -49,10 +58,10 @@
 
     ## all overlays: the order matters!
     ## yet it's possible to cross ref through the `final` argument
-    overlays = {
-      utils = import ./overlays/utils.nix;
-      mods = import ./overlays/mods.nix;
-
+    overlays = importer.load {
+      src = ./overlays;
+      loader = importer.loaders.verbatim;
+    } // {
       inherit fromFlake;
       ## ^ defined below
     };
