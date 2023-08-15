@@ -86,6 +86,9 @@
       ## exposes nixpkgs source, i.e. `outPath`, in `pkgs`
       inherit (nixpkgs) outPath;
 
+      ## exposes importer
+      inherit importer;
+
       ## helper function to gather overlaid packages, defined below
       gatherOverlaid = drvOverlays;
 
