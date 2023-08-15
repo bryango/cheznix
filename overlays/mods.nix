@@ -33,4 +33,5 @@ final: prev:
     }
   ) {};
 
+  watchman-static = prev.pkgsStatic.watchman;
 }
