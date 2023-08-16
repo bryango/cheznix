@@ -20,8 +20,11 @@ let
     directory = with lib; mkOption {
       type = types.str;
       default = ".nix-defexpr/${program}";
+      apply = pathStr: removeSuffix "/" (strings.normalizePath pathStr);
       description = ''
         Set the directory to link to `${program}`.
+        The directory must be a path relative to $HOME;
+        absolute path will not work.
       '';
     };
 
@@ -39,12 +42,16 @@ let
   cfg = config.${category}.${module};
 
   ## from `nixpkgs-follows`
-  helpers = builtins.attrNames pkgs.${program}.files;
+  inherit (pkgs.${program}) scripts;
 
   ## reconstruct link targets in $HOME
   targetDir = cfg.directory;
   link.${targetDir}.source = pkgs.${program};
-  targets = lib.genAttrs helpers (id: "$HOME/${targetDir}/${id}.nix");
+  pathFromAttr = attrPath: value: (
+    lib.concatStringsSep "/" ([ "$HOME/${targetDir}" ] ++ attrPath)
+    + ".nix"
+  );
+  targets = lib.mapAttrsRecursive pathFromAttr scripts;
 
   nix-open = pkgs.binarySubstitute "nix-open" {
     src = ./nix-open;
@@ -58,7 +65,7 @@ let
     pkgsposition = targets.pkgs-position;
   };
 
-  scripts = pkgs.symlinkJoin {
+  package = pkgs.symlinkJoin {
     name = "${module}-module";
     paths = [
       nix-open
@@ -72,7 +79,7 @@ in {
   config = lib.mkIf cfg.enable {
     home.file = link;
     home.packages = [
-      scripts
+      package
     ];
   };
 
