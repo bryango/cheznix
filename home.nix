@@ -29,6 +29,7 @@ let
       nixpkgs-hammering
       nixpkgs-review
       hydra-check
+      nix-diff
       # nixd  # better? language server ## not stable
       # nvd  # version diff
     ];
