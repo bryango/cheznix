@@ -2,12 +2,12 @@
 
 let
 
-  source = ./files;
+  source = ./scripts;
 
   ## use the supplied importer first
   ## or fallback to the naive implementation below
   importer = args.importer or srcImporter;
-  files = importer.load {
+  scripts = importer.load {
     ## api: https://nix-community.github.io/haumea/
     src = source;
     loader = importer.loaders.verbatim;
@@ -40,9 +40,9 @@ in (
 ).overrideAttrs (
   prev: {
     ## make helpers accessible
-    passthru = files // {
+    passthru = scripts // {
       ## prevent mixing with other passthrus
-      inherit files;
+      inherit scripts;
     };
   }
 )
