@@ -39,7 +39,8 @@ let
       dropLast = list: with builtins;
         genList (i: elemAt list i) ((length list) - 1);
       parentPath = dropLast attrPath;
-    in lib.getAttrFromPath parentPath attrHost;
+    in
+      lib.getAttrFromPath parentPath attrHost;
 
   ## pkgs/stdenv/generic/make-derivation.nix
   ## pkgs/stdenv/generic/check-meta.nix
@@ -52,11 +53,12 @@ let
   storePosition = package.meta.position
     or (getAttrPos shortAttr parentAttr);
 
-  basePosition = lib.removePrefix storePath storePosition;
-
-  nicePosition = toString (/. + nixpkgsPath + basePosition);
+  basePosition =
+    lib.removePrefix "/" (
+      lib.removePrefix storePath storePosition
+    );
 
 in [
-  nicePosition
+  basePosition
   nixpkgsPath
 ]
