@@ -54,8 +54,9 @@ let
       openssh  # need to unset SSH_AUTH_SOCK, maybe
       # trashy  # better, but its zsh completion is broken
 
+      proxychains
+      # (binaryFallback "proxychains4" proxychains-ng)
       (writeShellScriptBin "proxychains" ''exec proxychains4 "$@"'')
-      (binaryFallback "proxychains4" proxychains-ng)
       (binaryFallback "aria2c" aria2)
     ];
 
@@ -172,7 +173,7 @@ in {
     # output = "HDMI-1";
   };
 
-  programs.nixpkgs-helpers.viewer = "code --goto";
+  programs.nixpkgs-helpers.viewer = "echo code --goto";
 
   ## uncomment to use system manpage
   # programs.man.enable = false;

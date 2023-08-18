@@ -4,8 +4,8 @@
 
 source "$HOME/.bash_utils"
 
-outbounds=@outbounds@
-routings=@routings@
+outbounds="@outbounds@"
+routings="@routings@"
 
 [[ -n $1 ]] && outbounds=$1 && shift
 [[ ! $# -eq 0 ]] && routings=$1
@@ -47,7 +47,7 @@ byobu new-session -d -s "$core_app" -n "$core_app" \
 
 >&2 echo "## Checking connection status ..."
 
-sleep .5  # for the connection to be up
+sleep 1  # for the connection to be up
 
 counter=0
 while [[ "$counter" -lt 3 ]]; do
@@ -71,5 +71,5 @@ echo "$proxy_status"
 notify-send "$core_app - $outbounds" \
     "<b>[Info]</b> $proxy_status" \
     --hint=int:transient:1 \
-|| true
+&>/dev/null || true
 
