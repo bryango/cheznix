@@ -23,6 +23,7 @@ final: prev:
       name = "byobu-with-tmux-${byobu.version}";
       paths = [
         tmux
+        tmux.man
         (byobu.override {
           textual-window-manager = tmux;
           screen = emptyDirectory;
