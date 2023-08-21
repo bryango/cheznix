@@ -37,7 +37,7 @@ use hydra: https://hydra.nixos.org/jobset/nixpkgs/trunk/evals
 find the package:
 - choose a successful build in the hydra web interface
 - locate the desired closure with `$nix_store_path`
-- inspect: `nix path-info -rsh "$nix_store_path" --store https://cache.nixos.org | sort -hk2`
+- inspect: `nix path-info --store https://cache.nixos.org -rhs "$nix_store_path" | sort -hk2`
 
 install the package:
 - temporarily: `nix profile install`
@@ -52,12 +52,22 @@ nix search nixpkgs neovim
 ## check output store path & size
 nix eval --raw nixpkgs#neovim.outPath \
 | xargs nix path-info --store https://cache.nixos.org \
-   -sh ## human readable size
-## -r: recurse closure, -S: closure size
+   -hs  ## human readable size
+        ## -r: recurse closures, -S: closure size
 
 ## dirty install
 nix profile install nixpkgs#neovim
   ## --profile "~/.local/state/nix/profiles/$profile"
+```
+
+### diff
+```bash
+## closures
+nix profile diff-closures
+  ## --profile "~/.local/state/nix/profiles/$profile"
+
+## derivations
+nix-diff ~/.local/state/nix/profiles/$profile-{$old,$new}-link
 ```
 
 ### garbage collection
