@@ -7,7 +7,7 @@ Why?
 - arch & AUR is perfect.
 - unfortunately, Real Life is messy.
 
-Multiple versions are sometimes a requirement, which pacman refuses to handle. Fortunately, we have nix, which is also perfect!
+Multiple versions are sometimes a requirement, which pacman refuses to handle. Fortunately, we have nix!
 - read on for some quick tips
 - jump to [#intro](#nix-intro) for some basics
 
@@ -17,7 +17,7 @@ For package management:
 - use nix at the user level, as much as possible
 - fall back to pacman, AUR or whatever for system / graphical / incompatible packages
 
-Some limitations of nix packages:
+Some limitations of nix packages in non-NixOS:
 - gui apps are often faulty: lack of graphics, theming, audio, input method...
 - apps that rely on system bin / lib may have troubles
 
@@ -30,7 +30,7 @@ For home (dot)files management,
 
 ## binary cached versions
 
-hydra: https://hydra.nixos.org/jobset/nixpkgs/trunk/evals
+use hydra: https://hydra.nixos.org/jobset/nixpkgs/trunk/evals
 - pick a _finished_ jobset
 - alternatively, use `hydra-check --channel master`
 
@@ -43,36 +43,6 @@ install the package:
 - temporarily: `nix profile install`
 - permanently: `builtins.fetchClosure`
 - from source: pin nix registry / flake inputs to a nice commit from hydra
-
-## nix intro
-
-- install from pacman for the root `nix-daemon`, following [the wiki](https://wiki.archlinux.org/title/Nix)
-- `profile`: virtual environments, managed with `nix profile`
-- `registry`: index of packages (flakes), managed with `nix registry`
-- `channels`: _deprecated_, special `profiles` which contain snapshots of the `nixpkgs` repo
-
-See: https://nixos.org/manual/nix/unstable/package-management/profiles.html
-
-```bash
-$ ls -alF --time-style=+ --directory ~/.nix* | sed -E "s/$USER/\$USER/g" 
-.nix-channels  ## deprecated, removed
-.nix-defexpr/
-.nix-profile -> .local/state/nix/profiles/profile/
-```
-
-## registry
-
-This is the package index for nix, analogous to that of a traditional package manager such as pacman, but made reproducible through version pinning. This is just like a modern build system such as cargo. 
-
-```bash
-nix registry list
-
-## refresh index & pin (to latest / to hash)
-nix registry pin nixpkgs
-nix registry add nixpkgs github:NixOS/nixpkgs/dc6263a3028cb06a178c16a0dd11e271752e537b
-```
-
-One can also alias / override / add local repositories; this is done automatically in [**modules/flake-channels.nix**](modules/flake-channels.nix).
 
 ## cli quick start
 
@@ -90,7 +60,7 @@ nix profile install nixpkgs#neovim
   ## --profile "~/.local/state/nix/profiles/$profile"
 ```
 
-## garbage collection
+### garbage collection
 
 See https://nixos.org/manual/nix/unstable/package-management/garbage-collection.html.
 
@@ -119,6 +89,36 @@ To get an overview of package sizes,
 ```bash
 du -h --max-depth=1 /nix/store --exclude=/nix/store/.links | sort -h
 ```
+
+# nix intro
+
+- install from pacman for the root `nix-daemon`, following [the wiki](https://wiki.archlinux.org/title/Nix)
+- `profile`: virtual environments, managed with `nix profile`
+- `registry`: index of packages (flakes), managed with `nix registry`
+- `channels`: _deprecated_, special `profiles` which contain snapshots of the `nixpkgs` repo
+
+See: https://nixos.org/manual/nix/unstable/package-management/profiles.html
+
+```bash
+$ ls -alF --time-style=+ --directory ~/.nix* | sed -E "s/$USER/\$USER/g" 
+.nix-channels  ## deprecated, removed
+.nix-defexpr/
+.nix-profile -> .local/state/nix/profiles/profile/
+```
+
+## registry
+
+This is the package index for nix, analogous to that of a traditional package manager such as pacman, but made reproducible through version pinning. This is just like a modern build system such as cargo. 
+
+```bash
+nix registry list
+
+## refresh index & pin (to latest / to hash)
+nix registry pin nixpkgs
+nix registry add nixpkgs github:NixOS/nixpkgs/dc6263a3028cb06a178c16a0dd11e271752e537b
+```
+
+One can also alias / override / add local repositories; this is done automatically in [**modules/flake-channels.nix**](modules/flake-channels.nix).
 
 ## binary cache `substituters`
 
