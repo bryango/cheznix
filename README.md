@@ -1,6 +1,13 @@
 # cheznix
 nix home-manager setup, documented below.
 
+To apply the profile,
+```bash
+nix flake lock --update-input nixpkgs-config \
+&& nix run . -- switch --show-trace
+## ^ home-manager provided as `packages.default`
+```
+
 ## nix: more pacman beyond pacman
 
 Why?
@@ -60,14 +67,19 @@ nix profile install nixpkgs#neovim
   ## --profile "~/.local/state/nix/profiles/$profile"
 ```
 
-### diff
+### debugging
+
 ```bash
-## closures
 nix profile diff-closures
   ## --profile "~/.local/state/nix/profiles/$profile"
 
 ## derivations
 nix-diff ~/.local/state/nix/profiles/$profile-{$old,$new}-link
+
+nix why-depends \
+  --derivation \
+  --all \
+  --precise
 ```
 
 ### garbage collection
