@@ -24,6 +24,11 @@
       inputs.nixpkgs.follows = "nixpkgs-config";
     };
 
+    system-manager = {
+      url = "github:numtide/system-manager";
+      inputs.nixpkgs.follows = "nixpkgs-config";
+    };  ## cool but has a huge dependency tree!
+
   };
 
   outputs = { self, home-manager, home-attrs, ... }:
