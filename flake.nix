@@ -9,9 +9,11 @@
     /*
       machines = home-attrs.outputs = {
         id = {
-          system = ... ;
-          username = ... ;
-          homeDirectory = ... ;
+          ## machine's "profile"
+          system = ... ;    ## required, for `nixpkgs.system`
+          username = ... ;  ## required, for `home.username`
+          homeDirectory = ... ;  ## optional, defaults to "/home/${username}"
+          hostname = ... ;       ## optional, defaults to `id`
         };
       }
     */
@@ -26,12 +28,13 @@
 
     system-manager = {
       url = "github:numtide/system-manager";
-      inputs.nixpkgs.follows = "nixpkgs-config";
-    };  ## cool but has a huge dependency tree!
+      inputs.nixpkgs.follows = "nixpkgs-config/nixpkgs";
+        ## ^ use the unmodified `nixpkgs` to be imported
+    };  ## this is cool but has a huge dependency tree!
 
   };
 
-  outputs = { self, home-manager, home-attrs, ... }:
+  outputs = { self, home-manager, home-attrs, system-manager, ... }:
     let
 
       ## namings
@@ -51,7 +54,7 @@
       ## home overlay:
       overlay = final: prev: {
 
-        ## do not overlay, or the failure propagates
+        ## do not overlay nix, otherwise issues may propagate
         # nix = prev.nixVersions.nix_2_17;
 
         gimp-with-plugins = with prev; gimp-with-plugins.override {
@@ -68,6 +71,8 @@
 
         chezmoi = prev.callPackage ./chezmoi-autotemplate.nix {};
 
+        inherit (system-manager.packages.${prev.system}) system-manager;
+
       };
 
       nixpkgs = self.inputs.${nixpkgs-follows};
@@ -77,18 +82,20 @@
 
       machines = home-attrs.outputs;
       forMyMachines = f: lib.mapAttrs' f machines;
-      mkHomeConfig = id: profile:
-        let
+
+      updateHomeAttrs = id: profile:
+        profile // {
           hostname = profile.hostname or id;
           pkgs = pkgsOverlay profile.system;
-          attrs = profile // {
-            inherit hostname;
-            inherit (pkgs) config overlays;
-          };
+        };
+
+      mkHomeConfig = id: profile:
+        let
+          attrs = updateHomeAttrs id profile;
         in {
-          name = "${attrs.username}@${hostname}";
+          name = "${attrs.username}@${attrs.hostname}";
           value = home-manager.lib.homeManagerConfiguration {
-            inherit pkgs;
+            inherit (attrs) pkgs;
 
             ## specify your home configuration modules
             modules = [ ./home.nix ];
@@ -99,10 +106,30 @@
             };
           };
         };
+
+      mkSystemConfig = id: profile:
+        let
+          attrs = updateHomeAttrs id profile;
+        in {
+          name = "${attrs.hostname}";
+          value = system-manager.lib.makeSystemConfig {
+            # inherit pkgs;  ## does not work yet
+
+            modules = [ ./system-modules ];
+            extraSpecialArgs = {
+              inherit attrs cheznix nixpkgs-follows;
+              inherit (attrs) pkgs;
+            };
+          };
+        };
+
     in {
       inherit lib;
-      packages = home-manager.packages;
+      packages = lib.recursiveUpdate
+        system-manager.packages
+        home-manager.packages;
       homeConfigurations = forMyMachines mkHomeConfig;
+      systemConfigs = forMyMachines mkSystemConfig;
       legacyPackages = forMySystems pkgsOverlay;
       overlays.default = overlay;
     };

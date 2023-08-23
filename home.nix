@@ -1,6 +1,14 @@
-{ pkgs, lib, attrs, ... }:
+{ pkgs, lib, ... }:
 
 let
+
+  imports = [
+    ./modules/redshift-many
+    ./modules/v2ray-ctrl
+    ./modules/nixpkgs-helpers
+    ./modules/flake-channels.nix
+    ./modules/home-attrs.nix  ## process & pass home attrs
+  ];
 
   packages = with pkgs; {
 
@@ -21,6 +29,7 @@ let
       nixVersions.nix_2_17  # manage itself ## daemon managed by root
       cachix
       nix-tree
+      system-manager
     ];
 
     nix.dev = [
@@ -116,8 +125,7 @@ let
 
 in {
 
-  home.username = attrs.username;
-  home.homeDirectory = attrs.homeDirectory;
+  inherit imports;
 
   home.packages = with packages;
     os.basic ++
@@ -140,13 +148,6 @@ in {
     # (pkgs.writeShellScriptBin "my-hello" ''
     #   echo "Hello, ${config.home.username}!"
     # '')
-  ];
-
-  imports = [
-    ./modules/redshift-many
-    ./modules/v2ray-ctrl
-    ./modules/nixpkgs-helpers
-    ./modules/flake-channels.nix
   ];
 
   programs.v2ray-ctrl = {
