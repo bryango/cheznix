@@ -250,7 +250,9 @@ in {
     = lib.hm.dag.entryAfter [ "installPackages" ] ''
         flake=''${FLAKE_CONFIG_URI%#*}
         flakePath=$(
-          nix eval --raw --impure --expr "builtins.getFlake $flake" | xargs
+          nix eval --raw --impure \
+            --expr "toString (builtins.getFlake $flake)" \
+            | xargs
         )
         "$flakePath/activate.sh"  ## ^ `$flake` defined above
       '';

@@ -4,7 +4,15 @@
 export PATH="$HOME/.nix-profile/bin:$PATH"
 
 set -x
-nix profile list --json | jq > ~/.config/home-manager/profile.json
-cd "$HOME" || exit
 
+cd "$HOME" || exit
 chezmoi init --ssh bryango/chezmoi
+
+set +x
+nix profile list --json | jq > ~/.config/home-manager/profile.json
+
+>&2 cat <<- EOF
+
+	## to activate system config:
+	sudo system-manager switch --flake "${FLAKE_CONFIG_URI%#*}"
+EOF
