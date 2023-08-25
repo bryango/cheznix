@@ -186,17 +186,14 @@
       "inputs": {
         "haumea": "haumea",
         "nixpkgs": "nixpkgs",
-        "nixpkgs_python2": [
-          "nixpkgs-config",
-          "nixpkgs"
-        ]
+        "nixpkgs_python2": "nixpkgs_python2"
       },
       "locked": {
-        "lastModified": 1692936421,
-        "narHash": "sha256-1JIt6HlAI0h34K+rt+RZOD4NKkTJy454ZX0Ob8thCjc=",
+        "lastModified": 1692957794,
+        "narHash": "sha256-xsVpjzxxGQinn5ZiblvxeT8nyZ0q1/5mp9vxk8md2Vs=",
         "ref": "refs/heads/master",
-        "rev": "0d8e28ab4d631bd63a88e03de33089b760e34e4b",
-        "revCount": 112,
+        "rev": "6d785beb2759d707e2e04aabc8c996753b8bd14d",
+        "revCount": 115,
         "type": "git",
         "url": "file:./nixpkgs-config"
       },
@@ -218,6 +215,22 @@
         "owner": "NixOS",
         "ref": "nixos-23.05",
         "repo": "nixpkgs",
+        "type": "github"
+      }
+    },
+    "nixpkgs_python2": {
+      "locked": {
+        "lastModified": 1692567804,
+        "narHash": "sha256-anHXrq3w+L5njEc7JyE5//SJ91zvWtzvUhSmA2UU/4E=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "bceafd3a3ad0494c87922993a271606acabccf3d",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "bceafd3a3ad0494c87922993a271606acabccf3d",
         "type": "github"
       }
     },
