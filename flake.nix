@@ -69,8 +69,6 @@
           glibcLocales = "/usr";
         };
 
-        chezmoi = prev.callPackage ./chezmoi-autotemplate.nix {};
-
         inherit (system-manager.packages.${prev.system}) system-manager;
 
       };

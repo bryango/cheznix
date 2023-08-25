@@ -26,7 +26,7 @@ let
     ];
 
     nix.basic = [
-      nixVersions.nix_2_17  # manage itself ## daemon managed by root
+      nix  # manage itself ## daemon managed by root
       cachix
       nix-tree
       system-manager

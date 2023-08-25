@@ -8,7 +8,7 @@
     # environment.systemPackages = with pkgs; [
     #   zsh
     #   neovim
-    #   nixVersions.nix_2_17
+    #   nix
     # ];  ## wait for better ecosystem support
 
   };
