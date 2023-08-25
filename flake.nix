@@ -24,9 +24,10 @@
         does not) have binary cache and will take forever to build!
 
         To find a cached build, we check the _pull request_ of its ancestors
-        successively, for one (#248496) that has been merged into `master`:
+        successively, for one (#248496) that has been merged into `master`;
+        the parent (#249953) of the _merge commit_ is what we need:
       */
-      url = "github:NixOS/nixpkgs/c86e0ee17d5a769e01d7e86c0fc1c3930a945921";
+      url = "github:NixOS/nixpkgs/bceafd3a3ad0494c87922993a271606acabccf3d";
       # follows = "nixpkgs";
       /*
         ^ alternatively, toggle to follow `nixpkgs`
