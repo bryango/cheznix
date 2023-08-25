@@ -4,8 +4,8 @@ nix home-manager setup, documented below.
 ## bootstrap
 
 - install nix, via either [pacman](https://wiki.archlinux.org/title/Nix) or the [determinate installer](https://github.com/DeterminateSystems/nix-installer)
-- set up `nix.conf` and restart `nix-daemon.service`
-- check that `~/.nix-profile` & `$PATH` is correctly set up
+- set up [`nix.conf`](https://github.com/bryango/chezroot/blob/master/etc/nix/nix.conf) and restart `nix-daemon.service`
+- check that `~/.nix-profile` & `$PATH` is correctly set up, in [`~/.profile`](https://github.com/bryango/cheznous/blob/NOUS/.profile)
 - clone and apply the profile:
 ```bash
 dest="$HOME/.config/home-manager"
