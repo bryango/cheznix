@@ -18,10 +18,11 @@
         - https://github.com/NixOS/nixpkgs/pull/201859 marks insecure
         - https://github.com/NixOS/nixpkgs/pull/245894 breaks build
         - https://github.com/NixOS/nixpkgs/pull/246976 fixes build
-        - pin to the parent of #245894:
+        - https://github.com/NixOS/nixpkgs/pull/246963 breaks again
+        - pin to the parent of #246963:
       */
-      # url = "github:NixOS/nixpkgs/020ff5ccb510f0eb1810a42bfa0f8fcd68ba4822";
-      follows = "nixpkgs";
+      url = "github:NixOS/nixpkgs/decf1f8d738b37b71162f7b17731f666ffc6cc60";
+      # follows = "nixpkgs";
       /*
         ^ alternatively, toggle to follow `nixpkgs`
       */

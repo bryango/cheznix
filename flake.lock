@@ -35,13 +35,27 @@
         "type": "indirect"
       }
     },
+    "nixpkgs_python2": {
+      "locked": {
+        "lastModified": 1691392530,
+        "narHash": "sha256-Yt75WvMFibs5s3YzyvnFnxpbhbUjXUlAmLGYydoaqKk=",
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "decf1f8d738b37b71162f7b17731f666ffc6cc60",
+        "type": "github"
+      },
+      "original": {
+        "owner": "NixOS",
+        "repo": "nixpkgs",
+        "rev": "decf1f8d738b37b71162f7b17731f666ffc6cc60",
+        "type": "github"
+      }
+    },
     "root": {
       "inputs": {
         "haumea": "haumea",
         "nixpkgs": "nixpkgs",
-        "nixpkgs_python2": [
-          "nixpkgs"
-        ]
+        "nixpkgs_python2": "nixpkgs_python2"
       }
     }
   },
