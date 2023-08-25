@@ -8,7 +8,7 @@ final: prev:
     fromPath = /nix/store/pbv19v0mw57sxa7h6m1hzjvv33mdxxdf-perl5.36.0-biber-2.17;
   };
 
-  tectonic-with-biber = prev.callPackage ../pkgs/tectonic-with-biber.nix {
+  tectonic-with-biber = prev.callPackage ../pkgs/tectonic-with-biber {
     biber = final.biber217;
   };
 
