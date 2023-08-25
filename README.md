@@ -1,12 +1,20 @@
 # cheznix
 nix home-manager setup, documented below.
 
-To apply the profile,
+## bootstrap
+
+- install nix, via either [pacman](https://wiki.archlinux.org/title/Nix) or the [determinate installer](https://github.com/DeterminateSystems/nix-installer)
+- set up `nix.conf` and restart `nix-daemon.service`
+- check that `~/.nix-profile` & `$PATH` is correctly set up
+- clone and apply the profile:
 ```bash
-nix flake lock --update-input nixpkgs-config \
-&& nix run . -- switch --show-trace
-## ^ home-manager provided as `packages.default`
+dest="$HOME/.config/home-manager"
+
+nix flake clone github:bryango/cheznix --dest "$dest" && cd "$dest" || exit
+nix run . -- switch --update-input nixpkgs-config --show-trace
+## ^ home-manager provided as flake `packages.default`
 ```
+- upon successful activation, one can replace the `nix run` commands with `{home,system}-manager` in `$PATH`
 
 ## nix: more pacman beyond pacman
 
