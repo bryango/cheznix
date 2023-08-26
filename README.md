@@ -191,7 +191,7 @@ The default system profile, as documented in [`man nix-env`](https://nixos.org/m
 
 Manual migration might be required for some commands to work properly. 
 
-## the `staging` branch
+## nixpkgs `staging` branch
 
 https://github.com/NixOS/nixpkgs/blob/master/CONTRIBUTING.md#staging
 
@@ -201,7 +201,8 @@ Therefore a commit in the middle of a staging branch may _not_ enjoy any useful 
 To find a cached build we must go all the way to the branching point (either in its future or in its past).
 
 As an example, let us consider https://github.com/NixOS/nixpkgs/pull/246963.
-It is merged into `staging`, so its parent may not (and indeed does not) have binary cache and will take forever to build!
+We would like to undo the commits.
+However, it is merged into `staging`, so its parent may not (and indeed does not) have binary cache and will take forever to build!
 To find a cached build:
 
 ### back to the future from its ancestors
