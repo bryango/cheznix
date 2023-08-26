@@ -50,7 +50,7 @@ https://github.com/NixOS/nixpkgs/blob/master/CONTRIBUTING.md#staging
 PRs merged into the `staging` branch are not immediately built by hydra.
 They are manually batched and merged into `staging-next` for a mass hydra rebuild.
 Therefore a commit in the middle of a staging branch may _not_ enjoy any useful binary cache, at that time in the commit history.
-To find a cached build we must go all the way to the branching point.
+To find a cached build we must go all the way to the branching point (either in its future or in its past).
 
 As an example, let us consider https://github.com/NixOS/nixpkgs/pull/246963.
 It is merged into `staging`, so its parent may not (and indeed does not) have binary cache and will take forever to build!
