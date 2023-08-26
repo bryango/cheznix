@@ -12,7 +12,7 @@ dest="$HOME/.config/home-manager"
 
 nix flake clone github:bryango/cheznix --dest "$dest" && cd "$dest" || exit
 nix run . -- switch --update-input nixpkgs-config --show-trace
-## ^ home-manager provided as flake `packages.default`
+## ^ home-manager provided as flake `packages.${system}.default`
 ```
 - upon successful activation, one can replace the `nix run` commands with `{home,system}-manager` in `$PATH`
 
