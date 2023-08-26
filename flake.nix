@@ -19,16 +19,12 @@
         - https://github.com/NixOS/nixpkgs/pull/245894 breaks build
         - https://github.com/NixOS/nixpkgs/pull/246976 fixes build
         - https://github.com/NixOS/nixpkgs/pull/246963 breaks again
+        - https://github.com/NixOS/nixpkgs/pull/251548 fixes build
 
-        #246963 is merged into `staging`, so its parent may not (and indeed
-        does not) have binary cache and will take forever to build!
-
-        To find a cached build, we check the _pull request_ of its ancestors
-        successively, for one (#248496) that has been merged into `master`;
-        the parent (#249953) of the _merge commit_ is what we need:
+        pin to a working rev:
       */
-      url = "github:NixOS/nixpkgs/bceafd3a3ad0494c87922993a271606acabccf3d";
-      # follows = "nixpkgs";
+      # url = "github:NixOS/nixpkgs/84892848d2622ba26279b8d959374dd5cbddc70d";
+      follows = "nixpkgs";
       /*
         ^ alternatively, toggle to follow `nixpkgs`
       */
