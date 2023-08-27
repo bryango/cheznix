@@ -79,7 +79,7 @@
 
     in { ## be careful of `rec`, might not work
 
-      flakeInputs = prev.collectFlakeInputs "nixpkgs-config" self;
+      flakeInputs = final.collectFlakeInputs "nixpkgs-config" self;
 
       gimp = prev.gimp.override {
         withPython = true;
