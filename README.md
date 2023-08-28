@@ -110,6 +110,7 @@ More AGRESSIVE:
 ```bash
 # delete old generations
 nix profile wipe-history --older-than "$num"d
+home-manager expire-generations '2023-07-04 08:00'
 
 # all-in-one util
 nix-collect-garbage  # --delete-older-than, --max-freed, --dry-run
@@ -117,7 +118,7 @@ nix-collect-garbage  # --delete-older-than, --max-freed, --dry-run
 
 To get an overview of package sizes,
 ```bash
-du -h --max-depth=1 /nix/store --exclude=/nix/store/.links | sort -h
+nix path-info --all -hs | sort -hk2
 ```
 
 # nix intro
