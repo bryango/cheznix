@@ -71,19 +71,17 @@
 
     ## overlay specific to this flake
     fromFlake = final: prev:
-    let
+    { ## be careful of `rec`, might not work
 
-      pkgs_python2 = import inputs.nixpkgs_python2 {
+      pkgsPython2 = import inputs.nixpkgs_python2 {
         inherit (prev) system config;
       };
-
-    in { ## be careful of `rec`, might not work
 
       flakeInputs = final.collectFlakeInputs "nixpkgs-config" self;
 
       gimp = prev.gimp.override {
         withPython = true;
-        python2 = pkgs_python2.python2;
+        python2 = final.pkgsPython2.python2;
       };
 
       ## exposes nixpkgs source, i.e. `outPath`, in `pkgs`
@@ -105,19 +103,26 @@
       derivable = lib.filterAttrs (name: lib.isDerivation) merged;
 
       name = "user-drv-overlays";
-
     in {
       ${name} = prev.linkFarm name derivable;
     };
-
-  in {
-
-    inherit overlays;
 
     legacyPackages = forMySystems (system: import nixpkgs {
       inherit system config;
       overlays = builtins.attrValues overlays ++ [ drvOverlays ];
     });
+
+    packages = forMySystems (system: rec {
+      inherit (legacyPackages.${system}) user-drv-overlays;
+      default = user-drv-overlays;
+    });
+
+  in {
+
+    inherit
+      overlays
+      legacyPackages
+      packages;
 
     lib = lib.recursiveUpdate lib {
       systems.flakeExposed = mySystems;

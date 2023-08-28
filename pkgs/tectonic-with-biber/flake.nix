@@ -19,7 +19,7 @@
       mkPackages = system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
-          pkgs_biber = nixpkgs_biber.legacyPackages.${system}.pkgsStatic;
+          pkgs_biber = nixpkgs_biber.legacyPackages.${system};
 
           inherit (pkgs) tectonic;
           inherit (pkgs_biber) biber;
