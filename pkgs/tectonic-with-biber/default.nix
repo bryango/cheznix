@@ -22,7 +22,7 @@ let
       `biber-2.17`, to prevent conflict with the `biber` associated with
       the texlive bundles. Example use:
 
-          ## pin last successful build of e.g. biber-2.17
+          ## pin last successful build of biber-2.17
           ## ... from https://hydra.nixos.org/build/202359527
           let
             rev = "40f79f003b6377bd2f4ed4027dde1f8f922995dd";
