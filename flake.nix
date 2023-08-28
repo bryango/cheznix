@@ -69,6 +69,16 @@
           glibcLocales = "/usr";
         };
 
+        ## this causes mass rebuilds
+        buildEnv = attrs: (prev.buildEnv attrs).overrideAttrs (
+          finalAttrs: prevAttrs: {
+            ## blacklist glibcLocales
+            disallowedRequisites = [ final.glibcLocales ] ++ (
+              prevAttrs.disallowedRequisites or []
+            );
+          }
+        );
+
         inherit (system-manager.packages.${prev.system}) system-manager;
 
       };
