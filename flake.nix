@@ -39,15 +39,15 @@
 
       ## namings
       cheznix = self;
-      nixpkgs-follows = "nixpkgs-config";
-      /* ^ refers to both the input NAME & its SOURCE directory,
+      nixpkgs-follows =
+      let
+        lock = builtins.fromJSON (builtins.readFile ./flake.lock);
+        key = "nixpkgs-config";
+      in
+        assert lock.nodes.${key}.original.url == "file:./${key}";
+        key;
+      /* ^ refers to both the input _name_ & its _source_,
         .. therefore these two must coincide!
-
-          assert inputs.${nixpkgs-follows}.url    ## pseudo code
-              == "git+file:./${nixpkgs-follows}"  ## doesn't work
-
-        It is very hard to ensure this programmatically,
-        .. due to the pure nature of flakes.
       */
 
       ## upstream overrides: inputs.${nixpkgs-follows}
