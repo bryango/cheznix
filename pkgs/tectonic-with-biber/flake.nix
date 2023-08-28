@@ -4,11 +4,11 @@
   inputs = {
     nixpkgs.url = "nixpkgs";
 
-    /* pin last successful build of e.g. biber-2.17
-        from https://hydra.nixos.org/build/202359527
+    /* pin last successful build of biber-2.17
+        from https://hydra.nixos.org/build/202133264
     */
     nixpkgs_biber.url =
-      "github:NixOS/nixpkgs/40f79f003b6377bd2f4ed4027dde1f8f922995dd";
+      "github:NixOS/nixpkgs/80c24eeb9ff46aa99617844d0c4168659e35175f";
   };
 
   outputs = { self, nixpkgs, nixpkgs_biber }:
@@ -19,7 +19,7 @@
       mkPackages = system:
         let
           pkgs = nixpkgs.legacyPackages.${system};
-          pkgs_biber = nixpkgs_biber.legacyPackages.${system};
+          pkgs_biber = nixpkgs_biber.legacyPackages.${system}.pkgsStatic;
 
           inherit (pkgs) tectonic;
           inherit (pkgs_biber) biber;
