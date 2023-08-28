@@ -181,16 +181,13 @@ $ ls -alF --time-style=+ ~/.local/state/nix/profiles | sed -E "s/$USER/\$USER/g"
 profile -> profile-$gen-link/
 profile-$gen-link -> /nix/store/#some-hash
 ```
-- The number `$gen` in `$profile-$gen-link` is the `generation`.
+- `$gen` in `$profile-$gen-link` is the `generation` number.
 - `profile` is the default user profile
+- `/nix/var/nix/profiles/default -> /nix/var/nix/profiles/per-user/root/profile` is the default profile
 
-The default system profile, as documented in [`man nix-env`](https://nixos.org/manual/nix/unstable/command-ref/nix-env.html), is `/nix/var/nix/profiles/default`.
+The files are well-documented in [`man nix-env`](https://nixos.org/manual/nix/unstable/command-ref/nix-env.html) and [`man nix3-profile`](https://nixos.org/manual/nix/unstable/command-ref/new-cli/nix3-profile), except for the last one: `/nix/var/nix/profiles/default` which seems to be undocumented but useful.
 
-**Note:** the user profiles' location have changed! See https://github.com/NixOS/nix/pull/5226. 
-- `/nix/var/nix/profiles/per-user/$USER`: previous default
-- `~/.local/state/nix/profiles`: current default
-
-Manual migration might be required for some commands to work properly. 
+> **History:** the profile locations have been changed before! See https://github.com/NixOS/nix/pull/5226. The new defaults seem more reasonable.
 
 ## nixpkgs `staging` branch
 
