@@ -18,4 +18,5 @@ jobs:
       with:
         name: chezbryan
         authToken: '${{ secrets.CACHIX_AUTH_TOKEN }}'
+    - run: ./build.sh --dry-run
     - run: ./build.sh
