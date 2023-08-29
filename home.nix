@@ -178,15 +178,7 @@ in {
 
   programs.man = {
     enable = true;  ## `disable` to use system manpage
-    package = pkgs.closurePackage {
-      inherit (pkgs.man) pname;
-      version = "2.11.2";
-      /* last build of man-db with groff<1.23
-          https://hydra.nixos.org/build/229015976
-      */
-      fromPath = /nix/store/v4xdhq4r7pr5pp9h6q0q9a309bx14swz-man-db-static-x86_64-unknown-linux-musl-2.11.2;
-      fromStore = "https://chezbryan.cachix.org";
-    };
+    package = pkgs.pkgsGroff.pkgsStatic.man;
   };
 
   disabledModules = [
