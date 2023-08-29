@@ -6,7 +6,7 @@ final: prev:
     inherit (prev.biber) pname;
     version = "2.17";
     fromPath = /nix/store/pbv19v0mw57sxa7h6m1hzjvv33mdxxdf-perl5.36.0-biber-2.17;
-    ## ^ nix eval --raw ../pkgs/tectonic-with-biber#biber
+    ## ^ nix eval --raw --no-write-lock-file ../pkgs/tectonic-with-biber#biber
   };
 
   tectonic-with-biber = prev.callPackage ../pkgs/tectonic-with-biber {

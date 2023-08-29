@@ -23,7 +23,7 @@
 
         pin to a working rev:
       */
-      # url = "github:NixOS/nixpkgs/84892848d2622ba26279b8d959374dd5cbddc70d";
+      # url = "github:NixOS/nixpkgs/8a33bfa212653a1f4d5f2c2d6097418bd639dda9";
       follows = "nixpkgs";
       /*
         ^ alternatively, toggle to follow `nixpkgs`
