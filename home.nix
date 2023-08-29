@@ -178,7 +178,14 @@ in {
 
   programs.man = {
     enable = true;  ## `disable` to use system manpage
-    package = pkgs.pkgsGroff.pkgsStatic.man;
+    package = pkgs.closurePackage {
+      inherit (pkgs.man) pname;
+      version = "2.11.2";
+      /* last build of man-db with groff<1.23
+          https://hydra.nixos.org/build/229015976
+      */
+      fromPath = /nix/store/16v2fg1yz5k8b0h869aq31w6b3gwn38w-man-db-2.11.2;
+    };
   };
 
   disabledModules = [
