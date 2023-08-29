@@ -2,14 +2,6 @@
 
 let
 
-  imports = [
-    ./modules/redshift-many
-    ./modules/v2ray-ctrl
-    ./modules/nixpkgs-helpers
-    ./modules/flake-channels.nix
-    ./modules/home-attrs.nix  ## process & pass home attrs
-  ];
-
   packages = with pkgs; {
 
     /* some packages are better installed via system pacman, e.g.
@@ -117,7 +109,7 @@ let
       gnomeExtensions.caffeine
       gnomeExtensions.kimpanel
 
-      ## vscode
+      ## vscode dummy:
       (binaryFallback "code" (writeShellScriptBin "code" ''exec echo "$@"''))
     ];
 
@@ -125,7 +117,13 @@ let
 
 in {
 
-  inherit imports;
+  imports = [
+    ./modules/redshift-many
+    ./modules/v2ray-ctrl
+    ./modules/nixpkgs-helpers
+    ./modules/flake-channels.nix
+    ./modules/home-attrs.nix  ## process & pass home attrs
+  ];
 
   home.packages = with packages;
     os.basic ++
