@@ -184,7 +184,8 @@ in {
       /* last build of man-db with groff<1.23
           https://hydra.nixos.org/build/229015976
       */
-      fromPath = /nix/store/16v2fg1yz5k8b0h869aq31w6b3gwn38w-man-db-2.11.2;
+      fromPath = /nix/store/v4xdhq4r7pr5pp9h6q0q9a309bx14swz-man-db-static-x86_64-unknown-linux-musl-2.11.2;
+      fromStore = "https://chezbryan.cachix.org";
     };
   };
 
