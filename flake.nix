@@ -30,6 +30,10 @@
       */
     };
 
+    nixpkgs_groff = {
+      url = "github:NixOS/nixpkgs/34d8dbb93ddf91fb665b186d1c832b2d2f8e7ff7";
+    };
+
     ## a nice filesystem based importer
     haumea = {
       url = "github:nix-community/haumea/v0.2.2";
@@ -72,6 +76,12 @@
     ## overlay specific to this flake
     fromFlake = final: prev:
     { ## be careful of `rec`, might not work
+
+      pkgsGroff = import inputs.nixpkgs_groff {
+        inherit (prev) system config;
+      };
+
+      man-db-static = final.pkgsGroff.pkgsStatic.man;
 
       pkgsPython2 = import inputs.nixpkgs_python2 {
         inherit (prev) system config;
