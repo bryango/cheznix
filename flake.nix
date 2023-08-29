@@ -69,6 +69,22 @@
           glibcLocales = "/usr";
         };
 
+        ## override home environments
+        buildEnv = attrs:
+          if attrs.name or "" == "home-manager-path"
+          then
+            (prev.buildEnv attrs).overrideAttrs (
+              finalAttrs: prevAttrs: {
+
+                ## blacklist glibcLocales
+                disallowedRequisites = [ final.glibcLocales ] ++ (
+                  prevAttrs.disallowedRequisites or []
+                );
+
+              }
+            )
+          else prev.buildEnv attrs;
+
         inherit (system-manager.packages.${prev.system}) system-manager;
 
       };
