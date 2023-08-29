@@ -39,6 +39,8 @@ in { ## be careful of `rec`, might not work
   );
 
   ## create package from `fetchClosure`
-  closurePackage = import ../pkgs/closure-package.nix;
+  closurePackage = import ../pkgs/closure-package.nix {
+    inherit (prev) lib;
+  };
 
 }
