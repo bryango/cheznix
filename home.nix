@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, ... }:
 
 let
 
@@ -8,6 +8,7 @@ let
       - zsh: better be under root to be set the default shell
       - neovim: as the editor for sudoedit
       - nix: the daemon
+      these can be managed with `system-manager` once it stabilizes.
     */
 
     os.basic = [
@@ -258,23 +259,6 @@ in {
   #     ## https://github.com/NixOS/nixpkgs/blob/master/pkgs/tools/inputmethods/fcitx5/with-addons.nix
   #     fcitx5-chinese-addons
   #   ];
-  # };
-
-  ## ~/.config/nix/registry.json
-  ## ... pin here if don't want to update
-  ## ... otherwise, manage dynamically with `nix registry pin`
-  # nix.registry = {
-
-  #   nixpkgs.to = {
-  #     type = "github";
-  #     owner = "NixOS";
-  #     repo = "nixpkgs";
-  #     ref = "master";
-
-  #     # for `getoptions`
-  #     rev = "9b877f245d19e5bc8c380c91b20f9e2978c74d4a";
-  #   };
-
   # };
 
 }

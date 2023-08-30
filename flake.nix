@@ -87,6 +87,10 @@
 
         inherit (system-manager.packages.${prev.system}) system-manager;
 
+        chezmoi = final.callPackage ./chezmoi.nix {
+          inherit (prev) chezmoi;
+        };
+
       };
 
       nixpkgs = self.inputs.${nixpkgs-follows};
