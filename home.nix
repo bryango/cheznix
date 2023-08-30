@@ -122,7 +122,8 @@ in {
     ./modules/v2ray-ctrl
     ./modules/nixpkgs-helpers
     ./modules/flake-channels.nix
-    ./modules/home-attrs.nix  ## process & pass home attrs
+    ./modules/home-setup.nix
+    ## ^ process & pass home attrs with basic setup
   ];
 
   home.packages = with packages;
@@ -218,9 +219,6 @@ in {
   ;
 
   home.file = {
-    ## override /usr/lib/environment.d/nix-daemon.conf
-    ".config/environment.d/nix-daemon.conf".text = "";
-
     ## Building this configuration will create a copy of 'dotfiles/screenrc' in
     ## the Nix store. Activating the configuration will then make '~/.screenrc' a
     ## symlink to the Nix store copy.
@@ -244,12 +242,10 @@ in {
   #
   # if you don't want to manage your shell through Home Manager.
   home.sessionVariables = {
-    # EDITOR = "emacs";
-
     ## use system locale; see `disabledModules`
     LOCALE_ARCHIVE = "/usr/lib/locale/locale-archive";
 
-    # ## override /usr/lib/environment.d/nix-daemon.conf
+    # EDITOR = "nvim";
     # NIX_PATH = "nixpkgs=${pkgs.outPath}";
   };
 
