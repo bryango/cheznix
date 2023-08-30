@@ -4,8 +4,10 @@ nix home-manager setup, documented below.
 ## bootstrap
 
 - install nix, via either [pacman](https://wiki.archlinux.org/title/Nix) or the [determinate installer](https://github.com/DeterminateSystems/nix-installer)
+- prefer `--daemon`, namely the ["multi-user" install](https://nixos.org/manual/nix/unstable/installation/installing-binary.html)
 - set up [`nix.conf`](https://github.com/bryango/chezroot/blob/master/etc/nix/nix.conf) and restart `nix-daemon.service`
-- check that `~/.nix-profile` & `$PATH` is correctly set up, in [`~/.profile`](https://github.com/bryango/cheznous/blob/NOUS/.profile)
+- confirm that `~/.nix-profile` & env is correctly set up
+- note that `$PATH` is usually taken care of by the installer through `/etc/profile/nix{,-daemon}.sh`
 - clone and apply the profile:
 ```bash
 dest="$HOME/.config/home-manager"
@@ -14,7 +16,8 @@ nix flake clone github:bryango/cheznix --dest "$dest" && cd "$dest" || exit
 nix run . -- switch --update-input nixpkgs-config --show-trace
 ## ^ home-manager provided as flake `packages.${system}.default`
 ```
-- upon successful activation, one can replace the `nix run` commands with `{home,system}-manager` in `$PATH`
+- set up additional env in [`~/.profile`](https://github.com/bryango/cheznous/blob/73a9904d324a7fa1952af283e44f27fd4e6374fe/.profile#L76-L77)
+- upon successful activation, manage with the `{home,system}-manager` commands in place of the `nix run` commands
 
 ## nix: more pacman beyond pacman
 
@@ -123,7 +126,6 @@ nix path-info --all -hs | sort -hk2
 
 # nix intro
 
-- install from pacman for the root `nix-daemon`, following [the wiki](https://wiki.archlinux.org/title/Nix)
 - `profile`: virtual environments, managed with `nix profile`
 - `registry`: index of packages (flakes), managed with `nix registry`
 - `channels`: _deprecated_, special `profiles` which contain snapshots of the `nixpkgs` repo
