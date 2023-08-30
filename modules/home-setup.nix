@@ -1,7 +1,11 @@
-{ attrs, config, ... }:
+{ attrs, config, lib, ... }:
 
 {
   config = {
+
+    ## install and manage home-manager itself
+    programs.home-manager.enable = true;
+
     home = {
       username = attrs.username;
       homeDirectory = attrs.homeDirectory or "/home/${attrs.username}";
@@ -19,7 +23,28 @@
 
       };
 
+      activation.userScript = lib.hm.dag.entryAfter [ "installPackages" ] ''
+        flake=''${FLAKE_CONFIG_URI%#*}
+        flakePath=$(
+          nix eval --raw --impure \
+            --expr "toString (builtins.getFlake $flake)" \
+            | xargs
+        )  ## the /nix/store path of $flake
+        "$flakePath/activate.sh"
+      '';
+
     };
+
+    nix.extraOptions = ''
+
+      ## ... config follows from `/etc/nix/nix.conf`
+      ## ... see also: man nix.conf
+      ## ... https://nixos.org/manual/nix/stable/#sec-conf-file
+
+      # vim: set ft=nix:''
+    ;
+
+
 
   };
 }

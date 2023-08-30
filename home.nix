@@ -209,14 +209,6 @@ in {
       # "https://mirror.sjtu.edu.cn/nix-channels/store?priority=20"
     ];
   };
-  nix.extraOptions = ''
-
-    ## ... config follows from `/etc/nix/nix.conf`
-    ## ... see also: man nix.conf
-    ## ... https://nixos.org/manual/nix/stable/#sec-conf-file
-
-    # vim: set ft=nix:''
-  ;
 
   home.file = {
     ## Building this configuration will create a copy of 'dotfiles/screenrc' in
@@ -249,17 +241,6 @@ in {
     # NIX_PATH = "nixpkgs=${pkgs.outPath}";
   };
 
-  home.activation.userScript
-    = lib.hm.dag.entryAfter [ "installPackages" ] ''
-        flake=''${FLAKE_CONFIG_URI%#*}
-        flakePath=$(
-          nix eval --raw --impure \
-            --expr "toString (builtins.getFlake $flake)" \
-            | xargs
-        )
-        "$flakePath/activate.sh"  ## ^ `$flake` defined above
-      '';
-
   # This value determines the Home Manager release that your configuration is
   # compatible with. This helps avoid breakage when a new Home Manager release
   # introduces backwards incompatible changes.
@@ -268,9 +249,6 @@ in {
   # want to update the value, then make sure to first check the Home Manager
   # release notes.
   home.stateVersion = "22.11"; # Please read the comment before changing.
-
-  ## let Home Manager install and manage itself.
-  programs.home-manager.enable = true;
 
 
   ## does not work well with non-nix host
