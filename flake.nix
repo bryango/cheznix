@@ -59,9 +59,12 @@
       ];
     };
 
-    ## overlays as an attrset: the order might matter!
-    ## it's possible to reliably cross ref through the `final` argument
+    ## _attrset_ of flake-style _named_ overlays
     attrOverlays = importer.load {
+      /*
+        The order of overlays does matter but is obscured here!
+        To cross ref reliably, use the `final` argument
+      */
       src = ./overlays;
       loader = importer.loaders.verbatim;
     } // {
@@ -90,41 +93,21 @@
       ## exposes importer
       inherit importer;
 
-      ## helper function to gather overlaid packages, defined below
-      inherit gatherOverlaid;
-
-      ## overlays as an attrset, in contrast to `pkgs.overlays` (a list)
+      ## exposes overlays as an _attrset_, not a list
       inherit attrOverlays;
 
     };
 
-    ## link farm all overlaid derivations
-    gatherOverlaid =
-      # pkgs fixed point
-      pkgs:
-      # overlays as an attrset
-      attrOverlays:
-    let
-
-      applied = builtins.mapAttrs (name: f: f pkgs pkgs) attrOverlays;
-      merged = lib.attrsets.mergeAttrsList (builtins.attrValues applied);
-      derivable = lib.filterAttrs (name: lib.isDerivation) merged;
-
-      name = "user-drv-overlays";
-    in {
-      ${name} = pkgs.linkFarm name derivable;
-    };
-
-    drvOverlays = final: prev: gatherOverlaid final attrOverlays;
-
     legacyPackages = forMySystems (system: import nixpkgs {
       inherit system config;
-      overlays = builtins.attrValues attrOverlays ++ [ drvOverlays ];
+      overlays = builtins.attrValues attrOverlays ++ [
+        ( final: prev: prev.gatherOverlaid { } )
+      ];
     });
 
     packages = forMySystems (system: rec {
       inherit (legacyPackages.${system}) user-drv-overlays;
-      default = user-drv-overlays;
+      default = user-drv-overlays;  # from `gatherOverlaid`
     });
 
   in {
