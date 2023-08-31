@@ -59,9 +59,9 @@
       ];
     };
 
-    ## all overlays: the order matters!
-    ## yet it's possible to cross ref through the `final` argument
-    overlays = importer.load {
+    ## overlays as an attrset: the order might matter!
+    ## it's possible to reliably cross ref through the `final` argument
+    attrOverlays = importer.load {
       src = ./overlays;
       loader = importer.loaders.verbatim;
     } // {
@@ -91,25 +91,35 @@
       inherit importer;
 
       ## helper function to gather overlaid packages, defined below
-      gatherOverlaid = drvOverlays;
+      inherit gatherOverlaid;
+
+      ## overlays as an attrset, in contrast to `pkgs.overlays` (a list)
+      inherit attrOverlays;
 
     };
 
     ## link farm all overlaid derivations
-    drvOverlays = final: prev: let
+    gatherOverlaid =
+      # pkgs fixed point
+      pkgs:
+      # overlays as an attrset
+      attrOverlays:
+    let
 
-      applied = builtins.mapAttrs (name: f: f final prev) overlays;
+      applied = builtins.mapAttrs (name: f: f pkgs pkgs) attrOverlays;
       merged = lib.attrsets.mergeAttrsList (builtins.attrValues applied);
       derivable = lib.filterAttrs (name: lib.isDerivation) merged;
 
       name = "user-drv-overlays";
     in {
-      ${name} = prev.linkFarm name derivable;
+      ${name} = pkgs.linkFarm name derivable;
     };
+
+    drvOverlays = final: prev: gatherOverlaid final attrOverlays;
 
     legacyPackages = forMySystems (system: import nixpkgs {
       inherit system config;
-      overlays = builtins.attrValues overlays ++ [ drvOverlays ];
+      overlays = builtins.attrValues attrOverlays ++ [ drvOverlays ];
     });
 
     packages = forMySystems (system: rec {
@@ -120,9 +130,10 @@
   in {
 
     inherit
-      overlays
       legacyPackages
       packages;
+
+    overlays = attrOverlays;
 
     lib = lib.recursiveUpdate lib {
       systems.flakeExposed = mySystems;
