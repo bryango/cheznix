@@ -13,14 +13,18 @@ let
       fromPath
       fromStore
       inputAddressed;
-  };
+  } // (lib.optionalAttrs (args ? toPath) {
+    inherit (args)
+      toPath;
+    inputAddressed = false;
+  });
 
   requiredArgs = builtins.attrNames fetchSpec;
-  optionalAttrs = builtins.removeAttrs args requiredArgs;
+  optionalSet = builtins.removeAttrs args requiredArgs;
 
 in
 
-optionalAttrs // {
+optionalSet // {
   /* need experimental nix:
     - after: https://github.com/NixOS/nix/pull/8370
     - static build: https://hydra.nixos.org/build/229213111
