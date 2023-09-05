@@ -6,14 +6,16 @@
 let
 
   pname = "chezmoi";
-  version = "2.38.0-acb8937";
+  version = assert chezmoi.version == "2.38.0"; "${chezmoi.version}-acb8937";
   executable = closurePackage {
     /*
-      - musl artifact: https://github.com/twpayne/chezmoi/actions/runs/6016856853
-      - add to store: `nix store add-file`
-      - ensure pushed: `nix store add-file chezmoi | cachix push chezbryan`
+      musl artifact:
+        https://github.com/twpayne/chezmoi/actions/runs/6016856853
+      - `nix store add-file`
+      - `nix store make-content-addressed`
+      - `echo "$storePath" | cachix push chezbryan`
     */
-    fromPath = /nix/store/dnzaicq1q4b6192ad9jhg5gnzakbz9z3-chezmoi;
+    fromPath = /nix/store/ywfv1wr2pjghniar48f6f2ck8zhx6y1g-chezmoi;
     fromStore = "https://chezbryan.cachix.org";
     inputAddressed = false;
     pname = "${pname}-static";
