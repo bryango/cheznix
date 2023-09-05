@@ -15,9 +15,9 @@ let
       - `nix store make-content-addressed`
       - `echo "$storePath" | cachix push chezbryan`
     */
-    fromPath = /nix/store/ywfv1wr2pjghniar48f6f2ck8zhx6y1g-chezmoi;
     fromStore = "https://chezbryan.cachix.org";
-    inputAddressed = false;
+    fromPath = /nix/store/dnzaicq1q4b6192ad9jhg5gnzakbz9z3-chezmoi;
+    toPath = /nix/store/ywfv1wr2pjghniar48f6f2ck8zhx6y1g-chezmoi;
     pname = "${pname}-static";
     inherit version;
   };
