@@ -87,9 +87,9 @@
 
         inherit (system-manager.packages.${prev.system}) system-manager;
 
-        chezmoi = final.callPackage ./chezmoi.nix {
-          inherit (prev) chezmoi;
-        };
+        # chezmoi = final.callPackage ./chezmoi.nix {
+        #   inherit (prev) chezmoi;
+        # };
 
       };
 
