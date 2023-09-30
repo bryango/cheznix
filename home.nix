@@ -101,6 +101,7 @@ let
       python3Packages.ruff-lsp  ruff  # exposes `ruff`
       python3Packages.jedi-language-server
       poetry
+      spotdl  # for testing only
     ];
 
     gui.app = [
