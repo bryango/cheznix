@@ -170,11 +170,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1696056573,
-        "narHash": "sha256-DKZ2ysRUYGpJCSprLeYt4DjuJp8Bjk0QolNLRCSvh6U=",
+        "lastModified": 1696128915,
+        "narHash": "sha256-zfyUyX2qBoKT2Wo2v4WuYemGrAJj78eIQCr6Z2FRgs8=",
         "owner": "bryango",
         "repo": "nixpkgs",
-        "rev": "fd6089da14ebe6c2c97b53b8e22c3a1866cf656b",
+        "rev": "39c91094a4dc394eac5628fc42e6d545f86b96e7",
         "type": "github"
       },
       "original": {
@@ -192,11 +192,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1696056873,
-        "narHash": "sha256-cGqjky8ZPbwc4UskhJex//bA2FidpTaFDAJXL3HFSP0=",
+        "lastModified": 1696129276,
+        "narHash": "sha256-i0nEyYWcz3tf0FQ9qdkRL1fORT8Fq7zIOQH/qzOz0qs=",
         "ref": "refs/heads/master",
-        "rev": "a6df6a88013ed1aa26dad451a5a6bc5c236efa6c",
-        "revCount": 132,
+        "rev": "579eb999ec8e82f1bc15453f63141b7c8db1ab4a",
+        "revCount": 133,
         "type": "git",
         "url": "file:./nixpkgs-config"
       },
