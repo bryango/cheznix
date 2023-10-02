@@ -296,15 +296,15 @@
         "treefmt-nix": "treefmt-nix"
       },
       "locked": {
-        "lastModified": 1696228077,
+        "lastModified": 1696230446,
         "narHash": "sha256-vQeylcQSKobpUiiGWYSIBFdsGhLLMFxSQ2/ScEyWyjM=",
-        "owner": "bryango",
+        "owner": "numtide",
         "repo": "system-manager",
-        "rev": "69dd053da3673e97c888bbd5d8afc1ec0224b6a4",
+        "rev": "549bc383395f504261ef4f36fa26d04c37809d12",
         "type": "github"
       },
       "original": {
-        "owner": "bryango",
+        "owner": "numtide",
         "repo": "system-manager",
         "type": "github"
       }

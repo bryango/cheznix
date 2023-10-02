@@ -27,7 +27,7 @@
     };
 
     system-manager = {
-      url = "github:bryango/system-manager";
+      url = "github:numtide/system-manager";
       inputs.nixpkgs.follows = "nixpkgs-config/nixpkgs";
         ## ^ use the unmodified `nixpkgs` to be imported
     };  ## this is cool but has a huge dependency tree!
