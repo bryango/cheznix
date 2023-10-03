@@ -152,7 +152,7 @@ in {
 
   programs.v2ray-ctrl = {
     # enable = false;
-    outbounds = "dal6";
+    outbounds = "la6";
     # routings =
     #   "private-direct,cn-direct,tencent-direct,ms-transit,zoom-transit";
   };
