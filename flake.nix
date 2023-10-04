@@ -131,12 +131,13 @@
         in {
           name = "${attrs.hostname}";
           value = system-manager.lib.makeSystemConfig {
-            # inherit pkgs;  ## does not work yet
 
             modules = [ ./system-modules ];
             extraSpecialArgs = {
               inherit attrs cheznix nixpkgs-follows;
               inherit (attrs) pkgs;
+              ## ^ add overlaid nixpkgs
+              ## ^ override github:numtide/system-manager/main/nix/lib.nix
             };
           };
         };
