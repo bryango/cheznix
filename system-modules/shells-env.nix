@@ -55,6 +55,7 @@ in
         etcShells = "/etc/shells";
         shells = map utils.toShellPath config.environment.shells;
 
+        ## WIP: this doesn't actually work:
         ## https://wiki.archlinux.org/title/Shell_package_guidelines
         buildScriptForShell = shell: {
           name = "etcShellsScript-${shell}";
