@@ -37,14 +37,15 @@ in
       example = literalExpression "[ pkgs.bashInteractive pkgs.zsh ]";
       description = lib.mdDoc ''
         A list of permissible login shells for user accounts.
-        No need to mention `/bin/sh`
-        here, it is placed into this list implicitly.
       '';
       type = types.listOf (types.either types.shellPackage types.path);
     };
   };
 
   config = {
+
+    system.build.setEnvironment = pkgs.writeText "set-environment" "";
+
     /* WIP: /etc/shells
       - https://gitlab.archlinux.org/archlinux/packaging/packages/zsh/-/blob/main/zsh.install
       - https://github.com/numtide/system-manager/blob/main/nix/modules/default.nix
@@ -57,9 +58,9 @@ in
 
         ## WIP: this doesn't actually work:
         ## https://wiki.archlinux.org/title/Shell_package_guidelines
-        buildScriptForShell = shell: {
-          name = "etcShellsScript-${lib.escapeURL shell}";
-          value = pkgs.writeShellScript "etc-shells-${shell}" ''
+        buildScriptForShell = index: shell: {
+          name = "etcShellsScript-${toString index}";
+          value = pkgs.writeShellScript "etc-shells-${toString index}" ''
 
               ## remove all ${pathDir} from ${etcShells}
               sed -i -r "|^${pathDir}.*$|d" "${etcShells}"
@@ -74,7 +75,7 @@ in
           '';
         };
 
-        buildScripts = map buildScriptForShell shells;
+        buildScripts = lib.imap1 buildScriptForShell shells;
       in
       builtins.listToAttrs buildScripts;
   };

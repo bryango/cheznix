@@ -22,6 +22,7 @@ in
   ];
 
   config = {
+    programs.zsh.enable = true;
     system-manager.allowAnyDistro = true;
     nixpkgs.hostPlatform = pkgs.system;
 
