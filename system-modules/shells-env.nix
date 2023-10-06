@@ -53,22 +53,27 @@ in
 
         ## WIP: this doesn't actually work:
         ## https://wiki.archlinux.org/title/Shell_package_guidelines
-        buildScriptForShell = index: shell: {
-          name = "etcShellsScript-${toString index}";
-          value = pkgs.writeShellScript "etc-shells-${toString index}" ''
+        buildScriptForShell = index: shell:
+          let
+            suffix = "${baseNameOf shell}-${toString index}";
+          in
+          {
+            name = "etcShellsScript-${suffix}";
+            value = pkgs.writeShellScript "etc-shells-${suffix}" ''
 
               ## remove all ${pathDir} from ${etcShells}
-              sed -i -r "|^${pathDir}.*$|d" "${etcShells}"
+              sed -i -r "/^${lib.escape ["/"] pathDir}.*$/d" "${etcShells}"
 
               ## remove all /nix/store paths from ${etcShells}
-              sed -i -r "|^/nix/store.*$|d" "${etcShells}"
+              sed -i -r "/^${lib.escape ["/"] "/nix/store"}.*$/d" "${etcShells}"
 
               ## add ${shell}
-              [[ -x "${shell}" ]] \
-                && grep -Fqx "${shell}" "${etcShells}" \
+              if [[ -x "${shell}" ]]; then
+                grep -Fqx "${shell}" "${etcShells}" \
                 || echo "${shell}" >> "${etcShells}"
+              fi
           '';
-        };
+          };
 
         buildScripts = lib.imap1 buildScriptForShell shells;
       in

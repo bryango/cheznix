@@ -47,7 +47,7 @@ in
 
     environment.shells =
       [
-        "/run/current-system/sw/bin/zsh"
+        "/run/system-manager/sw/bin/zsh"
         # "${pkgs.zsh}/bin/zsh"
       ];
   };
