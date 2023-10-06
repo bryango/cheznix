@@ -48,18 +48,6 @@ let
 
       ${textClosureMap id (withDrySnippets) (attrNames withDrySnippets)}
 
-    '' + optionalString (!onlyDry) ''
-      # Make this configuration the current configuration.
-      # The readlink is there to ensure that when $systemConfig = /system
-      # (which is a symlink to the store), /run/current-system is still
-      # used as a garbage collection root.
-      ln -sfn "$(readlink -f "$systemConfig")" /run/current-system
-
-      # Prevent the current configuration from being garbage-collected.
-      mkdir -p /nix/var/nix/gcroots
-      ln -sfn /run/current-system /nix/var/nix/gcroots/current-system
-
-      exit $_status
     '';
 
   path = with pkgs; map getBin
@@ -90,11 +78,6 @@ let
             default = false;
             description = lib.mdDoc ''
               Whether this activation script supports being dry-activated.
-              These activation scripts will also be executed on dry-activate
-              activations with the environment variable
-              `NIXOS_ACTION` being set to `dry-activate`.
-              it's important that these activation scripts  don't
-              modify anything about the system when the variable is set.
             '';
           };
       };
@@ -124,11 +107,11 @@ in
       '';
 
       description = lib.mdDoc ''
-        A set of shell script fragments that are executed when a NixOS
+        A set of shell script fragments that are executed when a
         system configuration is activated.  Examples are updating
         /etc, creating accounts, and so on.  Since these are executed
-        every time you boot the system or run
-        {command}`nixos-rebuild`, it's important that they are
+        every time you run
+        {command}`system-manager`, it's important that they are
         idempotent and fast.
       '';
 
@@ -146,85 +129,6 @@ in
       defaultText = literalMD "generated activation script";
     };
 
-    system.userActivationScripts = mkOption {
-      default = {};
-
-      example = literalExpression ''
-        { plasmaSetup = {
-            text = '''
-              ''${pkgs.libsForQt5.kservice}/bin/kbuildsycoca5"
-            ''';
-            deps = [];
-          };
-        }
-      '';
-
-      description = lib.mdDoc ''
-        A set of shell script fragments that are executed by a systemd user
-        service when a NixOS system configuration is activated. Examples are
-        rebuilding the .desktop file cache for showing applications in the menu.
-        Since these are executed every time you run
-        {command}`nixos-rebuild`, it's important that they are
-        idempotent and fast.
-      '';
-
-      type = with types; attrsOf (scriptType false);
-
-      apply = set: {
-        script = ''
-          unset PATH
-          for i in ${toString path}; do
-            PATH=$PATH:$i/bin:$i/sbin
-          done
-
-          _status=0
-          trap "_status=1 _localstatus=\$?" ERR
-
-          ${
-            let
-              set' = mapAttrs (n: v: if isString v then noDepEntry v else v) set;
-              withHeadlines = addAttributeName set';
-            in textClosureMap id (withHeadlines) (attrNames withHeadlines)
-          }
-
-          exit $_status
-        '';
-      };
-
-    };
-
-    environment.usrbinenv = mkOption {
-      default = "${pkgs.coreutils}/bin/env";
-      defaultText = literalExpression ''"''${pkgs.coreutils}/bin/env"'';
-      example = literalExpression ''"''${pkgs.busybox}/bin/env"'';
-      type = types.nullOr types.path;
-      visible = false;
-      description = lib.mdDoc ''
-        The env(1) executable that is linked system-wide to
-        `/usr/bin/env`.
-      '';
-    };
-
-    system.build.installBootLoader = mkOption {
-      internal = true;
-      # "; true" => make the `$out` argument from switch-to-configuration.pl
-      #             go to `true` instead of `echo`, hiding the useless path
-      #             from the log.
-      default = "echo 'Warning: do not know how to make this configuration bootable; please enable a boot loader.' 1>&2; true";
-      description = lib.mdDoc ''
-        A program that writes a bootloader installation script to the path passed in the first command line argument.
-
-        See `nixos/modules/system/activation/switch-to-configuration.pl`.
-      '';
-      type = types.unique {
-        message = ''
-          Only one bootloader can be enabled at a time. This requirement has not
-          been checked until NixOS 22.05. Earlier versions defaulted to the last
-          definition. Change your configuration to enable only one bootloader.
-        '';
-      } (types.either types.str types.package);
-    };
-
   };
 
 
@@ -232,65 +136,6 @@ in
 
   config = {
 
-    system.activationScripts.stdio = ""; # obsolete
-
-    system.activationScripts.var =
-      ''
-        # Various log/runtime directories.
-
-        mkdir -p /var/tmp
-        chmod 1777 /var/tmp
-
-        # Empty, immutable home directory of many system accounts.
-        mkdir -p /var/empty
-        # Make sure it's really empty
-        ${pkgs.e2fsprogs}/bin/chattr -f -i /var/empty || true
-        find /var/empty -mindepth 1 -delete
-        chmod 0555 /var/empty
-        chown root:root /var/empty
-        ${pkgs.e2fsprogs}/bin/chattr -f +i /var/empty || true
-      '';
-
-    system.activationScripts.usrbinenv = if config.environment.usrbinenv != null
-      then ''
-        mkdir -p /usr/bin
-        chmod 0755 /usr/bin
-        ln -sfn ${config.environment.usrbinenv} /usr/bin/.env.tmp
-        mv /usr/bin/.env.tmp /usr/bin/env # atomically replace /usr/bin/env
-      ''
-      else ''
-        rm -f /usr/bin/env
-        rmdir --ignore-fail-on-non-empty /usr/bin /usr
-      '';
-
-    system.activationScripts.specialfs =
-      ''
-        specialMount() {
-          local device="$1"
-          local mountPoint="$2"
-          local options="$3"
-          local fsType="$4"
-
-          if mountpoint -q "$mountPoint"; then
-            local options="remount,$options"
-          else
-            mkdir -p "$mountPoint"
-            chmod 0755 "$mountPoint"
-          fi
-          mount -t "$fsType" -o "$options" "$device" "$mountPoint"
-        }
-        source ${config.system.build.earlyMountScript}
-      '';
-
-    systemd.user = {
-      services.nixos-activation = {
-        description = "Run user-specific NixOS activation";
-        script = config.system.userActivationScripts.script;
-        unitConfig.ConditionUser = "!@system";
-        serviceConfig.Type = "oneshot";
-        wantedBy = [ "default.target" ];
-      };
-    };
   };
 
 }
