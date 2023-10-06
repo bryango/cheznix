@@ -10,13 +10,12 @@ let
     literalExpression
     ;
 
-  ## TODO: passed from system-manager:nix/modules/environment.nix
+  ## Maybe: passed from system-manager:nix/modules/environment.nix
   ## ... instead of hard-coded
   pathDir = "/run/system-manager/sw";
 
   ## nixpkgs:nixos/lib/utils.nix
   utils = {
-
     # Returns a system path for a given shell package
     toShellPath = shell:
       if types.shellPackage.check shell then
@@ -25,7 +24,6 @@ let
         throw "${shell} is not a shell package"
       else
         shell;
-
   };
 
 in
@@ -43,9 +41,6 @@ in
   };
 
   config = {
-
-    system.build.setEnvironment = pkgs.writeText "set-environment" "";
-
     /* WIP: /etc/shells
       - https://gitlab.archlinux.org/archlinux/packaging/packages/zsh/-/blob/main/zsh.install
       - https://github.com/numtide/system-manager/blob/main/nix/modules/default.nix
