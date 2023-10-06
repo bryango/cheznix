@@ -58,7 +58,7 @@ in
         ## WIP: this doesn't actually work:
         ## https://wiki.archlinux.org/title/Shell_package_guidelines
         buildScriptForShell = shell: {
-          name = "etcShellsScript-${shell}";
+          name = "etcShellsScript-${lib.escapeURL shell}";
           value = pkgs.writeShellScript "etc-shells-${shell}" ''
 
               ## remove all ${pathDir} from ${etcShells}

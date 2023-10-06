@@ -15,7 +15,7 @@ in
 
   imports = [
     ## non-NixOS modules
-    # ./zsh.nix
+    ./zsh.nix
   ] ++
   map (path: nixosModulesPath + path) [
     ## NixOS modules, with a leading "/"
