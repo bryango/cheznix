@@ -8,10 +8,11 @@ let
     types
     mkOption
     literalExpression
+    concatStringsSep
     ;
 
-  ## Maybe: passed from system-manager:nix/modules/environment.nix
-  ## ... instead of hard-coded
+  ## TODO: passed from system-manager:nix/modules/environment.nix
+  ## ... instead of hard-coding
   pathDir = "/run/system-manager/sw";
 
   ## nixpkgs:nixos/lib/utils.nix
@@ -41,42 +42,30 @@ in
   };
 
   config = {
-    /* WIP: /etc/shells
-      - https://gitlab.archlinux.org/archlinux/packaging/packages/zsh/-/blob/main/zsh.install
-      - https://github.com/numtide/system-manager/blob/main/nix/modules/default.nix
-      - https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/programs/zsh/zsh.nix
-    */
-    build.scripts =
+    ## system-manager:nix/modules/default.nix
+    build.scripts.etcShellsScript =
       let
         etcShells = "/etc/shells";
         shells = map utils.toShellPath config.environment.shells;
-
-        ## WIP: this doesn't actually work:
-        ## https://wiki.archlinux.org/title/Shell_package_guidelines
-        buildScriptForShell = index: shell:
-          let
-            suffix = "${baseNameOf shell}-${toString index}";
-          in
-          {
-            name = "etcShellsScript-${suffix}";
-            value = pkgs.writeShellScript "etc-shells-${suffix}" ''
-
-              ## remove all ${pathDir} from ${etcShells}
-              sed -i -r "/^${lib.escape ["/"] pathDir}.*$/d" "${etcShells}"
-
-              ## remove all /nix/store paths from ${etcShells}
-              sed -i -r "/^${lib.escape ["/"] "/nix/store"}.*$/d" "${etcShells}"
-
-              ## add ${shell}
-              if [[ -x "${shell}" ]]; then
-                grep -Fqx "${shell}" "${etcShells}" \
-                || echo "${shell}" >> "${etcShells}"
-              fi
-          '';
-          };
-
-        buildScripts = lib.imap1 buildScriptForShell shells;
+        addShell = shell: ''
+          ## add ${shell}
+          if [[ -x "${shell}" ]]; then
+            grep -Fqx "${shell}" "${etcShells}" \
+            || echo "${shell}" >> "${etcShells}"
+          fi
+        '';
       in
-      builtins.listToAttrs buildScripts;
+      ## https://wiki.archlinux.org/title/Shell_package_guidelines
+      pkgs.writeShellScript "etc-shells" ''
+
+        ## remove all ${pathDir} from ${etcShells}
+        sed -i -r "/^${lib.escape ["/"] pathDir}.*$/d" "${etcShells}"
+
+        ## remove all /nix/store paths from ${etcShells}
+        sed -i -r "/^${lib.escape ["/"] "/nix/store"}.*$/d" "${etcShells}"
+
+        ${concatStringsSep "\n" (map addShell shells)}
+      '';
   };
+
 }
