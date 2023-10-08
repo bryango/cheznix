@@ -13,7 +13,7 @@ let
 
     os.basic = [
       ## <nixpkgs> pkgs/stdenv/generic/common-path.nix
-      coreutils util-linux findutils diffutils
+      coreutils util-linux findutils diffutils iputils
       gnused gnugrep gnumake
       which tree file procps
     ];
