@@ -95,7 +95,7 @@
 
       nixpkgs = self.inputs.${nixpkgs-follows};
       inherit (nixpkgs) lib;
-      inherit (lib) forMySystems;
+      inherit (lib.cheznix) forMySystems;
       pkgsOverlay = system: nixpkgs.legacyPackages.${system}.extend overlay;
 
       machines = home-attrs.outputs;
