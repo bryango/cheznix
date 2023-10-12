@@ -13,10 +13,12 @@ final: prev:
     biber = final.biber217;
   };
 
+  /* ## not used by me, disabled to save build time
   fcitx5-configtool =
     prev.libsForQt5.callPackage ../pkgs/fcitx5-configtool.nix {
       kcmSupport = false;
     };
+  */
 
   byobu-with-tmux = prev.callPackage (
     { byobu, tmux, symlinkJoin, emptyDirectory }:

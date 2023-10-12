@@ -99,13 +99,13 @@
       ## exposes nixpkgs source, i.e. `outPath`, in `pkgs`
       inherit (nixpkgs) outPath;
 
-      ## exposes importer
-      inherit importer;
-
       ## exposes overlays as an _attrset_, not a list
       inherit attrOverlays;
 
-    };
+      ## exposes lib
+      inherit (lib) cheznix;
+
+    } // lib.cheznix;
 
     legacyPackages = forMySystems (system: import nixpkgs {
       inherit system config;
