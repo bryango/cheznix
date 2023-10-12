@@ -43,9 +43,18 @@
   let
 
     importer = haumea.lib;
-    lib = nixpkgs.lib // { inherit importer; };
     mySystems = [ "x86_64-linux" ];
     forMySystems = lib.genAttrs mySystems;
+
+    lib = nixpkgs.lib // {
+      cheznix = {
+        inherit
+          importer
+          mySystems
+          forMySystems
+          ;
+      };
+    };
 
     config = {
       ## https://github.com/nix-community/home-manager/issues/2954
@@ -118,12 +127,11 @@
 
     overlays = attrOverlays;
 
-    lib = lib.recursiveUpdate lib {
-      systems.flakeExposed = mySystems;
-      inherit
-        mySystems
-        forMySystems;
-    };
+    lib = lib.recursiveUpdate lib (
+      lib.cheznix // {
+        systems.flakeExposed = mySystems;
+      }
+    );
 
   };
 }
