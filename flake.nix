@@ -41,11 +41,11 @@
       cheznix = self;
       nixpkgs-follows =
       let
+        result = "nixpkgs-config";
         lock = builtins.fromJSON (builtins.readFile ./flake.lock);
-        key = "nixpkgs-config";
       in
-        assert lock.nodes.${key}.original.url == "file:./${key}";
-        key;
+        assert lock.nodes.${result}.original.url == "file:./${result}";
+        result;
       /* ^ refers to both the input _name_ & its _source_,
         .. therefore these two must coincide!
       */
