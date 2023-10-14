@@ -42,18 +42,17 @@
   outputs = { self, nixpkgs, haumea, ... } @ inputs:
   let
 
+    inherit (nixpkgs) lib;
     importer = haumea.lib;
     mySystems = [ "x86_64-linux" ];
     forMySystems = lib.genAttrs mySystems;
 
-    lib = nixpkgs.lib // {
-      cheznix = {
-        inherit
-          importer
-          mySystems
-          forMySystems
-          ;
-      };
+    chezlib = {
+      inherit
+        importer
+        mySystems
+        forMySystems
+        ;
     };
 
     config = {
@@ -68,10 +67,10 @@
       ];
     };
 
-    ## _attrset_ of flake-style _named_ overlays
+    ## _attrset_ of flake-style named overlays
     attrOverlays = importer.load {
       /*
-        The order of overlays does matter but is obscured here!
+        The order of overlays _does_ matter but is obscured here!
         To cross ref reliably, use the `final` argument
       */
       src = ./overlays;
@@ -85,27 +84,26 @@
     fromFlake = final: prev:
     { ## be careful of `rec`, might not work
 
+      flakeSelf = self;
+
       pkgsPython2 = import inputs.nixpkgs_python2 {
         inherit (prev) system config;
       };
-
-      flakeInputs = final.collectFlakeInputs "nixpkgs-config" self;
 
       gimp = prev.gimp.override {
         withPython = true;
         python2 = final.pkgsPython2.python2;
       };
 
-      ## exposes nixpkgs source, i.e. `outPath`, in `pkgs`
+      ## nixpkgs source, i.e. `outPath`, in `pkgs`
       inherit (nixpkgs) outPath;
 
-      ## exposes overlays as an _attrset_, not a list
+      ## overlays as an _attrset_, not a list
       inherit attrOverlays;
 
-      ## exposes lib
-      inherit (lib) cheznix;
-
-    } // lib.cheznix;
+      ## extended lib
+      inherit chezlib;
+    } // chezlib;
 
     legacyPackages = forMySystems (system: import nixpkgs {
       inherit system config;
@@ -128,9 +126,10 @@
     overlays = attrOverlays;
 
     lib = lib.recursiveUpdate lib (
-      lib.cheznix // {
+      {
         systems.flakeExposed = mySystems;
-      }
+        inherit chezlib;
+      } // chezlib
     );
 
   };

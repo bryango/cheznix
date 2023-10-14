@@ -14,12 +14,6 @@ in { ## be careful of `rec`, might not work
     inherit (final) importer;
   };
 
-  ## recursively collect & flatten flake inputs
-  ## https://github.com/NixOS/nix/issues/3995#issuecomment-1537108310
-  collectFlakeInputs = name: flake: {
-    ${name} = flake;
-  } // lib.concatMapAttrs final.collectFlakeInputs (flake.inputs or { });
-
   ## link to host libraries
   hostSymlinks = recurseIntoAttrs (callPackage ../pkgs/host-links.nix { });
   inherit (final.hostSymlinks)
@@ -64,5 +58,10 @@ in { ## be careful of `rec`, might not work
       ${name} = pkgs.linkFarm name derivable;
     };
 
+  ## recursively collect & flatten flake inputs
+  ## https://github.com/NixOS/nix/issues/3995#issuecomment-1537108310
+  collectFlakeInputs = name: flake: {
+    ${name} = flake;
+  } // lib.concatMapAttrs final.collectFlakeInputs (flake.inputs or { });
 
 }
