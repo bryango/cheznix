@@ -37,6 +37,7 @@ let
     ];
 
     cli.basic = [
+      (neovim.override { withRuby = false; })
       devbox
       bat
       fzf
