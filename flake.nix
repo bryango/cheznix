@@ -61,11 +61,14 @@
       allowBroken = true;
       allowUnfree = true;
 
-      permittedInsecurePackages = [
-        "python-2.7.18.7"
-        "python-2.7.18.7-env"
-        "pulsar-1.109.0"
-      ];
+      ## nixpkgs: pkgs/stdenv/generic/check-meta.nix
+      allowInsecurePredicate = pkg:
+        let
+          name = pkg.name or "${pkg.pname or "«name-missing»"}-${pkg.version or "«version-missing»"}";
+        in (
+          (lib.hasPrefix "python-2.7" name) ||
+          (lib.hasPrefix "pulsar" name)
+        );
     };
 
     ## _attrset_ of flake-style named overlays

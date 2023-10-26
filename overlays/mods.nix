@@ -9,6 +9,15 @@ final: prev:
     ## ^ nix eval --raw --no-write-lock-file ../pkgs/tectonic-with-biber#biber
   };
 
+  pulsar = final.closurePackage {
+    inherit (prev.pulsar) pname;
+    version = "1.109.0";
+    /* last build of pulsar before marked insecure
+        https://hydra.nixos.org/build/237386313
+    */
+    fromPath = /nix/store/mqk6v4p5jzkycbrs6qxgb2gg4qk6h3p1-pulsar-1.109.0;
+  };
+
   tectonic-with-biber = prev.callPackage ../pkgs/tectonic-with-biber {
     biber = final.biber217;
   };
