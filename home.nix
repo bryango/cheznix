@@ -92,7 +92,7 @@ let
     ];
 
     cli.python = let
-      python3Packages = python310Packages;
+      inherit python3Packages;
       /* <nixpkgs> pkgs/top-level/aliases.nix
           pythonPackages = python.pkgs;
           python = python2;
@@ -106,7 +106,14 @@ let
     ];
 
     gui.app = [
-      pulsar  # atom fork
+      (closurePackage {
+        inherit (pkgs.pulsar) pname;
+        version = "1.109.0";
+        /* last build of pulsar before marked insecure
+            https://hydra.nixos.org/build/237386313
+        */
+        fromPath = /nix/store/mqk6v4p5jzkycbrs6qxgb2gg4qk6h3p1-pulsar-1.109.0;
+      })  # atom fork
       gimp-with-plugins
 
       gnomeExtensions.caffeine
