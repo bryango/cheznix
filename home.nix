@@ -64,6 +64,7 @@ let
     ];
 
     cli.dev = [
+      difftastic
       jq
       jc
       direnv
