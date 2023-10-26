@@ -102,7 +102,7 @@ let
       python3Packages.ipython
       python3Packages.ruff-lsp  ruff  # exposes `ruff`
       (closurePackage {
-        inherit (pkgs.jedi-language-server) pname;
+        inherit (python3Packages.jedi-language-server) pname;
         version = "0.40.0";
         /* last build of pulsar before broken
             https://hydra.nixos.org/build/238821194
@@ -114,14 +114,7 @@ let
     ];
 
     gui.app = [
-      (closurePackage {
-        inherit (pkgs.pulsar) pname;
-        version = "1.109.0";
-        /* last build of pulsar before marked insecure
-            https://hydra.nixos.org/build/237386313
-        */
-        fromPath = /nix/store/mqk6v4p5jzkycbrs6qxgb2gg4qk6h3p1-pulsar-1.109.0;
-      })  # atom fork
+      pulsar  # atom fork
       gimp-with-plugins
 
       gnomeExtensions.caffeine
