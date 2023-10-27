@@ -91,16 +91,6 @@
         #   inherit (prev) chezmoi;
         # };
 
-        v2ray = final.closurePackage {
-          inherit (prev.v2ray) pname;
-          version = "5.7.0";
-          /* last build of v2ray before broken
-              https://hydra.nixos.org/build/238582267
-              https://github.com/NixOS/nixpkgs/issues/263528
-          */
-          fromPath = /nix/store/sqjjvy0l7vqsly0ijq7iidalkv4gyrhi-v2ray-core-5.7.0;
-        };
-
       };
 
       nixpkgs = self.inputs.${nixpkgs-follows};
