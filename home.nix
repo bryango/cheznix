@@ -101,15 +101,7 @@ let
       ### do NOT expose python itself for safety reasons
       python3Packages.ipython
       python3Packages.ruff-lsp  ruff  # exposes `ruff`
-      (closurePackage {
-        inherit (python3Packages.jedi-language-server) pname;
-        version = "0.40.0";
-        /* last build of pulsar before broken
-            https://hydra.nixos.org/build/238821194
-            https://github.com/NixOS/nixpkgs/issues/263493
-        */
-        fromPath = /nix/store/lb2y012m1nckzgw2a408zzaxn1cgg5vd-python3.11-jedi-language-server-0.40.0;
-      })
+      python3Packages.jedi-language-server
       poetry
     ];
 
