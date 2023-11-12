@@ -22,7 +22,7 @@ let
       nix  # manage itself ## daemon managed by root
       cachix
       nix-tree
-      system-manager
+      nix-diff
     ];
 
     nix.dev = [
@@ -31,18 +31,19 @@ let
       nixpkgs-hammering
       nixpkgs-review
       hydra-check
-      nix-diff
-      # nixd  # better? language server ## not stable
       # nvd  # version diff
+      # nixd  # better? language server ## not stable
+      system-manager  # to be stabilized
     ];
 
     cli.basic = [
       (neovim.override { withRuby = false; })
-      devbox
+      jq
       bat
       fzf
       byobu-with-tmux
       diff-so-fancy
+      shellcheck
       git
       chezmoi
       age
@@ -53,7 +54,6 @@ let
       lsof
       wget
       trash-cli
-      mosh
       openssh  # need to unset SSH_AUTH_SOCK, maybe
       # trashy  # better, but its zsh completion is broken
 
@@ -64,24 +64,17 @@ let
     ];
 
     cli.dev = [
+      mosh
+      devbox
       difftastic
-      jq
       jc
       direnv
-      shellcheck
       rtx
       nodejs  # required by coc.nvim
       cargo-binstall  # then `cargo binstall cargo-quickinstall`
       # evcxr  # too heavy, instead `cargo quickinstall evcxr_repl`
       # watchman  # as git fsmonitor, gigantic deps
       # getoptions  # shell argument parser
-
-      (inetutils.overrideAttrs (prev: {
-        meta = prev.meta // {
-          priority = 7;
-          ## ^ lower than: default = 5; util-linux = 6;
-        };
-      }))  # telnet
     ];
 
     cli.app = [
@@ -89,6 +82,13 @@ let
       uxplay  # airplay server
       tectonic-with-biber  # from `nixpkgs-follows`
       fuse-overlayfs
+
+      (inetutils.overrideAttrs (prev: {
+        meta = prev.meta // {
+          priority = 7;
+          ## ^ lower than: default = 5; util-linux = 6;
+        };
+      }))  # telnet
     ];
 
     cli.python = let
