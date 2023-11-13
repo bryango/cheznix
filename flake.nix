@@ -65,10 +65,11 @@
       allowInsecurePredicate = pkg:
         let
           name = pkg.name or "${pkg.pname or "«name-missing»"}-${pkg.version or "«version-missing»"}";
-        in (
-          (lib.hasPrefix "python-2.7" name) ||
-          (lib.hasPrefix "pulsar" name)
-        );
+        in
+          false
+          || (lib.hasPrefix "python-2.7" name)
+          || (lib.hasPrefix "pulsar" name)
+        ;
     };
 
     ## _attrset_ of flake-style named overlays

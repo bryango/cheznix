@@ -9,14 +9,20 @@ final: prev:
     ## ^ nix eval --raw --no-write-lock-file ../pkgs/tectonic-with-biber#biber
   };
 
-  pulsar = final.closurePackage {
-    inherit (prev.pulsar) pname;
-    version = "1.109.0";
-    /* last build of pulsar before marked insecure
-        https://hydra.nixos.org/build/237386313
-    */
-    fromPath = /nix/store/mqk6v4p5jzkycbrs6qxgb2gg4qk6h3p1-pulsar-1.109.0;
-  };
+  pulsar = prev.pulsar.overrideAttrs (prev: {
+    version = "1.110.0";
+    src = builtins.fetchClosure {
+      /* artifact:
+          https://github.com/pulsar-edit/pulsar/actions/runs/6527478252?pr=766
+        - `nix store add-file`
+        - `nix store make-content-addressed` => `$storePath`
+        - `echo "$storePath" | cachix push chezbryan`
+      */
+      fromStore = "https://chezbryan.cachix.org";
+      # fromPath = /nix/store/slcqsdm5pmx3f1lz56pzd5anz2fnmjhl-Linux.pulsar-1.110.0.tar.gz;
+      fromPath = /nix/store/zs6h3bsw8xmbmxb3rmhqvgqsb9z5szpy-Linux.pulsar-1.110.0.tar.gz;
+    };
+  });
 
   tectonic-with-biber = prev.callPackage ../pkgs/tectonic-with-biber {
     biber = final.biber217;
