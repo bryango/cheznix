@@ -5,6 +5,7 @@ set -x
 cd "$(dirname "$0")" || exit
 
 nix build . "$@"
+code=$?
 
 set +x
 echo "## check consistency of biber217"
@@ -18,3 +19,5 @@ if [[ "$src" == "$out" ]]
 then echo "## consistent!"
 else echo "## inconsistent!"
 fi
+
+exit "$code"
