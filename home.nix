@@ -110,9 +110,6 @@ let
       pulsar  # atom fork
       gimp-with-plugins
 
-      gnomeExtensions.caffeine
-      gnomeExtensions.kimpanel
-
       ## vscode dummy:
       (binaryFallback "code" (writeShellScriptBin "code" ''exec echo "$@"''))
     ];
