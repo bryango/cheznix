@@ -75,6 +75,7 @@ let
       # evcxr  # too heavy, instead `cargo quickinstall evcxr_repl`
       # watchman  # as git fsmonitor, gigantic deps
       # getoptions  # shell argument parser
+      # diffoscopeMinimal  # too heavy, use distro package instead
     ];
 
     cli.app = [
