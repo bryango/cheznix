@@ -137,6 +137,12 @@ nix registry add nixpkgs github:NixOS/nixpkgs/dc6263a3028cb06a178c16a0dd11e27175
 
 One can also alias / override / add local repositories; this is done automatically in [**modules/flake-channels.nix**](modules/flake-channels.nix).
 
+Although nixpkgs is mostly rolling, mass rebuild of packages are bundled together through the `staging` workflow.
+To get a list of `staging-next` merges, go to:
+- https://github.com/NixOS/nixpkgs/pulls?q=head%3Astaging-next+sort%3Acreated-desc
+
+See also [**doc/staging-bisect.md**](doc/staging-bisect.md).
+
 ## binary cache `substituters`
 
 Here we follow the guidance of [**tuna**](https://mirrors.tuna.tsinghua.edu.cn/help/nix/).
@@ -174,9 +180,3 @@ profile-$gen-link -> /nix/store/#some-hash
 The files are well-documented in [`man nix-env`](https://nixos.org/manual/nix/unstable/command-ref/nix-env.html) and [`man nix3-profile`](https://nixos.org/manual/nix/unstable/command-ref/new-cli/nix3-profile), except for the last one: `/nix/var/nix/profiles/default` which seems to be undocumented but useful.
 
 > **History:** the profile locations have been changed before! See https://github.com/NixOS/nix/pull/5226. The new defaults seem more reasonable.
-
-## `staging`
-
-To get a list of `staging-next` merges, go to:
-
-https://github.com/NixOS/nixpkgs/pulls?q=head%3Astaging-next+sort%3Acreated-desc
