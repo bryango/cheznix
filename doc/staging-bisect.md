@@ -1,6 +1,7 @@
 ## Bisect `staging` regressions
 
-**Reference:** https://github.com/NixOS/nixpkgs/blob/master/CONTRIBUTING.md#staging
+- **Reference:** https://github.com/NixOS/nixpkgs/blob/master/CONTRIBUTING.md#staging
+- **`staging-next`** https://github.com/NixOS/nixpkgs/pulls?q=head%3Astaging-next+sort%3Acreated-desc
 
 PRs merged into the `staging` branch are not immediately built by hydra.
 They are manually batched and merged into `staging-next` for a mass hydra rebuild.
@@ -17,7 +18,7 @@ To find a cached build:
 We check its ancestors successively, for a commit that belongs to some PR which has been merged into `master`, not `staging`.
 [This commit](https://github.com/NixOS/nixpkgs/commit/3e483a0e1fc75a57e2ef551c416f52ec598a426d) is an automatic sync from the hydra built `staging-next` to `staging`. At some time in its future, it is manually merged back into `staging-next` and finally back into `master` (https://github.com/NixOS/nixpkgs/pull/248496). This is the branch point which lies in the _future_ of the PR https://github.com/NixOS/nixpkgs/pull/246963 of our interest.
 
-In order to get rid of https://github.com/NixOS/nixpkgs/pull/246963 which comes from `staging`, we can simply go to the parent (https://github.com/NixOS/nixpkgs/pull/249953) of the branch point (https://github.com/NixOS/nixpkgs/pull/248496). The price is that we also lose everything else that comes along the `staging` merge. To get a list of `staging-next` merges, go to:
+In order to get rid of https://github.com/NixOS/nixpkgs/pull/246963 which comes from `staging`, we can simply go to the parent (https://github.com/NixOS/nixpkgs/pull/249953) of the branch point (https://github.com/NixOS/nixpkgs/pull/248496). The price is that we also lose everything else that comes along the `staging` merge. 
 
 https://github.com/NixOS/nixpkgs/pulls?q=head%3Astaging-next+sort%3Acreated-desc
 
