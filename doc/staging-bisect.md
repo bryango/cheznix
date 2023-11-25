@@ -22,12 +22,16 @@ This is not possible from the GitHub webui, but once we have a local checkout of
 rev=92e83bfab5d0dac17ed868fd1ba2118193597f42  ## pr NixOS/nixpkgs#246963
 git log --reverse --ancestry-path --topo-order "$rev"^..master
 ```
-The `--ancestry-path` flag focuses onto the commits that connects `"$rev"^` to master and discard other branches.
-Scroll down towards the future and look for the next `staging > staging-next > master` merge.
+The `--ancestry-path` flag focuses onto the commits that connects `"$rev"^` to master
+and discard irrelevant branches.
+We then scroll down towards the future and look for the next `staging > staging-next > master` merge.
 This is:
 - _The `staging-next` merge:_  https://github.com/NixOS/nixpkgs/pull/248496
 
-In order to isolate the suspect https://github.com/NixOS/nixpkgs/pull/246963 which comes from `staging`, we can simply go to the parent (https://github.com/NixOS/nixpkgs/pull/249953) of the merge point (https://github.com/NixOS/nixpkgs/pull/248496). The price is that we also lose everything else that comes along the `staging` merge. 
+In order to undo the suspect https://github.com/NixOS/nixpkgs/pull/246963 which comes from `staging`,
+we can simply go to the parent https://github.com/NixOS/nixpkgs/pull/249953
+of the `staging-next` merge https://github.com/NixOS/nixpkgs/pull/248496.
+The price is that we also lose everything else that comes along the `staging` merge. 
 
 
 ## Back to the future from its ancestors
@@ -36,10 +40,10 @@ The same can be achieved with the Github webui, although it might be a bit convo
 In particular, `git log --reverse "$rev"^..master` can be achieved with a Github `/compare`,
 but there is no way to specify `--ancestry-path --topo-order` so there might be some disordered or irrelevant commits.
 
-Alternatively, we can go the other way around by checking the ancestors of the suspect, successively.
+Alternatively, we can go the other way around by checking the _ancestors_ of the suspect, successively.
 We are trying to find a commit that belongs to some PR which has been merged into `master`, not `staging`.
+We find that:
 - _The ancestor:_ https://github.com/NixOS/nixpkgs/commit/3e483a0e1fc75a57e2ef551c416f52ec598a426d
 
 is an automatic sync from the hydra built `staging-next` to `staging`. At some time in its future, it is manually merged back into `staging-next` and finally back into `master`, through https://github.com/NixOS/nixpkgs/pull/248496. We've hences successfully located the `staging-next` merge as above.
-
-This is the merge point which lies in the _future_ of the suspect https://github.com/NixOS/nixpkgs/pull/246963 of our interest.
+Note that this merge point lies in the _future_ of the suspect https://github.com/NixOS/nixpkgs/pull/246963 of our interest, but it can be located by going to the _past_ of our suspect.
