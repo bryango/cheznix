@@ -106,6 +106,10 @@ nix-collect-garbage  # --delete-older-than, --max-freed, --dry-run
 To get an overview of package sizes,
 ```bash
 nix path-info --all -hs | sort -hk2
+nix path-info --json --all \
+  | jq 'map(.narSize) | add' \
+  | numfmt --to=iec-i --format=%.2f
+  ## total size of the store
 ```
 
 # nix intro
