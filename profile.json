@@ -2,9 +2,20 @@
   "elements": [
     {
       "active": true,
+      "attrPath": "packages.x86_64-linux.default",
+      "originalUrl": "git+file:///home/bryan/apps/utils/xinput-json",
+      "outputs": null,
       "priority": 5,
       "storePaths": [
-        "/nix/store/585lzb7mr2k8nn53id2fqx42vcjs72jn-home-manager-path"
+        "/nix/store/4iwyawjcwkn2vi6rz2nwnq0zh1x12lyi-xinput-json-0.3.1"
+      ],
+      "url": "git+file:///home/bryan/apps/utils/xinput-json?ref=refs/heads/master&rev=1dfc1e6f348304586a5b3bdfcbe7cc27c4445ea6"
+    },
+    {
+      "active": true,
+      "priority": 5,
+      "storePaths": [
+        "/nix/store/nkaljx3ljfsdz9w40amzmmxfja0s6wlj-home-manager-path"
       ]
     }
   ],

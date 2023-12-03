@@ -70,8 +70,9 @@ let
       jc
       direnv
       rtx
-      nodejs  # required by coc.nvim
+      rustup
       cargo-binstall  # then `cargo binstall cargo-quickinstall`
+      nodejs  # required by coc.nvim
       # evcxr  # too heavy, instead `cargo quickinstall evcxr_repl`
       # watchman  # as git fsmonitor, gigantic deps
       # getoptions  # shell argument parser
@@ -104,6 +105,7 @@ let
       python3Packages.ruff-lsp  ruff  # exposes `ruff`
       python3Packages.jedi-language-server
       poetry
+      pipx
     ];
 
     gui.app = [
