@@ -65,7 +65,6 @@ let
 
     cli.dev = [
       mosh
-      devbox
       difftastic
       jc
       direnv
@@ -77,6 +76,7 @@ let
       # watchman  # as git fsmonitor, gigantic deps
       # getoptions  # shell argument parser
       # diffoscopeMinimal  # too heavy, use distro package instead
+      # devbox  # cool but I am mostly using vanilla nix flake
     ];
 
     cli.app = [
