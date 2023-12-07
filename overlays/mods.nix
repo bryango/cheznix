@@ -2,17 +2,6 @@ final: prev:
 
 { ## be careful of `rec`, might not work
 
-  pkgsStatic.perl = prev.pkgsStatic.perl.overrideAttrs (prevAttrs: {
-    patches = prevAttrs.patches ++ [
-      (prev.fetchpatch {
-        ## https://github.com/Perl/perl5/issues/21550
-        ## https://github.com/NixOS/nixpkgs/issues/271226
-        url = "https://patch-diff.githubusercontent.com/raw/Perl/perl5/pull/21320.patch";
-        sha256 = "sha256-s8KYxR0Tyr9Mu8nYJDfipCrt494fyem44GWJtvynJwA=";
-      })
-    ];
-  });
-
   biber217 = final.closurePackage {
     inherit (prev.biber) pname;
     version = "2.17";
@@ -20,7 +9,7 @@ final: prev:
     ## ^ nix eval --raw --no-write-lock-file ../pkgs/tectonic-with-biber#biber
   };
 
-  pulsar = prev.pulsar.overrideAttrs (prevAttrs: {
+  pulsar = prev.pulsar.overrideAttrs (prev: {
     version = "1.110.0";
     src = builtins.fetchClosure {
       /* artifact:
