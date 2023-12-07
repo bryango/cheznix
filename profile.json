@@ -18,15 +18,15 @@
       "outputs": null,
       "priority": 5,
       "storePaths": [
-        "/nix/store/0flg17y3r2jyr6kn2v733b5f21j60dgk-xinput-wingcool-bind"
+        "/nix/store/ab5d5wjggs436r7lcrpxahxv84xa7q1r-xinput-wingcool-bind"
       ],
-      "url": "git+file:///home/bryan/apps/utils/xinput-json?ref=refs/heads/master&rev=61b6e4c5cf1cff5aeaa37345adbe1204ecfb7fdd"
+      "url": "git+file:///home/bryan/apps/utils/xinput-json?ref=refs/heads/master&rev=891cdca9f0338f2fb0e4a7cd03530a2e52b32a17"
     },
     {
       "active": true,
       "priority": 5,
       "storePaths": [
-        "/nix/store/ifri74q2rk3kpxi6ghz3j8dal6s6n8pm-home-manager-path"
+        "/nix/store/k5j3s1wz81vmza0c29cb0n11jpqka7hb-home-manager-path"
       ]
     }
   ],

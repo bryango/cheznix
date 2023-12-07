@@ -67,7 +67,6 @@ let
       mosh
       difftastic
       jc
-      direnv
       rtx
       rustup
       cargo-binstall  # then `cargo binstall cargo-quickinstall`
@@ -178,15 +177,26 @@ in {
 
   programs.nixpkgs-helpers.viewer = "echo code --goto";
 
+  programs.direnv = {
+    enable = true;
+    nix-direnv.enable = true;
+  };
+
   programs.man = {
     enable = true;  ## `disable` to use system manpage
-    package = pkgs.closurePackage {
-      inherit (pkgs.man) pname;
-      version = "2.11.2";
-      /* last build of man-db with groff<1.23
-          https://hydra.nixos.org/build/229015976
-      */
-      fromPath = /nix/store/16v2fg1yz5k8b0h869aq31w6b3gwn38w-man-db-2.11.2;
+    package = pkgs.man.override {
+      groff = pkgs.groff.overrideAttrs (prevAttrs: let
+        site-tmac = pkgs.fetchurl {
+          url = "https://raw.githubusercontent.com/afh/nixpkgs/groff-man-compat-staging/pkgs/tools/text/groff/site.tmac";
+          hash = "sha256-IOiTr1KF1Y4QiLTGdzaJXdpGxSzlj5dXqoTVhHJXBQQ=";
+        };
+      in {
+        postInstall = prevAttrs.postInstall + ''
+          for f in 'man.local' 'mdoc.local'; do
+            cat '${site-tmac}' > "$out/share/groff/site-tmac/$f"
+          done
+        '';
+      });
     };
   };
 
