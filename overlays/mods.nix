@@ -9,14 +9,6 @@ final: prev:
     ## ^ nix eval --raw --no-write-lock-file ../pkgs/tectonic-with-biber#biber
   };
 
-  perl539 = (prev.perl538.override {
-    self = final.perl539;
-    version = "5.39.5";
-    sha256 = "sha256-OeT434PLdH7fPhegovjuEDU7oWcptmXNUEfOwnIvbtE=";
-  }).overrideAttrs (prevAttrs: {
-    patches = [];
-  });
-
   pulsar = prev.pulsar.overrideAttrs (prev: {
     version = "1.110.0";
     src = builtins.fetchClosure {
