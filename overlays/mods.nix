@@ -2,11 +2,26 @@ final: prev:
 
 { ## be careful of `rec`, might not work
 
-  biber217 = final.closurePackage {
-    inherit (prev.biber) pname;
-    version = "2.17";
-    fromPath = /nix/store/pbv19v0mw57sxa7h6m1hzjvv33mdxxdf-perl5.36.0-biber-2.17;
-    ## ^ nix eval --raw --no-write-lock-file ../pkgs/tectonic-with-biber#biber
+  biber217 = let version = "2.17"; in (
+    prev.biber.override {
+      texlive.pkgs.biber.texsource =  {
+        inherit version;
+        inherit (prev.biber) pname meta;
+      };
+    }
+  ).overrideAttrs {
+    src = prev.fetchFromGitHub {
+      owner = "plk";
+      repo = "biber";
+      rev = "v${version}";
+      hash = "sha256-Tt2sN2b2NGxcWyZDj5uXNGC8phJwFRiyH72n3yhFCi0=";
+    };
+    patches = [
+      (prev.fetchpatch {
+        url = "https://patch-diff.githubusercontent.com/raw/plk/biber/pull/411.patch";
+        hash = "sha256-osgldRVfe3jnMSOMnAMQSB0Ymc1s7J6KtM2ig3c93SE=";
+      })
+    ];
   };
 
   pulsar = prev.pulsar.overrideAttrs (prev: {
