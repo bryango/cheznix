@@ -3,17 +3,17 @@ final: prev:
 { ## be careful of `rec`, might not work
 
   pulsar = prev.pulsar.overrideAttrs (prev: {
-    version = "1.110.0";
+    version = "1.111.0";
     src = builtins.fetchClosure {
       /* artifact:
-          https://github.com/pulsar-edit/pulsar/actions/runs/6527478252?pr=766
+          https://github.com/pulsar-edit/pulsar/actions/runs/6886278991?pr=807
         - `nix store add-file`
         - `nix store make-content-addressed` => `$storePath`
         - `echo "$storePath" | cachix push chezbryan`
       */
       fromStore = "https://chezbryan.cachix.org";
-      fromPath = /nix/store/slcqsdm5pmx3f1lz56pzd5anz2fnmjhl-Linux.pulsar-1.110.0.tar.gz;
-      toPath = /nix/store/zs6h3bsw8xmbmxb3rmhqvgqsb9z5szpy-Linux.pulsar-1.110.0.tar.gz;
+      fromPath = /nix/store/il7gx5f4arhhar3qkqkhqg05aissnf41-Linux.pulsar-1.111.0.tar.gz;
+      toPath = /nix/store/7s486dgpwzdrrgnh7inhkcff3r44qwh9-Linux.pulsar-1.111.0.tar.gz;
     };
   });
 
