@@ -13,22 +13,18 @@
           https://hydra.nixos.org/jobset/nixpkgs/trunk/evals
     */
 
-    nixpkgs_python2 = {
-      /*
-        - https://github.com/NixOS/nixpkgs/pull/201859 marks insecure
-        - https://github.com/NixOS/nixpkgs/pull/245894 breaks build
-        - https://github.com/NixOS/nixpkgs/pull/246976 fixes build
-        - https://github.com/NixOS/nixpkgs/pull/246963 breaks again
-        - https://github.com/NixOS/nixpkgs/pull/251548 fixes build
+    # nixpkgs_python2 = {
+    #   /*
+    #     - https://github.com/NixOS/nixpkgs/pull/201859 marks insecure
+    #     - https://github.com/NixOS/nixpkgs/pull/245894 breaks build
+    #     - https://github.com/NixOS/nixpkgs/pull/246976 fixes build
+    #     - https://github.com/NixOS/nixpkgs/pull/246963 breaks again
+    #     - https://github.com/NixOS/nixpkgs/pull/251548 fixes build
 
-        pin to a working rev:
-      */
-      # url = "github:NixOS/nixpkgs/8a33bfa212653a1f4d5f2c2d6097418bd639dda9";
-      follows = "nixpkgs";
-      /*
-        ^ alternatively, toggle to follow `nixpkgs`
-      */
-    };
+    #     pin to a working rev:
+    #   */
+    #   url = "github:NixOS/nixpkgs/8a33bfa212653a1f4d5f2c2d6097418bd639dda9";
+    # };
 
     ## a nice filesystem based importer
     haumea = {

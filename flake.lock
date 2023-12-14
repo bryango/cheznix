@@ -38,10 +38,7 @@
     "root": {
       "inputs": {
         "haumea": "haumea",
-        "nixpkgs": "nixpkgs",
-        "nixpkgs_python2": [
-          "nixpkgs"
-        ]
+        "nixpkgs": "nixpkgs"
       }
     }
   },
