@@ -87,13 +87,13 @@
 
       flakeSelf = self;
 
-      pkgsPython2 = import inputs.nixpkgs_python2 {
-        inherit (prev) system config;
-      };
+      # pkgsPython2 = import inputs.nixpkgs_python2 {
+      #   inherit (prev) system config;
+      # };
 
       gimp = prev.gimp.override {
         withPython = true;
-        python2 = final.pkgsPython2.python2;
+        # python2 = final.pkgsPython2.python2;
       };
 
       ## nixpkgs source, i.e. `outPath`, in `pkgs`
