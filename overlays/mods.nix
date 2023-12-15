@@ -7,9 +7,10 @@ final: prev:
     src = builtins.fetchClosure {
       /* artifact:
           https://github.com/pulsar-edit/pulsar/actions/runs/6886278991?pr=807
-        - `nix store add-file`
-        - `nix store make-content-addressed` => `$storePath`
+        - `nix store add-file` => `$storePath`
         - `echo "$storePath" | cachix push chezbryan`
+        - `cachix pin chezbryan pulsar-source "$storePath"`
+        - `nix store make-content-addressed`
       */
       fromStore = "https://chezbryan.cachix.org";
       fromPath = /nix/store/il7gx5f4arhhar3qkqkhqg05aissnf41-Linux.pulsar-1.111.0.tar.gz;
