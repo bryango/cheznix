@@ -81,7 +81,7 @@ let
     cli.app = [
       circumflex  # hacker news terminal
       uxplay  # airplay server
-      tectonic-with-biber  # from `nixpkgs-follows`
+      tectonic
       fuse-overlayfs
 
       (inetutils.overrideAttrs (prev: {
