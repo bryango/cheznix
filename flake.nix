@@ -65,10 +65,6 @@
           withGeolocation = false;
         };
 
-        fzf = prev.fzf.override {
-          glibcLocales = "/usr";
-        };
-
         ## override home environments
         buildEnv = attrs:
           if attrs.name or "" == "home-manager-path"
