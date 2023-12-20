@@ -14,13 +14,16 @@ tectonic.overrideAttrs (prevAttrs: {
     /*
       Provides a version lock of the tectonic web bundle for reproducible builds
       by specifying the environment variable `TECTONIC_WEB_BUNDLE_LOCKED`.
-
-      Upstream PR: https://github.com/tectonic-typesetting/tectonic/pull/1131
       This patch should be removed once the upstream PR is merged.
     */
     (fetchpatch {
-      url = "https://github.com/tectonic-typesetting/tectonic/commit/4491480dab6578941f8516dd40563cdc5c5f9ebc.patch";
+      url = "https://patch-diff.githubusercontent.com/raw/tectonic-typesetting/tectonic/pull/1131.patch";
       hash = "sha256-lnV4ZJLsAB0LC6PdKNjUreUPDKeD+L5lPod605tQtYo=";
+    })
+    # consistent `--web-bundle` CLI
+    (fetchpatch {
+      url = "https://patch-diff.githubusercontent.com/raw/tectonic-typesetting/tectonic/pull/1132.patch";
+      hash = "sha256-PKfjlDPRkjUTegqZzwXrHnOXmAoHtSaT1zFihpFjumQ=";
     })
   ];
 
