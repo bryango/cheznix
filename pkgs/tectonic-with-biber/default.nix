@@ -1,70 +1,59 @@
 { lib
-, makeBinaryWrapper
-, symlinkJoin
 , tectonic
-, biber
+, callPackage
+, fetchpatch
 }:
 
 let
-
-  pname = "tectonic-with-biber";
-  inherit (biber) version;
-
-  ## manually construct the name for symlinkJoin
-  name = "${pname}-${version}";
-
-  meta = tectonic.meta // {
-    inherit name;
-    description = "Modernized TeX/LaTeX engine, with biber for bibliography";
-    longDescription = ''
-      This package wraps tectonic with biber without triggering rebuilds.
-      The biber executable is exposed with a version suffix, such as
-      `biber-2.17`, to prevent conflict with the `biber` associated with
-      the texlive bundles. Example use:
-
-          ## pin last successful build of biber-2.17
-          ## ... from https://hydra.nixos.org/build/202359527
-          let
-            rev = "40f79f003b6377bd2f4ed4027dde1f8f922995dd";
-            nixpkgs_biber217 = import (builtins.fetchTarball {
-              url = "https://github.com/NixOS/nixpkgs/archive/''${rev}.tar.gz";
-              sha256 = "1javsbaxf04fjygyp5b9c9hb9dkh5gb4m4h9gf9gvqlanlnms4n5";
-            }) {};
-          in
-            tectonic-with-biber.override {
-              biber = nixpkgs_biber217.biber;
-            }
-
-      This serves as a fix for:
-      - https://github.com/NixOS/nixpkgs/issues/88067
-      - https://github.com/tectonic-typesetting/tectonic/issues/893
-    '';
-  };
-
-  ## produce the correct `meta.position`
-  pos = builtins.unsafeGetAttrPos "description" meta;
-
+  biber-for-tectonic = ./biber.nix;
 in
 
-symlinkJoin {
+tectonic.overrideAttrs (prevAttrs: {
 
-  inherit pname version name meta pos;
+  patches = [
+    /*
+      Provides a version lock of the tectonic web bundle for reproducible builds
+      by specifying the environment variable `TECTONIC_WEB_BUNDLE_LOCKED`.
 
-  ## biber is **not** directly exposed in paths
-  paths = [ tectonic ];
+      Upstream PR: https://github.com/tectonic-typesetting/tectonic/pull/1131
+      This patch should be removed once the upstream PR is merged.
+    */
+    (fetchpatch {
+      url = "https://github.com/tectonic-typesetting/tectonic/commit/4491480dab6578941f8516dd40563cdc5c5f9ebc.patch";
+      hash = "sha256-lnV4ZJLsAB0LC6PdKNjUreUPDKeD+L5lPod605tQtYo=";
+    })
+  ];
 
-  nativeBuildInputs = [ makeBinaryWrapper ];
+  /*
+    The version locked tectonic web bundle, redirected from:
+      https://relay.fullyjustified.net/default_bundle_v33.tar
+    To check for updates: look up `get_fallback_bundle_url` from:
+      https://github.com/tectonic-typesetting/tectonic/blob/master/crates/bundles/src/lib.rs
+  */
+  TECTONIC_WEB_BUNDLE_LOCKED = "https://data1.fullyjustified.net/tlextras-2022.0r0.tar";
 
-  ## tectonic runs biber when it detects it needs to run it, see:
-  ## https://github.com/tectonic-typesetting/tectonic/releases/tag/tectonic%400.7.0
-  postBuild = ''
+  passthru = {
+    unwrapped = tectonic;
+    biber = biber-for-tectonic;
+    tests = callPackage ./tests.nix { };
+  };
+
+  # tectonic runs biber when it detects it needs to run it, see:
+  # https://github.com/tectonic-typesetting/tectonic/releases/tag/tectonic%400.7.0
+  postInstall = ''
     wrapProgram $out/bin/tectonic \
-      --prefix PATH : "${lib.getBin biber}/bin"
-    makeBinaryWrapper "${lib.getBin biber}/bin/biber" \
-      $out/bin/biber-${biber.version}
-  '';
-  ## the biber executable is exposed as `biber-${biber.version}`
+      --prefix PATH : "${lib.getBin biber-for-tectonic}/bin"
+  '' + (prevAttrs.postInstall or "");
 
-  passthru = { inherit biber; };
+  meta = prevAttrs.meta // {
+    description = "Tectonic, wrapped with the correct biber version";
+    longDescription = ''
+      This package wraps tectonic with a compatible version of biber.
+      The tectonic web bundle is pinned to ensure reproducibility.
+      This serves as a downstream fix for:
+      - https://github.com/tectonic-typesetting/tectonic/issues/893
+    '';
+    maintainers = with lib.maintainers; [ bryango ];
+  };
 
-}
+})

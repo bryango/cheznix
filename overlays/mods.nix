@@ -2,6 +2,10 @@ final: prev:
 
 { ## be careful of `rec`, might not work
 
+  tectonic = prev.callPackage ../pkgs/tectonic-with-biber {
+    tectonic = prev.tectonic;
+  };
+
   pulsar = prev.pulsar.overrideAttrs (prev: {
     version = "1.111.0";
     src = builtins.fetchClosure {
