@@ -23,7 +23,7 @@ tectonic.overrideAttrs (prevAttrs: {
     # consistent `--web-bundle` CLI
     (fetchpatch {
       url = "https://patch-diff.githubusercontent.com/raw/tectonic-typesetting/tectonic/pull/1132.patch";
-      hash = "sha256-PKfjlDPRkjUTegqZzwXrHnOXmAoHtSaT1zFihpFjumQ=";
+      hash = "sha256-I1dR0O/WRki8ZjEPhkuDNA4x4jrMfxtyU6/yoVyCTps=";
     })
   ];
 
