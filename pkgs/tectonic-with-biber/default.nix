@@ -5,7 +5,8 @@
 }:
 
 let
-  biber-for-tectonic = ./biber.nix;
+  biber = callPackage ./biber.nix { };
+  tests = callPackage ./tests.nix { };
 in
 
 tectonic.overrideAttrs (prevAttrs: {
@@ -37,15 +38,17 @@ tectonic.overrideAttrs (prevAttrs: {
 
   passthru = {
     unwrapped = tectonic;
-    biber = biber-for-tectonic;
-    tests = callPackage ./tests.nix { };
+    inherit
+      biber
+      tests
+    ;
   };
 
   # tectonic runs biber when it detects it needs to run it, see:
   # https://github.com/tectonic-typesetting/tectonic/releases/tag/tectonic%400.7.0
   postInstall = ''
     wrapProgram $out/bin/tectonic \
-      --prefix PATH : "${lib.getBin biber-for-tectonic}/bin"
+      --prefix PATH : "${lib.getBin biber}/bin"
   '' + (prevAttrs.postInstall or "");
 
   meta = prevAttrs.meta // {
