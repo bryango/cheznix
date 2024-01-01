@@ -1,3 +1,6 @@
+## this is made obselete due to recent updates in nixpkgs
+## kept for historical references
+
 {
   description = "Tectonic with biber override";
 
