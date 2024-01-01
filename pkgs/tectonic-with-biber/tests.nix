@@ -1,4 +1,4 @@
-# This package provides `tectonic-with-biber.passthru.tests`.
+# This package provides `tectonic.passthru.tests`.
 
 { lib
 , fetchFromGitHub
@@ -11,7 +11,7 @@
 let
   /*
     Currently, the test files are only fully available from the `dev` branch of
-    `biber`. If https://github.com/plk/biber/pull/467 is merged and released,
+    `biber`. When https://github.com/plk/biber/pull/467 is eventually released,
     we can obtain the test files from `texlive.pkgs.biber.texsource`. For now,
     we fetch the test files directly from GitHub.
   */
