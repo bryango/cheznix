@@ -191,11 +191,15 @@ in {
           hash = "sha256-IOiTr1KF1Y4QiLTGdzaJXdpGxSzlj5dXqoTVhHJXBQQ=";
         };
       in {
-        postInstall = prevAttrs.postInstall + ''
+        postInstall = ''
           for f in 'man.local' 'mdoc.local'; do
-            cat '${site-tmac}' > "$out/share/groff/site-tmac/$f"
+            cat '${site-tmac}' >> "$out/share/groff/site-tmac/$f"
+
+            ## lock these files to prevent overrides:
+            chmod a-w "$out/share/groff/site-tmac/$f"
+            set +e ## do not panic when later overrides fail
           done
-        '';
+        '' + prevAttrs.postInstall;
       });
     };
   };
