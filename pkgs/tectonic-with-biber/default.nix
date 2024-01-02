@@ -14,6 +14,7 @@ let
   #   https://github.com/tectonic-typesetting/tectonic/blob/master/crates/bundles/src/lib.rs
   # ... and look up `get_fallback_bundle_url`.
   TECTONIC_WEB_BUNDLE_LOCKED = "https://data1.fullyjustified.net/tlextras-2022.0r0.tar";
+  ## ^ TODO: define this in `passthru.bundle.url` when published
 
 in
 
@@ -37,6 +38,7 @@ in
 
   passthru = prevAttrs.passthru // {
     tests = callPackage ./tests.nix { };
+    bundle.url = TECTONIC_WEB_BUNDLE_LOCKED;
   };
 
   # Replace the unwrapped tectonic with the one wrapping it with biber
