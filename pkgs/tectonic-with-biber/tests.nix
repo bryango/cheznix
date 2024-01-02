@@ -6,6 +6,7 @@
 , tectonic
 , curl
 , cacert
+, emptyFile
 }:
 
 let
@@ -25,42 +26,58 @@ let
 
   notice = builtins.toFile "tectonic-offline-notice" ''
     # To fetch tectonic's web bundle, the tests require internet access,
-    # which is not available in a build sandbox. To run the tests, try:
-    # `nix-build --no-sandbox --attr tectonic.passthru.tests`
+    # which is not available in the current environment.
   '';
   buildInputs = [ curl cacert tectonic ];
   checkInternet = ''
-    if curl --head "${tectonic.TECTONIC_WEB_BUNDLE_LOCKED}"; then
-      : # continue to the tests defined below
+    if curl --head "${tectonic.bundle.url}"; then
+      set -e # continue to the tests defined below, fail on error
     else
       cat "${notice}"
-      cp "${notice}" "$out"
+      cp "${emptyFile}" "$out"
       exit # bail out gracefully
     fi
   '';
 
+  fixedOutputTest = name: script: runCommand
+    # Introduce randomness on purpose to force rebuild
+    # See: https://github.com/figsoda/rand-nix/blob/main/default.nix
+    "${name}-${builtins.readFile /proc/sys/kernel/random/uuid}"
+    {
+      /*
+        Make a fixed-output derivation, return an `emptyFile` with fixed hash.
+        These derivations are allowed to access the internet from within a
+        sandbox, which allows us to test the automatic download of resource
+        files in tectonic, as a side effect. A random name is generated to
+        force rebuild of this fixed-output derivation.
+      */
+      inherit (emptyFile)
+        outputHashAlgo
+        outputHashMode
+        outputHash
+        ;
+      preferLocalBuild = true;
+      allowSubstitutes = false;
+      inherit buildInputs;
+    } ''
+    ${checkInternet}
+    ${script}
+    cp "${emptyFile}" "$out"
+  '';
+
 in
 {
-  biber = runCommand "tectonic-biber-test.pdf" {
-    inherit buildInputs;
-  } ''
-    ${checkInternet}
-
+  biber = fixedOutputTest "tectonic-biber-test" ''
     # import the test files
     cp "${testfiles}"/* .
 
     # tectonic caches in the $HOME directory, so set it to $PWD
     export HOME=$PWD
     tectonic -X compile ./test.tex
-
-    mv ./test.pdf $out
   '';
 
-  workspace = runCommand "tectonic-workspace-test" {
-    inherit buildInputs;
-  } ''
-    ${checkInternet}
-    tectonic -X new $out
-    cat $out/Tectonic.toml | grep "${tectonic.TECTONIC_WEB_BUNDLE_LOCKED}"
+  workspace = fixedOutputTest "tectonic-workspace-test" ''
+    tectonic -X new
+    cat Tectonic.toml | grep "${tectonic.bundle.url}"
   '';
 }
