@@ -6,6 +6,7 @@
 , tectonic
 , curl
 , cacert
+, testers
 }:
 
 let
@@ -28,22 +29,36 @@ let
     # which is not available in a build sandbox. To run the tests, try:
     # `nix-build --no-sandbox --attr tectonic.passthru.tests`
   '';
-  buildInputs = [ curl cacert tectonic ];
+  runtimeInputs = [ curl cacert tectonic ];
   checkInternet = ''
     if curl --head "${tectonic.TECTONIC_WEB_BUNDLE_LOCKED}"; then
       : # continue to the tests defined below
     else
       cat "${notice}"
-      cp "${notice}" "$out"
       exit # bail out gracefully
     fi
   '';
 
+  runTest = testers.runNixOSTest;
+  mkTest = name: text: { lib, ... }: {
+    inherit name;
+    nodes.machine = { pkgs, ... }: {
+      virtualisation.restrictNetwork = false;
+      environment.systemPackages = [
+        (pkgs.writeShellApplication {
+          inherit name runtimeInputs text;
+        })
+      ];
+    };
+    testScript = ''
+      machine.wait_for_unit("network-online.target")
+      machine.succeed("${name}")
+    '';
+  };
+
 in
 {
-  biber = runCommand "tectonic-biber-test.pdf" {
-    inherit buildInputs;
-  } ''
+  biber = runTest (mkTest "biber-test" ''
     ${checkInternet}
 
     # import the test files
@@ -52,15 +67,11 @@ in
     # tectonic caches in the $HOME directory, so set it to $PWD
     export HOME=$PWD
     tectonic -X compile ./test.tex
+  '');
 
-    mv ./test.pdf $out
-  '';
-
-  workspace = runCommand "tectonic-workspace-test" {
-    inherit buildInputs;
-  } ''
+  workspace = runTest (mkTest "workspace-test" ''
     ${checkInternet}
-    tectonic -X new $out
-    cat $out/Tectonic.toml | grep "${tectonic.TECTONIC_WEB_BUNDLE_LOCKED}"
-  '';
+    tectonic -X init
+    cat Tectonic.toml | grep "${tectonic.bundle.url}"
+  '');
 }
