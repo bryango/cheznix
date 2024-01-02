@@ -20,7 +20,7 @@ in
 
 (tectonic.override {
   tectonic-unwrapped = tectonic-unwrapped.overrideAttrs (prevAttrs: {
-    patches = [
+    patches = (prevAttrs.patches or []) ++ [
       /*
         Provides a consistent `--web-bundle` option across the CLIs. This enables
         a version lock of the tectonic web bundle for reproducible builds by
@@ -34,7 +34,7 @@ in
       })
     ];
   });
-}).overrideAttrs (prevAttrs: {
+}).overrideAttrs (finalAttrs: prevAttrs: {
 
   passthru = prevAttrs.passthru // {
     tests = callPackage ./tests.nix { };
@@ -42,12 +42,13 @@ in
   };
 
   # Replace the unwrapped tectonic with the one wrapping it with biber
-  postBuild = ''
+  # `buildCommand` here is for overriding, when upstreamed simply modify `postBuild`
+  buildCommand = prevAttrs.buildCommand + ''
     rm $out/bin/{tectonic,nextonic}
 
-    makeWrapper ${lib.getBin tectonic-unwrapped}/bin/tectonic $out/bin/tectonic \
+    makeWrapper ${lib.getBin prevAttrs.passthru.unwrapped}/bin/tectonic $out/bin/tectonic \
       --prefix PATH : "${lib.getBin biber-for-tectonic}/bin" \
-      --add-flags "--web-bundle ${TECTONIC_WEB_BUNDLE_LOCKED}"
+      --add-flags "--web-bundle ${finalAttrs.passthru.bundle.url}"
     ln -s $out/bin/tectonic $out/bin/nextonic
   '';
 })
