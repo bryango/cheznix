@@ -48,14 +48,19 @@ in { ## be careful of `rec`, might not work
     let
 
       lib = pkgs.lib;
-      applied = builtins.mapAttrs (name: f: f pkgs pkgs) attrOverlays;
-      merged = lib.attrsets.mergeAttrsList (builtins.attrValues applied);
+
+      ## this actually advances the fixed point, but don't worry,
+      ## we only use it to exact the package names:
+      applied = lib.mapAttrs (name: f: f pkgs pkgs) attrOverlays;
+      merged = lib.attrsets.mergeAttrsList (lib.attrValues applied);
       derivable = lib.filterAttrs (name: lib.isDerivation) merged;
+      attrnames = lib.unique (lib.attrNames derivable);
+      packages = lib.genAttrs attrnames (name: pkgs.${name});
 
       name = "user-drv-overlays";
 
     in {
-      ${name} = pkgs.linkFarm name derivable;
+      ${name} = pkgs.linkFarm name packages;
     };
 
   ## recursively collect & flatten flake inputs
