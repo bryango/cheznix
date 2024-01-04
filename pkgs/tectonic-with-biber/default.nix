@@ -25,7 +25,7 @@ in
         Provides a consistent `--web-bundle` option across the CLIs. This enables
         a version lock of the tectonic web bundle for reproducible builds by
         specifying a default `--web-bundle` flag, which can be overridden as
-        needed. This patch should be removed once the upstream PR is merged:
+        needed. This patch should be removed once the upstream PR is released:
           https://github.com/tectonic-typesetting/tectonic/pull/1132
       */
       (fetchpatch {
