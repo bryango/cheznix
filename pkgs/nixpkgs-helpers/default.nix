@@ -31,7 +31,7 @@ let
         value = path;
       };
 
-  in builtins.listToAttrs (map genHelperInfo paths);
+  in lib.listToAttrs (map genHelperInfo paths);
 
 in (
   runCommand "nixpkgs-helpers" { } ''

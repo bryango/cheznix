@@ -35,7 +35,7 @@
 
   };
 
-  outputs = { self, nixpkgs, haumea, ... } @ inputs:
+  outputs = { self, nixpkgs, haumea, ... }:
   let
 
     inherit (nixpkgs) lib;
@@ -108,7 +108,7 @@
 
     legacyPackages = forMySystems (system: import nixpkgs {
       inherit system config;
-      overlays = builtins.attrValues attrOverlays ++ [
+      overlays = lib.attrValues attrOverlays ++ [
         ( final: prev: prev.gatherOverlaid { } )
       ];
     });

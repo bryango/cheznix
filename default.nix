@@ -22,7 +22,7 @@ let
     (pkgs.overlays or [ ]) ++
     (args_.overlays or [ ]);
 
-  args__ = builtins.removeAttrs args_ [
+  args__ = removeAttrs args_ [
     "flakeSystem"
     "overlays"
   ];  ## ^ remove processed args

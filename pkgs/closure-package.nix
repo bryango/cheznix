@@ -19,8 +19,8 @@ let
     inputAddressed = false;
   });
 
-  requiredArgs = builtins.attrNames fetchSpec;
-  optionalSet = builtins.removeAttrs args requiredArgs;
+  requiredArgs = lib.attrNames fetchSpec;
+  optionalSet = removeAttrs args requiredArgs;
 
 in
 
