@@ -28,6 +28,7 @@ let
     nix.dev = [
       nil  # language server
       nixpkgs-fmt  # the official (?) formatter
+      nix-output-monitor
       nixpkgs-hammering
       nixpkgs-review
       hydra-check
