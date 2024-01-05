@@ -10,7 +10,7 @@ let
 
   ## remove the local flakes
   ## to reduce trivial rebuilds
-  flakeInputs = builtins.removeAttrs flakeInputs' [
+  flakeInputs = removeAttrs flakeInputs' [
     flakeSelfName
     nixpkgs-follows
   ];

@@ -25,7 +25,7 @@ let
 
   redshift-ctrl = pkgs.binarySubstitute "redshift-ctrl" {
     src = ./redshift-ctrl.sh;
-    allInstanceNames = with builtins; toString (attrNames allInstances);
+    allInstanceNames = toString (lib.attrNames allInstances);
   };
 
   xrandr = pkgs.xorg.xrandr;
