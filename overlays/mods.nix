@@ -2,9 +2,26 @@ final: prev:
 
 { ## be careful of `rec`, might not work
 
-  tectonic = prev.callPackage ../pkgs/tectonic-with-biber {
+  tectonic = prev.callPackage ../pkgs/tectonic-lock-bundle {
     tectonic = prev.tectonic;
   };
+
+  folly = prev.folly.overrideAttrs (prev: {
+    outputs = [ "out" "dev" ];
+    postFixup = ''
+      substituteInPlace $dev/lib/cmake/folly/folly-targets-release.cmake  \
+          --replace '$'{_IMPORT_PREFIX}/lib/ $out/lib/
+    '';
+    cmakeFlags = (prev.cmakeFlags or []) ++ [
+      # ensure correct dirs in $dev/lib/pkgconfig/libfolly.pc
+      # see https://github.com/NixOS/nixpkgs/issues/144170
+      "-DCMAKE_INSTALL_INCLUDEDIR=include"
+      "-DCMAKE_INSTALL_LIBDIR=lib"
+    ];
+  });
+
+  # trigger build farm by `gatherOverlaid`
+  watchman = prev.watchman;
 
   pulsar = prev.pulsar.overrideAttrs (prev: {
     version = "1.111.0";
