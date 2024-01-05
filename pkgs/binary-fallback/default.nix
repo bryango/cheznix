@@ -9,10 +9,8 @@
 writeShellApplication {
   inherit name;
   runtimeInputs = [ stdenvNoCC which ];
-  text = ''
-    source ${substituteAll {
-      src = ./binary-fallback.sh;
-      inherit name package;
-    }}
-  '';
+  text = builtins.readFile (substituteAll {
+    src = ./binary-fallback.sh;
+    inherit name package;
+  });
 }
