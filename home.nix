@@ -19,7 +19,8 @@ let
     ];
 
     nix.basic = [
-      nix  # manage itself ## daemon managed by root
+      ## pin & wait for fix of nix issue 9708
+      nixVersions.nix_2_18  # manage itself ## daemon managed by root
       cachix
       nix-tree
       nix-diff
