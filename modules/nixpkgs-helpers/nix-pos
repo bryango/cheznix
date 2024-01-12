@@ -11,11 +11,11 @@ fi
 package=$1
 shift
 
-IFS=" " read -r -a pos <<< "$(
-    package=$package "@pkgsposition@" --raw --apply toString | xargs
-)"
-relative=${pos[0]}
-nixpkgs=${pos[1]}
+pkgs_position() {
+    "@pkgsposition@" --raw --argstr package "$package" "$@" | xargs
+}
+relative=$(pkgs_position relative)
+nixpkgs=$(pkgs_position nixpkgs)
 
 >&2 echo "## relative: $relative"
 >&2 echo "## nixpkgs: $nixpkgs"
