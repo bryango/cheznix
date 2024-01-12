@@ -4,6 +4,7 @@
 , biber-for-tectonic
 , callPackage
 , fetchpatch
+, addCheckpointBuild
 }:
 
 let
@@ -18,9 +19,9 @@ let
 
 in
 
-(tectonic.override {
+addCheckpointBuild ((tectonic.override {
   tectonic-unwrapped = tectonic-unwrapped.overrideAttrs (prevAttrs: {
-    patches = (prevAttrs.patches or []) ++ [
+    patches = (prevAttrs.patches or [ ]) ++ [
       /*
         Provides a consistent `--web-bundle` option across the CLIs. This enables
         a version lock of the tectonic web bundle for reproducible builds by
@@ -51,4 +52,4 @@ in
       --add-flags "--web-bundle ${finalAttrs.passthru.bundle.url}"
     ln -s $out/bin/tectonic $out/bin/nextonic
   '';
-})
+}))

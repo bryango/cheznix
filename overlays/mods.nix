@@ -2,7 +2,7 @@ final: prev:
 
 { ## be careful of `rec`, might not work
 
-  tectonic = prev.callPackage ../pkgs/tectonic-lock-bundle {
+  tectonic = final.callPackage ../pkgs/tectonic-lock-bundle {
     tectonic = prev.tectonic;
   };
 

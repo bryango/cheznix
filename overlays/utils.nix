@@ -7,7 +7,25 @@ let
     callPackage
     recurseIntoAttrs;
 
-in { ## be careful of `rec`, might not work
+in
+
+## be careful of `rec`, might not work
+{
+  addCheckpointBuild = drv:
+    let
+      inherit (prev.checkpointBuildTools)
+        prepareCheckpointBuild
+        mkCheckpointBuild
+        ;
+      checkpointArtifacts = prepareCheckpointBuild drv;
+    in
+    mkCheckpointBuild
+      (drv.overrideAttrs (prevAttrs: {
+        passthru = prevAttrs.passthru // {
+          inherit checkpointArtifacts;
+        };
+      }))
+      checkpointArtifacts;
 
   ## some helper functions
   nixpkgs-helpers = callPackage ../pkgs/nixpkgs-helpers {
@@ -59,7 +77,8 @@ in { ## be careful of `rec`, might not work
 
       name = "user-drv-overlays";
 
-    in {
+    in
+    {
       ${name} = pkgs.linkFarm name packages;
     };
 
