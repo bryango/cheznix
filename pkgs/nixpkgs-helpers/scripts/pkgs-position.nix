@@ -1,12 +1,16 @@
 #!/usr/bin/env -S nix eval --impure --file
-# given env `$package`, find its definition in <nixpkgs>
+# find the definition of ${package} in <nixpkgs>
+
+/** the package name as a string */
+{ package }:
 
 let
 
-  /* `nix eval` does not work with `--arg`, so we use environment variables.
-      See: https://github.com/NixOS/nix/issues/2678
+  /* note that `nix eval` does not work with `--arg`; see:
+    - https://github.com/NixOS/nix/issues/2678
+    - https://github.com/NixOS/nix/pull/8992
   */
-  attrPath = lib.splitString "." (builtins.getEnv "package");
+  attrPath = lib.splitString "." "${package}";
 
   /* load <nixpkgs>, need to be set up first!
 
@@ -20,18 +24,19 @@ let
   pkgs = import <nixpkgs> { };
   lib = pkgs.lib;
 
-  nixpkgsPath = toString <nixpkgs>;  ## human readable nixpkgs path
-  storePath = toString pkgs.path;  ## nixpkgs /nix/store path
+  nixpkgs = toString <nixpkgs>; ## human readable nixpkgs path
+  storePath = toString pkgs.path; ## nixpkgs /nix/store path
 
   attrHost =
     let
       findAttrHost = lib.findFirst (lib.hasAttrByPath attrPath) { };
-    in findAttrHost [
+    in
+    findAttrHost [
       pkgs
       lib
     ]; ## ^ find attrPath in the above attr "hosts"
 
-  package = lib.getAttrFromPath attrPath attrHost;
+  pkg = lib.getAttrFromPath attrPath attrHost;
 
   shortAttr = lib.last attrPath;
   parentAttr =
@@ -40,7 +45,7 @@ let
         genList (i: elemAt list i) ((length list) - 1);
       parentPath = dropLast attrPath;
     in
-      lib.getAttrFromPath parentPath attrHost;
+    lib.getAttrFromPath parentPath attrHost;
 
   ## pkgs/stdenv/generic/make-derivation.nix
   ## pkgs/stdenv/generic/check-meta.nix
@@ -48,17 +53,20 @@ let
     let
       pos = builtins.unsafeGetAttrPos attrname attrset;
     in
-      "${pos.file}:${toString pos.line}:${toString pos.column}";
+    "${pos.file}:${toString pos.line}:${toString pos.column}";
 
-  storePosition = package.meta.position
+  storePosition = pkg.meta.position
     or (getAttrPos shortAttr parentAttr);
 
-  basePosition =
+  relative =
     lib.removePrefix "/" (
       lib.removePrefix storePath storePosition
     );
 
-in [
-  basePosition
-  nixpkgsPath
-]
+in
+{
+  inherit
+    relative
+    nixpkgs
+    ;
+}
