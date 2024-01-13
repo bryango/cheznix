@@ -1,3 +1,4 @@
+# Note: currently unused but hopefully can be upstreamed for `system-manager`
 # generate the script used to activate the configuration.
 { config, lib, pkgs, ... }:
 

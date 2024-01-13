@@ -2,9 +2,9 @@
 
 let
 
+  category = "programs";
   program = "nixpkgs-helpers";
   module = program;
-  category = "programs";
 
   opts = {
     enable = lib.mkEnableOption module;
