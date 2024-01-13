@@ -90,7 +90,7 @@
       };
 
       nixpkgs = self.inputs.${nixpkgs-follows};
-      inherit (nixpkgs) lib;
+      lib = nixpkgs.lib // home-manager.lib;
       inherit (lib.chezlib) forMySystems;
       pkgsOverlay = system: nixpkgs.legacyPackages.${system}.extend overlay;
 
