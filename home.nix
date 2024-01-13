@@ -1,4 +1,4 @@
-{ pkgs, ... }:
+{ pkgs, config, ... }:
 
 let
 
@@ -19,8 +19,7 @@ let
     ];
 
     nix.basic = [
-      ## pin & wait for fix of nix issue 9708
-      nixVersions.nix_2_18  # manage itself ## daemon managed by root
+      config.nix.package  # manage itself ## daemon managed by root
       cachix
       nix-tree
       nix-diff
@@ -103,8 +102,8 @@ let
     in [
       ### do NOT expose python itself for safety reasons
       python3Packages.ipython
-      python3Packages.ruff-lsp  ruff  # exposes `ruff`
       python3Packages.jedi-language-server
+      ruff-lsp  ruff  # exposes `ruff`
       poetry
       pipx
     ];
@@ -216,7 +215,9 @@ in {
   ];
 
   ## nix settings
-  nix.package = pkgs.nix;  ## necessary for `nix show-config`
+  ## necessary for `nix show-config`
+  ## pin & wait for fix of nix issue 9708
+  nix.package = pkgs.nixVersions.nix_2_18;
   nix.settings = {
     max-jobs = "auto";
     
