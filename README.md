@@ -75,6 +75,9 @@ nix why-depends \
   --derivation \
   --all \
   --precise
+## sanitize the outputs: `sed -E 's|/nix/store/.{32}-| |g'`
+
+nix-store --query
 ```
 
 ### garbage collection
