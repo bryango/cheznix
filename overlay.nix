@@ -3,12 +3,6 @@ final: prev: {
   ## do not overlay nix, otherwise issues may propagate
   # nix = prev.nixVersions.nix_2_17;
 
-  pipx = prev.pipx.overridePythonAttrs (prevAttrs: {
-    nativeCheckInputs = prevAttrs.nativeCheckInputs ++ [
-      prev.git
-    ];
-  });
-
   gimp-with-plugins = with prev; gimp-with-plugins.override {
     plugins = with gimpPlugins; [ resynthesizer ];
   };
