@@ -3,6 +3,15 @@ final: prev: {
   ## do not overlay nix, otherwise issues may propagate
   # nix = prev.nixVersions.nix_2_17;
 
+  nix-tree = prev.haskell.lib.overrideSrc prev.nix-tree {
+    src = prev.fetchFromGitHub {
+      owner = "bryango";
+      repo = "nix-tree";
+      rev = "nix-store-option";
+      hash = "sha256-pu3VC4pJ3wDjKXM/Zh0Ae+zGW186vQtYMhIAGRlFKgY=";
+    };
+  };
+
   gimp-with-plugins = with prev; gimp-with-plugins.override {
     plugins = with gimpPlugins; [ resynthesizer ];
   };
