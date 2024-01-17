@@ -38,7 +38,7 @@ let
     ];
 
     cli.basic = [
-      (neovim.override { withRuby = false; })
+      neovim
       jq
       bat
       fzf

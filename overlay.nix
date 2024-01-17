@@ -3,6 +3,8 @@ final: prev: {
   ## do not overlay nix, otherwise issues may propagate
   # nix = prev.nixVersions.nix_2_17;
 
+  neovim = prev.neovim.override { withRuby = false; };
+
   nix-tree = prev.haskell.lib.overrideSrc prev.nix-tree {
     src = prev.fetchFromGitHub {
       owner = "bryango";
