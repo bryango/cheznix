@@ -27,14 +27,16 @@ let
 
     nix.dev = [
       nil  # language server
-      nixpkgs-fmt  # the official (?) formatter
+      nixpkgs-fmt  # the semi official formatter
+      nurl  # generate fetcher call
+      nix-init  # generate package
       nix-output-monitor
       nixpkgs-hammering
       nixpkgs-review
       hydra-check
-      # nvd  # version diff
-      # nixd  # better? language server ## not stable
       system-manager  # to be stabilized
+      # nixd  # future lsp ## not stable # needs llvmPackages.llvm.lib
+      # nvd  # version diff
     ];
 
     cli.basic = [
