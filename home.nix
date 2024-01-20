@@ -204,6 +204,10 @@ in {
   nix.package = pkgs.nixVersions.nix_2_18;
   nix.settings = {
     max-jobs = "auto";
+
+    ## invalidate negative cache hits in 10min
+    ## to invalidate all, pass `--option narinfo-cache-negative-ttl 0`
+    narinfo-cache-negative-ttl = 600;
     
     ## need to set `trusted-users = @wheel` in `/etc/nix/nix.conf`
     # tarball-ttl = 4294967295;

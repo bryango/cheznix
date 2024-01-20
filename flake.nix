@@ -60,6 +60,7 @@
       ## upstream overrides: inputs.${nixpkgs-follows}
       ## home overlay:
       overlay = final: prev: import ./overlay.nix final prev // {
+        inherit cheznix;
         system-manager-unwrapped =
           system-manager.packages.${prev.system}.system-manager-unwrapped;
       };

@@ -5,12 +5,10 @@ final: prev: {
   ## bootstrap system-manager incremental builds
   system-manager-artifacts =
     let
-      # previous successful build
-      rev = "ba06b92d12af8e3f1b35358b0eaf745c2ef1eb0e";
+      inherit (final.cheznix.inputs) last-gen;
     in
-    prev.checkpointBuildTools.prepareCheckpointBuild (builtins.getFlake
-      "git+file:./?rev=${rev}"
-    ).packages.x86_64-linux.system-manager-unwrapped;
+    prev.checkpointBuildTools.prepareCheckpointBuild
+      last-gen.packages.x86_64-linux.system-manager-unwrapped;
 
   system-manager-vanilla = prev.checkpointBuildTools.mkCheckpointBuild
     final.system-manager-unwrapped
