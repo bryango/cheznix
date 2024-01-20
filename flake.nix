@@ -116,9 +116,7 @@
 
     in {
       inherit lib;
-      packages = lib.recursiveUpdate
-        system-manager.packages
-        home-manager.packages;
+      inherit (home-manager) packages;
       homeConfigurations = forMyMachines mkHomeConfig;
       systemConfigs = forMyMachines mkSystemConfig;
       legacyPackages = forMySystems pkgsOverlay;

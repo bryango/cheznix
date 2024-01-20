@@ -8,9 +8,10 @@ final: prev: {
       inherit (final.cheznix.inputs) last-gen;
     in
     prev.checkpointBuildTools.prepareCheckpointBuild
-      last-gen.packages.x86_64-linux.system-manager-unwrapped;
+      last-gen.packages.${prev.system}.system-manager-unwrapped;
 
-  system-manager-vanilla = prev.checkpointBuildTools.mkCheckpointBuild
+  ## this system-manager is not wrapped with nix
+  system-manager = prev.checkpointBuildTools.mkCheckpointBuild
     final.system-manager-unwrapped
     final.system-manager-artifacts
   ;
