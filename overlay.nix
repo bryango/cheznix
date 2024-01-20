@@ -1,7 +1,16 @@
 final: prev: {
 
-  ## do not overlay nix, otherwise issues may propagate
-  # nix = prev.nixVersions.nix_2_17;
+  ## do NOT overlay `nix`, otherwise issues may propagate!
+
+  ## bootstrap system-manager incremental builds
+  system-manager-artifacts =
+    let
+      # previous successful build
+      rev = "57c8c049c2b6d642befdf705b2b2f14b018963c3";
+    in
+    prev.prepareCheckpointBuild (builtins.getFlake
+      "git+file:./?rev=${rev}"
+    ).legacyPackages.x86_64-linux.system-manager;
 
   neovim = prev.neovim.override { withRuby = false; };
 

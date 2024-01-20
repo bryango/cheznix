@@ -53,7 +53,8 @@
       ## upstream overrides: inputs.${nixpkgs-follows}
       ## home overlay:
       overlay = final: prev: import ./overlay.nix final prev // {
-        inherit (system-manager.packages.${prev.system}) system-manager;
+        system-manager-vanilla =
+          system-manager.packages.${prev.system}.system-manager;
       };
 
       nixpkgs = self.inputs.${nixpkgs-follows};
