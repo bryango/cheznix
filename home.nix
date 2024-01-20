@@ -70,7 +70,7 @@ let
       mosh
       difftastic
       jc
-      rtx
+      mise
       rustup
       cargo-binstall  # then `cargo binstall cargo-quickinstall`
       nodejs  # required by coc.nvim
