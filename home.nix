@@ -34,7 +34,7 @@ let
       nixpkgs-hammering
       nixpkgs-review
       hydra-check
-      system-manager  # to be stabilized
+      system-manager-vanilla  # to be stabilized
       # nixd  # future lsp ## not stable # needs llvmPackages.llvm.lib
       # nvd  # version diff
     ];

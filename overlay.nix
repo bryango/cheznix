@@ -6,11 +6,16 @@ final: prev: {
   system-manager-artifacts =
     let
       # previous successful build
-      rev = "57c8c049c2b6d642befdf705b2b2f14b018963c3";
+      rev = "ba06b92d12af8e3f1b35358b0eaf745c2ef1eb0e";
     in
-    prev.prepareCheckpointBuild (builtins.getFlake
+    prev.checkpointBuildTools.prepareCheckpointBuild (builtins.getFlake
       "git+file:./?rev=${rev}"
-    ).legacyPackages.x86_64-linux.system-manager;
+    ).packages.x86_64-linux.system-manager-unwrapped;
+
+  system-manager-vanilla = prev.checkpointBuildTools.mkCheckpointBuild
+    final.system-manager-unwrapped
+    final.system-manager-artifacts
+  ;
 
   neovim = prev.neovim.override { withRuby = false; };
 
