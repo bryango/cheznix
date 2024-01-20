@@ -355,19 +355,22 @@
       "inputs": {
         "home-attrs": "home-attrs_2",
         "home-manager": "home-manager_2",
+        "last-gen": [
+          "last-gen"
+        ],
         "nixpkgs-config": "nixpkgs-config",
         "system-manager": "system-manager"
       },
       "locked": {
-        "lastModified": 1705731280,
-        "narHash": "sha256-KJ9fxyqWMD8Dk7oWalrRH/as4DpRiBFdb3uJZ4NlwPU=",
-        "rev": "ba06b92d12af8e3f1b35358b0eaf745c2ef1eb0e",
-        "revCount": 284,
+        "lastModified": 1705765389,
+        "narHash": "sha256-tuJBkjD2qfM2fHN/LqSxISTikTFnbQ1PmbYaG+6oRPE=",
+        "rev": "b843fd8e3b867e7961715189544ba6a308d035cc",
+        "revCount": 294,
         "type": "git",
         "url": "file:."
       },
       "original": {
-        "rev": "ba06b92d12af8e3f1b35358b0eaf745c2ef1eb0e",
+        "rev": "b843fd8e3b867e7961715189544ba6a308d035cc",
         "type": "git",
         "url": "file:."
       }
@@ -392,11 +395,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1705727613,
-        "narHash": "sha256-3OTTQ5qGw18bOOOyfnxMXuDssWkHwZYxPcBDoobArLI=",
+        "lastModified": 1705765255,
+        "narHash": "sha256-82vNnaQaXJx3hVHbzTprkDGRLyWyoeEviRiWifJe0UE=",
         "ref": "refs/heads/master",
-        "rev": "caa8ddb35546634d91a9d93620f3f7d58fb04020",
-        "revCount": 194,
+        "rev": "ff98e61f835510152168c240bdf9d3cda11659fc",
+        "revCount": 195,
         "type": "git",
         "url": "file:./nixpkgs-config"
       },

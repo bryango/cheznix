@@ -6,9 +6,14 @@ final: prev: {
   system-manager-artifacts =
     let
       inherit (final.cheznix.inputs) last-gen;
+      inherit (last-gen.legacyPackages.${prev.system})
+        system-manager-unwrapped;
     in
-    prev.checkpointBuildTools.prepareCheckpointBuild
-      last-gen.packages.${prev.system}.system-manager-unwrapped;
+    ## if last-gen is built with `addCheckpointArtifacts`, this would be cached
+    prev.checkpointBuildTools.prepareCheckpointBuild system-manager-unwrapped;
+    ## ... do _not_ use `passthru.checkpointArtifacts` directly,
+    ## ... unless last-gen is _certainly_ built with `addCheckpointArtifacts`.
+    ## ... otherwise this would be a bootstrap problem.
 
   ## this system-manager is not wrapped with nix
   system-manager =
