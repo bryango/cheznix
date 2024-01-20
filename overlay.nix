@@ -11,9 +11,35 @@ final: prev: {
       last-gen.packages.${prev.system}.system-manager-unwrapped;
 
   ## this system-manager is not wrapped with nix
-  system-manager = prev.checkpointBuildTools.mkCheckpointBuild
-    final.system-manager-unwrapped
-    final.system-manager-artifacts
+  system-manager =
+    let
+      inherit (prev) mktemp rsync;
+      checkpointArtifacts = final.system-manager-artifacts;
+    in
+    final.system-manager-unwrapped.overrideAttrs (prevAttrs: {
+      preBuild = (prevAttrs.preBuild or "") + ''
+        set -e
+
+        ## move the new source into a backup directory
+        newSourceDir=$(${mktemp}/bin/mktemp -d)
+        shopt -s dotglob
+        mv ./* "$newSourceDir"
+
+        ## ensure that the current directory is empty
+        rm -r * || true
+        ## ... do not panic when there is nothing left
+
+        ## copy the artifacts into the current directory
+        ${rsync}/bin/rsync \
+          --checksum --times --atimes --chown=$USER:$USER --chmod=+w \
+          -r ${checkpointArtifacts}/outputs/ .
+
+        ## overlay the new source on top of the artifacts
+        ${rsync}/bin/rsync \
+          --checksum --times --atimes --chown=$USER:$USER --chmod=+w \
+          -r "$newSourceDir"/ .
+      '';
+    })
   ;
 
   neovim = prev.neovim.override { withRuby = false; };
