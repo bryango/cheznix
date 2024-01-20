@@ -16,41 +16,43 @@ final: prev: {
       inherit (prev) mktemp rsync;
       checkpointArtifacts = final.system-manager-artifacts;
     in
-    final.system-manager-unwrapped.overrideAttrs (prevAttrs: {
-      preBuild = (prevAttrs.preBuild or "") + ''
-        set -e
+    ## provide artifacts for the future
+    final.addCheckpointBuild
+      (final.system-manager-unwrapped.overrideAttrs (prevAttrs: {
+        preBuild = (prevAttrs.preBuild or "") + ''
+          set -e
 
-        ## handle removed files:
-        sourcePatch=$(${mktemp}/bin/mktemp)
-        diff -ur ${checkpointArtifacts}/sources ./ > "$sourcePatch" || true
+          ## handle removed files:
+          sourcePatch=$(${mktemp}/bin/mktemp)
+          diff -ur ${checkpointArtifacts}/sources ./ > "$sourcePatch" || true
 
-        ## handle binaries:
-        newSourceBackup=$(${mktemp}/bin/mktemp -d)
-        shopt -s dotglob
-        mv ./* "$newSourceBackup"
+          ## handle binaries:
+          newSourceBackup=$(${mktemp}/bin/mktemp -d)
+          shopt -s dotglob
+          mv ./* "$newSourceBackup"
 
-        ## clean up, do not panic when there is nothing left (expected)
-        rm -r * || true
+          ## clean up, do not panic when there is nothing left (expected)
+          rm -r * || true
 
-        ## layer 0: artifacts
-        ${rsync}/bin/rsync \
-          --checksum --times --atimes --chown=$USER:$USER --chmod=+w \
-          -r ${checkpointArtifacts}/outputs/ .
+          ## layer 0: artifacts
+          ${rsync}/bin/rsync \
+            --checksum --times --atimes --chown=$USER:$USER --chmod=+w \
+            -r ${checkpointArtifacts}/outputs/ .
 
-        ## layer 1: handle removed files: patch source texts
-        patch -p 1 -i "$sourcePatch" || true
-        ## ... do not panic when its unsuccessful (remedied immediately)
+          ## layer 1: handle removed files: patch source texts
+          patch -p 1 -i "$sourcePatch" || true
+          ## ... do not panic when its unsuccessful (remedied immediately)
 
-        ## layer 2: handle binaries: overlay the new source
-        ${rsync}/bin/rsync \
-          --checksum --times --atimes --chown=$USER:$USER --chmod=+w \
-          -r "$newSourceBackup"/ .
+          ## layer 2: handle binaries: overlay the new source
+          ${rsync}/bin/rsync \
+            --checksum --times --atimes --chown=$USER:$USER --chmod=+w \
+            -r "$newSourceBackup"/ .
 
-        ## clean up
-        rm "$sourcePatch"
-        rm -rf "$newSourceBackup"
-      '';
-    })
+          ## clean up
+          rm "$sourcePatch"
+          rm -rf "$newSourceBackup"
+        '';
+      }))
   ;
 
   neovim = prev.neovim.override { withRuby = false; };
