@@ -4,7 +4,7 @@
 , biber-for-tectonic
 , callPackage
 , fetchpatch
-, addCheckpointBuild
+, addCheckpointArtifacts
 }:
 
 let
@@ -19,7 +19,7 @@ let
 
 in
 
-addCheckpointBuild ((tectonic.override {
+addCheckpointArtifacts ((tectonic.override {
   tectonic-unwrapped = tectonic-unwrapped.overrideAttrs (prevAttrs: {
     patches = (prevAttrs.patches or [ ]) ++ [
       /*

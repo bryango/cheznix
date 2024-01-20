@@ -11,21 +11,52 @@ in
 
 ## be careful of `rec`, might not work
 {
-  addCheckpointBuild = drv:
+  addCheckpointArtifacts = drv:
     let
       inherit (prev.checkpointBuildTools)
         prepareCheckpointBuild
-        mkCheckpointBuild
         ;
       checkpointArtifacts = prepareCheckpointBuild drv;
+      inherit (prev) mktemp rsync;
     in
-    mkCheckpointBuild
-      (drv.overrideAttrs (prevAttrs: {
-        passthru = prevAttrs.passthru // {
-          inherit checkpointArtifacts;
-        };
-      }))
-      checkpointArtifacts;
+    drv.overrideAttrs (prevAttrs: {
+      passthru = (prevAttrs.passthru or { }) // {
+        inherit checkpointArtifacts;
+      };
+      preBuild = (prevAttrs.preBuild or "") + ''
+        set -e
+
+        ## handle removed files:
+        sourcePatch=$(${mktemp}/bin/mktemp)
+        diff -ur ${checkpointArtifacts}/sources ./ > "$sourcePatch" || true
+
+        ## handle binaries:
+        newSourceBackup=$(${mktemp}/bin/mktemp -d)
+        shopt -s dotglob
+        mv ./* "$newSourceBackup"
+
+        ## clean up, do not panic when there is nothing left (expected)
+        rm -r * || true
+
+        ## layer 0: artifacts
+        ${rsync}/bin/rsync \
+          --checksum --times --atimes --chown=$USER:$USER --chmod=+w \
+          -r ${checkpointArtifacts}/outputs/ .
+
+        ## layer 1: handle removed files: patch source texts
+        patch -p 1 -i "$sourcePatch" || true
+        ## ... do not panic when its unsuccessful (remedied immediately)
+
+        ## layer 2: handle binaries: overlay the new source
+        ${rsync}/bin/rsync \
+          --checksum --times --atimes --chown=$USER:$USER --chmod=+w \
+          -r "$newSourceBackup"/ .
+
+        ## clean up
+        rm "$sourcePatch"
+        rm -rf "$newSourceBackup"
+      '';
+    });
 
   ## some helper functions
   nixpkgs-helpers = callPackage ../pkgs/nixpkgs-helpers {
