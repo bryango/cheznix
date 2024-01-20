@@ -364,12 +364,12 @@
         "rev": "ba06b92d12af8e3f1b35358b0eaf745c2ef1eb0e",
         "revCount": 284,
         "type": "git",
-        "url": "file:./"
+        "url": "file:."
       },
       "original": {
         "rev": "ba06b92d12af8e3f1b35358b0eaf745c2ef1eb0e",
         "type": "git",
-        "url": "file:./"
+        "url": "file:."
       }
     },
     "nixpkgs": {

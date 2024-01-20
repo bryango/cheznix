@@ -36,7 +36,7 @@
     ## useful for incremental builds
     last-gen = {
       type = "git";
-      url = "file:./";
+      url = "file:.";
       rev = "ba06b92d12af8e3f1b35358b0eaf745c2ef1eb0e";
     };
   };
