@@ -115,8 +115,12 @@ in
 
   ## recursively collect & flatten flake inputs
   ## https://github.com/NixOS/nix/issues/3995#issuecomment-1537108310
-  collectFlakeInputs = name: flake: {
-    ${name} = flake;
-  } // lib.concatMapAttrs final.collectFlakeInputs (flake.inputs or { });
-
+  collectFlakeInputs = name: flake:
+    let
+      ## avoid infinite recursion from self references
+      inputs = removeAttrs (flake.inputs or { }) [ name ];
+    in
+    lib.concatMapAttrs final.collectFlakeInputs inputs // {
+      ${name} = flake;  ## "high level" inputs win
+    };
 }
