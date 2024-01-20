@@ -17,7 +17,7 @@ final: prev: {
       checkpointArtifacts = final.system-manager-artifacts;
     in
     ## provide artifacts for the future
-    final.addCheckpointBuild
+    final.addCheckpointArtifacts
       (final.system-manager-unwrapped.overrideAttrs (prevAttrs: {
         preBuild = (prevAttrs.preBuild or "") + ''
           set -e
