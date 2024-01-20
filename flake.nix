@@ -32,13 +32,20 @@
         ## ^ use the unmodified `nixpkgs` to be imported
     };  ## this is cool but has a huge dependency tree!
 
+    ## reference to last successful generation; manually bumped
+    ## useful for incremental builds
+    last-gen = {
+      type = "git";
+      url = "file:./";
+      rev = "ba06b92d12af8e3f1b35358b0eaf745c2ef1eb0e";
+    };
   };
 
-  outputs = { self, home-manager, home-attrs, system-manager, ... }:
+  outputs = { self, home-manager, home-attrs, system-manager, last-gen, ... }:
     let
 
       ## namings
-      cheznix = self;
+      cheznix = self // { inherit last-gen; };
       nixpkgs-follows =
       let
         result = "nixpkgs-config";
