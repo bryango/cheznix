@@ -13,20 +13,37 @@ in
 {
 
   ## customized `checkpointBuildTools` before upstreaming
+  addCheckpointBuildHookOnlyOnce = old:
+      let
+        preBuild = old.preBuild or "";
+        hookCmd = "runHook preCheckpointBuild";
+      in
+      preBuild + (lib.optionalString (!lib.hasInfix hookCmd preBuild) ''
+        ${hookCmd}
+      '');
+
+  prepareCheckpointBuild = drv: drv.overrideAttrs (old: {
+    outputs = [ "out" ];
+    name = drv.name + "-checkpointArtifacts";
+    preBuild = final.addCheckpointBuildHookOnlyOnce old;
+    preCheckpointBuild = ''
+      mkdir -p $out/sources
+      { shopt -s dotglob; cp -r ./* $out/sources/; }
+    '';
+    installPhase = ''
+      runHook preCheckpointInstall
+      mkdir -p $out/outputs
+      { shopt -s dotglob; cp -r ./* $out/outputs/; }
+      runHook postCheckpointInstall
+    '';
+  });
+
   mkCheckpointBuild = drv: checkpointArtifacts:
     let
       inherit (prev) mktemp rsync;
     in
     drv.overrideAttrs (old: {
-      preBuild =
-        let
-          preBuild = old.preBuild or "";
-          hookCmd = "runHook preCheckpointBuild";
-        in
-        preBuild + (lib.optionalString (!lib.hasInfix hookCmd preBuild) ''
-          ${hookCmd}
-        '');
-
+      preBuild = final.addCheckpointBuildHookOnlyOnce old;
       preCheckpointBuild = ''
         set -e
         sourceDifferencePatchFile=$(${mktemp}/bin/mktemp)
@@ -45,8 +62,7 @@ in
 
   addCheckpointArtifacts = drv:
     let
-      inherit (prev.checkpointBuildTools) prepareCheckpointBuild;
-      checkpointArtifacts = prepareCheckpointBuild drv;
+      checkpointArtifacts = final.prepareCheckpointBuild drv;
     in
     (
       final.mkCheckpointBuild drv checkpointArtifacts
