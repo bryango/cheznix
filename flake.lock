@@ -414,11 +414,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1705856251,
-        "narHash": "sha256-BkvIjzze+ZR9IaeCzIU5ZFGdYVNl/BkwW/zwS9DyPdk=",
+        "lastModified": 1705858051,
+        "narHash": "sha256-mrwgLxNO9OnifAXtk3uWt/ik+L/wF3tf+2S2DiWmETY=",
         "ref": "refs/heads/master",
-        "rev": "ee1d788bec5e3adcf15d63f5d04670562d844e84",
-        "revCount": 199,
+        "rev": "44a63ecfcc609938b2289c0c07d591277e70bab7",
+        "revCount": 200,
         "type": "git",
         "url": "file:./nixpkgs-config"
       },
