@@ -6,27 +6,36 @@ final: prev: {
   system-manager-artifacts =
     let
       inherit (final.cheznix.inputs) last-gen;
-      lastgenPkgs = last-gen.legacyPackages.${prev.system};
-      inherit (lastgenPkgs)
-        system-manager
-        checkpointBuildTools
-        ;
+      inherit (last-gen.legacyPackages.${prev.system}) system-manager;
     in
-      system-manager.passthru.checkpointArtifacts or (
-        checkpointBuildTools.prepareCheckpointBuild system-manager
-      );
+    system-manager.passthru.checkpointArtifacts or (
+      prev.checkpointBuildTools.prepareCheckpointBuild system-manager
+    );
 
   ## this system-manager is not wrapped with nix
   system-manager =
     let
+      inherit (prev) mktemp rsync;
       checkpointArtifacts = final.system-manager-artifacts;
     in
     ## provide artifacts for the future
-    final.addCheckpointArtifacts (
-      prev.checkpointBuildTools.mkCheckpointBuild
-        final.system-manager-unwrapped
-        checkpointArtifacts
-    )
+    final.addCheckpointArtifacts
+      (final.system-manager-unwrapped.overrideAttrs (prevAttrs: {
+        preBuild = (prevAttrs.preBuild or "") + ''
+          set -e
+          sourceDifferencePatchFile=$(${mktemp}/bin/mktemp)
+          diff -ur ${checkpointArtifacts}/sources ./ > "$sourceDifferencePatchFile" || true
+          { shopt -s dotglob; rm -r ./*; } || true
+
+          ${rsync}/bin/rsync \
+            --checksum --times --atimes --chmod=+w \
+            -r ${checkpointArtifacts}/outputs/ .
+          patch -p 1 -i "$sourceDifferencePatchFile" || echo "$sourcePatch"
+          ## ... do not panic when it's unsuccessful
+          ## ... this happens when the source is unchanged
+          rm "$sourceDifferencePatchFile"
+        '';
+      }))
   ;
 
   neovim = prev.neovim.override { withRuby = false; };
