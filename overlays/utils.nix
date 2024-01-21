@@ -11,19 +11,13 @@ in
 
 ## be careful of `rec`, might not work
 {
-  addCheckpointArtifacts = drv:
+
+  ## customized `checkpointBuildTools` before upstreaming
+  mkCheckpointBuild = drv: checkpointArtifacts:
     let
-      inherit (prev.checkpointBuildTools)
-        prepareCheckpointBuild
-        ;
-      checkpointArtifacts = prepareCheckpointBuild drv;
       inherit (prev) mktemp rsync;
     in
     drv.overrideAttrs (old: {
-      passthru = (old.passthru or { }) // {
-        inherit checkpointArtifacts;
-      };
-
       preBuild =
         let
           preBuild = old.preBuild or "";
@@ -47,6 +41,19 @@ in
         ## ... this happens when the source is unchanged
         rm "$sourceDifferencePatchFile"
       '';
+    });
+
+  addCheckpointArtifacts = drv:
+    let
+      inherit (prev.checkpointBuildTools) prepareCheckpointBuild;
+      checkpointArtifacts = prepareCheckpointBuild drv;
+    in
+    (
+      final.mkCheckpointBuild drv checkpointArtifacts
+    ).overrideAttrs (old: {
+      passthru = (old.passthru or { }) // {
+        inherit checkpointArtifacts;
+      };
     });
 
   ## some helper functions
