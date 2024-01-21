@@ -25,36 +25,17 @@ in
       };
       preBuild = (prevAttrs.preBuild or "") + ''
         set -e
+        sourceDifferencePatchFile=$(${mktemp}/bin/mktemp)
+        diff -ur ${checkpointArtifacts}/sources ./ > "$sourceDifferencePatchFile" || true
+        { shopt -s dotglob; rm -r ./*; } || true
 
-        ## handle removed files:
-        sourcePatch=$(${mktemp}/bin/mktemp)
-        diff -ur ${checkpointArtifacts}/sources ./ > "$sourcePatch" || true
-
-        ## handle binaries:
-        newSourceBackup=$(${mktemp}/bin/mktemp -d)
-        shopt -s dotglob
-        mv ./* "$newSourceBackup"
-
-        ## clean up, do not panic when there is nothing left (expected)
-        rm -r * || true
-
-        ## layer 0: artifacts
         ${rsync}/bin/rsync \
-          --checksum --times --atimes --chown=$USER:$USER --chmod=+w \
+          --checksum --times --atimes --chmod=+w \
           -r ${checkpointArtifacts}/outputs/ .
-
-        ## layer 1: handle removed files: patch source texts
-        patch -p 1 -i "$sourcePatch" || true
-        ## ... do not panic when its unsuccessful (remedied immediately)
-
-        ## layer 2: handle binaries: overlay the new source
-        ${rsync}/bin/rsync \
-          --checksum --times --atimes --chown=$USER:$USER --chmod=+w \
-          -r "$newSourceBackup"/ .
-
-        ## clean up
-        rm "$sourcePatch"
-        rm -rf "$newSourceBackup"
+        patch -p 1 -i "$sourceDifferencePatchFile" || echo "$sourcePatch"
+        ## ... do not panic when it's unsuccessful
+        ## ... this happens when the source is unchanged
+        rm "$sourceDifferencePatchFile"
       '';
     });
 
