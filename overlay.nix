@@ -6,14 +6,11 @@ final: prev: {
   system-manager-artifacts =
     let
       inherit (final.cheznix.inputs) last-gen;
-      inherit (last-gen.legacyPackages.${prev.system})
-        system-manager-unwrapped;
+      inherit (last-gen.legacyPackages.${prev.system}) system-manager;
     in
-    ## if last-gen is built with `addCheckpointArtifacts`, this would be cached
-    prev.checkpointBuildTools.prepareCheckpointBuild system-manager-unwrapped;
-    ## ... do _not_ use `passthru.checkpointArtifacts` directly,
-    ## ... unless last-gen is _certainly_ built with `addCheckpointArtifacts`.
-    ## ... otherwise this would be a bootstrap problem.
+    system-manager.passthru.checkpointArtifacts or (
+      prev.checkpointBuildTools.prepareCheckpointBuild system-manager
+    );
 
   ## this system-manager is not wrapped with nix
   system-manager =
@@ -26,36 +23,17 @@ final: prev: {
       (final.system-manager-unwrapped.overrideAttrs (prevAttrs: {
         preBuild = (prevAttrs.preBuild or "") + ''
           set -e
+          sourceDifferencePatchFile=$(${mktemp}/bin/mktemp)
+          diff -ur ${checkpointArtifacts}/sources ./ > "$sourceDifferencePatchFile" || true
+          { shopt -s dotglob; rm -r ./*; } || true
 
-          ## handle removed files:
-          sourcePatch=$(${mktemp}/bin/mktemp)
-          diff -ur ${checkpointArtifacts}/sources ./ > "$sourcePatch" || true
-
-          ## handle binaries:
-          newSourceBackup=$(${mktemp}/bin/mktemp -d)
-          shopt -s dotglob
-          mv ./* "$newSourceBackup"
-
-          ## clean up, do not panic when there is nothing left (expected)
-          rm -r * || true
-
-          ## layer 0: artifacts
           ${rsync}/bin/rsync \
-            --checksum --times --atimes --chown=$USER:$USER --chmod=+w \
+            --checksum --times --atimes --chmod=+w \
             -r ${checkpointArtifacts}/outputs/ .
-
-          ## layer 1: handle removed files: patch source texts
-          patch -p 1 -i "$sourcePatch" || true
-          ## ... do not panic when its unsuccessful (remedied immediately)
-
-          ## layer 2: handle binaries: overlay the new source
-          ${rsync}/bin/rsync \
-            --checksum --times --atimes --chown=$USER:$USER --chmod=+w \
-            -r "$newSourceBackup"/ .
-
-          ## clean up
-          rm "$sourcePatch"
-          rm -rf "$newSourceBackup"
+          patch -p 1 -i "$sourceDifferencePatchFile" || echo "$sourcePatch"
+          ## ... do not panic when it's unsuccessful
+          ## ... this happens when the source is unchanged
+          rm "$sourceDifferencePatchFile"
         '';
       }))
   ;
