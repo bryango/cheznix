@@ -19,11 +19,21 @@ in
       checkpointArtifacts = prepareCheckpointBuild drv;
       inherit (prev) mktemp rsync;
     in
-    drv.overrideAttrs (prevAttrs: {
-      passthru = (prevAttrs.passthru or { }) // {
+    drv.overrideAttrs (old: {
+      passthru = (old.passthru or { }) // {
         inherit checkpointArtifacts;
       };
-      preBuild = (prevAttrs.preBuild or "") + ''
+
+      preBuild =
+        let
+          preBuild = old.preBuild or "";
+          hookCmd = "runHook preCheckpointBuild";
+        in
+        preBuild + (lib.optionalString (!lib.hasInfix hookCmd preBuild) ''
+          ${hookCmd}
+        '');
+
+      preCheckpointBuild = ''
         set -e
         sourceDifferencePatchFile=$(${mktemp}/bin/mktemp)
         diff -ur ${checkpointArtifacts}/sources ./ > "$sourceDifferencePatchFile" || true
@@ -102,6 +112,6 @@ in
       inputs = removeAttrs (flake.inputs or { }) [ name ];
     in
     lib.concatMapAttrs final.collectFlakeInputs inputs // {
-      ${name} = flake;  ## "high level" inputs win
+      ${name} = flake; ## "high level" inputs win
     };
 }
