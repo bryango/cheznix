@@ -190,8 +190,8 @@ in {
     package = pkgs.man.override {
       groff = pkgs.groff.overrideAttrs (prevAttrs: let
         site-tmac = pkgs.fetchurl {
-          url = "https://raw.githubusercontent.com/afh/nixpkgs/groff-man-compat-staging/pkgs/tools/text/groff/site.tmac";
-          hash = "sha256-IOiTr1KF1Y4QiLTGdzaJXdpGxSzlj5dXqoTVhHJXBQQ=";
+          url = "https://raw.githubusercontent.com/NixOS/nixpkgs/master/pkgs/tools/text/groff/site.tmac";
+          hash = "sha256-oY7BC2bIwOOXKNHkKDlshA9KTvEawlJ7PJHMheS3Dns=";
         };
       in {
         postInstall = ''
