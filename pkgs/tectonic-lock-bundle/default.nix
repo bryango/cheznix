@@ -4,7 +4,6 @@
 , biber-for-tectonic
 , callPackage
 , fetchpatch
-, addCheckpointArtifacts
 }:
 
 let
@@ -19,7 +18,7 @@ let
 
 in
 
-addCheckpointArtifacts ((tectonic.override {
+(tectonic.override {
   tectonic-unwrapped = tectonic-unwrapped.overrideAttrs (prevAttrs: {
     patches = (prevAttrs.patches or [ ]) ++ [
       /*
@@ -52,4 +51,4 @@ addCheckpointArtifacts ((tectonic.override {
       --add-flags "--web-bundle ${finalAttrs.passthru.bundle.url}"
     ln -s $out/bin/tectonic $out/bin/nextonic
   '';
-}))
+})

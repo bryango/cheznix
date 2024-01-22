@@ -60,11 +60,11 @@ in
       '';
     });
 
-  addCheckpointArtifacts = drv:
+  addCheckpointArtifacts = drv: outputHash:
     let
       checkpointArtifacts = (final.prepareCheckpointBuild drv).overrideAttrs {
-        ## make the artifacts content addressed
-        __contentAddressed = true;
+        ## fix the outputs of the artifacts to avoid rebuild
+        inherit outputHash;
       };
     in
     (
