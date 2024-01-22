@@ -62,7 +62,10 @@ in
 
   addCheckpointArtifacts = drv:
     let
-      checkpointArtifacts = final.prepareCheckpointBuild drv;
+      checkpointArtifacts = (final.prepareCheckpointBuild drv).overrideAttrs {
+        ## make the artifacts content addressed
+        __contentAddressed = true;
+      };
     in
     (
       final.mkCheckpointBuild drv checkpointArtifacts
