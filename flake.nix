@@ -39,15 +39,15 @@
       url = "file:.";
       rev = "5af536a744887656766d911e94a37b54332c3818";
       inputs.last-gen.follows = "last-gen";
-      ## ^ stops recursion
+      ## ^ beware of infinite recursion
     };
   };
 
-  outputs = { self, home-manager, home-attrs, system-manager, last-gen, ... }:
+  outputs = { self, home-manager, home-attrs, system-manager, ... }:
     let
 
       ## namings
-      cheznix = self // { inherit last-gen; };
+      cheznix = self;
       nixpkgs-follows =
       let
         result = "nixpkgs-config";
@@ -63,8 +63,7 @@
       ## home overlay:
       overlay = final: prev: import ./overlay.nix final prev // {
         inherit cheznix;
-        system-manager-unwrapped =
-          system-manager.packages.${prev.system}.system-manager-unwrapped;
+        inherit (system-manager.packages.${prev.system}) system-manager;
       };
 
       nixpkgs = self.inputs.${nixpkgs-follows};

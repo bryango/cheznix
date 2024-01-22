@@ -2,29 +2,6 @@ final: prev: {
 
   ## do NOT overlay `nix`, otherwise issues may propagate!
 
-  ## bootstrap system-manager incremental builds
-  system-manager-artifacts =
-    let
-      inherit (final.cheznix.inputs) last-gen;
-      inherit (last-gen.legacyPackages.${prev.system})
-        system-manager
-        checkpointBuildTools
-        ;
-    in
-      system-manager.passthru.checkpointArtifacts or (
-        checkpointBuildTools.prepareCheckpointBuild system-manager
-      );
-
-  ## this system-manager is not wrapped with nix
-  system-manager =
-    let
-      system-manager = final.mkCheckpointBuild
-        final.system-manager-unwrapped
-        final.system-manager-artifacts;
-    in
-    ## provide artifacts for the future
-    final.addCheckpointArtifacts system-manager;
-
   neovim = prev.neovim.override { withRuby = false; };
 
   nix-tree = prev.haskell.lib.overrideSrc prev.nix-tree {
