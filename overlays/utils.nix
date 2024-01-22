@@ -60,11 +60,12 @@ in
       '';
     });
 
-  addCheckpointArtifacts = drv: outputHash:
+  addCheckpointArtifacts = { drv, hash }:
     let
       checkpointArtifacts = (final.prepareCheckpointBuild drv).overrideAttrs {
         ## fix the outputs of the artifacts to avoid rebuild
-        inherit outputHash;
+        outputHash = hash;
+        outputHashMode = "recursive";
       };
     in
     (
