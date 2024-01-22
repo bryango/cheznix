@@ -33,11 +33,10 @@
     };  ## this is cool but has a huge dependency tree!
 
     ## reference to last successful generation; manually bumped
-    ## useful for incremental builds
     last-gen = {
       type = "git";
       url = "file:.";
-      rev = "5af536a744887656766d911e94a37b54332c3818";
+      rev = "7161c2c7dbf6706ddc8141187a8851bf30a631ac";
       inputs.last-gen.follows = "last-gen";
       ## ^ beware of infinite recursion
     };
