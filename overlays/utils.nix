@@ -37,14 +37,17 @@ in
       target="$out"/bin/${name}
       mkdir -p "$(dirname "$target")"
       substitute "$src" "$target" \
-      ${lib.pipe attrset [
-        (attrset: removeAttrs attrset [ "src" ])
-        (lib.mapAttrsToList (key: value:
-          lib.escapeShellArgs
-          [ "--replace" "@${key}@" "${value}" ]
-        ))
-        toString
-      ]}
+      ${
+        lib.pipe attrset [
+          (lib.flip removeAttrs [ "src" ])  ## => attrset
+          (lib.flip lib.mapAttrsToList)     ## => (operator -> list)
+          lib.toList                        ## => [ (operator -> list) ]
+          (lib.pipe (key: value:
+            lib.escapeShellArgs [ "--replace" "@${key}@" "${value}" ]
+          ))
+          toString
+        ]
+      }
       chmod +x "$target"
     '';
 
