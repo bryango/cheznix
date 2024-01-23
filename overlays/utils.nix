@@ -39,10 +39,8 @@ in
       substitute "$src" "$target" \
       ${
         lib.pipe attrset [
-          (lib.flip removeAttrs [ "src" ])  ## => attrset
-          (lib.flip lib.mapAttrsToList)     ## => (operator -> list)
-          lib.toList                        ## => [ (operator -> list) ]
-          (lib.pipe (key: value:
+          (lib.flip removeAttrs [ "src" ])
+          (lib.mapAttrsToList (key: value:
             lib.escapeShellArgs [ "--replace" "@${key}@" "${value}" ]
           ))
           toString
