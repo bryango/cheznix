@@ -30,10 +30,23 @@ in
   };
 
   ## create "bin/$name" from a template
-  ## with `pkgs.substituteAll attrset`
-  binarySubstitute = name: attrset: prev.writeScriptBin name (
-    builtins.readFile (prev.substituteAll attrset)
-  );
+  ## use `substitute` to emulate `pkgs.substituteAll attrset`
+  binarySubstitute = name: attrset: prev.runCommand name
+    { inherit (attrset) src; }
+    ''
+      target="$out"/bin/${name}
+      mkdir -p "$(dirname "$target")"
+      substitute "$src" "$target" \
+      ${lib.pipe attrset [
+        (attrset: removeAttrs attrset [ "src" ])
+        (lib.mapAttrsToList (key: value:
+          lib.escapeShellArgs
+          [ "--replace" "@${key}@" "${value}" ]
+        ))
+        toString
+      ]}
+      chmod +x "$target"
+    '';
 
   ## create package from `fetchClosure`
   closurePackage = import ../pkgs/closure-package.nix {
