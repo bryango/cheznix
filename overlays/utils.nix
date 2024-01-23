@@ -49,6 +49,12 @@ in
       chmod +x "$target"
     '';
 
+  ## steal the shellcheck commands from `writeShellApplication`
+  shellCheckPhase = (prev.writeShellApplication {
+    name = "dummy";
+    text = "";
+  }).checkPhase;
+
   ## create package from `fetchClosure`
   closurePackage = import ../pkgs/closure-package.nix {
     inherit (prev) lib;
