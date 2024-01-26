@@ -188,24 +188,6 @@ in {
 
   programs.man = {
     enable = true;  ## `disable` to use system manpage
-    package = pkgs.man.override {
-      groff = pkgs.groff.overrideAttrs (prevAttrs: let
-        site-tmac = pkgs.fetchurl {
-          url = "https://raw.githubusercontent.com/NixOS/nixpkgs/8d8f355ba1ef8d3313ea09e08b4c1cb3d5ec08fe/pkgs/tools/text/groff/site.tmac";
-          hash = "sha256-IOiTr1KF1Y4QiLTGdzaJXdpGxSzlj5dXqoTVhHJXBQQ=";
-        };
-      in {
-        postInstall = ''
-          for f in 'man.local' 'mdoc.local'; do
-            cat '${site-tmac}' >> "$out/share/groff/site-tmac/$f"
-
-            ## lock these files to prevent overrides:
-            chmod a-w "$out/share/groff/site-tmac/$f"
-            set +e ## do not panic when later overrides fail
-          done
-        '' + prevAttrs.postInstall;
-      });
-    };
   };
 
   disabledModules = [
