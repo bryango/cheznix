@@ -74,8 +74,8 @@ let
       rustup
       cargo-binstall  # then `cargo binstall cargo-quickinstall`
       nodejs  # required by coc.nvim
+      watchman  # as git fsmonitor
       # evcxr  # too heavy, instead `cargo quickinstall evcxr_repl`
-      # watchman  # as git fsmonitor, gigantic deps
       # getoptions  # shell argument parser
       # diffoscopeMinimal  # too heavy, use distro package instead
       # devbox  # cool but I am mostly using vanilla nix flake
