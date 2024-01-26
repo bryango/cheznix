@@ -111,6 +111,7 @@ let
     ];
 
     gui.app = [
+      xorg.xinput
       pulsar  # atom fork
       gimp-with-plugins
 

@@ -13,20 +13,9 @@
     },
     {
       "active": true,
-      "attrPath": "packages.x86_64-linux.wingcool-bind",
-      "originalUrl": "git+file:///home/bryan/apps/utils/xinput-json",
-      "outputs": null,
       "priority": 5,
       "storePaths": [
-        "/nix/store/ab5d5wjggs436r7lcrpxahxv84xa7q1r-xinput-wingcool-bind"
-      ],
-      "url": "git+file:///home/bryan/apps/utils/xinput-json?ref=refs/heads/master&rev=891cdca9f0338f2fb0e4a7cd03530a2e52b32a17"
-    },
-    {
-      "active": true,
-      "priority": 5,
-      "storePaths": [
-        "/nix/store/q64k0vf84qg27qw31113rh8izs593vfx-home-manager-path"
+        "/nix/store/kkx9n37ib18zwm5c48nv65jwjj619rmd-home-manager-path"
       ]
     }
   ],
