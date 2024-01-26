@@ -4,27 +4,14 @@ final: prev: {
 
   neovim = prev.neovim.override { withRuby = false; };
 
-  nix-tree =
-    let
-      inherit (prev)
-        lib
-        fetchFromGitHub
-        nix-tree
-        ;
-      targetVersion = "0.4.0";
-    in
-    if lib.versionOlder (lib.getVersion nix-tree) targetVersion
-    then
-      prev.haskell.lib.overrideSrc nix-tree
-        {
-          src = fetchFromGitHub {
-            owner = "utdemir";
-            repo = "nix-tree";
-            rev = "v${targetVersion}";
-            hash = "sha256-9D/o4kA/Y7CX3PlaxHl2M6wd5134WaAOphzoZ1tI4Bw=";
-          };
-        }
-    else nix-tree;
+  nix-tree = prev.haskell.lib.overrideSrc prev.nix-tree {
+    src = prev.fetchFromGitHub {
+      owner = "bryango";
+      repo = "nix-tree";
+      rev = "nix-store-option";
+      hash = "sha256-pu3VC4pJ3wDjKXM/Zh0Ae+zGW186vQtYMhIAGRlFKgY=";
+    };
+  };
 
   gimp-with-plugins = with prev; gimp-with-plugins.override {
     plugins = with gimpPlugins; [ resynthesizer ];
