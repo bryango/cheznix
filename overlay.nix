@@ -36,20 +36,17 @@ final: prev: {
 
   ## override home environments
   buildEnv = attrs:
-    if attrs.name or "" == "home-manager-path"
-    then
-      (prev.buildEnv attrs).overrideAttrs
-        (
-          finalAttrs: prevAttrs: {
+    if attrs.name or "" != "home-manager-path"
+    then prev.buildEnv attrs
+    else
+      (prev.buildEnv attrs).overrideAttrs (prevAttrs: {
 
-            ## blacklist glibcLocales
-            disallowedRequisites = [ final.glibcLocales ] ++ (
-              prevAttrs.disallowedRequisites or [ ]
-            );
+        ## blacklist glibcLocales
+        disallowedRequisites = [ final.glibcLocales ] ++ (
+          prevAttrs.disallowedRequisites or [ ]
+        );
 
-          }
-        )
-    else prev.buildEnv attrs;
+      });
 
   # chezmoi = final.callPackage ./chezmoi.nix {
   #   inherit (prev) chezmoi;
