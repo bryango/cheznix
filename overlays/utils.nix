@@ -18,7 +18,7 @@ in
   };
 
   ## link to host libraries
-  hostSymlinks = recurseIntoAttrs (callPackage ../pkgs/host-links.nix { });
+  hostSymlinks = recurseIntoAttrs (callPackage ../pkgs/host-symlinks.nix { });
   inherit (final.hostSymlinks)
     host-usr
     host-locales;
