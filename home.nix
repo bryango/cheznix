@@ -86,13 +86,7 @@ let
       uxplay  # airplay server
       tectonic tectonic.biber
       fuse-overlayfs
-
-      (inetutils.overrideAttrs (prev: {
-        meta = prev.meta // {
-          priority = 7;
-          ## ^ lower than: default = 5; util-linux = 6;
-        };
-      }))  # telnet
+      inetutils # telnet
     ];
 
     cli.python = let

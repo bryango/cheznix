@@ -18,13 +18,13 @@ final: prev: {
       prev.haskell.lib.overrideSrc nix-tree
         {
           src = fetchFromGitHub {
-            owner = "utdemir";
+            owner = "bryango";
             repo = "nix-tree";
-            rev = "v${targetVersion}";
-            hash = "sha256-9D/o4kA/Y7CX3PlaxHl2M6wd5134WaAOphzoZ1tI4Bw=";
+            rev = "nix-store-option";
+            hash = "sha256-pu3VC4pJ3wDjKXM/Zh0Ae+zGW186vQtYMhIAGRlFKgY=";
           };
         }
-    else nix-tree;
+    else lib.warn "nix-tree updated, overlay skipped" nix-tree;
 
   gimp-with-plugins = with prev; gimp-with-plugins.override {
     plugins = with gimpPlugins; [ resynthesizer ];
