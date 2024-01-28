@@ -1,12 +1,13 @@
-{ attrs, config, lib, ... }:
+{ attrs, config, lib, pkgs, ... }:
 
 {
   config = {
 
-    ## install and manage home-manager itself
-    programs.home-manager.enable = true;
-
     home = {
+
+      ## install and manage home-manager itself, with the binary from nixpkgs
+      packages = [ pkgs.home-manager ];
+
       username = attrs.username;
       homeDirectory = attrs.homeDirectory or "/home/${attrs.username}";
 

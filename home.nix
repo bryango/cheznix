@@ -149,9 +149,6 @@ in {
     # '')
   ];
 
-  ## remember to manage itself
-  programs.home-manager.enable = true;
-
   programs.v2ray-ctrl = {
     # enable = false;
     outbounds = "la6";
