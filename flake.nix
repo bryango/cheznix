@@ -24,8 +24,8 @@
     system-manager = {
       url = "github:numtide/system-manager";
       inputs.nixpkgs.follows = "nixpkgs-config/nixpkgs";
-        ## ^ use the unmodified `nixpkgs` to be imported
-    };  ## this is cool but has a huge dependency tree!
+      ## ^ use the unmodified `nixpkgs`, to be imported
+    };
 
     ## reference to last successful generation; manually bumped
     last-gen = {
@@ -40,18 +40,17 @@
   outputs = { self, home-attrs, system-manager, ... }:
     let
 
-      ## namings
+      ## consistent namings
       cheznix = self;
       nixpkgs-follows =
-      let
-        result = "nixpkgs-config";
-        lock = builtins.fromJSON (builtins.readFile ./flake.lock);
-      in
+        let
+          result = "nixpkgs-config";
+          lock = builtins.fromJSON (builtins.readFile ./flake.lock);
+        in
         assert lock.nodes.${result}.original.url == "file:./${result}";
         result;
       /* ^ refers to both the input _name_ & its _source_,
-        .. therefore these two must coincide!
-      */
+        .. therefore these two must coincide! */
 
       ## upstream overrides: inputs.${nixpkgs-follows}
       ## home overlay:
@@ -79,20 +78,23 @@
           attrs = updateHomeAttrs id profile;
           inherit (attrs) pkgs;
 
-          home-manager = let
-            ## retrieve the unfixed flake outputs
-            unfixed = (
-              ## force an import from derivation (IFD)
-              import "${pkgs.home-manager.src}/flake.nix"
-            ).outputs;
+          home-manager =
+            let
+              ## retrieve the unfixed flake outputs
+              unfixed = (
+                ## force an import from derivation (IFD)
+                import "${pkgs.home-manager.src}/flake.nix"
+              ).outputs;
 
-            ## find the fixed point manually
-            fixed-point = unfixed {
-              self = fixed-point;
-              inherit nixpkgs;
-            };
-          in fixed-point;
-        in {
+              ## find the fixed point manually
+              fixed-point = unfixed {
+                self = fixed-point;
+                inherit nixpkgs;
+              };
+            in
+            fixed-point;
+        in
+        {
           name = "${attrs.username}@${attrs.hostname}";
           value = home-manager.lib.homeManagerConfiguration {
             inherit pkgs;
@@ -110,7 +112,8 @@
       mkSystemConfig = id: profile:
         let
           attrs = updateHomeAttrs id profile;
-        in {
+        in
+        {
           name = "${attrs.hostname}";
           value = system-manager.lib.makeSystemConfig {
 
@@ -124,14 +127,17 @@
           };
         };
 
-    in {
+    in
+    {
       inherit lib;
       homeConfigurations = forMyMachines mkHomeConfig;
       systemConfigs = forMyMachines mkSystemConfig;
       legacyPackages = forMySystems pkgsOverlay;
       packages = forMySystems (system: {
-        ## home-manager as the default package
-        default = self.legacyPackages.${system}.home-manager;
+        ## passed from nixpkgs
+        inherit (self.legacyPackages.${system}) home-manager;
+        ## `home-manager` as the default
+        default = self.packages.${system}.home-manager;
       });
       overlays.default = overlay;
     };
