@@ -85,23 +85,13 @@
           inherit (attrs) pkgs;
 
           home-manager = let
-            ## extract home-manager from nixpkgs
-            src =
-              builtins.unsafeDiscardStringContext
-              attrs.pkgs.home-manager.src.outPath
-            ;
-            ## retrieve the cached closure
-            closure = pkgs.closurePackage {
-              fromPath = src;
-              inputAddressed = false;
-              inherit (pkgs.home-manager)
-                name version;
-            };
-            ## force an import from derivation (IFD)
+            ## retrieve the unfixed flake outputs
             unfixed = (
-              import "${closure.outPath}/flake.nix"
+              ## force an import from derivation (IFD)
+              import "${pkgs.home-manager.src}/flake.nix"
             ).outputs;
-            ## find the fixed point
+
+            ## find the fixed point manually
             fixed-point = unfixed {
               self = fixed-point;
               inherit nixpkgs;
