@@ -1,5 +1,19 @@
 final: prev: {
 
+  manix = prev.manix.overrideAttrs (finalAttrs: prevAttrs: {
+    src = prev.fetchFromGitHub {
+      owner = "nix-community";
+      repo = "manix";
+      rev = "v0.8.0";
+      hash = "sha256-b/3NvY+puffiQFCQuhRMe81x2wm3vR01MR3iwe/gJkw=";
+    };
+    cargoDeps = prev.rustPlatform.fetchCargoTarball {
+      inherit (finalAttrs) src;
+      name = "${finalAttrs.pname}-${finalAttrs.version}";
+      hash = "sha256-4qyFVVIlJXgLnkp+Ln4uMlY0BBl8t1na67rSM2iIoEA=";
+    };
+  });
+
   ## do NOT overlay `nix`, otherwise issues may propagate!
 
   neovim = prev.neovim.override { withRuby = false; };
