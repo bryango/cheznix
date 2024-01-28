@@ -42,7 +42,7 @@
     };
   };
 
-  outputs = { self, home-manager, home-attrs, system-manager, ... }:
+  outputs = { self, home-attrs, system-manager, ... }:
     let
 
       ## namings
@@ -66,7 +66,7 @@
       };
 
       nixpkgs = self.inputs.${nixpkgs-follows};
-      lib = nixpkgs.lib // home-manager.lib;
+      lib = nixpkgs.lib;
       inherit (lib.chezlib) forMySystems;
       pkgsOverlay = system: nixpkgs.legacyPackages.${system}.extend overlay;
 
@@ -82,10 +82,35 @@
       mkHomeConfig = id: profile:
         let
           attrs = updateHomeAttrs id profile;
+          inherit (attrs) pkgs;
+
+          home-manager = let
+            ## extract home-manager from nixpkgs
+            src =
+              builtins.unsafeDiscardStringContext
+              attrs.pkgs.home-manager.src.outPath
+            ;
+            ## retrieve the cached closure
+            closure = pkgs.closurePackage {
+              fromPath = src;
+              inputAddressed = false;
+              inherit (pkgs.home-manager)
+                name version;
+            };
+            ## force an import from derivation (IFD)
+            unfixed = (
+              import "${closure.outPath}/flake.nix"
+            ).outputs;
+            ## find the fixed point
+            fixed-point = unfixed {
+              self = fixed-point;
+              inherit nixpkgs;
+            };
+          in fixed-point;
         in {
           name = "${attrs.username}@${attrs.hostname}";
           value = home-manager.lib.homeManagerConfiguration {
-            inherit (attrs) pkgs;
+            inherit pkgs;
 
             ## specify your home configuration modules
             modules = [ ./home.nix ];
@@ -116,7 +141,6 @@
 
     in {
       inherit lib;
-      inherit (home-manager) packages;
       homeConfigurations = forMyMachines mkHomeConfig;
       systemConfigs = forMyMachines mkSystemConfig;
       legacyPackages = forMySystems pkgsOverlay;
