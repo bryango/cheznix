@@ -134,6 +134,10 @@
       homeConfigurations = forMyMachines mkHomeConfig;
       systemConfigs = forMyMachines mkSystemConfig;
       legacyPackages = forMySystems pkgsOverlay;
+      packages = forMySystems (system: {
+        ## home-manager as the default package
+        default = self.legacyPackages.${system}.home-manager;
+      });
       overlays.default = overlay;
     };
 }
