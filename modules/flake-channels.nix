@@ -10,10 +10,15 @@ let
 
   ## remove the local flakes
   ## to reduce trivial rebuilds
-  flakeInputs = removeAttrs flakeInputs' [
+  flakeInputs'' = removeAttrs flakeInputs' [
     flakeSelfName
     nixpkgs-follows
   ];
+
+  ## include the home-manager flake itself from nixpkgs
+  flakeInputs = flakeInputs'' // {
+    "home-manager".outPath = pkgs.home-manager.src;
+  };
 
   generateLinks = prefix: name: flake: {
     name = "${prefix}/${name}";
