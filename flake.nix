@@ -21,11 +21,6 @@
     ## p13n nixpkgs with config
     nixpkgs-config.url = "git+file:./nixpkgs-config";
 
-    home-manager = {
-      url = "home-manager";  ## flake registry
-      inputs.nixpkgs.follows = "nixpkgs-config";
-    };
-
     system-manager = {
       url = "github:numtide/system-manager";
       inputs.nixpkgs.follows = "nixpkgs-config/nixpkgs";

@@ -315,25 +315,6 @@
     "home-manager": {
       "inputs": {
         "nixpkgs": [
-          "nixpkgs-config"
-        ]
-      },
-      "locked": {
-        "lastModified": 1705169127,
-        "narHash": "sha256-j9OEtNxOIPWZWjbECVMkI1TO17SzlpHMm0LnVWKOR/g=",
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "rev": "f2942f3385f1b35cc8a1abb03a45e29c9cb4d3c8",
-        "type": "github"
-      },
-      "original": {
-        "id": "home-manager",
-        "type": "indirect"
-      }
-    },
-    "home-manager_2": {
-      "inputs": {
-        "nixpkgs": [
           "last-gen",
           "nixpkgs-config"
         ]
@@ -354,7 +335,7 @@
     "last-gen": {
       "inputs": {
         "home-attrs": "home-attrs_2",
-        "home-manager": "home-manager_2",
+        "home-manager": "home-manager",
         "last-gen": [
           "last-gen"
         ],
@@ -534,7 +515,6 @@
     "root": {
       "inputs": {
         "home-attrs": "home-attrs",
-        "home-manager": "home-manager",
         "last-gen": "last-gen",
         "nixpkgs-config": "nixpkgs-config_2",
         "system-manager": "system-manager_2"
