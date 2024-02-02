@@ -1,11 +1,7 @@
-{ alsa-lib
-, cups
-, dpkg
-, fetchurl
+{ fetchurl
 , glib
 , gtk3
 , lib
-, libayatana-appindicator
 , libdrm
 , libgcrypt
 , libkrb5
@@ -13,44 +9,31 @@
 , mesa # for libgbm
 , libGL
 , nss
-, xorg
 , systemd
 , stdenv
 , vips
-, at-spi2-core
 , autoPatchelfHook
 , wrapGAppsHook
+, webkitgtk
+, libappindicator-gtk3
+, python3
 }:
 
-let
-  sources = import ./sources.nix;
-  srcs = {
-    x86_64-linux = fetchurl {
-      url = "https://dldir1.qq.com/qqfile/qq/QQNT/${sources.urlhash}/linuxqq_${sources.version}_amd64.deb";
-      hash = sources.amd64_hash;
-    };
-    aarch64-linux = fetchurl {
-      url = "https://dldir1.qq.com/qqfile/qq/QQNT/${sources.urlhash}/linuxqq_${sources.version}_arm64.deb";
-      hash = sources.arm64_hash;
-    };
+stdenv.mkDerivation (finalAttrs: {
+  pname = "nutstore";
+  version = "6.2.8";
+
+  src = fetchurl {
+    url = "https://pkg-cdn.jianguoyun.com/static/exe/ex/${finalAttrs.version}/nutstore_client-${finalAttrs.version}-linux-x86_64-public.tar.gz";
+    hash = lib.fakeHash;
   };
-  src = srcs.${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
-in
-stdenv.mkDerivation {
-  pname = "qq";
-  version = sources.version;
-  inherit src;
 
   nativeBuildInputs = [
     autoPatchelfHook
     wrapGAppsHook
-    dpkg
   ];
 
   buildInputs = [
-    alsa-lib
-    at-spi2-core
-    cups
     glib
     gtk3
     libdrm
@@ -59,7 +42,15 @@ stdenv.mkDerivation {
     mesa
     nss
     vips
-    xorg.libXdamage
+    webkitgtk
+    libappindicator-gtk3
+    libnotify
+  ];
+
+  propagatedBuildInputs = [
+    (python3.withPackages (pyPkgs: with pyPkgs; [
+      pyobject3
+    ]))
   ];
 
   runtimeDependencies = map lib.getLib [
@@ -85,24 +76,17 @@ stdenv.mkDerivation {
     # https://aur.archlinux.org/cgit/aur.git/commit/?h=linuxqq&id=f7644776ee62fa20e5eb30d0b1ba832513c77793
     rm -r $out/opt/QQ/resources/app/libssh2.so.1
 
-    # https://github.com/microcai/gentoo-zh/commit/06ad5e702327adfe5604c276635ae8a373f7d29e
-    ln -s ${libayatana-appindicator}/lib/libayatana-appindicator3.so \
-      $out/opt/QQ/libappindicator3.so
-
-    ln -s ${libnotify}/lib/libnotify.so \
-      $out/opt/QQ/libnotify.so
-
     runHook postInstall
   '';
 
   passthru.updateScript = ./update.sh;
 
   meta = with lib; {
-    homepage = "https://im.qq.com/linuxqq/";
-    description = "Messaging app";
-    platforms = [ "x86_64-linux" "aarch64-linux" ];
+    homepage = "https://www.jianguoyun.com";
+    description = "A cloud service that lets you sync and share files";
+    platforms = [ "x86_64-linux" ];
     license = licenses.unfree;
     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
-    maintainers = with lib.maintainers; [ fee1-dead ];
+    maintainers = with lib.maintainers; [ bryango ];
   };
-}
+})
