@@ -16,6 +16,12 @@ final: prev: {
 
   ## do NOT overlay `nix`, otherwise issues may propagate!
 
+  home-manager = prev.home-manager.override {
+    ## option inspection not working for flakes
+    ## so simply drop dependency to save space
+    nixos-option = null;
+  };
+
   neovim = prev.neovim.override { withRuby = false; };
 
   nix-tree =

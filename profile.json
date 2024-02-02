@@ -13,9 +13,20 @@
     },
     {
       "active": true,
+      "attrPath": "packages.x86_64-linux.default",
+      "originalUrl": "git+file:///home/bryan/apps/nixpkgs/hydra-check",
+      "outputs": null,
       "priority": 5,
       "storePaths": [
-        "/nix/store/kdnar2jkag6dmjbiis87zp1gl4czkzk7-home-manager-path"
+        "/nix/store/q9q7biwfvpsxd86fy4b0krzr5mysz1lb-hydra-check-1.3.5"
+      ],
+      "url": "git+file:///home/bryan/apps/nixpkgs/hydra-check?ref=refs/heads/bump-python-nixpkgs&rev=775d5897dc0f95ba3b817c5ade7fa8598d976d66"
+    },
+    {
+      "active": true,
+      "priority": 5,
+      "storePaths": [
+        "/nix/store/gfapdkknvqnshxsvn6wih1cr7kfzh4z9-home-manager-path"
       ]
     }
   ],

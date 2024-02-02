@@ -33,7 +33,7 @@ let
       nix-output-monitor
       nixpkgs-hammering
       nixpkgs-review
-      hydra-check
+      # hydra-check
       system-manager  # to be stabilized
       # nixd  # future lsp ## not stable # needs llvmPackages.llvm.lib
       # nvd  # version diff
