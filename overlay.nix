@@ -22,6 +22,32 @@ final: prev: {
     nixos-option = null;
   };
 
+  undoWrapProgram = drv: prev.runCommand "${drv.name}-undo-wrap" { } ''
+    set -x
+    cp -r ${drv} $out
+    cd $out/bin
+    for entry in .*-wrapped; do
+      target=''${entry#.}
+      target=''${target%-wrapped}
+      chmod +w "$entry" "$target" || true
+      cp -f -T "$entry" "$target"
+    done
+  '';
+
+  v2ray = prev.runCommand "v2ray-rewrapped"
+    {
+      nativeBuildInputs = [ prev.makeBinaryWrapper ];
+    }
+    ''
+      mkdir -p $out/bin
+      cd $out/bin
+      makeBinaryWrapper \
+        "${final.undoWrapProgram prev.v2ray}/bin/v2ray" \
+        "$out/bin/v2ray" \
+        --inherit-argv0 \
+        --suffix XDG_DATA_DIRS : "${prev.v2ray.assetsDrv}/share"
+    '';
+
   neovim = prev.neovim.override { withRuby = false; };
 
   nix-tree =
