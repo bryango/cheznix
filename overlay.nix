@@ -22,17 +22,20 @@ final: prev: {
     nixos-option = null;
   };
 
-  undoWrapProgram = drv: prev.runCommand "${drv.name}-undo-wrap" { } ''
-    set -x
-    cp -r ${drv} $out
-    cd $out/bin
-    for entry in .*-wrapped; do
-      target=''${entry#.}
-      target=''${target%-wrapped}
-      chmod +w "$entry" "$target" || true
-      cp -f -T "$entry" "$target"
-    done
-  '';
+  undoWrapProgram = drv: prev.symlinkJoin {
+    name = "${drv.name}-undo-wrapped";
+    paths = [ drv ];
+    postBuild = ''
+      cd $out/bin
+      for entry in .*-wrapped; do
+        target=''${entry#.}
+        target=''${target%-wrapped}
+        rm "$target" || true
+        cp -f -T "$entry" "$target"
+        rm "$entry"
+      done
+    '';
+  };
 
   v2ray = prev.runCommand "v2ray-rewrapped"
     {
