@@ -1,15 +1,15 @@
 #!/bin/bash
 # set redshift of all screens
 
-called_as=redshift
+process_name=redshift
 executable=redshift
 
 set -x
 
 function purge {
   systemctl --user stop @allInstanceNames@
-  "$called_as" -x
-  pkill "$executable"
+  "$executable" -x
+  pkill --exact "$process_name"
 }
 
 function init {
