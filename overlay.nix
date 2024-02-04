@@ -1,5 +1,7 @@
 final: prev: with prev; {
 
+  ## do NOT overlay `nix`, otherwise issues may propagate!
+
   manix = manix.overrideAttrs (finalAttrs: prevAttrs: {
     src = fetchFromGitHub {
       owner = "nix-community";
@@ -14,17 +16,15 @@ final: prev: with prev; {
     };
   });
 
-  ## do NOT overlay `nix`, otherwise issues may propagate!
-
   home-manager = home-manager.override {
-    ## option inspection not working for flakes
-    ## so simply drop dependency to save space
+    ## option inspection does not work for flakes
+    ## so simply drop this dependency to save space
     nixos-option = null;
   };
 
   v2ray = runCommand "${v2ray.name}-rewrapped"
     {
-      nativeBuildInputs = [ makeBinaryWrapper ];
+      nativeBuildInputs = [ buildPackages.makeBinaryWrapper ];
     }
     ''
       mkdir -p $out/bin
@@ -69,18 +69,14 @@ final: prev: with prev; {
         "$out/bin/redshift" \
         "$out/bin/.redshift-rewrapped" \
         --inherit-argv0 \
-        ''${gappsWrapperArgs[@]}
+        "''${gappsWrapperArgs[@]}"
     '';
   };
 
-  redshift =
-    let
-      redshift = final.redshift-vanilla;
-    in
+  redshift = let redshift = final.redshift-vanilla; in
     symlinkJoin {
       name = "${redshift.name}-rewrapped";
       paths = [ redshift ];
-      nativeBuildInputs = [ makeBinaryWrapper wrapGAppsHook ];
       postBuild = ''
         cd $out/bin
         rm redshift
