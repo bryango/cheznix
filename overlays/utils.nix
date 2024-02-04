@@ -5,7 +5,10 @@ let
   inherit (prev)
     lib
     callPackage
-    recurseIntoAttrs;
+    recurseIntoAttrs
+    runCommand
+    symlinkJoin
+    writeShellApplication;
 
 in
 
@@ -31,7 +34,7 @@ in
 
   ## create "bin/$name" from a template
   ## use `substitute` to emulate `pkgs.substituteAll attrset`
-  binarySubstitute = name: attrset: prev.runCommand name
+  binarySubstitute = name: attrset: runCommand name
     { inherit (attrset) src; }
     ''
       target="$out"/bin/${name}
@@ -50,14 +53,27 @@ in
     '';
 
   ## steal the shellcheck commands from `writeShellApplication`
-  shellCheckPhase = (prev.writeShellApplication {
+  shellCheckPhase = (writeShellApplication {
     name = "dummy";
     text = "";
   }).checkPhase;
 
   ## create package from `fetchClosure`
-  closurePackage = import ../pkgs/closure-package.nix {
-    inherit (prev) lib;
+  closurePackage = callPackage ../pkgs/closure-package.nix { };
+
+  undoWrapProgram = drv: symlinkJoin {
+    name = "${drv.name}-undo-wrapped";
+    paths = [ drv ];
+    postBuild = ''
+      cd $out/bin
+      for entry in .*-wrapped; do
+        target=''${entry#.}
+        target=''${target%-wrapped}
+        rm "$target" || true
+        cp -f -T "$entry" "$target"
+        rm "$entry"
+      done
+    '';
   };
 
   ## link farm all overlaid derivations
