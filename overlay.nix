@@ -1,13 +1,13 @@
-final: prev: {
+final: prev: with prev; {
 
-  manix = prev.manix.overrideAttrs (finalAttrs: prevAttrs: {
-    src = prev.fetchFromGitHub {
+  manix = manix.overrideAttrs (finalAttrs: prevAttrs: {
+    src = fetchFromGitHub {
       owner = "nix-community";
       repo = "manix";
       rev = "v0.8.0";
       hash = "sha256-b/3NvY+puffiQFCQuhRMe81x2wm3vR01MR3iwe/gJkw=";
     };
-    cargoDeps = prev.rustPlatform.fetchCargoTarball {
+    cargoDeps = rustPlatform.fetchCargoTarball {
       inherit (finalAttrs) src;
       name = "${finalAttrs.pname}-${finalAttrs.version}";
       hash = "sha256-4qyFVVIlJXgLnkp+Ln4uMlY0BBl8t1na67rSM2iIoEA=";
@@ -16,55 +16,35 @@ final: prev: {
 
   ## do NOT overlay `nix`, otherwise issues may propagate!
 
-  home-manager = prev.home-manager.override {
+  home-manager = home-manager.override {
     ## option inspection not working for flakes
     ## so simply drop dependency to save space
     nixos-option = null;
   };
 
-  undoWrapProgram = drv: prev.symlinkJoin {
-    name = "${drv.name}-undo-wrapped";
-    paths = [ drv ];
-    postBuild = ''
-      cd $out/bin
-      for entry in .*-wrapped; do
-        target=''${entry#.}
-        target=''${target%-wrapped}
-        rm "$target" || true
-        cp -f -T "$entry" "$target"
-        rm "$entry"
-      done
-    '';
-  };
-
-  v2ray = prev.runCommand "v2ray-rewrapped"
+  v2ray = runCommand "${v2ray.name}-rewrapped"
     {
-      nativeBuildInputs = [ prev.makeBinaryWrapper ];
+      nativeBuildInputs = [ makeBinaryWrapper ];
     }
     ''
       mkdir -p $out/bin
       cd $out/bin
       makeBinaryWrapper \
-        "${final.undoWrapProgram prev.v2ray}/bin/v2ray" \
+        "${final.undoWrapProgram v2ray}/bin/v2ray" \
         "$out/bin/v2ray" \
         --inherit-argv0 \
-        --suffix XDG_DATA_DIRS : "${prev.v2ray.assetsDrv}/share"
+        --suffix XDG_DATA_DIRS : "${v2ray.assetsDrv}/share"
     '';
 
-  neovim = prev.neovim.override { withRuby = false; };
+  neovim = neovim.override { withRuby = false; };
 
   nix-tree =
     let
-      inherit (prev)
-        lib
-        fetchFromGitHub
-        nix-tree
-        ;
       targetVersion = "0.4.0";
     in
     if lib.versionOlder (lib.getVersion nix-tree) targetVersion
     then
-      prev.haskell.lib.overrideSrc nix-tree
+      haskell.lib.overrideSrc nix-tree
         {
           src = fetchFromGitHub {
             owner = "bryango";
@@ -75,20 +55,45 @@ final: prev: {
         }
     else lib.warn "nix-tree updated, overlay skipped" nix-tree;
 
-  gimp-with-plugins = with prev; gimp-with-plugins.override {
+  gimp-with-plugins = gimp-with-plugins.override {
     plugins = with gimpPlugins; [ resynthesizer ];
   };
 
-  redshift = prev.redshift.override {
+  redshift-vanilla = (redshift.override {
     withGeolocation = false;
+    withAppIndicator = false;
+  }).overrideAttrs {
+    postFixup = ''
+      wrapPythonPrograms
+      makeBinaryWrapper \
+        "$out/bin/redshift" \
+        "$out/bin/.redshift-rewrapped" \
+        --inherit-argv0 \
+        ''${gappsWrapperArgs[@]}
+    '';
   };
+
+  redshift =
+    let
+      redshift = final.redshift-vanilla;
+    in
+    symlinkJoin {
+      name = "${redshift.name}-rewrapped";
+      paths = [ redshift ];
+      nativeBuildInputs = [ makeBinaryWrapper wrapGAppsHook ];
+      postBuild = ''
+        cd $out/bin
+        rm redshift
+        mv .redshift-rewrapped redshift
+      '';
+    };
 
   ## override home environments
   buildEnv = attrs:
     if attrs.name or "" != "home-manager-path"
-    then prev.buildEnv attrs
+    then buildEnv attrs
     else
-      (prev.buildEnv attrs).overrideAttrs (prevAttrs: {
+      (buildEnv attrs).overrideAttrs (prevAttrs: {
 
         ## blacklist glibcLocales
         disallowedRequisites = [ final.glibcLocales ] ++ (

@@ -2,7 +2,7 @@
 # set redshift of all screens
 
 called_as=redshift
-executable=.redshift-wrapp
+executable=redshift
 
 set -x
 
