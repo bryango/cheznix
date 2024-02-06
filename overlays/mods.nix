@@ -2,9 +2,9 @@ final: prev:
 
 { ## be careful of `rec`, might not work
 
-  tectonic = final.callPackage ../pkgs/tectonic-lock-bundle {
-    tectonic = prev.tectonic;
-  };
+  tectonic = prev.tectonic;
+  tectonic-test-biber = prev.tectonic.passthru.tests.biber-compatibility;
+  tectonic-test-workspace = prev.tectonic.passthru.tests.workspace;
 
   pulsar = prev.pulsar.overrideAttrs (prev: {
     version = "1.111.0";
