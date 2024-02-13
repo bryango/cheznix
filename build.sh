@@ -11,5 +11,5 @@ IFS=" " read -r -a allConfigs <<< "$(nix eval --raw --impure --expr \
 )"
 
 for oneConfig in "${allConfigs[@]}"; do
-  nix run . -- build --flake ".#$oneConfig" "$@"
+  nix run . -- build -v --flake ".#$oneConfig" "$@"
 done
