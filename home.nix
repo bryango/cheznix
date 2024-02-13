@@ -199,6 +199,7 @@ in {
   nix.package = pkgs.nixVersions.nix_2_18;
   nix.settings = {
     max-jobs = "auto";
+    fallback = true;
 
     ## invalidate negative cache hits in 10min
     ## to invalidate all, pass `--option narinfo-cache-negative-ttl 0`

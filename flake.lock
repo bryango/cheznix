@@ -312,30 +312,9 @@
         "url": "ssh://git@github.com/bryango/attrs.git"
       }
     },
-    "home-manager": {
-      "inputs": {
-        "nixpkgs": [
-          "last-gen",
-          "nixpkgs-config"
-        ]
-      },
-      "locked": {
-        "lastModified": 1705169127,
-        "narHash": "sha256-j9OEtNxOIPWZWjbECVMkI1TO17SzlpHMm0LnVWKOR/g=",
-        "owner": "nix-community",
-        "repo": "home-manager",
-        "rev": "f2942f3385f1b35cc8a1abb03a45e29c9cb4d3c8",
-        "type": "github"
-      },
-      "original": {
-        "id": "home-manager",
-        "type": "indirect"
-      }
-    },
     "last-gen": {
       "inputs": {
         "home-attrs": "home-attrs_2",
-        "home-manager": "home-manager",
         "last-gen": [
           "last-gen"
         ],
@@ -343,15 +322,16 @@
         "system-manager": "system-manager"
       },
       "locked": {
-        "lastModified": 1705935676,
-        "narHash": "sha256-I9zfd7zOjY8VFQQ582NgIsTBWLQrntKTMH7TRXDNS24=",
-        "rev": "7161c2c7dbf6706ddc8141187a8851bf30a631ac",
-        "revCount": 309,
+        "lastModified": 1707055898,
+        "narHash": "sha256-S5kHKPwQsig15dNbW3ndGIfdqh6T8JdeMvuKH0V0ePk=",
+        "ref": "refs/heads/master",
+        "rev": "5cd509e55fb4f08e9a7340b94d9c29f1d91d96f1",
+        "revCount": 335,
         "type": "git",
         "url": "file:."
       },
       "original": {
-        "rev": "7161c2c7dbf6706ddc8141187a8851bf30a631ac",
+        "rev": "5cd509e55fb4f08e9a7340b94d9c29f1d91d96f1",
         "type": "git",
         "url": "file:."
       }
@@ -395,11 +375,11 @@
         "nixpkgs": "nixpkgs_2"
       },
       "locked": {
-        "lastModified": 1707033226,
-        "narHash": "sha256-lyMhfQLwB3XY28d1yge5LrYkUd9jQqgwyX1bVQ7ZoMY=",
+        "lastModified": 1707661321,
+        "narHash": "sha256-sEl5gypJqm+p2HJr0rc7CDQj7RdgAisiyC/AbhwlCXI=",
         "ref": "refs/heads/master",
-        "rev": "d82692d27d999b92d45d8deb49fb4ac1fcc88f73",
-        "revCount": 217,
+        "rev": "988a038945db4c427beb070c96e9ff2c8f0159f7",
+        "revCount": 219,
         "type": "git",
         "url": "file:./nixpkgs-config"
       },
@@ -442,11 +422,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1706305231,
-        "narHash": "sha256-IKrCTNC+m8FGAE/PnBthZDtCizxOz8lgMDyxaHEl3zI=",
+        "lastModified": 1707657644,
+        "narHash": "sha256-DD6Qg0KQiKWpW9Hvk1JebgSue5v9Ds+fUyVlhnsN5e0=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "9a57448244766bdddca9341cf2290d51114d88a9",
+        "rev": "0dc186716d75fcea44ec5ae33d6a9540015072a3",
         "type": "github"
       },
       "original": {

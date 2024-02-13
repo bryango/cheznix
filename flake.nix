@@ -31,7 +31,7 @@
     last-gen = {
       type = "git";
       url = "file:.";
-      rev = "7161c2c7dbf6706ddc8141187a8851bf30a631ac";
+      rev = "5cd509e55fb4f08e9a7340b94d9c29f1d91d96f1";
       inputs.last-gen.follows = "last-gen";
       ## ^ beware of infinite recursion
     };

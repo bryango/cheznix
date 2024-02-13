@@ -2,20 +2,6 @@ final: prev: with prev; {
 
   ## do NOT overlay `nix`, otherwise issues may propagate!
 
-  manix = manix.overrideAttrs (finalAttrs: prevAttrs: {
-    src = fetchFromGitHub {
-      owner = "nix-community";
-      repo = "manix";
-      rev = "v0.8.0";
-      hash = "sha256-b/3NvY+puffiQFCQuhRMe81x2wm3vR01MR3iwe/gJkw=";
-    };
-    cargoDeps = rustPlatform.fetchCargoTarball {
-      inherit (finalAttrs) src;
-      name = "${finalAttrs.pname}-${finalAttrs.version}";
-      hash = "sha256-4qyFVVIlJXgLnkp+Ln4uMlY0BBl8t1na67rSM2iIoEA=";
-    };
-  });
-
   home-manager = home-manager.override {
     ## option inspection does not work for flakes
     ## so simply drop this dependency to save space
