@@ -27,14 +27,6 @@
       ## ^ use the unmodified `nixpkgs`, to be imported
     };
 
-    ## reference to last successful generation; manually bumped
-    last-gen = {
-      type = "git";
-      url = "file:.";
-      rev = "5cd509e55fb4f08e9a7340b94d9c29f1d91d96f1";
-      inputs.last-gen.follows = "last-gen";
-      ## ^ beware of infinite recursion
-    };
   };
 
   outputs = { self, home-attrs, system-manager, ... }:
