@@ -134,15 +134,10 @@
       systemConfigs = forMyMachines mkSystemConfig;
       legacyPackages = forMySystems pkgsOverlay;
       packages = forMySystems (system: {
-
-        ## passed from nixpkgs, overlaid
+        ## passed from nixpkgs
         inherit (self.legacyPackages.${system}) home-manager;
-
-        ## bootstrap package is _not_ overlaid
-        home-manager-vanilla = nixpkgs.legacyPackages.${system}.home-manager;
-
-        ## bootstrap package as the default
-        default = self.packages.${system}.home-manager-vanilla;
+        ## `home-manager` as the default
+        default = self.packages.${system}.home-manager;
       });
       overlays.default = overlay;
     };
