@@ -70,11 +70,11 @@ let
       mosh
       difftastic
       jc
-      mise
       rustup
       cargo-binstall  # then `cargo binstall cargo-quickinstall`
       nodejs  # required by coc.nvim
       watchman  # as git fsmonitor
+      # mise  # dev runtime manager
       # evcxr  # too heavy, instead `cargo quickinstall evcxr_repl`
       # getoptions  # shell argument parser
       # diffoscopeMinimal  # too heavy, use distro package instead
