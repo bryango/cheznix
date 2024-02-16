@@ -1,8 +1,16 @@
 final: prev:
 
+with prev;
+
 { ## be careful of `rec`, might not work
 
-  pulsar = prev.pulsar.overrideAttrs (prev: {
+  git-branchless = git-branchless.overrideAttrs (finalAttrs: prevAttrs: {
+    postInstall = (prevAttrs.postInstall or "") + ''
+      $out/bin/git-branchless install-man-pages $out/share/man
+    '';
+  });
+
+  pulsar = pulsar.overrideAttrs (prev: {
     version = "1.111.0";
     src = builtins.fetchClosure {
       /* artifact:
@@ -20,12 +28,12 @@ final: prev:
 
   /* ## not used by me, disabled to save build time
   fcitx5-configtool =
-    prev.libsForQt5.callPackage ../pkgs/fcitx5-configtool.nix {
+    libsForQt5.callPackage ../pkgs/fcitx5-configtool.nix {
       kcmSupport = false;
     };
   */
 
-  byobu-with-tmux = prev.callPackage (
+  byobu-with-tmux = callPackage (
     { byobu, tmux, symlinkJoin, emptyDirectory }:
     symlinkJoin {
       name = "byobu-with-tmux-${byobu.version}";
