@@ -24,9 +24,42 @@
     },
     {
       "active": true,
+      "attrPath": "legacyPackages.x86_64-linux.nix-update",
+      "originalUrl": "flake:nixpkgs",
+      "outputs": null,
       "priority": 5,
       "storePaths": [
-        "/nix/store/s8nzvki48djllsyrlxka2hksrbwx56ba-home-manager-path"
+        "/nix/store/yq22dg22s0f21jfqzi26937z96w749pr-nix-update-1.0.0"
+      ],
+      "url": "github:NixOS/nixpkgs/0dc186716d75fcea44ec5ae33d6a9540015072a3"
+    },
+    {
+      "active": true,
+      "attrPath": "legacyPackages.x86_64-linux.git-branchless",
+      "originalUrl": "git+file:///home/bryan/.config/home-manager/nixpkgs-config",
+      "outputs": null,
+      "priority": 5,
+      "storePaths": [
+        "/nix/store/za8nqjbij9pfpvydp2hcypvh8fgsjl40-git-branchless-0.8.0"
+      ],
+      "url": "git+file:///home/bryan/.config/home-manager/nixpkgs-config?ref=refs/heads/master&rev=7bd40a030e03909cdfd0ed69791a15d467d341cc"
+    },
+    {
+      "active": true,
+      "attrPath": "packages.x86_64-linux.live-capture",
+      "originalUrl": "git+file:///home/bryan/apps/dev/wifipem",
+      "outputs": null,
+      "priority": 5,
+      "storePaths": [
+        "/nix/store/2hishsjivlb1ibmqqbq6x599sqjw5mhv-wifipem-live-capture"
+      ],
+      "url": "git+file:///home/bryan/apps/dev/wifipem?ref=refs/heads/minimal&rev=97fbe4dee5e934e1b7c80deac572230fe66c2813"
+    },
+    {
+      "active": true,
+      "priority": 5,
+      "storePaths": [
+        "/nix/store/j09285kmx0fniifjvk7szf7vylrlmpbv-home-manager-path"
       ]
     }
   ],
