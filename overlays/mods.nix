@@ -4,12 +4,6 @@ with prev;
 
 { ## be careful of `rec`, might not work
 
-  git-branchless = git-branchless.overrideAttrs (finalAttrs: prevAttrs: {
-    postInstall = (prevAttrs.postInstall or "") + ''
-      $out/bin/git-branchless install-man-pages $out/share/man
-    '';
-  });
-
   pulsar = pulsar.overrideAttrs (prev: {
     version = "1.111.0";
     src = builtins.fetchClosure {
