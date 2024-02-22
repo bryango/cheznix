@@ -81,7 +81,7 @@ in
     gatherOverlaid =
 
       { pkgs ? final # pkgs fixed point
-      , overlays ? final.overlays # overlays as an attrset
+      , attrOverlays ? pkgs.attrOverlays # overlays as an attrset
       }:
 
       let
@@ -89,7 +89,7 @@ in
 
         ## this actually advances the fixed point, but don't worry,
         ## we only use it to exact the package names:
-        applied = lib.mapAttrs (name: f: f pkgs pkgs) overlays;
+        applied = lib.mapAttrs (name: f: f pkgs pkgs) attrOverlays;
         merged = lib.attrsets.mergeAttrsList (lib.attrValues applied);
         derivable = lib.filterAttrs (name: lib.isDerivation) merged;
         attrnames = lib.unique (lib.attrNames derivable);

@@ -87,6 +87,9 @@
         ## nixpkgs source, i.e. `outPath`, in `pkgs`
         inherit (nixpkgs) outPath;
 
+        ## overlays as an _attrset_, not a list
+        attrOverlays = overlays;
+
         ## extended lib
         lib = prev.lib // lib;
       };
