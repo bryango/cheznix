@@ -33,7 +33,6 @@
     let
 
       ## consistent namings
-      cheznix = self;
       nixpkgs-follows =
         let
           result = "nixpkgs-config";
@@ -44,52 +43,42 @@
       /* ^ refers to both the input _name_ & its _source_,
         .. therefore these two must coincide! */
 
+      cheznix = self;
+      nixpkgs = self.inputs.${nixpkgs-follows};
+      inherit (nixpkgs) lib;
+
       ## upstream overrides: inputs.${nixpkgs-follows}
       ## home overlay:
-      overlay = final: prev: import ./overlay.nix final prev // {
+      overlay = final: prev: import ./overlay.nix final prev // (with final; {
         inherit cheznix;
-        inherit (system-manager.packages.${prev.system}) system-manager;
-      };
-
-      nixpkgs = self.inputs.${nixpkgs-follows};
-      lib = nixpkgs.lib;
-      inherit (lib.chezlib) forMySystems;
-      pkgsOverlay = system: nixpkgs.legacyPackages.${system}.extend overlay;
+        inherit (system-manager.packages.${system}) system-manager;
+      });
 
       machines = home-attrs.outputs;
       forMyMachines = f: lib.mapAttrs' f machines;
+      inherit (lib)
+        mySystems
+        forMySystems;
+
+      mkSystemPkgs = system: nixpkgs.legacyPackages.${system}.extend overlay;
 
       updateHomeAttrs = id: profile:
         profile // {
           hostname = profile.hostname or id;
-          pkgs = pkgsOverlay profile.system;
+          pkgs =
+            assert lib.elem profile.system mySystems;
+            mkSystemPkgs profile.system;
         };
 
       mkHomeConfig = id: profile:
         let
           attrs = updateHomeAttrs id profile;
-          inherit (attrs) pkgs;
-
-          home-manager =
-            let
-              ## retrieve the unfixed flake outputs
-              unfixed = (
-                ## force an import from derivation (IFD)
-                import "${pkgs.home-manager.src}/flake.nix"
-              ).outputs;
-
-              ## find the fixed point manually
-              fixed-point = unfixed {
-                self = fixed-point;
-                inherit nixpkgs;
-              };
-            in
-            fixed-point;
+          home-manager = attrs.pkgs.home-manager.flake;
         in
         {
           name = "${attrs.username}@${attrs.hostname}";
           value = home-manager.lib.homeManagerConfiguration {
-            inherit pkgs;
+            inherit (attrs) pkgs;
 
             ## specify your home configuration modules
             modules = [ ./home.nix ];
@@ -124,12 +113,9 @@
       inherit lib;
       homeConfigurations = forMyMachines mkHomeConfig;
       systemConfigs = forMyMachines mkSystemConfig;
-      legacyPackages = forMySystems pkgsOverlay;
+      legacyPackages = forMySystems mkSystemPkgs;
       packages = forMySystems (system: {
-        ## passed from nixpkgs
-        inherit (self.legacyPackages.${system}) home-manager;
-        ## `home-manager` as the default
-        default = self.packages.${system}.home-manager;
+        default = self.legacyPackages.${system}.home-manager;
       });
       overlays.default = overlay;
     };

@@ -30,6 +30,7 @@ let
       nixpkgs-fmt  # the semi official formatter
       nurl  # generate fetcher call
       nix-init  # generate package
+      nix-update
       nix-output-monitor
       nixpkgs-hammering
       nixpkgs-review
@@ -57,6 +58,7 @@ let
       lsof
       wget
       trash-cli
+      git-branchless
       openssh  # need to unset SSH_AUTH_SOCK, maybe
       # trashy  # better, but its zsh completion is broken
 

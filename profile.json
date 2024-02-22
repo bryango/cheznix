@@ -18,31 +18,9 @@
       "outputs": null,
       "priority": 5,
       "storePaths": [
-        "/nix/store/q9q7biwfvpsxd86fy4b0krzr5mysz1lb-hydra-check-1.3.5"
+        "/nix/store/zplc7r9qkmz80fvhj4lgfifxr7wxkcq9-hydra-check-1.3.5"
       ],
-      "url": "git+file:///home/bryan/apps/nixpkgs/hydra-check?ref=refs/heads/bump-python-nixpkgs&rev=775d5897dc0f95ba3b817c5ade7fa8598d976d66"
-    },
-    {
-      "active": true,
-      "attrPath": "legacyPackages.x86_64-linux.nix-update",
-      "originalUrl": "flake:nixpkgs",
-      "outputs": null,
-      "priority": 5,
-      "storePaths": [
-        "/nix/store/yq22dg22s0f21jfqzi26937z96w749pr-nix-update-1.0.0"
-      ],
-      "url": "github:NixOS/nixpkgs/0dc186716d75fcea44ec5ae33d6a9540015072a3"
-    },
-    {
-      "active": true,
-      "attrPath": "legacyPackages.x86_64-linux.git-branchless",
-      "originalUrl": "git+file:///home/bryan/.config/home-manager/nixpkgs-config",
-      "outputs": null,
-      "priority": 5,
-      "storePaths": [
-        "/nix/store/za8nqjbij9pfpvydp2hcypvh8fgsjl40-git-branchless-0.8.0"
-      ],
-      "url": "git+file:///home/bryan/.config/home-manager/nixpkgs-config?ref=refs/heads/master&rev=7bd40a030e03909cdfd0ed69791a15d467d341cc"
+      "url": "git+file:///home/bryan/apps/nixpkgs/hydra-check?ref=refs/heads/master&rev=049b7a236cdee41bcf4905aa04c66c7e7085cbd8"
     },
     {
       "active": true,
@@ -51,15 +29,15 @@
       "outputs": null,
       "priority": 5,
       "storePaths": [
-        "/nix/store/2hishsjivlb1ibmqqbq6x599sqjw5mhv-wifipem-live-capture"
+        "/nix/store/54gc1xdzfmm1gc0ca5157a3p29g7xvhs-wifipem-live-capture"
       ],
-      "url": "git+file:///home/bryan/apps/dev/wifipem?ref=refs/heads/minimal&rev=97fbe4dee5e934e1b7c80deac572230fe66c2813"
+      "url": "git+file:///home/bryan/apps/dev/wifipem?ref=refs/heads/minimal&rev=1d79d55caebf7b1a05153f317a01b346c10affd3"
     },
     {
       "active": true,
       "priority": 5,
       "storePaths": [
-        "/nix/store/j09285kmx0fniifjvk7szf7vylrlmpbv-home-manager-path"
+        "/nix/store/n27prlnwqc7b8hllrwx8ffa10pys2lhf-home-manager-path"
       ]
     }
   ],
