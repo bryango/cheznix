@@ -6,7 +6,7 @@ let
   prefix = ".nix-defexpr/channels";
 
   flakeSelfName = "cheznix";
-  flakeInputs' = pkgs.collectFlakeInputs flakeSelfName cheznix;
+  flakeInputs' = lib.collectFlakeInputs flakeSelfName cheznix;
 
   ## remove the local flakes
   ## to reduce trivial rebuilds
