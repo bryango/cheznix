@@ -38,18 +38,11 @@
   outputs = { self, nixpkgs, haumea, ... }:
   let
 
-    inherit (nixpkgs) lib;
-    importer = haumea.lib;
-    mySystems = [ "x86_64-linux" ];
-    forMySystems = lib.genAttrs mySystems;
-
-    chezlib = {
-      inherit
-        importer
-        mySystems
-        forMySystems
-        ;
-    };
+    lib = nixpkgs.lib.extend (final: prev: let lib = prev; in with final; {
+      importer = haumea.lib;
+      mySystems = [ "x86_64-linux" ];
+      forMySystems = lib.genAttrs mySystems;
+    });
 
     config = {
       ## https://github.com/nix-community/home-manager/issues/2954
@@ -69,51 +62,45 @@
     };
 
     ## _attrset_ of flake-style named overlays
-    attrOverlays = importer.load {
+    overlays = lib.importer.load {
       /*
         The order of overlays _does_ matter but is obscured here!
         To cross ref reliably, use the `final` argument
       */
       src = ./overlays;
-      loader = importer.loaders.verbatim;
+      loader = lib.importer.loaders.verbatim;
     } // {
-      inherit fromFlake;
-      ## ^ defined below
+      ## overlay specific to this flake
+      flake = final: prev: {
+
+        flakeSelf = self;
+
+        # pkgsPython2 = import inputs.nixpkgs_python2 {
+        #   inherit (prev) system config;
+        # };
+
+        gimp = prev.gimp.override {
+          withPython = true;
+          # python2 = final.pkgsPython2.python2;
+        };
+
+        ## nixpkgs source, i.e. `outPath`, in `pkgs`
+        inherit (nixpkgs) outPath;
+
+        ## extended lib
+        inherit lib;
+      };
     };
 
-    ## overlay specific to this flake
-    fromFlake = final: prev:
-    { ## be careful of `rec`, might not work
 
-      flakeSelf = self;
-
-      # pkgsPython2 = import inputs.nixpkgs_python2 {
-      #   inherit (prev) system config;
-      # };
-
-      gimp = prev.gimp.override {
-        withPython = true;
-        # python2 = final.pkgsPython2.python2;
-      };
-
-      ## nixpkgs source, i.e. `outPath`, in `pkgs`
-      inherit (nixpkgs) outPath;
-
-      ## overlays as an _attrset_, not a list
-      inherit attrOverlays;
-
-      ## extended lib
-      inherit chezlib;
-    } // chezlib;
-
-    legacyPackages = forMySystems (system: import nixpkgs {
+    legacyPackages = lib.forMySystems (system: import nixpkgs {
       inherit system config;
-      overlays = lib.attrValues attrOverlays ++ [
+      overlays = lib.attrValues overlays ++ [
         ( final: prev: prev.gatherOverlaid { } )
       ];
     });
 
-    packages = forMySystems (system: rec {
+    packages = lib.forMySystems (system: rec {
       inherit (legacyPackages.${system}) user-drv-overlays;
       default = user-drv-overlays;  # from `gatherOverlaid`
     });
@@ -122,16 +109,9 @@
 
     inherit
       legacyPackages
-      packages;
-
-    overlays = attrOverlays;
-
-    lib = lib.recursiveUpdate lib (
-      {
-        systems.flakeExposed = mySystems;
-        inherit chezlib;
-      } // chezlib
-    );
+      packages
+      lib
+      overlays;
 
   };
 }

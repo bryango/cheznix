@@ -1,4 +1,4 @@
-{ lib, runCommand, ... } @ args:
+{ lib, runCommand }:
 
 let
 
@@ -6,7 +6,7 @@ let
 
   ## use the supplied importer first
   ## or fallback to the naive implementation below
-  importer = args.importer or srcImporter;
+  importer = lib.importer or srcImporter;
   scripts = importer.load {
     ## api: https://nix-community.github.io/haumea/
     src = source;

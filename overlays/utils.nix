@@ -16,9 +16,7 @@ in
 {
 
   ## some helper functions
-  nixpkgs-helpers = callPackage ../pkgs/nixpkgs-helpers {
-    inherit (final) importer;
-  };
+  nixpkgs-helpers = callPackage ../pkgs/nixpkgs-helpers { };
 
   ## link to host libraries
   hostSymlinks = recurseIntoAttrs (callPackage ../pkgs/host-symlinks.nix { });
