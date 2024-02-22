@@ -74,41 +74,39 @@ in
     '';
   };
 
-  ## link farm all overlaid derivations
-  ## this does not actually depend on `final` nor `prev` so is fully portable
-  gatherOverlaid =
+  lib = lib.extend (lib: _: {
 
-    { pkgs ? final # pkgs fixed point
-    , attrOverlays ? final.attrOverlays # overlays as an attrset
-    }:
+    ## link farm all overlaid derivations
+    ## this does not actually depend on `final` nor `prev` so is fully portable
+    gatherOverlaid =
 
-    let
+      { pkgs ? final # pkgs fixed point
+      , overlays ? final.overlays # overlays as an attrset
+      }:
 
-      lib = pkgs.lib;
+      let
+        inherit (pkgs) lib;
 
-      ## this actually advances the fixed point, but don't worry,
-      ## we only use it to exact the package names:
-      applied = lib.mapAttrs (name: f: f pkgs pkgs) attrOverlays;
-      merged = lib.attrsets.mergeAttrsList (lib.attrValues applied);
-      derivable = lib.filterAttrs (name: lib.isDerivation) merged;
-      attrnames = lib.unique (lib.attrNames derivable);
-      packages = lib.genAttrs attrnames (name: pkgs.${name});
+        ## this actually advances the fixed point, but don't worry,
+        ## we only use it to exact the package names:
+        applied = lib.mapAttrs (name: f: f pkgs pkgs) overlays;
+        merged = lib.attrsets.mergeAttrsList (lib.attrValues applied);
+        derivable = lib.filterAttrs (name: lib.isDerivation) merged;
+        attrnames = lib.unique (lib.attrNames derivable);
+        packages = lib.genAttrs attrnames (name: pkgs.${name});
+      in
+      pkgs.linkFarm "user-drv-overlays" packages;
 
-      name = "user-drv-overlays";
+    ## recursively collect & flatten flake inputs
+    ## https://github.com/NixOS/nix/issues/3995#issuecomment-1537108310
+    collectFlakeInputs = name: flake:
+      let
+        ## avoid infinite recursion from self references
+        inputs = removeAttrs (flake.inputs or { }) [ name ];
+      in
+      lib.concatMapAttrs lib.collectFlakeInputs inputs // {
+        ${name} = flake; ## "high level" inputs win
+      };
 
-    in
-    {
-      ${name} = pkgs.linkFarm name packages;
-    };
-
-  ## recursively collect & flatten flake inputs
-  ## https://github.com/NixOS/nix/issues/3995#issuecomment-1537108310
-  collectFlakeInputs = name: flake:
-    let
-      ## avoid infinite recursion from self references
-      inputs = removeAttrs (flake.inputs or { }) [ name ];
-    in
-    lib.concatMapAttrs final.collectFlakeInputs inputs // {
-      ${name} = flake; ## "high level" inputs win
-    };
+  });
 }

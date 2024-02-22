@@ -88,7 +88,7 @@
         inherit (nixpkgs) outPath;
 
         ## extended lib
-        inherit lib;
+        lib = prev.lib // lib;
       };
     };
 
@@ -96,7 +96,7 @@
     legacyPackages = lib.forMySystems (system: import nixpkgs {
       inherit system config;
       overlays = lib.attrValues overlays ++ [
-        ( final: prev: prev.gatherOverlaid { } )
+        (_: { lib, ... }: { user-drv-overlays = lib.gatherOverlaid { }; })
       ];
     });
 
