@@ -7,15 +7,22 @@ with prev;
   pulsar = pulsar.overrideAttrs (prev: {
     version = "1.111.0";
     src = builtins.fetchClosure {
-      /* artifact:
-          https://github.com/pulsar-edit/pulsar/actions/runs/6886278991?pr=807
-        - `nix store add-file` => `$storePath`
-        - `echo "$storePath" | cachix push chezbryan`
-        - `cachix pin chezbryan pulsar-source "$storePath"`
-        - `nix store make-content-addressed`
+      /** Pulsar follows a semi-automated release process. Look under github
+          actions for the [artifact] corresponding to the release [commit].
+          
+          [artifact]: https://github.com/pulsar-edit/pulsar/actions/runs/7925816294
+          [commit]: https://github.com/pulsar-edit/pulsar/tree/v1.114.0
+
+          - nix store add-path
+          - cachix push chezbryan
+          - cachix pin chezbryan pulsar-source
+          - nix store make-content-addressed
+
+          See also: https://github.com/NixOS/nix/issues/6210#issuecomment-1060834892
       */
+      # fromPath = /nix/store/6jbqzpyjzdfbpz5qc6rijs554kfz84ry-Linux.pulsar-1.114.0.tar.gz;
+      fromPath = /nix/store/yzan1f59qslr9sygqrlxlmslmpnknn0j-Linux.pulsar-1.114.0.tar.gz;
       fromStore = "https://chezbryan.cachix.org";
-      fromPath = /nix/store/7s486dgpwzdrrgnh7inhkcff3r44qwh9-Linux.pulsar-1.111.0.tar.gz;
     };
   });
 
