@@ -7,7 +7,7 @@ with prev;
 
   pulsar = pulsar.overrideAttrs
     (prev: {
-      version = "1.111.0";
+      # version = "1.114.0";
       src =
         let
           /**
