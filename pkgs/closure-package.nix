@@ -3,6 +3,8 @@
 { fromPath
 , fromStore ? "https://cache.nixos.org"
 , inputAddressed ? true
+
+/** optional derivation attrs */
 , ...
 } @ args:
 
@@ -14,17 +16,16 @@ let
       fromStore
       inputAddressed;
   } // (lib.optionalAttrs (args ? toPath) {
-    inherit (args)
-      toPath;
-    inputAddressed = false;
+    inherit (args) toPath;
+    inputAddressed = null;
   });
 
-  requiredArgs = lib.attrNames fetchSpec;
-  optionalSet = removeAttrs args requiredArgs;
+  requiredArgNames = lib.attrNames fetchSpec;
+  optionalDerivationAttrs = removeAttrs args requiredArgNames;
 
 in
 
-optionalSet // {
+optionalDerivationAttrs // {
   /* need experimental nix:
     - after: https://github.com/NixOS/nix/pull/8370
     - static build: https://hydra.nixos.org/build/229213111
