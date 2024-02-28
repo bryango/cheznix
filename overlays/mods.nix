@@ -15,8 +15,7 @@ with prev;
         - `nix store make-content-addressed`
       */
       fromStore = "https://chezbryan.cachix.org";
-      fromPath = /nix/store/il7gx5f4arhhar3qkqkhqg05aissnf41-Linux.pulsar-1.111.0.tar.gz;
-      toPath = /nix/store/7s486dgpwzdrrgnh7inhkcff3r44qwh9-Linux.pulsar-1.111.0.tar.gz;
+      fromPath = /nix/store/7s486dgpwzdrrgnh7inhkcff3r44qwh9-Linux.pulsar-1.111.0.tar.gz;
     };
   });
 
