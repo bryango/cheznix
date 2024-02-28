@@ -35,7 +35,6 @@ with prev;
         tmux
         tmux.man
         (byobu.override {
-          textual-window-manager = tmux;
           screen = emptyDirectory;
           vim = emptyDirectory;
         })
