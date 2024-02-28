@@ -2,6 +2,7 @@
 
 { fromPath
 , fromStore ? "https://cache.nixos.org"
+, inputAddressed ? true
 , ... # optional derivation attrs
 } @ args:
 
@@ -10,11 +11,10 @@ let
   fetchSpec = ({
     inherit
       fromPath
-      fromStore;
+      fromStore
+      inputAddressed;
   }) // (lib.optionalAttrs (args ? toPath) {
     inherit (args) toPath;
-  }) // (lib.optionalAttrs (args ? inputAddressed) {
-    inherit (args) inputAddressed;
   });
 
   requiredArgNames = lib.attrNames fetchSpec;
