@@ -28,7 +28,7 @@ with prev;
         in
         builtins.fetchClosure {
           fromStore = "https://chezbryan.cachix.org";
-          /** it seems that cachix doesn't recognize ca-derivations;
+          /** it seems that cachix doesn't advertise ca-derivations;
               no worries, just treat them as input addressed: */
           toPath = path;
           fromPath = path;
