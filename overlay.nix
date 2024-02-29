@@ -36,7 +36,7 @@ final: prev: with prev; {
             owner = "bryango";
             repo = "nix-tree";
             rev = "nix-store-option";
-            hash = "sha256-TowkCLcifXDBiSQYf1Ae31WSfgdm0i8GZE6q//Ezr60=";
+            hash = "sha256-pZjSJm5V89i0/7+iXajL5iIcZIncxgf0vABCR6NUxIo=";
           };
         }
     else lib.warn "nix-tree updated, overlay skipped" nix-tree;
