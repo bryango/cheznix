@@ -3,10 +3,10 @@
 
   inputs = {
 
-    ## _private_ machine profiles:
-    ## WARNING: _not_ secret, might leak through /nix/store & cache!
-    home-attrs.url = "git+ssh://git@github.com/bryango/attrs.git";
-    /*
+    /**
+      _private_ machine profiles
+      _not_ secret, might leak through /nix/store & cache!
+
       machines = home-attrs.outputs = {
         id = {
           ## machine's "profile"
@@ -16,6 +16,11 @@
           hostname = ... ;       ## optional, defaults to `id`
         };
       }
+    */
+    home-attrs.url = "git+ssh://git@github.com/bryango/attrs.git";
+    /* cachix update:
+        nix eval --raw cheznix#cheznix.inputs.home-attrs.outPath \
+        | cachix push chezbryan
     */
 
     ## p13n nixpkgs with config
