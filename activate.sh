@@ -3,13 +3,15 @@
 
 export PATH="$HOME/.nix-profile/bin:$PATH"
 
+# the following commands will be echoed
 set -x
 
 cd "$HOME" || exit
 chezmoi init --ssh bryango/chezmoi
-
-set +x
 nix eval --raw cheznix#cheznix.inputs.home-attrs.outPath | cachix push chezbryan
+
+# the following commands will be silent
+set +x
 nix profile list --json | jq > ~/.config/home-manager/profile.json
 
 >&2 cat <<- EOF
