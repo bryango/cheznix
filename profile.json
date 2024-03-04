@@ -7,9 +7,9 @@
       "outputs": null,
       "priority": 5,
       "storePaths": [
-        "/nix/store/bvcqjg10q3qndw11idx15klh2xqq6cwn-xinput-json-0.3.1"
+        "/nix/store/n6kls48gaz0d3472n0wi4nb512q871nv-xinput-json-0.3.4"
       ],
-      "url": "git+file:///home/bryan/apps/utils/xinput-json?ref=refs/heads/master&rev=61b6e4c5cf1cff5aeaa37345adbe1204ecfb7fdd"
+      "url": "git+file:///home/bryan/apps/utils/xinput-json?ref=refs/heads/master&rev=3008f4e077b7948476cd1e3ead59776f63a2223a"
     },
     {
       "active": true,
