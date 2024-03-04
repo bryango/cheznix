@@ -1,0 +1,59 @@
+From e3f7a3e0b49da3185730344d3baccc6adb445d01 Mon Sep 17 00:00:00 2001
+From: Bryan Lai <bryanlais@gmail.com>
+Date: Thu, 29 Feb 2024 01:10:49 +0800
+Subject: [PATCH] pulsar: 1.109.0 -> 1.114.0
+
+Release notes: https://github.com/pulsar-edit/pulsar/releases/tag/v1.114.0
+
+A patchelf fixup is no longer valid in v1.114 so it is simply removed.
+
+pulsar has been marked insecure so this change would not be verified by
+ofborg. Still, it is very actively developed and quite enjoyable to use.
+As an atom veteran, I would like to help keep it usable; thus adding
+myself to the maintainers.
+---
+ pkgs/applications/editors/pulsar/default.nix | 10 ++++------
+ 1 file changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/pkgs/applications/editors/pulsar/default.nix b/pkgs/applications/editors/pulsar/default.nix
+index ef08ac9352dd..95683d00c0b8 100644
+--- a/pkgs/applications/editors/pulsar/default.nix
++++ b/pkgs/applications/editors/pulsar/default.nix
+@@ -33,13 +33,13 @@
+ 
+ let
+   pname = "pulsar";
+-  version = "1.109.0";
++  version = "1.114.0";
+ 
+   sourcesPath = {
+     x86_64-linux.tarname = "Linux.${pname}-${version}.tar.gz";
+-    x86_64-linux.hash = "sha256-pIm3mI1YdfapxXgIciSHtI4LeqMw5RdYTnH+eHUQ4Yo=";
++    x86_64-linux.hash = "sha256-O//dowoMgQfS3hq088IKr5aJd5St9zpT/ypfuswnyv0=";
+     aarch64-linux.tarname = "ARM.Linux.${pname}-${version}-arm64.tar.gz";
+-    aarch64-linux.hash = "sha256-KIY/qzfl7CU0YwIgQlNHoAMhLfrTbQe7ZZvzdkUVw+M=";
++    aarch64-linux.hash = "sha256-EzCTB1Ib9cTbslEdXPsS5gehHr1qd5v4iZgOqpxhUmA=";
+   }.${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
+ 
+   newLibpath = lib.makeLibraryPath [
+@@ -136,8 +136,6 @@ stdenv.mkDerivation rec {
+     patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
+       --set-rpath "${newLibpath}" \
+       $opt/resources/app/ppm/bin/node
+-    patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
+-      $opt/resources/app.asar.unpacked/node_modules/symbols-view/vendor/ctags-linux
+ 
+   '' + lib.optionalString (stdenv.hostPlatform.system == "x86_64-linux") ''
+     # Replace the bundled git with the one from nixpkgs
+@@ -208,7 +206,7 @@ stdenv.mkDerivation rec {
+     sourceProvenance = with sourceTypes; [ binaryNativeCode ];
+     license = licenses.mit;
+     platforms = platforms.linux;
+-    maintainers = with maintainers; [ colamaroro ];
++    maintainers = with maintainers; [ colamaroro bryango ];
+     knownVulnerabilities = [
+       "CVE-2023-5217"
+       "CVE-2022-21718"
+-- 
+2.43.1
+

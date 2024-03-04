@@ -61,6 +61,14 @@
         ;
     };
 
+    ## patches for nixpkgs
+    patches = lib.importer.load {
+      src = ./patches;
+      loader = with lib.importer; [
+        (matchers.extension "patch" loaders.path)
+      ];
+    };
+
     ## _attrset_ of flake-style named overlays
     overlays = lib.importer.load {
       /*
@@ -95,8 +103,14 @@
       };
     };
 
-
-    legacyPackages = lib.forMySystems (system: import nixpkgs {
+    legacyPackages = lib.forMySystems (system:
+    let
+      nixpkgs-patched = nixpkgs.legacyPackages.${system}.applyPatches {
+        name = "nixpkgs-patched";
+        src = nixpkgs;
+        patches = lib.attrValues patches;
+      };
+    in import nixpkgs-patched {
       inherit system config;
       overlays = lib.attrValues overlays ++ [
         (_: { lib, ... }: { user-drv-overlays = lib.gatherOverlaid { }; })
