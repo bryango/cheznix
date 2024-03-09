@@ -15,7 +15,7 @@ let
       ## <nixpkgs> pkgs/stdenv/generic/common-path.nix
       coreutils util-linux findutils diffutils iputils
       gnused gnugrep gnumake
-      which tree file procps
+      which tree file procps less
     ];
 
     nix.basic = [
@@ -59,6 +59,7 @@ let
       wget
       trash-cli
       git-branchless
+      dust
       openssh  # need to unset SSH_AUTH_SOCK, maybe
       # trashy  # better, but its zsh completion is broken
 
