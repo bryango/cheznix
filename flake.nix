@@ -113,7 +113,10 @@
     in import nixpkgs-patched {
       inherit system config;
       overlays = lib.attrValues overlays ++ [
-        (_: { lib, ... }: { user-drv-overlays = lib.gatherOverlaid { }; })
+        (_: { lib, ... }: {
+          user-drv-overlays = lib.gatherOverlaid { };
+          inherit nixpkgs-patched;
+        })
       ];
     });
 
