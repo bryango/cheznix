@@ -15,17 +15,20 @@ let
     nixpkgs-follows
   ];
 
-  ## include the home-manager flake itself from nixpkgs
   flakeInputs = flakeInputs'' // {
-    "home-manager".outPath = pkgs.home-manager.src;
+    ## include the patched nixpkgs
+    inherit (pkgs) nixpkgs-patched;
+
+    ## include the home-manager flake itself from nixpkgs
+    home-manager.outPath = pkgs.home-manager.src;
   };
 
   generateLinks = prefix: name: flake: {
-    name = "${prefix}/${name}";
-    value = { source = flake.outPath; };
+      source = flake.outPath;
+      target = "${prefix}/${name}";
   };
 
-  links = lib.mapAttrs' (generateLinks prefix) flakeInputs;
+  links = lib.mapAttrs (generateLinks prefix) flakeInputs;
 
 in {
 
@@ -44,6 +47,7 @@ in {
 
           nix registry add "${nixpkgs-follows}" "$nixpkgs"
           nix registry add "${flakeSelfName}" "$flake"
+          nix registry add "home-manager" "path:$HOME/${links.home-manager.target}"
         '';
   };
 
