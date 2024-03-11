@@ -1,22 +1,25 @@
-From e3f7a3e0b49da3185730344d3baccc6adb445d01 Mon Sep 17 00:00:00 2001
+From 18e2854db00c9cd7c6c9a3c98e77af556e1f7519 Mon Sep 17 00:00:00 2001
 From: Bryan Lai <bryanlais@gmail.com>
-Date: Thu, 29 Feb 2024 01:10:49 +0800
-Subject: [PATCH 1/2] pulsar: 1.109.0 -> 1.114.0
+Date: Mon, 11 Mar 2024 22:42:11 +0800
+Subject: [PATCH] pulsar: 1.109.0 -> 1.114.0
 
 Release notes: https://github.com/pulsar-edit/pulsar/releases/tag/v1.114.0
-
-A patchelf fixup is no longer valid in v1.114 so it is simply removed.
 
 pulsar has been marked insecure so this change would not be verified by
 ofborg. Still, it is very actively developed and quite enjoyable to use.
 As an atom veteran, I would like to help keep it usable; thus adding
 myself to the maintainers.
+
+A patchelf fixup for `ctags-linux` is adjusted according to the new
+location of the binary.
+
+Co-authored-by: Peder Bergebakken Sundt <pbsds@hotmail.com>
 ---
- pkgs/applications/editors/pulsar/default.nix | 10 ++++------
- 1 file changed, 4 insertions(+), 6 deletions(-)
+ pkgs/applications/editors/pulsar/default.nix | 10 +++++-----
+ 1 file changed, 5 insertions(+), 5 deletions(-)
 
 diff --git a/pkgs/applications/editors/pulsar/default.nix b/pkgs/applications/editors/pulsar/default.nix
-index ef08ac9352dd..95683d00c0b8 100644
+index ef08ac9352dd..b1af335ec1d4 100644
 --- a/pkgs/applications/editors/pulsar/default.nix
 +++ b/pkgs/applications/editors/pulsar/default.nix
 @@ -33,13 +33,13 @@
@@ -36,16 +39,16 @@ index ef08ac9352dd..95683d00c0b8 100644
    }.${stdenv.hostPlatform.system} or (throw "Unsupported system: ${stdenv.hostPlatform.system}");
  
    newLibpath = lib.makeLibraryPath [
-@@ -136,8 +136,6 @@ stdenv.mkDerivation rec {
-     patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
+@@ -137,7 +137,7 @@ stdenv.mkDerivation rec {
        --set-rpath "${newLibpath}" \
        $opt/resources/app/ppm/bin/node
--    patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
+     patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
 -      $opt/resources/app.asar.unpacked/node_modules/symbols-view/vendor/ctags-linux
++      $opt/resources/app.asar.unpacked/node_modules/symbol-provider-ctags/vendor/ctags-linux
  
    '' + lib.optionalString (stdenv.hostPlatform.system == "x86_64-linux") ''
      # Replace the bundled git with the one from nixpkgs
-@@ -208,7 +206,7 @@ stdenv.mkDerivation rec {
+@@ -208,7 +208,7 @@ stdenv.mkDerivation rec {
      sourceProvenance = with sourceTypes; [ binaryNativeCode ];
      license = licenses.mit;
      platforms = platforms.linux;
@@ -54,35 +57,6 @@ index ef08ac9352dd..95683d00c0b8 100644
      knownVulnerabilities = [
        "CVE-2023-5217"
        "CVE-2022-21718"
--- 
-2.43.2
-
-
-From 5784f17049c7352e88522ef4ea3192045ee0bef1 Mon Sep 17 00:00:00 2001
-From: Bryan Lai <bryanlais@gmail.com>
-Date: Mon, 11 Mar 2024 22:19:48 +0800
-Subject: [PATCH 2/2] pulsar: patchelf `ctags-linux`
-
-This was naively removed in the previous commit; turns out the file is
-still there but in a different location. Restore the patch with the
-correct new location.
----
- pkgs/applications/editors/pulsar/default.nix | 2 ++
- 1 file changed, 2 insertions(+)
-
-diff --git a/pkgs/applications/editors/pulsar/default.nix b/pkgs/applications/editors/pulsar/default.nix
-index 95683d00c0b8..b1af335ec1d4 100644
---- a/pkgs/applications/editors/pulsar/default.nix
-+++ b/pkgs/applications/editors/pulsar/default.nix
-@@ -136,6 +136,8 @@ stdenv.mkDerivation rec {
-     patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
-       --set-rpath "${newLibpath}" \
-       $opt/resources/app/ppm/bin/node
-+    patchelf --set-interpreter "$(cat $NIX_CC/nix-support/dynamic-linker)" \
-+      $opt/resources/app.asar.unpacked/node_modules/symbol-provider-ctags/vendor/ctags-linux
- 
-   '' + lib.optionalString (stdenv.hostPlatform.system == "x86_64-linux") ''
-     # Replace the bundled git with the one from nixpkgs
 -- 
 2.43.2
 
