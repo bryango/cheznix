@@ -3,41 +3,19 @@
     {
       "active": true,
       "attrPath": "packages.x86_64-linux.default",
-      "originalUrl": "git+file:///home/bryan/apps/utils/xinput-json",
+      "originalUrl": "path:/home/bryan/apps/nixpkgs/flakes",
       "outputs": null,
       "priority": 5,
       "storePaths": [
-        "/nix/store/n6kls48gaz0d3472n0wi4nb512q871nv-xinput-json-0.3.4"
+        "/nix/store/78v7lnzp3djggl4q4pyq3blhl6bsk2v6-home-apps"
       ],
-      "url": "git+file:///home/bryan/apps/utils/xinput-json?ref=refs/heads/master&rev=3008f4e077b7948476cd1e3ead59776f63a2223a"
-    },
-    {
-      "active": true,
-      "attrPath": "packages.x86_64-linux.default",
-      "originalUrl": "git+file:///home/bryan/apps/nixpkgs/hydra-check",
-      "outputs": null,
-      "priority": 5,
-      "storePaths": [
-        "/nix/store/zplc7r9qkmz80fvhj4lgfifxr7wxkcq9-hydra-check-1.3.5"
-      ],
-      "url": "git+file:///home/bryan/apps/nixpkgs/hydra-check?ref=refs/heads/master&rev=049b7a236cdee41bcf4905aa04c66c7e7085cbd8"
-    },
-    {
-      "active": true,
-      "attrPath": "packages.x86_64-linux.live-capture",
-      "originalUrl": "git+file:///home/bryan/apps/dev/wifipem",
-      "outputs": null,
-      "priority": 5,
-      "storePaths": [
-        "/nix/store/54gc1xdzfmm1gc0ca5157a3p29g7xvhs-wifipem-live-capture"
-      ],
-      "url": "git+file:///home/bryan/apps/dev/wifipem?ref=refs/heads/minimal&rev=1d79d55caebf7b1a05153f317a01b346c10affd3"
+      "url": "path:/home/bryan/apps/nixpkgs/flakes?lastModified=1710073009&narHash=sha256-mRfSbVN5VlV1savHT6z2iP9fCPkNjJXuQ%2BxIBvoqIFQ%3D"
     },
     {
       "active": true,
       "priority": 5,
       "storePaths": [
-        "/nix/store/zi9a9c23g3nmj5amf47wgsfsybzfz2d4-home-manager-path"
+        "/nix/store/53zi7hc7c3xi39niccdaxrrqfwlxyxdg-home-manager-path"
       ]
     }
   ],
