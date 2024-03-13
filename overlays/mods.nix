@@ -6,18 +6,13 @@ with prev;
   ## be careful of `rec`, might not work
 
   ## to trigger ci build
-  wechat-uos = with builtins; trace
+  wechat-uos = builtins.trace
     (
       /** force the license to be retrieved first */
-      let
-        path = "/nix/store/xzddkr1n8s5rpbwz0s2n1b2a2wyj010p-license.tar.gz";
-      in
-      fetchClosure {
-        fromStore = "https://chezbryan.cachix.org";
-        /** it seems that cachix doesn't advertise ca-derivations;
-              no worries, just treat them as input addressed: */
-        toPath = path;
-        fromPath = path;
+      fetchurl {
+        name = "license.tar.gz";
+        url = "https://aur.archlinux.org/cgit/aur.git/plain/license.tar.gz?h=wechat-uos-bwrap";
+        hash = "sha256-U3YAecGltY8vo9Xv/h7TUjlZCyiIQdgSIp705VstvWk=";
       }
     )
     wechat-uos;
