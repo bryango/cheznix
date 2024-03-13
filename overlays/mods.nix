@@ -6,7 +6,21 @@ with prev;
   ## be careful of `rec`, might not work
 
   ## to trigger ci build
-  wechat-uos = wechat-uos;
+  wechat-uos = with builtins; trace
+    (
+      /** force the license to be retrieved first */
+      let
+        path = "/nix/store/xzddkr1n8s5rpbwz0s2n1b2a2wyj010p-license.tar.gz";
+      in
+      fetchClosure {
+        fromStore = "https://chezbryan.cachix.org";
+        /** it seems that cachix doesn't advertise ca-derivations;
+              no worries, just treat them as input addressed: */
+        toPath = path;
+        fromPath = path;
+      }
+    )
+    wechat-uos;
 
   pulsar = pulsar.overrideAttrs
     (prev: {
