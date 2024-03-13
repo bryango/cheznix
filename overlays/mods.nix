@@ -5,6 +5,9 @@ with prev;
 {
   ## be careful of `rec`, might not work
 
+  ## to trigger ci build
+  wechat-uos = wechat-uos;
+
   pulsar = pulsar.overrideAttrs
     (prev: {
       # version = "1.114.0";
