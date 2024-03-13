@@ -58,6 +58,7 @@
           false
           || (lib.hasPrefix "python-2.7" name)
           || (lib.hasPrefix "pulsar" name)
+          || (lib.hasPrefix "openssl-1.1.1w" name)
         ;
     };
 
