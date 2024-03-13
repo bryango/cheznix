@@ -1,19 +1,19 @@
-From 8cb7be87cfdc217744bdf719db5610cec001c3e4 Mon Sep 17 00:00:00 2001
+From 30184c71e6b41437be06d31398e32f2fbd9870d7 Mon Sep 17 00:00:00 2001
 From: Bu Kun <65808665+pokon548@users.noreply.github.com>
-Date: Wed, 6 Mar 2024 18:38:05 +0800
+Date: Thu, 14 Mar 2024 00:37:24 +0800
 Subject: [PATCH] wechat-uos: init at 1.0.0.236
 
 ---
- pkgs/by-name/we/wechat-uos/package.nix | 221 +++++++++++++++++++++++++
- 1 file changed, 221 insertions(+)
+ pkgs/by-name/we/wechat-uos/package.nix | 237 +++++++++++++++++++++++++
+ 1 file changed, 237 insertions(+)
  create mode 100644 pkgs/by-name/we/wechat-uos/package.nix
 
 diff --git a/pkgs/by-name/we/wechat-uos/package.nix b/pkgs/by-name/we/wechat-uos/package.nix
 new file mode 100644
-index 00000000000000..62c3cf1a73db19
+index 00000000000..72663bd3986
 --- /dev/null
 +++ b/pkgs/by-name/we/wechat-uos/package.nix
-@@ -0,0 +1,221 @@
+@@ -0,0 +1,237 @@
 +{ stdenvNoCC
 +, stdenv
 +, lib
@@ -61,6 +61,26 @@ index 00000000000000..62c3cf1a73db19
 +, libnotify
 +, buildFHSEnv
 +, writeShellScript
++, /**
++    License for wechat-uos, packed in a gz archive named "license.tar.gz".
++    It should have the following files:
++
++    license.tar.gz
++    ├── etc
++    │   ├── lsb-release
++    │   └── os-release
++    └── var
++      ├── lib
++      │   └── uos-license
++      │       └── .license.json
++      └── uos
++          └── .license.key
++  */
++  uosLicense ? requireFile {
++    name = "license.tar.gz";
++    url = "https://www.uniontech.com";
++    sha256 = "53760079c1a5b58f2fa3d5effe1ed35239590b288841d812229ef4e55b2dbd69";
++  }
 +}:
 +let
 +  wechat-uos-env = stdenvNoCC.mkDerivation {
@@ -172,11 +192,7 @@ index 00000000000000..62c3cf1a73db19
 +        };
 +      }.${stdenv.system} or (throw "${pname}-${version}: ${stdenv.system} is unsupported.");
 +
-+      uosLicense = requireFile {
-+        name = "license.tar.gz";
-+        url = "https://www.uniontech.com";
-+        sha256 = "53760079c1a5b58f2fa3d5effe1ed35239590b288841d812229ef4e55b2dbd69";
-+      };
++      inherit uosLicense;
 +
 +      nativeBuildInputs = [ dpkg ];
 +
@@ -235,3 +251,6 @@ index 00000000000000..62c3cf1a73db19
 +
 +  extraOutputsToInstall = [ "usr" "var/lib/uos" "var/uos" "etc" ];
 +}
+-- 
+2.43.2
+

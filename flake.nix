@@ -106,10 +106,13 @@
 
     legacyPackages = lib.forMySystems (system:
     let
-      nixpkgs-patched = nixpkgs.legacyPackages.${system}.applyPatches {
+      nixpkgs-patched = (nixpkgs.legacyPackages.${system}.applyPatches {
         name = "nixpkgs-patched";
         src = nixpkgs;
         patches = lib.attrValues patches;
+      }).overrideAttrs {
+        preferLocalBuild = false;
+        allowSubstitutes = true;
       };
     in import nixpkgs-patched {
       inherit system config;
