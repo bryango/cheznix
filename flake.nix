@@ -107,9 +107,13 @@
     legacyPackages = lib.forMySystems (system:
     let
       nixpkgs-patched = (nixpkgs.legacyPackages.${system}.applyPatches {
-        /** the standard fixed output name for a flake source */
-        name = "source";
+        name = "nixpkgs-patched";
         src = nixpkgs;
+        /**
+          It may be possible to create a `fetchpatchLocal` by overriding the
+          `fetchurl` of `fetchpatch`, but not for now.
+          See: https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/fetchpatch/default.nix
+        */
         patches = lib.attrValues patches;
         /**
           Turn the patched nixpkgs into a fixed-output derivation;
@@ -117,9 +121,9 @@
           prototyping, so it's easier to comment out the `outputHash*`
           when developing nixpkgs.
         */
-        outputHash = "sha256-7909mxdVXItcwhoUJ1eASxY4J4i2+eAH8MDa5LjYpO0=";
-        outputHashMode = "recursive";
-        outputHashAlgo = "sha256";
+        # outputHash = "sha256-7909mxdVXItcwhoUJ1eASxY4J4i2+eAH8MDa5LjYpO0=";
+        # outputHashMode = "recursive";
+        # outputHashAlgo = "sha256";
       }).overrideAttrs {
         preferLocalBuild = false;
         allowSubstitutes = true;
