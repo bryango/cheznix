@@ -107,9 +107,19 @@
     legacyPackages = lib.forMySystems (system:
     let
       nixpkgs-patched = (nixpkgs.legacyPackages.${system}.applyPatches {
-        name = "nixpkgs-patched";
+        /** the standard fixed output name for a flake source */
+        name = "source";
         src = nixpkgs;
         patches = lib.attrValues patches;
+        /**
+          Turn the patched nixpkgs into a fixed-output derivation;
+          this is useful for distribution but inconvenient for
+          prototyping, so it's easier to comment out the `outputHash*`
+          when developing nixpkgs.
+        */
+        outputHash = "sha256-7909mxdVXItcwhoUJ1eASxY4J4i2+eAH8MDa5LjYpO0=";
+        outputHashMode = "recursive";
+        outputHashAlgo = "sha256";
       }).overrideAttrs {
         preferLocalBuild = false;
         allowSubstitutes = true;
