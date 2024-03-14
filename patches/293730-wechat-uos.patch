@@ -1,19 +1,19 @@
-From 30184c71e6b41437be06d31398e32f2fbd9870d7 Mon Sep 17 00:00:00 2001
+From 26f34aa3fa19cd5db6325bb6fff897e2ae8426d5 Mon Sep 17 00:00:00 2001
 From: Bu Kun <65808665+pokon548@users.noreply.github.com>
-Date: Thu, 14 Mar 2024 00:37:24 +0800
+Date: Wed, 6 Mar 2024 18:38:05 +0800
 Subject: [PATCH] wechat-uos: init at 1.0.0.236
 
 ---
- pkgs/by-name/we/wechat-uos/package.nix | 237 +++++++++++++++++++++++++
- 1 file changed, 237 insertions(+)
+ pkgs/by-name/we/wechat-uos/package.nix | 238 +++++++++++++++++++++++++
+ 1 file changed, 238 insertions(+)
  create mode 100644 pkgs/by-name/we/wechat-uos/package.nix
 
 diff --git a/pkgs/by-name/we/wechat-uos/package.nix b/pkgs/by-name/we/wechat-uos/package.nix
 new file mode 100644
-index 00000000000..72663bd3986
+index 00000000000000..da629c78d00b36
 --- /dev/null
 +++ b/pkgs/by-name/we/wechat-uos/package.nix
-@@ -0,0 +1,237 @@
+@@ -0,0 +1,238 @@
 +{ stdenvNoCC
 +, stdenv
 +, lib
@@ -62,14 +62,13 @@ index 00000000000..72663bd3986
 +, buildFHSEnv
 +, writeShellScript
 +, /**
-+    License for wechat-uos, packed in a gz archive named "license.tar.gz".
-+    It should have the following files:
-+
-+    license.tar.gz
-+    ├── etc
-+    │   ├── lsb-release
-+    │   └── os-release
-+    └── var
++  License for wechat-uos, packed in a gz archive named "license.tar.gz".
++  It should have the following files:
++  license.tar.gz
++  ├── etc
++  │   ├── lsb-release
++  │   └── os-release
++  └── var
 +      ├── lib
 +      │   └── uos-license
 +      │       └── .license.json
@@ -244,6 +243,8 @@ index 00000000000..72663bd3986
 +    cp -r ${wechat.outPath}/opt/apps/com.tencent.wechat/entries/applications/com.tencent.wechat.desktop $out/share/applications
 +    cp -r ${wechat.outPath}/opt/apps/com.tencent.wechat/entries/icons/* $out/share/icons/
 +
++    mv $out/bin/$name $out/bin/wechat-uos
++
 +    substituteInPlace $out/share/applications/com.tencent.wechat.desktop \
 +      --replace-quiet 'Exec=/usr/bin/wechat' "Exec=$out/bin/wechat-uos --"
 +  '';
@@ -251,6 +252,3 @@ index 00000000000..72663bd3986
 +
 +  extraOutputsToInstall = [ "usr" "var/lib/uos" "var/uos" "etc" ];
 +}
--- 
-2.43.2
-
