@@ -7,9 +7,9 @@
       "outputs": null,
       "priority": 5,
       "storePaths": [
-        "/nix/store/78v7lnzp3djggl4q4pyq3blhl6bsk2v6-home-apps"
+        "/nix/store/m2n1n8x7scap5f6mn767kp7b4a0yvmqb-home-apps"
       ],
-      "url": "path:/home/bryan/apps/nixpkgs/flakes?lastModified=1710073009&narHash=sha256-mRfSbVN5VlV1savHT6z2iP9fCPkNjJXuQ%2BxIBvoqIFQ%3D"
+      "url": "path:/home/bryan/apps/nixpkgs/flakes?lastModified=1710256493&narHash=sha256-ruyZXAbxToQ%2BTPtMuzhE0FaAzdnSWzkF3yIXmyx7SCU%3D"
     },
     {
       "active": true,
