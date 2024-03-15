@@ -9,11 +9,11 @@ with prev;
   wechat-uos = builtins.trace
     (
       /** force the license to be retrieved first */
-      fetchurl {
+      (fetchurl {
         name = "license.tar.gz";
         url = "https://aur.archlinux.org/cgit/aur.git/plain/license.tar.gz?h=wechat-uos-bwrap";
         hash = "sha256-U3YAecGltY8vo9Xv/h7TUjlZCyiIQdgSIp705VstvWk=";
-      }
+      }).outPath
     )
     wechat-uos;
 

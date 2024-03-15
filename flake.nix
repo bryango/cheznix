@@ -99,7 +99,7 @@
     legacyPackages = lib.forMySystems (system:
     let
       nixpkgs-patched = nixpkgs.legacyPackages.${system}.callPackage ./patches {
-        inherit nixpkgs lib;
+        inherit (lib) importer;
       };
     in import nixpkgs-patched {
       inherit system config;

@@ -1,21 +1,26 @@
-{ nixpkgs
+{ path
 , applyPatches
 , fetchpatch
+, fetchFromGitHub
 , lib
-, ...
+, importer ? (import
+    (fetchFromGitHub {
+      owner = "nix-community";
+      repo = "haumea";
+      rev = "v0.2.2";
+      hash = "sha256-FePm/Gi9PBSNwiDFq3N+DWdfxFq0UKsVVTJS3cQPn94=";
+    })
+    { inherit lib; }
+  )
 }:
-
-assert lib.assertMsg (lib ? importer) ''
-  an importer with the interface of https://github.com/nix-community/haumea
-  must be supplied through `lib.importer`. This is used to import the patches
-  listed under the current directory.
-'';
 
 let
 
+  /** `fakeHash` is useful for version bumps; commented out when unused. */
   # inherit (lib) fakeHash;
 
   prHashes = {
+    /** wechat-uos */
     "293730" = "sha256-UaoylWGFAaR7xZTYurwwrd9IhfuNqxH70ixEfeaMoJY=";
   };
 
@@ -26,9 +31,9 @@ let
     })
     prHashes;
 
-  patches = prPatches // lib.importer.load {
+  patches = prPatches // importer.load {
     src = ./.;
-    loader = with lib.importer; [
+    loader = with importer; [
       (matchers.extension "patch" loaders.path)
     ];
   };
@@ -36,10 +41,15 @@ let
 in
 (applyPatches {
   name = "nixpkgs-patched";
-  src = nixpkgs;
+  src =
+    /** this is necessary to prevent double copies of nixpkgs */
+    builtins.path {
+      inherit path;
+      name = "source";
+    };
   /**
     It may be possible to create a `fetchpatchLocal` by overriding the
-    `fetchurl` of `fetchpatch`, but not for now.
+    `fetchurl` of `fetchpatch`, but this hasn't yet been implemented, for now.
     See: https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/fetchpatch/default.nix
   */
   patches = lib.attrValues patches;
