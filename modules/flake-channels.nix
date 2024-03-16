@@ -48,6 +48,14 @@ in {
           nix registry add "${nixpkgs-follows}" "$nixpkgs"
           nix registry add "${flakeSelfName}" "$flake"
           nix registry add "home-manager" "path:$HOME/${links.home-manager.target}"
+
+          ## crazy hack to get the patched nixpkgs flake
+          if nixpkgs_patched=$(
+            nix run nixpkgs\#nixVersions.nix_2_21 -- eval --impure --raw --expr \
+              "(builtins.fetchTree \"path:$HOME/${links.nixpkgs-patched.target}\").outPath"
+          ); then
+            nix registry add "nixpkgs-patched" "$nixpkgs_patched"
+          fi
         '';
   };
 
