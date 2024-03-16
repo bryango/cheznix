@@ -48,7 +48,9 @@ in {
           nix registry add "${nixpkgs-follows}" "$nixpkgs"
           nix registry add "${flakeSelfName}" "$flake"
           nix registry add "home-manager" "path:$HOME/${links.home-manager.target}"
-          nix registry add "nixpkgs-patched" "${links.nixpkgs-patched.source}"
+
+          ## cool but unnecessary: double copy takes a long time
+          # nix registry add "nixpkgs-patched" "${links.nixpkgs-patched.source}"
         '';
   };
 
