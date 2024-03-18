@@ -26,6 +26,9 @@
             outputHashAlgo = null;
             outputHash = hash;
             passthru = { inherit src trimPatch; } // passthru;
+
+            /** `postFetch` hook provided by `fetchpatch` */
+            inherit postFetch;
             installPhase = ''
               cp -r $src $out
               runHook postFetch
@@ -45,16 +48,16 @@ let
     "293730" = "sha256-UaoylWGFAaR7xZTYurwwrd9IhfuNqxH70ixEfeaMoJY=";
   };
 
+  localHashes = {
+    "python2-wcwidth-fix-build" = "sha256-OxxEYxwoxP+XHCfN5BtRDzYzLRhK6/l5BRB1Uo3pBNQ=";
+  };
+
   prPatches = lib.mapAttrs
     (pr: hash: fetchpatch {
       url = "https://patch-diff.githubusercontent.com/raw/NixOS/nixpkgs/pull/${pr}.patch";
       inherit hash;
     })
     prHashes;
-
-  localHashes = {
-    "python2-wcwidth-fix-build" = "sha256-dqMLAiiTLQ4OzkZW6gKbfN24iY3Pgz0ajkYPqXmA2dU=";
-  };
 
   localPatches = lib.pipe
     {
