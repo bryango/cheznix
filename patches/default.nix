@@ -92,7 +92,7 @@ in
     See: https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/fetchpatch/default.nix
   */
   patches = lib.attrValues patches;
-  passthru = { inherit patches; };
+  passthru = { inherit patches trimPatch; };
   /**
     Turn the patched nixpkgs into a fixed-output derivation;
     this is useful for distribution but inconvenient for prototyping,

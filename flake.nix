@@ -107,6 +107,7 @@
         (_: { lib, ... }: {
           user-drv-overlays = lib.gatherOverlaid { };
           inherit nixpkgs-patched;
+          inherit (nixpkgs-patched) trimPatch;
         })
       ];
     });
