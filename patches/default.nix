@@ -12,12 +12,25 @@
     })
     { inherit lib; }
   )
+, buildPackages
+, trimPatch ? (fetchpatch.override {
+    fetchurl =
+      ({ name ? "", src, hash ? lib.fakeHash, passthru ? { } }:
+        buildPackages.stdenvNoCC.mkDerivation {
+          inherit src;
+          name = if name != "" then name else baseNameOf (toString src);
+          outputHashMode = "recursive";
+          outputHashAlgo = null;
+          outputHash = hash;
+          passthru = { inherit src; } // passthru;
+        });
+  })
 }:
 
 let
 
   /** `fakeHash` is useful for version bumps; commented out when unused. */
-  # inherit (lib) fakeHash;
+  inherit (lib) fakeHash;
 
   prHashes = {
     /** wechat-uos */
@@ -31,12 +44,27 @@ let
     })
     prHashes;
 
-  patches = prPatches // importer.load {
-    src = ./.;
-    loader = with importer; [
-      (matchers.extension "patch" loaders.path)
-    ];
+  localHashes = {
+    # "python2-wcwidth-fix-build" = fakeHash;
   };
+
+  localPatches = lib.pipe
+    {
+      src = ./.;
+      loader = with importer; [
+        (matchers.extension "patch" loaders.path)
+      ];
+    }
+    [
+      importer.load
+      (lib.mapAttrs (name: src:
+        if localHashes ? name
+        then trimPatch { inherit name src; hash = localHashes.${name}; }
+        else src
+      ))
+    ];
+
+  patches = prPatches // localPatches;
 
 in
 (applyPatches {
