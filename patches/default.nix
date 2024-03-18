@@ -3,34 +3,42 @@
 , fetchpatch
 , fetchFromGitHub
 , lib
-, importer ? (import
-    (fetchFromGitHub {
-      owner = "nix-community";
-      repo = "haumea";
-      rev = "v0.2.2";
-      hash = "sha256-FePm/Gi9PBSNwiDFq3N+DWdfxFq0UKsVVTJS3cQPn94=";
-    })
-    { inherit lib; }
+, importer ? (
+    import
+      (fetchFromGitHub {
+        owner = "nix-community";
+        repo = "haumea";
+        rev = "v0.2.2";
+        hash = "sha256-FePm/Gi9PBSNwiDFq3N+DWdfxFq0UKsVVTJS3cQPn94=";
+      })
+      { inherit lib; }
   )
 , buildPackages
-, trimPatch ? (fetchpatch.override {
-    fetchurl =
-      ({ name ? "", src, hash ? lib.fakeHash, passthru ? { } }:
-        buildPackages.stdenvNoCC.mkDerivation {
-          inherit src;
-          name = if name != "" then name else baseNameOf (toString src);
-          outputHashMode = "recursive";
-          outputHashAlgo = null;
-          outputHash = hash;
-          passthru = { inherit src; } // passthru;
-        });
-  })
+, trimPatch ? (
+    fetchpatch.override {
+      fetchurl =
+        ({ name ? "", src, hash ? lib.fakeHash, passthru ? { }, postFetch }:
+          buildPackages.stdenvNoCC.mkDerivation {
+            inherit src;
+            dontUnpack = true;
+            name = if name != "" then name else baseNameOf (toString src);
+            outputHashMode = "recursive";
+            outputHashAlgo = null;
+            outputHash = hash;
+            passthru = { inherit src trimPatch; } // passthru;
+            installPhase = ''
+              cp -r $src $out
+              runHook postFetch
+            '';
+          });
+    }
+  )
 }:
 
 let
 
   /** `fakeHash` is useful for version bumps; commented out when unused. */
-  inherit (lib) fakeHash;
+  # inherit (lib) fakeHash;
 
   prHashes = {
     /** wechat-uos */
@@ -45,7 +53,7 @@ let
     prHashes;
 
   localHashes = {
-    # "python2-wcwidth-fix-build" = fakeHash;
+    "python2-wcwidth-fix-build" = "sha256-dqMLAiiTLQ4OzkZW6gKbfN24iY3Pgz0ajkYPqXmA2dU=";
   };
 
   localPatches = lib.pipe
@@ -58,7 +66,7 @@ let
     [
       importer.load
       (lib.mapAttrs (name: src:
-        if localHashes ? name
+        if localHashes ? ${name}
         then trimPatch { inherit name src; hash = localHashes.${name}; }
         else src
       ))
@@ -81,6 +89,7 @@ in
     See: https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/fetchpatch/default.nix
   */
   patches = lib.attrValues patches;
+  passthru = { inherit patches; };
   /**
     Turn the patched nixpkgs into a fixed-output derivation;
     this is useful for distribution but inconvenient for prototyping,
