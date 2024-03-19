@@ -41,13 +41,18 @@
 let
 
   /** `fakeHash` is useful for version bumps; commented out when unused. */
-  # inherit (lib) fakeHash;
+  inherit (lib) fakeHash;
 
   patches = prPatches // localPatches // {
     /** for grammarly */
     "nodejs_16_undrop" = fetchpatch {
       url = "https://github.com/NixOS/nixpkgs/commit/b013b3ee50cace81104bc29b8fc4496a3093b5cd.patch";
       hash = "sha256-mibE20naWnud1bsbVFsU55ctoycIhY5NQBD4Oz9WSD4=";
+      revert = true;
+    };
+    "nodejs_16_repatch" = trimPatch {
+      src = ./271362-nodejs-16-to-revert.patch.manual;
+      hash = "sha256-ACgYGoFiS3Tudbhk8ttIftOktjlOVgpZLm7aD1JbgcU=";
       revert = true;
     };
     "grammarly_unbroken" = fetchpatch {
