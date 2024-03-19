@@ -17,9 +17,7 @@ with prev;
     )
     wechat-uos;
 
-  grammarly-languageserver = (nodePackages_latest.grammarly-languageserver.overrideAttrs (_: {
-    nodejs = pkgs.nodejs-16_x;
-  }));
+  grammarly-languageserver = nodejs_16.pkgs.grammarly-languageserver;
 
   pulsar = pulsar.overrideAttrs
     (prev: {

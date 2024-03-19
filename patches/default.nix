@@ -41,7 +41,7 @@
 let
 
   /** `fakeHash` is useful for version bumps; commented out when unused. */
-  inherit (lib) fakeHash;
+  # inherit (lib) fakeHash;
 
   patches = prPatches // localPatches // {
     /** for grammarly */
