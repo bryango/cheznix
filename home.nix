@@ -90,6 +90,7 @@ let
       tectonic tectonic.biber
       fuse-overlayfs
       inetutils # telnet
+      grammarly-languageserver
     ];
 
     cli.python = let
