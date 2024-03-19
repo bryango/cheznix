@@ -43,6 +43,20 @@ let
   /** `fakeHash` is useful for version bumps; commented out when unused. */
   # inherit (lib) fakeHash;
 
+  patches = prPatches // localPatches // {
+    /** for grammarly */
+    "nodejs_16_undrop" = fetchpatch {
+      url = "https://github.com/NixOS/nixpkgs/commit/b013b3ee50cace81104bc29b8fc4496a3093b5cd.patch";
+      hash = "sha256-mibE20naWnud1bsbVFsU55ctoycIhY5NQBD4Oz9WSD4=";
+      revert = true;
+    };
+    "grammarly_unbroken" = fetchpatch {
+      url = "https://patch-diff.githubusercontent.com/raw/NixOS/nixpkgs/pull/293630.patch";
+      hash = "sha256-vwLpW1SRVzbHEUpgBnnGfkhMNX0k+C34FS/iFRsq4NQ=";
+      revert = true;
+    };
+  };
+
   prHashes = {
     /** wechat-uos */
     "293730" = "sha256-UaoylWGFAaR7xZTYurwwrd9IhfuNqxH70ixEfeaMoJY=";
@@ -74,8 +88,6 @@ let
         else src
       ))
     ];
-
-  patches = prPatches // localPatches;
 
 in
 (applyPatches {
