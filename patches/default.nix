@@ -51,7 +51,8 @@ let
       revert = true;
     };
     "nodejs_16_repatch" = trimPatch {
-      src = ./271362-nodejs-16-to-revert.patch.manual;
+      name = "node-16-repatch";
+      src = ./271362-for-nodejs-16-to-revert.patch.manually;
       hash = "sha256-ACgYGoFiS3Tudbhk8ttIftOktjlOVgpZLm7aD1JbgcU=";
       revert = true;
     };

@@ -4,6 +4,14 @@ Date: Fri, 1 Dec 2023 05:36:54 +0100
 Subject: [PATCH] treewide: remove unreferenced patch files
 
 Found with `fd \\.patch$ pkgs/ -x bash -c 'rg -F "{/}" pkgs/ -q || echo {}'`
+
+NOTE: This is part of a commit that deletes a relevant:
+
+    node-npm-build-npm-package-logic-node16.patch
+
+which is necessary to resurrect nodejs-16 after its removal from nixpkgs.
+We are going to REVERT this and thus bring back the deleted `...-node16.patch`.
+
 ---
  ...e-npm-build-npm-package-logic-node16.patch |  95 ------
  delete mode 100644 pkgs/development/web/nodejs/node-npm-build-npm-package-logic-node16.patch
