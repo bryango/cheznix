@@ -55,10 +55,12 @@
         let
           name = pkg.name or "${pkg.pname or "«name-missing»"}-${pkg.version or "«version-missing»"}";
         in
+          with lib;
           false
-          || (lib.hasPrefix "python-2.7" name)
-          || (lib.hasPrefix "pulsar" name)
-          || (lib.hasPrefix "openssl-1.1.1w" name)
+          || (hasPrefix "python-2.7" name)
+          || (hasPrefix "pulsar" name)
+          || (hasPrefix "openssl-1.1.1w" name)
+          || (hasPrefix "nodejs-16" name)
         ;
     };
 
