@@ -64,8 +64,6 @@ let
   };
 
   prHashes = {
-    /** wechat-uos */
-    "293730" = "sha256-UaoylWGFAaR7xZTYurwwrd9IhfuNqxH70ixEfeaMoJY=";
   };
 
   localHashes = {

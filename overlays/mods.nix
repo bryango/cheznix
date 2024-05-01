@@ -5,18 +5,6 @@ with prev;
 {
   ## be careful of `rec`, might not work
 
-  ## to trigger ci build
-  wechat-uos = builtins.trace
-    (
-      /** force the license to be retrieved first */
-      (fetchurl {
-        name = "license.tar.gz";
-        url = "https://aur.archlinux.org/cgit/aur.git/plain/license.tar.gz?h=wechat-uos-bwrap";
-        hash = "sha256-U3YAecGltY8vo9Xv/h7TUjlZCyiIQdgSIp705VstvWk=";
-      }).outPath
-    )
-    wechat-uos;
-
   grammarly-languageserver = nodejs_16.pkgs.grammarly-languageserver;
 
   pulsar = pulsar.overrideAttrs
