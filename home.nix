@@ -74,6 +74,7 @@ let
       difftastic
       jc
       rustup
+      mold  # linker for non-nix projects; for nix, use `mold-wrapped`
       cargo-binstall  # then `cargo binstall cargo-quickinstall`
       nodejs  # required by coc.nvim
       watchman  # as git fsmonitor
