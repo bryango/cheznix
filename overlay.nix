@@ -24,23 +24,6 @@ final: prev: with prev; {
 
   neovim = neovim.override { withRuby = false; };
 
-  nix-tree =
-    let
-      targetVersion = "0.4.0";
-    in
-    if lib.versionOlder (lib.getVersion nix-tree) targetVersion
-    then
-      haskell.lib.overrideSrc nix-tree
-        {
-          src = fetchFromGitHub {
-            owner = "bryango";
-            repo = "nix-tree";
-            rev = "nix-store-option";
-            hash = "sha256-pZjSJm5V89i0/7+iXajL5iIcZIncxgf0vABCR6NUxIo=";
-          };
-        }
-    else lib.warn "nix-tree updated, overlay skipped" nix-tree;
-
   gimp-with-plugins = gimp-with-plugins.override {
     plugins = with gimpPlugins; [ resynthesizer ];
   };
