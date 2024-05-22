@@ -9,24 +9,24 @@ with prev;
 
   pulsar = pulsar.overrideAttrs
     (prev: {
-      # version = "1.114.0";
+      version = "1.117.0";
       src =
         let
           /**
             Pulsar follows a semi-automated release process. Look under github
             actions for the [artifact] corresponding to the release [commit].
           
-            [artifact]: https://github.com/pulsar-edit/pulsar/actions/runs/7925816294
-            [commit]: https://github.com/pulsar-edit/pulsar/tree/v1.114.0
+            [artifact]: https://github.com/pulsar-edit/pulsar/actions/runs/9106691239
+            [commit]: https://github.com/pulsar-edit/pulsar/tree/v1.117.0
 
             - nix store add-path # NOT add-file, different hashing scheme
             - cachix push chezbryan
             - cachix pin chezbryan pulsar-source
-            - nix store make-content-addressed
+            - nix store make-content-addressed # check that hash is _not_ changed
 
             See also: https://github.com/NixOS/nix/issues/6210#issuecomment-1060834892
           */
-          path = /nix/store/yzan1f59qslr9sygqrlxlmslmpnknn0j-Linux.pulsar-1.114.0.tar.gz;
+          path = /nix/store/rv5h2cj013782zhqs7qrd5ad0kaf7r6d-Linux.pulsar-1.117.0.tar.gz;
         in
         builtins.fetchClosure {
           fromStore = "https://chezbryan.cachix.org";
