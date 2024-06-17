@@ -1,4 +1,4 @@
-{ fetchurl, lib, stdenv, buildPackages
+{ fetchFromGitHub, autoreconfHook, lib, stdenv, buildPackages
 , curl, openssl, zlib, expat, perlPackages, python3, gettext, cpio
 , gnugrep, gnused, gawk, coreutils # needed at runtime by git-filter-branch etc
 , openssh, pcre2, bash
@@ -29,7 +29,7 @@ assert sendEmailSupport -> perlSupport;
 assert svnSupport -> perlSupport;
 
 let
-  version = "2.45.1";
+  version = "2.45.2-unstable-2024-06-15";
   svn = subversionClient.override { perlBindings = perlSupport; };
   gitwebPerlLibs = with perlPackages; [ CGI HTMLParser CGIFast FCGI FCGIProcManager HTMLTagCloud ];
 in
@@ -40,9 +40,11 @@ stdenv.mkDerivation (finalAttrs: {
     + lib.optionalString (!svnSupport && !guiSupport && !sendEmailSupport && !withManual && !pythonSupport && !withpcre2) "-minimal";
   inherit version;
 
-  src = fetchurl {
-    url = "https://www.kernel.org/pub/software/scm/git/git-${version}.tar.xz";
-    hash = "sha256-5k00Co5ieuIs+4vMZRzKC0l88en99SNzVUT/SnMvEr8=";
+  src = fetchFromGitHub {
+    owner = "git";
+    repo = "git";
+    rev = "d63586cb314731c851f28e14fc8012988467e2da";
+    hash = "sha256-/8agQ6bIVYChBcEJNvr/TyV+SzrwAJpwchU+3dhJcpg=";
   };
 
   outputs = [ "out" ] ++ lib.optional withManual "doc";
@@ -75,7 +77,7 @@ stdenv.mkDerivation (finalAttrs: {
     done
   '';
 
-  nativeBuildInputs = [ gettext perlPackages.perl makeWrapper pkg-config ]
+  nativeBuildInputs = [ gettext perlPackages.perl makeWrapper pkg-config autoreconfHook ]
     ++ lib.optionals withManual [ asciidoc texinfo xmlto docbook2x
          docbook_xsl docbook_xml_dtd_45 libxslt ];
   buildInputs = [ curl openssl zlib expat cpio libiconv bash ]
@@ -88,6 +90,10 @@ stdenv.mkDerivation (finalAttrs: {
   # required to support pthread_cancel()
   NIX_LDFLAGS = lib.optionalString (stdenv.cc.isGNU && stdenv.hostPlatform.libc == "glibc") "-lgcc_s"
               + lib.optionalString (stdenv.isFreeBSD) "-lthr";
+
+  preAutoreconf = ''
+    make configure # run autoconf to generate ./configure from master
+  '';
 
   configureFlags = [
     "ac_cv_prog_CURL_CONFIG=${lib.getDev curl}/bin/curl-config"
@@ -382,7 +388,6 @@ stdenv.mkDerivation (finalAttrs: {
     homepage = "https://git-scm.com/";
     description = "Distributed version control system";
     license = lib.licenses.gpl2;
-    changelog = "https://github.com/git/git/blob/v${version}/Documentation/RelNotes/${version}.txt";
 
     longDescription = ''
       Git, a popular distributed version control system designed to
