@@ -15,6 +15,11 @@ with prev;
     ];
   };
 
+  git-branchless-master = callPackage ../pkgs/git-branchless.nix {
+    inherit (darwin.apple_sdk.frameworks) Security SystemConfiguration;
+    git = final.git-master;
+  };
+
   grammarly-languageserver = nodejs_16.pkgs.grammarly-languageserver;
 
   pulsar = pulsar.overrideAttrs
