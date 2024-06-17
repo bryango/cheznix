@@ -5,6 +5,16 @@ with prev;
 {
   ## be careful of `rec`, might not work
 
+  git-master = callPackage ../pkgs/git-master {
+    inherit (darwin.apple_sdk.frameworks) CoreServices Security;
+    perlLibs = [perlPackages.LWP perlPackages.URI perlPackages.TermReadKey];
+    smtpPerlLibs = [
+      perlPackages.libnet perlPackages.NetSMTPSSL
+      perlPackages.IOSocketSSL perlPackages.NetSSLeay
+      perlPackages.AuthenSASL perlPackages.DigestHMAC
+    ];
+  };
+
   grammarly-languageserver = nodejs_16.pkgs.grammarly-languageserver;
 
   pulsar = pulsar.overrideAttrs
