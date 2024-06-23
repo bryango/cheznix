@@ -54,6 +54,10 @@ rustPlatform.buildRustPackage rec {
     "--skip=test_next_ambiguous_interactive"
     "--skip=test_switch_auto_switch_interactive"
   ];
+  checkType = "debug";
+  cargoTestFlags = [
+    "--all-features"
+  ];
 
   meta = with lib; {
     description = "Suite of tools to help you visualize, navigate, manipulate, and repair your commit history";
