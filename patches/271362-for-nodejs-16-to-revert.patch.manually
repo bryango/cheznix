@@ -11,6 +11,7 @@ NOTE: This is part of a commit that deletes a relevant:
 
 which is necessary to resurrect nodejs-16 after its removal from nixpkgs.
 We are going to REVERT this and thus bring back the deleted `...-node16.patch`.
+Therefore, unfortunately, this file is a patch of a patch... patch-ception!
 
 ---
  ...e-npm-build-npm-package-logic-node16.patch |  95 ------
