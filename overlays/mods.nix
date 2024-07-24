@@ -26,11 +26,16 @@ with prev;
       Please use python3.11 or python3.10 or python3.9 or python3.8 or python3.7 or python3.6.
     */
     python3 = python311;
-  }).overrideAttrs ({ checkTarget, ... }: {
+  }).overrideAttrs ({ checkTarget, passthru, ... }: {
     /** disable flaky tests; see e.g.
       https://github.com/NixOS/nixpkgs/commit/d25d9b6a2dc90773039864bbf66c3229b6227cde
     */
     checkTarget = lib.replaceStrings [ "test-ci-js" ] [ "" ] checkTarget;
+    passthru = passthru // {
+      pkgs = passthru.pkgs.override {
+        nodejs = final.nodejs_16;
+      };
+    };
   });
   grammarly-languageserver = final.nodejs_16.pkgs.grammarly-languageserver;
 
