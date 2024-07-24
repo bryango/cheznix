@@ -39,7 +39,7 @@ with prev;
   });
   grammarly-languageserver = final.nodejs_16.pkgs.grammarly-languageserver;
 
-  pulsar = callPackage ../pkgs/pulsar-from-ci.nix { };
+  pulsar = callPackage ../pkgs/pulsar-from-ci.nix { pulsar = pulsar; };
 
   /* ## not used by me, disabled to save build time
     fcitx5-configtool =
