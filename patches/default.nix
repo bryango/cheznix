@@ -74,6 +74,7 @@ let
   prHashes = {
   };
 
+  /** hash local patches to probably speed up IFD */
   localHashes = {
     "python2-wcwidth-fix-build" = "sha256-OxxEYxwoxP+XHCfN5BtRDzYzLRhK6/l5BRB1Uo3pBNQ=";
   };
