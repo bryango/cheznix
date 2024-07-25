@@ -31,11 +31,6 @@ with prev;
       https://github.com/NixOS/nixpkgs/commit/d25d9b6a2dc90773039864bbf66c3229b6227cde
     */
     checkTarget = lib.replaceStrings [ "test-ci-js" ] [ "" ] checkTarget;
-    passthru = passthru // {
-      pkgs = passthru.pkgs.override {
-        nodejs = final.nodejs_16;
-      };
-    };
   });
   grammarly-languageserver = final.nodejs_16.pkgs.grammarly-languageserver;
 
