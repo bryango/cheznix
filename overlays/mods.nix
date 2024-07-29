@@ -19,10 +19,9 @@ with prev;
     '';
   });
 
-  # git-branchless-master = callPackage ../pkgs/git-branchless.nix {
-  #   inherit (darwin.apple_sdk.frameworks) Security SystemConfiguration;
-  #   git = final.git-master;
-  # };
+  git-branchless-master = git-branchless.override {
+    git = final.git-master;
+  };
 
   nodejs_16 = (nodejs_16.override {
     /** fixes:
