@@ -5,15 +5,19 @@ with prev;
 {
   ## be careful of `rec`, might not work
 
-  git-master = callPackage ../pkgs/git-master {
-    inherit (darwin.apple_sdk.frameworks) CoreServices Security;
-    perlLibs = [perlPackages.LWP perlPackages.URI perlPackages.TermReadKey];
-    smtpPerlLibs = [
-      perlPackages.libnet perlPackages.NetSMTPSSL
-      perlPackages.IOSocketSSL perlPackages.NetSSLeay
-      perlPackages.AuthenSASL perlPackages.DigestHMAC
-    ];
-  };
+  git-master = git.overrideAttrs (prevAttrs: {
+    version = "2.45.2-unstable-2024-06-15";
+    src = fetchFromGitHub {
+      owner = "git";
+      repo = "git";
+      rev = "d63586cb314731c851f28e14fc8012988467e2da";
+      hash = "sha256-/8agQ6bIVYChBcEJNvr/TyV+SzrwAJpwchU+3dhJcpg=";
+    };
+    nativeBuildInputs = (prevAttrs.nativeBuildInputs or [ ]) ++ [ autoreconfHook ];
+    preAutoreconf = (prevAttrs.preAutoreconf or "") + ''
+      make configure # run autoconf to generate ./configure from master
+    '';
+  });
 
   # git-branchless-master = callPackage ../pkgs/git-branchless.nix {
   #   inherit (darwin.apple_sdk.frameworks) Security SystemConfiguration;
