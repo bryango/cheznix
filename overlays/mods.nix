@@ -19,10 +19,6 @@ with prev;
     '';
   });
 
-  git-branchless-master = git-branchless.override {
-    git = final.git-master;
-  };
-
   nodejs_16 = (nodejs_16.override {
     /** fixes:
       Node.js configure: Found Python 3.12.4...
