@@ -9,4 +9,4 @@ if branch=$(git rev-parse --abbrev-ref HEAD); then
 fi
 ```
 
-Files that ends with `.patch` will be loaded.
+Files that ends with `.patch` will be loaded automatically.

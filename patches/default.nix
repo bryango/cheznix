@@ -40,9 +40,6 @@
 
 let
 
-  /** `fakeHash` is useful for version bumps; commented out when unused. */
-  # inherit (lib) fakeHash;
-
   patches = prPatches // localPatches // {
     /** for grammarly */
     "nodejs_16_undrop" = fetchpatch {
@@ -71,10 +68,16 @@ let
     };
   };
 
+  /**
+    a set of nixpkgs pull requests ids and their respective hashes
+  */
   prHashes = {
   };
 
-  /** hash local patches to probably speed up IFD */
+  /**
+    files that ends with `.patch` will be loaded automatically
+    optionally, hash local patches to probably speed up IFD
+  */
   localHashes = {
     "python2-wcwidth-fix-build" = "sha256-OxxEYxwoxP+XHCfN5BtRDzYzLRhK6/l5BRB1Uo3pBNQ=";
   };
