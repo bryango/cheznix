@@ -6,12 +6,12 @@ with prev;
   ## be careful of `rec`, might not work
 
   git-master = git.overrideAttrs (prevAttrs: {
-    version = "2.45.2-unstable-2024-06-15";
+    version = "2.46.0-unstable-2024-07-29";
     src = fetchFromGitHub {
       owner = "git";
       repo = "git";
-      rev = "d63586cb314731c851f28e14fc8012988467e2da";
-      hash = "sha256-/8agQ6bIVYChBcEJNvr/TyV+SzrwAJpwchU+3dhJcpg=";
+      rev = "ad57f148c6b5f8735b62238dda8f571c582e0e54";
+      hash = "sha256-CeC3YnFMNE9bmb3f0NGEH0gdioTtMfdLfYAhi63tWdc=";
     };
     nativeBuildInputs = (prevAttrs.nativeBuildInputs or [ ]) ++ [ autoreconfHook ];
     preAutoreconf = (prevAttrs.preAutoreconf or "") + ''
