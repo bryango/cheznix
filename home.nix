@@ -202,7 +202,7 @@ in {
   ## nix settings
   ## necessary for `nix show-config`
   ## pin & wait for fix of nix issue 9708
-  nix.package = pkgs.nixVersions.nix_2_18;
+  nix.package = pkgs.nixVersions.nix_2_23;
   nix.settings = {
     max-jobs = "auto";
     fallback = true;
