@@ -1,39 +1,9 @@
 import json
 
 NodeLink = list[str]
-NodeName = str | NodeLink
-
-
-def get_node_link(name: NodeName) -> NodeLink:
-    if isinstance(name, str):
-        return [name]
-    return name
-
-
-def resolve_node(nodes: dict[str, dict], link: NodeLink) -> str:
-    if len(link) == 1:
-        return link[0]
-
-    name = nodes[link[0]]["inputs"][link[1]]
-    link = get_node_link(name) + link[2:]
-
-    return resolve_node(nodes, link)
-
-
-def get_node(nodes: dict[str, dict], name: NodeName) -> str:
-    return resolve_node(nodes, get_node_link(name))
-
-
-def resolve_inputs(nodes: dict, root: str) -> dict:
-    node: dict = nodes[root]
-    inputs: dict = node.get("inputs", {})
-    return {
-        key: {"original": name, "resolved": get_node(nodes, name)}
-        if get_node(nodes, name) != name
-        else name
-        for key, name in inputs.items()
-    }
-
+NodeID = str
+NodeTag = NodeID | NodeLink
+AllNodes = dict[NodeID, dict]
 
 with open("flake.lock", "r") as lockfile:
     lock = json.load(lockfile)
@@ -43,5 +13,50 @@ with open("flake.lock", "r") as lockfile:
         exit(1)
 
     nodes = lock["nodes"]
-    resolved = {root: resolve_inputs(nodes, root) for root in nodes}
-    print(json.dumps(resolved, indent=2))
+
+
+def get_node_link(tag: NodeTag) -> NodeLink:
+    if isinstance(tag, str):
+        return [tag]
+    return tag
+
+
+def resolve_node(nodes: AllNodes, link: NodeLink) -> NodeID:
+    if len(link) == 1:
+        return link[0]
+
+    tag = nodes[link[0]]["inputs"][link[1]]
+    link = get_node_link(tag) + link[2:]
+
+    return resolve_node(nodes, link)
+
+
+def get_node(nodes: AllNodes, tag: NodeTag) -> NodeID:
+    return resolve_node(nodes, get_node_link(tag))
+
+
+def resolve_inputs(nodes: AllNodes, root: NodeID) -> dict:
+    node: dict = nodes[root]
+    inputs: dict[str, NodeTag] = node.get("inputs", {})
+    return {
+        key: {"original": tag, "resolved": get_node(nodes, tag)}
+        # if get_node(nodes, tag) != tag
+        # else tag # human-readable, but not machine readable
+        for key, tag in inputs.items()
+    }
+
+
+resolved = {root: resolve_inputs(nodes, root) for root in nodes}
+# print(json.dumps(resolved, indent=2))
+
+
+def absorb_descendants(resolved: AllNodes, root: NodeID):
+    inputs: dict = resolved[root]
+    return {
+        key: absorb_descendants(resolved, tag["resolved"])
+        for key, tag in inputs.items()
+    }
+
+
+absorbed = absorb_descendants(resolved, lock["root"])
+print(json.dumps({lock["root"]: absorbed}, indent=2))
