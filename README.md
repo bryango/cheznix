@@ -187,3 +187,7 @@ profile-$gen-link -> /nix/store/#some-hash
 The files are well-documented in [`man nix-env`](https://nixos.org/manual/nix/unstable/command-ref/nix-env.html) and [`man nix3-profile`](https://nixos.org/manual/nix/unstable/command-ref/new-cli/nix3-profile), except for the last one: `/nix/var/nix/profiles/default` which seems to be undocumented but useful.
 
 > **History:** the profile locations have been changed before! See https://github.com/NixOS/nix/pull/5226. The new defaults seem more reasonable.
+
+## flakes
+
+`nixConfig` trusted settings are stored in `~/.local/share/nix/trusted-settings.json`.
