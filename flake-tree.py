@@ -1,3 +1,5 @@
+# vim: nomodeline
+
 import json
 
 NodeLink = list[str]
@@ -60,3 +62,4 @@ def absorb_descendants(resolved: AllNodes, root: NodeID):
 
 absorbed = absorb_descendants(resolved, lock["root"])
 print(json.dumps({lock["root"]: absorbed}, indent=2))
+print('// vim: ft=jsonnet foldmethod=syntax foldlevel=3')
