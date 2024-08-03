@@ -15,9 +15,9 @@
   )
 , buildPackages
 , trimPatch ? (
-    fetchpatch.override {
+    fetchpatch.override ( { patchutils, ... }: {
       fetchurl =
-        ({ name ? "", src, hash ? lib.fakeHash, passthru ? { }, postFetch, ... }:
+        ({ name ? "", src, hash ? lib.fakeHash, passthru ? { }, postFetch, nativeBuildInputs ? [ ], ... }:
           buildPackages.stdenvNoCC.mkDerivation {
             inherit src;
             dontUnpack = true;
@@ -26,6 +26,7 @@
             outputHashAlgo = null;
             outputHash = hash;
             passthru = { inherit src trimPatch; } // passthru;
+            nativeBuildInputs = [ patchutils ] ++ nativeBuildInputs;
 
             /** `postFetch` hook provided by `fetchpatch` */
             inherit postFetch;
@@ -34,7 +35,7 @@
               runHook postFetch
             '';
           });
-    }
+    })
   )
 }:
 
