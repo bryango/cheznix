@@ -93,6 +93,7 @@ let
       fuse-overlayfs
       inetutils # telnet
       grammarly-languageserver
+      dufs # file server
     ];
 
     cli.python = let
@@ -114,6 +115,18 @@ let
       xorg.xinput
       pulsar  # atom fork
       gimp-with-plugins
+      nixgl.nixVulkanIntel
+      zed-editor
+      (writeShellApplication {
+        name = "zed";
+        runtimeInputs = [
+          zed-editor
+          nixgl.nixVulkanIntel
+        ];
+        text = ''exec -a zed nixVulkanIntel zed "$@"'';
+        meta.priority = (zed-editor.meta.priority or 5) - 1;
+        # override the original zed binary
+      })
 
       ## vscode dummy:
       (binaryFallback "code" (writeShellScriptBin "code" ''exec echo "$@"''))
