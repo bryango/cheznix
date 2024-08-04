@@ -33,9 +33,14 @@
       ## ^ only nixpkgs.lib is actually required
     };
 
+    nixgl = {
+      url = "github:nix-community/nixGL";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
   };
 
-  outputs = { self, nixpkgs, haumea, ... }:
+  outputs = { self, nixpkgs, haumea, nixgl, ... }:
   let
 
     lib = nixpkgs.lib.extend (final: prev: let lib = prev; in with final; {
@@ -73,6 +78,9 @@
       src = ./overlays;
       loader = lib.importer.loaders.verbatim;
     } // {
+
+      nixgl = nixgl.overlays.default;
+
       ## overlay specific to this flake
       flake = final: prev: {
 
