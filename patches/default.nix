@@ -89,6 +89,7 @@ in
     builtins.path {
       inherit path;
       name = "source";
+      sha256 = "sha256-5US0/pgxbMksF92k1+eOa8arJTJiPvsdZj9Dl+vJkM4=";
     };
   /**
     It may be possible to create a `fetchpatchLocal` by overriding the
