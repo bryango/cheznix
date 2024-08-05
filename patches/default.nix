@@ -1,4 +1,4 @@
-{ path
+{ src
 , applyPatches
 , fetchpatch
 , fetchFromGitHub
@@ -84,13 +84,7 @@ let
 in
 (applyPatches {
   name = "nixpkgs-patched";
-  src =
-    /** this is necessary to prevent double copies of nixpkgs */
-    builtins.path {
-      inherit path;
-      name = "source";
-      sha256 = "sha256-5US0/pgxbMksF92k1+eOa8arJTJiPvsdZj9Dl+vJkM4=";
-    };
+  inherit src;
   /**
     It may be possible to create a `fetchpatchLocal` by overriding the
     `fetchurl` of `fetchpatch`, but this hasn't yet been implemented, for now.

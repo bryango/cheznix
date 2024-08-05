@@ -110,6 +110,7 @@
     legacyPackages = lib.forMySystems (system:
     let
       nixpkgs-patched = nixpkgs.legacyPackages.${system}.callPackage ./patches {
+        src = nixpkgs;
         inherit (lib) importer;
       };
     in import nixpkgs-patched {
