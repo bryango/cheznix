@@ -1,8 +1,16 @@
-{ src
-, applyPatches
-, fetchpatch
-, fetchFromGitHub
-, lib
+{ src ? /**
+    `src` defaults to the nixpkgs store path. However, it is recommended to
+    manually supply the nixpkgs flake inputs, which is automatically locked
+    to a `narHash`.
+
+    Without a locked hash the nixpkgs source would be duplicated in the nix
+    store during _every_ eval, which leads to a huge performance hit.
+  */
+  builtins.path {
+    inherit path;
+    name = "source";
+    # sha256 = "sha256-5US0/pgxbMksF92k1+eOa8arJTJiPvsdZj9Dl+vJkM4=";
+  }
 , importer ? (
     import
       (fetchFromGitHub {
@@ -13,9 +21,14 @@
       })
       { inherit lib; }
   )
+, path
+, applyPatches
+, fetchpatch
+, fetchFromGitHub
+, lib
 , buildPackages
 , trimPatch ? (
-    fetchpatch.override ( { patchutils, ... }: {
+    fetchpatch.override ({ patchutils, ... }: {
       fetchurl =
         ({ name ? "", src, hash ? lib.fakeHash, passthru ? { }, postFetch, nativeBuildInputs ? [ ], ... }:
           buildPackages.stdenvNoCC.mkDerivation {
