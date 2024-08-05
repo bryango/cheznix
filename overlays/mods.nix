@@ -19,18 +19,7 @@ with prev;
     '';
   });
 
-  nodejs_16 = (nodejs_16.override {
-    /** fixes:
-      Node.js configure: Found Python 3.12.4...
-      Please use python3.11 or python3.10 or python3.9 or python3.8 or python3.7 or python3.6.
-    */
-    python3 = python311;
-  }).overrideAttrs ({ checkTarget, passthru, ... }: {
-    /** disable flaky tests; see e.g.
-      https://github.com/NixOS/nixpkgs/commit/d25d9b6a2dc90773039864bbf66c3229b6227cde
-    */
-    checkTarget = lib.replaceStrings [ "test-ci-js" ] [ "" ] checkTarget;
-  });
+  nodejs_16 = nodejs_16;
   grammarly-languageserver = final.nodejs_16.pkgs.grammarly-languageserver;
 
   pulsar = callPackage ../pkgs/pulsar-from-ci.nix { pulsar = pulsar; };

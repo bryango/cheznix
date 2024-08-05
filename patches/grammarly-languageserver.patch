@@ -85,15 +85,16 @@ index ed2192dd8e0f..031bcb7a36ff 100644
 2.45.2
 
 
-From 62ea5a3c565712f16d78cf4b0daae48847926e97 Mon Sep 17 00:00:00 2001
+From c7d627032e4913ee9a552ee58ec7c93468e32b8b Mon Sep 17 00:00:00 2001
 From: Bryan Lai <bryanlais@gmail.com>
-Date: Sat, 3 Aug 2024 19:58:05 +0800
-Subject: [PATCH 2/5] nodejs_16: add removed patch
+Date: Mon, 5 Aug 2024 22:49:54 +0800
+Subject: [PATCH 2/5] nodejs_16: add removed patch and fix build
 
 This partially reverts f41aba37396530c3fca935343069bf29b4564df3.
 ---
  ...e-npm-build-npm-package-logic-node16.patch | 95 +++++++++++++++++++
- 1 file changed, 95 insertions(+)
+ pkgs/development/web/nodejs/v16.nix           | 17 +++-
+ 2 files changed, 108 insertions(+), 4 deletions(-)
  create mode 100644 pkgs/development/web/nodejs/node-npm-build-npm-package-logic-node16.patch
 
 diff --git a/pkgs/development/web/nodejs/node-npm-build-npm-package-logic-node16.patch b/pkgs/development/web/nodejs/node-npm-build-npm-package-logic-node16.patch
@@ -197,11 +198,51 @@ index 000000000000..f4d3b0e32b1c
 +       // Note: hidden lockfile will be rejected if it's not the latest thing
 +       // in the folder, or if any of the entries in the hidden lockfile are
 +       // missing.
+diff --git a/pkgs/development/web/nodejs/v16.nix b/pkgs/development/web/nodejs/v16.nix
+index 930b648ca559..6ddb40395ba4 100644
+--- a/pkgs/development/web/nodejs/v16.nix
++++ b/pkgs/development/web/nodejs/v16.nix
+@@ -1,4 +1,4 @@
+-{ callPackage, lib, overrideCC, pkgs, buildPackages, openssl, python3, fetchpatch, enableNpm ? true }:
++{ callPackage, lib, overrideCC, pkgs, buildPackages, openssl, python311, fetchpatch, enableNpm ? true }:
+ 
+ let
+   # Clang 16+ cannot build Node v14 due to -Wenum-constexpr-conversion errors.
+@@ -15,12 +15,16 @@ let
+     inherit openssl;
+     stdenv = ensureCompatibleCC pkgs;
+     buildPackages = buildPackages // { stdenv = ensureCompatibleCC buildPackages; };
+-    python = python3;
++    /** pin python to python311, fixes:
++      Node.js configure: Found Python 3.12.4...
++      Please use python3.11 or python3.10 or python3.9 or python3.8 or python3.7 or python3.6.
++    */
++    python = python311;
+   };
+ 
+   npmPatches = callPackage ./npm-patches.nix { };
+ in
+-  buildNodejs {
++  (buildNodejs {
+     inherit enableNpm;
+     # If you do upgrade here, please update in pkgs/top-level/release.nix
+     # the permitted insecure version to ensure it gets cached for our users
+@@ -32,4 +36,9 @@ in
+       ./bypass-darwin-xcrun-node16.patch
+       ./node-npm-build-npm-package-logic-node16.patch
+     ] ++ npmPatches;
+-  }
++  }).overrideAttrs ({ checkTarget ? "", ... }: {
++    /** disable flaky tests; see e.g.
++      https://github.com/NixOS/nixpkgs/commit/d25d9b6a2dc90773039864bbf66c3229b6227cde
++    */
++    checkTarget = lib.replaceStrings [ "test-ci-js" ] [ "" ] checkTarget;
++  })
 -- 
 2.45.2
 
 
-From a5297c7913a1378aedb589a376257ae10510292e Mon Sep 17 00:00:00 2001
+From 07cc35804b227b4de20611d72e29bb6793d2619a Mon Sep 17 00:00:00 2001
 From: Bryan Lai <bryanlais@gmail.com>
 Date: Sat, 3 Aug 2024 20:01:02 +0800
 Subject: [PATCH 3/5] Revert "nodePackages.grammarly-languageserver: drop"
@@ -316,7 +357,7 @@ index dc66c53123a4..10aea6856b84 100644
 2.45.2
 
 
-From 05963c710bf803efe34a6b1a72d03196fca9071e Mon Sep 17 00:00:00 2001
+From 7b54b2de556d79de16ea1799e77b46e5533bcbc7 Mon Sep 17 00:00:00 2001
 From: Bryan Lai <bryanlais@gmail.com>
 Date: Sat, 3 Aug 2024 20:03:38 +0800
 Subject: [PATCH 4/5] Revert "nodePackages.grammarly-languageserver: mark
@@ -350,7 +391,7 @@ index 10aea6856b84..dc66c53123a4 100644
 2.45.2
 
 
-From 4dfa4f4f9914bcffbf2fe7f9022221a508443600 Mon Sep 17 00:00:00 2001
+From f82194c16a14db033e637cebf256c7dcc21dfaf3 Mon Sep 17 00:00:00 2001
 From: Bryan Lai <bryanlais@gmail.com>
 Date: Sat, 3 Aug 2024 21:21:59 +0800
 Subject: [PATCH 5/5] grammarly-languageserver: add sources
