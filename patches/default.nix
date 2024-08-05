@@ -42,31 +42,6 @@
 let
 
   patches = prPatches // localPatches // {
-    /** for grammarly */
-    # "nodejs_16_undrop" = fetchpatch {
-    #   revert = true;
-    #   url = "https://github.com/NixOS/nixpkgs/commit/b013b3ee50cace81104bc29b8fc4496a3093b5cd.patch";
-    #   hash = "sha256-mibE20naWnud1bsbVFsU55ctoycIhY5NQBD4Oz9WSD4=";
-    # };
-    # "nodejs_16_repatch" = trimPatch {
-    #   revert = true;
-    #   name = "node-16-repatch";
-    #   src = ./271362-for-nodejs-16-to-revert.patch.manually;
-    #   hash = "sha256-1k+IPHPjaR46BqVGTNoVQrJVWzpbn55cIj+bMSam5lY=";
-    # };
-    # /** grammarly: first undrop */
-    # "grammarly_01_undrop" = fetchpatch {
-    #   revert = true;
-    #   /** dropped in https://github.com/NixOS/nixpkgs/pull/327313 */
-    #   url = "https://github.com/NixOS/nixpkgs/commit/9d41920ce37dc45dc37279efb58bf52c36a1597e.patch";
-    #   hash = "sha256-UBrFYtgI0wGniEGn2q6P4U0It2nGit1gsV97TfJe1og=";
-    # };
-    # /** grammarly: then unbroken */
-    # "grammarly_02_unbroken" = fetchpatch {
-    #   revert = true;
-    #   url = "https://patch-diff.githubusercontent.com/raw/NixOS/nixpkgs/pull/293630.patch";
-    #   hash = "sha256-vwLpW1SRVzbHEUpgBnnGfkhMNX0k+C34FS/iFRsq4NQ=";
-    # };
   };
 
   /**
@@ -127,7 +102,7 @@ in
     this is useful for distribution but inconvenient for prototyping,
     so it's easier to comment out the `outputHash*` when developing nixpkgs.
   */
-  # outputHash = "sha256-7909mxdVXItcwhoUJ1eASxY4J4i2+eAH8MDa5LjYpO0=";
+  # outputHash = "sha256-3t6PVr8ww3w21S3jq9fb/9GdtXirn3fpC0+FM0/8X1o=";
   # outputHashMode = "recursive";
   # outputHashAlgo = "sha256";
 }).overrideAttrs {
