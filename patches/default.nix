@@ -1,10 +1,10 @@
 { src ? /**
-    `src` defaults to the nixpkgs store path. However, it is recommended to
-    manually supply the nixpkgs flake inputs, which is automatically locked
-    to a `narHash`.
+  `src` defaults to the nixpkgs store path. However, it is recommended to
+  manually supply the nixpkgs flake inputs, which is automatically locked
+  to a `narHash`.
 
-    Without a locked hash the nixpkgs source would be duplicated in the nix
-    store during _every_ eval, which leads to a huge performance hit.
+  Without a locked hash the nixpkgs source would be duplicated in the nix
+  store during _every_ eval, which leads to a huge performance hit.
   */
   builtins.path {
     inherit path;
@@ -29,6 +29,7 @@
 , buildPackages
 , trimPatch ? (
     fetchpatch.override ({ patchutils, ... }: {
+      /** adapted to handle local files */
       fetchurl =
         ({ name ? "", src, hash ? lib.fakeHash, passthru ? { }, postFetch, nativeBuildInputs ? [ ], ... }:
           buildPackages.stdenvNoCC.mkDerivation {
@@ -54,22 +55,23 @@
 
 let
 
+  /** the set of patches to apply on `src` */
   patches = prPatches // localPatches // {
   };
 
-  /**
-    a set of nixpkgs pull requests ids and their respective hashes
-  */
+  /** a set of nixpkgs pull requests ids and their respective hashes */
   prHashes = {
   };
 
   /**
-    files that ends with `.patch` will be loaded automatically
+    files that ends with `.patch` will be loaded automatically;
     optionally, hash local patches to probably speed up IFD
   */
   localHashes = {
     "python2-wcwidth-fix-build" = "sha256-OxxEYxwoxP+XHCfN5BtRDzYzLRhK6/l5BRB1Uo3pBNQ=";
   };
+
+  # now we process the supplied patches ...
 
   prPatches = lib.mapAttrs
     (pr: hash: fetchpatch {
@@ -95,6 +97,7 @@ let
     ];
 
 in
+
 (applyPatches {
   name = "nixpkgs-patched";
   inherit src;
