@@ -37,6 +37,7 @@ pulsar.overrideAttrs {
     # };
     (fetchzip {
       url = "https://api.github.com/repos/pulsar-edit/pulsar/actions/artifacts/1704337116/zip";
+      extension = "zip";
       hash = lib.fakeHash;
       pname = "pulsar-ubuntu";
       netrcImpureEnvVars = ["GITHUB_TOKEN"];
