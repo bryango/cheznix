@@ -22,6 +22,7 @@ jobs:
         extra_nix_config: |
           experimental-features = nix-command flakes fetch-closure configurable-impure-env
           impure-env = GITHUB_TOKEN=${{ secrets.GITHUB_TOKEN }}
+          trusted-users = @wheel
     - uses: cachix/cachix-action@v12
       with:
         name: chezbryan
