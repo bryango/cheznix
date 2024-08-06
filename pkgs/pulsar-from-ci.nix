@@ -35,12 +35,15 @@ pulsar.overrideAttrs {
     #   toPath = path;
     #   fromPath = path;
     # };
-    fetchzip {
+    (fetchzip {
       url = "https://api.github.com/repos/pulsar-edit/pulsar/actions/artifacts/1704337116/zip";
       hash = lib.fakeHash;
       pname = "pulsar-ubuntu";
-      curlOpts = ''--header "Authorization: Bearer $GITHUB_TOKEN"'';
       netrcImpureEnvVars = ["GITHUB_TOKEN"];
       inherit version;
+    }).overrideAttrs {
+      postHook = ''
+        curlOptsList="'--header' 'Authorization: Bearer $GITHUB_TOKEN'"
+      '';
     };
 }
