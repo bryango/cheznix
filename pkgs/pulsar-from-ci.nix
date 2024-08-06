@@ -42,6 +42,11 @@ pulsar.overrideAttrs {
       pname = "pulsar-ubuntu";
       netrcImpureEnvVars = ["GITHUB_TOKEN"];
       inherit version;
+      stripRoot = false;
+      postFetch = ''
+        mv "$out" "$unpackDir"
+        mv "$unpackDir"/*.tar.gz "$out"
+      '';
     }).overrideAttrs {
       postHook = ''
         curlOptsList="'--header' 'Authorization: Bearer $GITHUB_TOKEN'"
