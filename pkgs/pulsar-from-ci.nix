@@ -39,7 +39,7 @@ pulsar.overrideAttrs {
       url = "https://api.github.com/repos/pulsar-edit/pulsar/actions/artifacts/1704337116/zip";
       extension = "zip";
       hash = "sha256-W0no4/H5TsH/Is7JmNXexk8Kjyc3xrV3m6iQY6JInok=";
-      pname = "Linux.pulsar";
+      name = "Linux.pulsar-${version}.tar.gz";
       netrcImpureEnvVars = ["GITHUB_TOKEN"];
       inherit version;
       stripRoot = false;
