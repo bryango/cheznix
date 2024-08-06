@@ -1,6 +1,6 @@
 /** pulsar from ci builds, instead of github releases */
 
-{ pulsar, fetchurl, lib }:
+{ pulsar, fetchzip, lib }:
 
 let
 
@@ -35,10 +35,12 @@ pulsar.overrideAttrs {
     #   toPath = path;
     #   fromPath = path;
     # };
-    fetchurl {
+    fetchzip {
       url = "https://github.com/pulsar-edit/pulsar/actions/runs/9949008125/artifacts/1704337116";
       hash = lib.fakeHash;
       pname = "pulsar-ubuntu";
+      curlOptsList = ["--header" "Authorization: Bearer $GITHUB_TOKEN"];
+      netrcImpureEnvVars = ["GITHUB_TOKEN"];
       inherit version;
     };
 }
