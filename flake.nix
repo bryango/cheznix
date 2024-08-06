@@ -36,7 +36,7 @@
     nixgl = {
       url = "github:nix-community/nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.url = "flake-utils"; # from the registry
+      inputs.flake-utils.url = "github:numtide/flake-utils";
     };
 
   };
