@@ -1,6 +1,6 @@
 /** pulsar from ci builds, instead of github releases */
 
-{ pulsar, fetchzip, lib }:
+{ pulsar, fetchzip }:
 
 /**
   Pulsar follows a semi-automated release process. Look under github
@@ -42,7 +42,7 @@ let
   /** id of the linux artifact from the github action,
       obtained from the download link through the web ui */
   artifact_id = "1704337116";
-  hash = lib.fakeHash; #"sha256-W0no4/H5TsH/Is7JmNXexk8Kjyc3xrV3m6iQY6JInok=";
+  hash = "sha256-2Zg44mdRdnMAuTBmlkHhRIWm4KtbV2JuDlFVRabE5QQ=";
 
 in
 
