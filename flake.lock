@@ -71,8 +71,9 @@
         "type": "github"
       },
       "original": {
-        "id": "flake-utils",
-        "type": "indirect"
+        "owner": "numtide",
+        "repo": "flake-utils",
+        "type": "github"
       }
     },
     "gitignore": {
@@ -198,11 +199,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1722870859,
-        "narHash": "sha256-tPXRQFf8l/llBfodViOGerPDrFSLLfcb5foYdxw/du8=",
+        "lastModified": 1723002220,
+        "narHash": "sha256-yPUuhl9QAQsWWPkkHSCBjnHy5YsfqorLMy4TVOfMj6g=",
         "ref": "refs/heads/master",
-        "rev": "e400c10a86d260a30486bfbf8e99c5529b66e3b3",
-        "revCount": 301,
+        "rev": "cbab11496f454cf38212d6ee6467625047fd949f",
+        "revCount": 316,
         "type": "git",
         "url": "file:./nixpkgs-config"
       },
