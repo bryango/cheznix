@@ -36,8 +36,11 @@
     nixgl = {
       url = "github:nix-community/nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
-      inputs.flake-utils.url = "github:numtide/flake-utils";
+      inputs.flake-utils.follows = "flake-utils";
     };
+
+    /** only used for nixgl */
+    flake-utils.url = "github:numtide/flake-utils";
 
   };
 
