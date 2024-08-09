@@ -1,3 +1,4 @@
+#!/usr/bin/env python3
 # vim: nomodeline
 
 import json
@@ -55,11 +56,9 @@ resolved = {root: resolve_inputs(nodes, root) for root in nodes}
 
 def absorb_descendants(resolved: AllNodes, root: NodeID):
     inputs: dict[str, dict] = resolved[root]
-    if not inputs:
-        return root
     return {
         res["id"]: absorb_descendants(resolved, res["id"])
-        for res in inputs.values()
+        for res in inputs.values()  # fmt: skip
     }
 
 
@@ -87,11 +86,7 @@ absorbed = {lock["root"]: absorb_descendants(resolved, lock["root"])}
 # limitations under the License.
 
 
-RIGHT_DOUBLE_ARROW = "\N{RIGHTWARDS DOUBLE ARROW}"
-HOURGLASS = "\N{WHITE HOURGLASS}"
-
-
-class Options(object):
+class TreeOptions(object):
     def __init__(
         self,
         FORK="\u251c",
@@ -99,8 +94,8 @@ class Options(object):
         VERTICAL="\u2502",
         HORIZONTAL="\u2500",
         NEWLINE="\u23ce",
-        ARROW=RIGHT_DOUBLE_ARROW,
-        HOURGLASS=HOURGLASS,
+        ARROW="\N{RIGHTWARDS DOUBLE ARROW}",
+        HOURGLASS="\N{WHITE HOURGLASS}",
     ):
         self.FORK = FORK
         self.LAST = LAST
@@ -109,9 +104,6 @@ class Options(object):
         self.NEWLINE = NEWLINE
         self.ARROW = ARROW
         self.HOURGLASS = HOURGLASS
-
-    def color(self, node, depth):
-        return lambda text, *a, **kw: text
 
     def vertical(self):
         return "".join([self.VERTICAL, "   "])
@@ -123,7 +115,7 @@ class Options(object):
         return "".join([self.LAST, self.HORIZONTAL, self.HORIZONTAL, " "])
 
 
-ASCII_OPTIONS = Options(
+ASCII_OPTIONS = TreeOptions(
     FORK="|",
     LAST="+",
     VERTICAL="|",
@@ -134,7 +126,7 @@ ASCII_OPTIONS = Options(
 )
 
 
-def _format_newlines(prefix, formatted_node, options):
+def _format_newlines(prefix: str, formatted_node: str, options: TreeOptions):
     """
     Convert newlines into U+23EC characters, followed by an actual newline and
     then a tree prefix so as to position the remaining text under the previous
@@ -144,49 +136,51 @@ def _format_newlines(prefix, formatted_node, options):
     return formatted_node.replace("\n", replacement)
 
 
-def _format_tree(nodeid, children_dict: dict | str, options, prefix="", depth=0):
-    color = options.color(nodeid, depth)
-    # options.set_depth(depth)
-    next_prefix = prefix + color(options.vertical())
-    if isinstance(children_dict, str):
-        return children_dict
-    children: list[dict] = [ {key: value} for key, value in children_dict.items()]
-    for child in children[:-1]:
-        for child_id, child_children in child.items():
+TreeBranches = dict[str, dict]
+
+
+def _format_tree(children: TreeBranches, options: TreeOptions, prefix="", depth=0):
+    next_prefix = prefix + options.vertical()
+    listed: list[dict] = [
+        {node_id: grandchildren}  # fmt: skip
+        for node_id, grandchildren in children.items()
+    ]
+    for child in listed[:-1]:
+        for node_id, grandchildren in child.items():
             yield "".join(
                 [
                     prefix,
-                    color(options.fork()),
-                    _format_newlines(next_prefix, child_id, options),
+                    options.fork(),
+                    _format_newlines(next_prefix, node_id, options),
                 ]
             )
             for result in _format_tree(
-                child_id, child_children, options, next_prefix, depth=depth + 1
+                grandchildren, options, next_prefix, depth=depth + 1
             ):
                 yield result
-    if children:
+    if listed:
         last_prefix = "".join([prefix, "    "])
-        yield "".join(
-            [
-                prefix,
-                color(options.last()),
-                _format_newlines(last_prefix, list(children[-1].keys())[0], options),
-            ]
-        )
-        for result in _format_tree(
-            list(children[-1].keys())[0],
-            list(children[-1].values())[0],
-            options,
-            last_prefix,
-            depth=depth + 1,
-        ):
-            yield result
+        for node_id, grandchildren in listed[-1].items():
+            yield "".join(
+                [
+                    prefix,
+                    options.last(),
+                    _format_newlines(last_prefix, node_id, options),
+                ]
+            )
+            for result in _format_tree(
+                grandchildren,
+                options,
+                last_prefix,
+                depth=depth + 1,
+            ):
+                yield result
 
 
-def format_tree(node, children, options=None):
+def format_tree(root: NodeID, children: TreeBranches, options=None):
     lines = itertools.chain(
-        [node],
-        _format_tree(node, children, options or Options()),
+        [root],
+        _format_tree(children, options or TreeOptions()),
         [""],
     )
     return "\n".join(lines)
@@ -195,10 +189,6 @@ def format_tree(node, children, options=None):
 def format_ascii_tree(tree, children):
     """Formats the tree using only ascii characters"""
     return format_tree(tree, children, ASCII_OPTIONS)
-
-
-def print_tree(*args, **kwargs):
-    print(format_tree(*args, **kwargs))
 
 
 print(format_tree("root", absorbed["root"]))
