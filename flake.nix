@@ -29,7 +29,7 @@
     system-manager = {
       url = "github:numtide/system-manager";
       inputs.nixpkgs.follows = "nixpkgs-config/nixpkgs";
-      inputs.flake-utils.follows = "nixpkgs-config/nixgl/flake-utils";
+      inputs.flake-utils.follows = "nixpkgs-config/flake-utils";
     };
 
   };
