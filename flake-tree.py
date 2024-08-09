@@ -41,7 +41,7 @@ def resolve_inputs(nodes: AllNodes, root: NodeID) -> dict:
     node: dict = nodes[root]
     inputs: dict[str, NodeTag] = node.get("inputs", {})
     return {
-        key: {"original": tag, "resolved": get_node(nodes, tag)}
+        key: {"tag": tag, "id": get_node(nodes, tag)}
         # if get_node(nodes, tag) != tag
         # else tag # human-readable, but not machine readable
         for key, tag in inputs.items()
@@ -53,10 +53,12 @@ resolved = {root: resolve_inputs(nodes, root) for root in nodes}
 
 
 def absorb_descendants(resolved: AllNodes, root: NodeID):
-    inputs: dict = resolved[root]
+    inputs: dict[str, dict] = resolved[root]
+    if not inputs:
+        return root
     return {
-        key: absorb_descendants(resolved, tag["resolved"])
-        for key, tag in inputs.items()
+        res["id"]: absorb_descendants(resolved, res["id"])
+        for res in inputs.values()
     }
 
 
