@@ -1,6 +1,8 @@
-{ options, pkgs, lib, cheznix, nixpkgs-follows, ... }:
+{ options, config, pkgs, lib, cheznix, nixpkgs-follows, ... }:
 
 let
+
+  inherit (config.home) homeDirectory;
 
   ## backward compatible to nix channels
   prefix = ".nix-defexpr/channels";
@@ -24,34 +26,42 @@ let
   };
 
   generateLinks = prefix: name: flake: {
-      source = flake.outPath;
-      target = "${prefix}/${name}";
+    source = flake.outPath;
+    target = "${prefix}/${name}";
   };
 
   links = lib.mapAttrs (generateLinks prefix) flakeInputs;
 
+  addActivationScript = lib.mapAttrs (name: script:
+    lib.hm.dag.entryAfter [ "installPackages" ] script
+  );
+
 in {
 
-  config = {
-
-    ## prevent cheznix inputs from being garbage collected
-    home.file = links;
+  config.home.activation = addActivationScript {
 
     ## add `nixpkgs-follows` to flake registry at "runtime"
-    home.activation.userFlakeRegistry
-      = lib.hm.dag.entryAfter [ "installPackages" ] ''
+    userFlakeRegistry = ''
+      flake=''${FLAKE_CONFIG_URI%#*}  ## scheme: "path:$HOME/..."
+      nixpkgs="$flake/${nixpkgs-follows}"
+      ## ^ relies on the subdir structure of the input!
 
-          flake=''${FLAKE_CONFIG_URI%#*}  ## scheme: "path:$HOME/..."
-          nixpkgs="$flake/${nixpkgs-follows}"
-          ## ^ relies on the subdir structure of the input!
+      nix registry add "${nixpkgs-follows}" "$nixpkgs"
+      nix registry add "${flakeSelfName}" "$flake"
+      nix registry add "home-manager" "${links.home-manager.source}"
 
-          nix registry add "${nixpkgs-follows}" "$nixpkgs"
-          nix registry add "${flakeSelfName}" "$flake"
-          nix registry add "home-manager" "path:$HOME/${links.home-manager.target}"
+      ## cool but unnecessary: double copy takes a long time
+      # nix registry add "nixpkgs-patched" "${links.nixpkgs-patched.source}"
+    '';
 
-          ## cool but unnecessary: double copy takes a long time
-          # nix registry add "nixpkgs-patched" "${links.nixpkgs-patched.source}"
-        '';
+    ## prevent cheznix inputs from being garbage collected
+    userFlakeChannels = lib.concatStrings (
+      lib.mapAttrsToList
+        (name: link: ''
+          ln -sfT "${link.source}" "${homeDirectory}/${link.target}"
+        '')
+        links
+    );
   };
 
   config.programs = lib.mkIf (options.programs ? nixpkgs-helpers) {
