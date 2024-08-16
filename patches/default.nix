@@ -63,8 +63,6 @@ let
   prHashes = {
     /** fix vulkan-validation-layers and thus nixVulkanIntel */
     "334929" = "sha256-1MGEZbZkR5ZJ0bx8ep/6ZyOO0o+XPy/fwX1jvPKSJ9w=";
-    /** fix nix-init */
-    "335035" = "sha256-9uSBZBkvUT1hzXBT8ki7d87t2WNsj+wcpMjZ5WRfkYo=";
   };
 
   /**
