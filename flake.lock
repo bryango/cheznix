@@ -203,11 +203,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1723773936,
-        "narHash": "sha256-cN8zDBxLTwfUw/5TPQ8pFM+1BKJYgkkTzwR9nfL4vy0=",
+        "lastModified": 1723790694,
+        "narHash": "sha256-NKKf77nyM7YI/RInV1AWepMGOiqsystkhkNdX5+mtAY=",
         "ref": "refs/heads/master",
-        "rev": "b22b44226c678c6cc6e2b6bca68bc309526592cc",
-        "revCount": 319,
+        "rev": "8c66de1153ff26204dba0642b1350cd993a31da1",
+        "revCount": 322,
         "type": "git",
         "url": "file:./nixpkgs-config"
       },
