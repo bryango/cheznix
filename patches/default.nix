@@ -67,7 +67,8 @@ let
 
   /**
     files that ends with `.patch` will be loaded automatically;
-    optionally, hash local patches to probably speed up IFD
+    optionally, hash local patches to probably speed up the build
+    with fixed-output derivations (FODs).
   */
   localHashes = {
     "python2-wcwidth-fix-build" = "sha256-OxxEYxwoxP+XHCfN5BtRDzYzLRhK6/l5BRB1Uo3pBNQ=";
