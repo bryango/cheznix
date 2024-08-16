@@ -29,9 +29,7 @@ let
       nil  # language server
       nixpkgs-fmt  # the semi official formatter
       nurl  # generate fetcher call
-      (nix-init.overrideAttrs ({ env, ... }: {
-        env = removeAttrs env [ "LIBGIT2_NO_VENDOR" ];
-      }))  # generate package
+      nix-init  # generate package
       nix-update
       nix-output-monitor
       nixpkgs-hammering
