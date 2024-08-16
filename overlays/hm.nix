@@ -7,17 +7,18 @@ let
   nixpkgs = (import "${toString path}/flake.nix").outputs { self = nixpkgs; };
 in
 {
-  home-manager = home-manager.overrideAttrs (finalAttrs: prevAttrs:
+  home-manager = home-manager.overrideAttrs (finalAttrs: { passthru ? { }, ... }:
     let
       ## allow overriding `src` in later stages
       inherit (finalAttrs) src;
+      inherit (finalAttrs.passthru) flake;
       ## retrieve the unfixed flake outputs via another IFD
       inherit (import "${src}/flake.nix") outputs;
     in
     {
-      passthru = prevAttrs.passthru // {
+      passthru = passthru // {
         flake = (outputs {
-          self = finalAttrs.passthru.flake;
+          self = flake;
           inherit nixpkgs;
         }) // {
           inherit (src) outPath;
