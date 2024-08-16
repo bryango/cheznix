@@ -61,8 +61,6 @@ let
 
   /** a set of nixpkgs pull requests ids and their respective hashes */
   prHashes = {
-    /** fix vulkan-validation-layers and thus nixVulkanIntel */
-    "334929" = "sha256-1MGEZbZkR5ZJ0bx8ep/6ZyOO0o+XPy/fwX1jvPKSJ9w=";
   };
 
   /**
