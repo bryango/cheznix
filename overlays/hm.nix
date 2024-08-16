@@ -13,7 +13,9 @@ let
   };
 in
 {
-  home-manager = home-manager.overrideAttrs (finalAttrs: prevAttrs:
+  home-manager = (home-manager.override {
+    unixtools.hostname = prev.inetutils;
+  }).overrideAttrs (finalAttrs: prevAttrs:
     let
       ## retrieve the unfixed flake outputs via an import from derivation
       inherit (import "${src}/flake.nix") outputs;
