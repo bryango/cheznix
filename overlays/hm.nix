@@ -1,17 +1,17 @@
-/** home-manager flake, imported from derivation */
+/** home-manager flake, imported from derivation (IFD) */
 
-final: prev:
+final: { path, home-manager, ... }:
 
 let
-  /** use the inputs of this current flake, exposed as `flakeSelf` */
-  inherit (final.flakeSelf.inputs) nixpkgs;
+  /** retrieve the nixpkgs flake through an import from derivation (IFD) */
+  nixpkgs = (import "${toString path}/flake.nix").outputs { self = nixpkgs; };
 in
 {
-  home-manager = prev.home-manager.overrideAttrs (finalAttrs: prevAttrs:
+  home-manager = home-manager.overrideAttrs (finalAttrs: prevAttrs:
     let
       ## allow overriding `src` in later stages
       inherit (finalAttrs) src;
-      ## retrieve the unfixed flake outputs via an import from derivation
+      ## retrieve the unfixed flake outputs via another IFD
       inherit (import "${src}/flake.nix") outputs;
     in
     {
