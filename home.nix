@@ -116,8 +116,10 @@ let
       xorg.xinput
       pulsar  # atom fork
       gimp-with-plugins
+      nixgl.nixGLIntel
       nixgl.nixVulkanIntel
       zed-editor
+      gitbutler
       (writeShellApplication {
         name = "zed";
         runtimeInputs = [
