@@ -61,6 +61,7 @@ let
       git-branchless
       dust
       bottom
+      pijul darcs  # patch set management
       openssh  # need to unset SSH_AUTH_SOCK, maybe
       # trashy  # better, but its zsh completion is broken
 
