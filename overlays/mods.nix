@@ -5,6 +5,12 @@ with prev;
 {
   ## be careful of `rec`, might not work
 
+  ## inherit to trigger ci builds
+  inherit
+    gitbutler
+    nodejs_16;
+  inherit (nodejs_16.pkgs) grammarly-languageserver;
+
   git-master = git.overrideAttrs (prevAttrs: {
     version = "2.46.0-unstable-2024-07-29";
     src = fetchFromGitHub {
@@ -18,9 +24,6 @@ with prev;
       make configure # run autoconf to generate ./configure from master
     '';
   });
-
-  nodejs_16 = nodejs_16;
-  grammarly-languageserver = final.nodejs_16.pkgs.grammarly-languageserver;
 
   pulsar = callPackage ../pkgs/pulsar-from-ci.nix { pulsar = pulsar; };
 
