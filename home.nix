@@ -119,7 +119,6 @@ let
       nixgl.nixGLIntel
       nixgl.nixVulkanIntel
       zed-editor
-      gitbutler
       (writeShellApplication {
         name = "zed";
         runtimeInputs = [
@@ -129,6 +128,16 @@ let
         text = ''exec -a zed nixVulkanIntel zed "$@"'';
         meta.priority = (zed-editor.meta.priority or 5) - 1;
         # override the original zed binary
+      })
+      gitbutler
+      (writeShellApplication {
+        name = "git-butler";
+        runtimeInputs = [
+          gitbutler
+          nixgl.nixGLIntel
+        ];
+        text = ''exec -a git-butler nixGLIntel git-butler "$@"'';
+        meta.priority = (gitbutler.meta.priority or 5) - 1;
       })
 
       ## vscode dummy:
