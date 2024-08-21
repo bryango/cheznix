@@ -8,7 +8,12 @@ set -x
 
 cd "$HOME" || exit
 chezmoi init --ssh bryango/chezmoi
-nix eval --raw cheznix#cheznix.inputs.home-attrs.outPath | cachix push chezbryan
+nix eval --raw cheznix#cheznix.inputs.home-attrs.outPath | cachix push chezbryan &
+
+# chores
+# verify downstream overrides of upstream files
+git diff --color=always --no-index \
+  {/usr/share/zsh/site-functions,~/.zsh_profiles/completions}/_systemctl || true
 
 # the following commands will be silent
 set +x
