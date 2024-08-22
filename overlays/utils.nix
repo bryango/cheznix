@@ -82,6 +82,16 @@ in
 
       { pkgs ? final # pkgs fixed point
       , attrOverlays ? pkgs.attrOverlays # overlays as an attrset
+      , filterPackages ? (pkg: with pkgs;
+        /** adapted from `lib.meta.availableOn`, and
+            `packagePlatforms` from `release-lib.nix` */
+        lib.any (lib.meta.platformMatch stdenv.hostPlatform) (
+          pkg.meta.hydraPlatforms or (
+            lib.subtractLists
+              (pkg.meta.badPlatforms or [ ])
+              (pkg.meta.platforms or [ "x86_64-linux" ])
+          )
+        ))
       }:
 
       let
@@ -94,8 +104,9 @@ in
         derivable = lib.filterAttrs (name: lib.isDerivation) merged;
         attrnames = lib.unique (lib.attrNames derivable);
         packages = lib.genAttrs attrnames (name: pkgs.${name});
+        filtered = lib.filterAttrs (name: filterPackages) packages;
       in
-      pkgs.linkFarm "user-drv-overlays" packages;
+      pkgs.linkFarm "user-drv-overlays" filtered;
 
     ## recursively collect & flatten flake inputs
     ## https://github.com/NixOS/nix/issues/3995#issuecomment-1537108310
