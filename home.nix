@@ -78,6 +78,7 @@ let
       rustup
       mold  # linker for non-nix projects; for nix, use `mold-wrapped`
       cargo-binstall  # then `cargo binstall cargo-quickinstall`
+      cargo-tarpaulin  # show test coverage
       nodejs  # required by coc.nvim
       watchman  # as git fsmonitor
       # mise  # dev runtime manager
@@ -204,7 +205,10 @@ in {
     # output = "HDMI-1";
   };
 
-  programs.nixpkgs-helpers.viewer = "echo code --goto";
+  programs.nixpkgs-helpers = {
+    viewer = "echo code --goto";
+    # flakeref = "nixpkgs";
+  };
 
   programs.direnv = {
     enable = true;
