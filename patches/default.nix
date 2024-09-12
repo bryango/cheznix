@@ -69,7 +69,6 @@ let
     with fixed-output derivations (FODs).
   */
   localHashes = {
-    "python2-wcwidth-fix-build" = "sha256-OxxEYxwoxP+XHCfN5BtRDzYzLRhK6/l5BRB1Uo3pBNQ=";
   };
 
   # now we process the supplied patches ...
