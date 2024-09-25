@@ -41,13 +41,13 @@ let
 
   /** id of the linux artifact from the github action,
       obtained from the download link through the web ui */
-  artifact_id = "1818489884";
-  hash = "sha256-tXjjAE1vVj4UrAHKVsRftNBJlJuF5L3hB9KzEM7hxBM=";
+  artifact_id = "1948280958";
+  hash = "sha256-lEHvosBiz5AyY0zF0dfC3K8clQCIyVXCtqrUQ3YleNw=";
 
 in
 
 pulsar.overrideAttrs (final: prev: {
-  version = "1.120.0";
+  version = "1.121.0";
   src = (fetchzip {
 
     url = "https://api.github.com/repos/pulsar-edit/pulsar/actions/artifacts/${artifact_id}/zip";
