@@ -11,6 +11,17 @@ with prev;
     nodejs_16;
   inherit (nodejs_16.pkgs) grammarly-languageserver;
 
+  texstudio-lazy_resize = texstudio.overrideAttrs ({ patches ? [], ... }: {
+    pname = "texstudio-lazy_resize";
+    patches = patches ++ [
+      (fetchpatch2 {
+        name = "do-not-resize-pdf-after-rebuilds.patch";
+        url = "https://github.com/texstudio-org/texstudio/compare/master...bryango:master.patch";
+        hash = "sha256-KN2oTeNljgYjbvta96uwZnKUFZu+6IIUBIaNwIcGwvw=";
+      })
+    ];
+  });
+
   git-master = lib.dontDistribute (git.overrideAttrs ({ nativeBuildInputs ? [ ], preAutoreconf ? "", meta ? { }, ... }: {
     version = "2.46.0-unstable-2024-07-29";
     src = fetchFromGitHub {
