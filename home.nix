@@ -130,16 +130,7 @@ let
         meta.priority = (zed-editor.meta.priority or 5) - 1;
         # override the original zed binary
       })
-      gitbutler
-      (writeShellApplication {
-        name = "git-butler";
-        runtimeInputs = [
-          gitbutler
-          nixgl.nixGLIntel
-        ];
-        text = ''exec -a git-butler nixGLIntel git-butler "$@"'';
-        meta.priority = (gitbutler.meta.priority or 5) - 1;
-      })
+      texstudio-lazy_resize # fork from nixpkgs-config
 
       ## vscode dummy:
       (binaryFallback "code" (writeShellScriptBin "code" ''exec echo "$@"''))
