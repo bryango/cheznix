@@ -7,7 +7,7 @@ with prev;
 
   ## inherit to trigger ci builds
   inherit
-    gitbutler
+    # gitbutler
     nodejs_16;
   inherit (nodejs_16.pkgs) grammarly-languageserver;
 
