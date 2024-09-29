@@ -89,6 +89,7 @@ let
     ];
 
     cli.app = [
+      gh
       circumflex  # hacker news terminal
       uxplay  # airplay server
       tectonic tectonic.biber
