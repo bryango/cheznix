@@ -62,6 +62,7 @@ let
       dust
       bottom
       jujutsu
+      stdoutisatty  # from nixpkgs-config
       openssh  # need to unset SSH_AUTH_SOCK, maybe
       # trashy  # better, but its zsh completion is broken
 
