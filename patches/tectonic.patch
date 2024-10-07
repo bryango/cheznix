@@ -1,0 +1,35 @@
+From 9531c89cebe4f16aaa725d145a51963de2657e7e Mon Sep 17 00:00:00 2001
+From: Bryan Lai <bryanlais@gmail.com>
+Date: Mon, 7 Oct 2024 21:21:46 +0800
+Subject: [PATCH] tectonic: fix endless reruns when generating bbl
+
+---
+ pkgs/tools/typesetting/tectonic/default.nix | 10 +++++++++-
+ 1 file changed, 9 insertions(+), 1 deletion(-)
+
+diff --git a/pkgs/tools/typesetting/tectonic/default.nix b/pkgs/tools/typesetting/tectonic/default.nix
+index 815cc01f8be6..ae8c4e582b2e 100644
+--- a/pkgs/tools/typesetting/tectonic/default.nix
++++ b/pkgs/tools/typesetting/tectonic/default.nix
+@@ -30,9 +30,17 @@ rustPlatform.buildRustPackage rec {
+     sha256 = "sha256-xZHYiaQ8ASUwu0ieHIXcjRaH06SQoB6OR1y7Ok+FjAs=";
+   };
+ 
++  patches = [
++    (fetchpatch2 {
++      name = "1155-fix-endless-reruns-when-generating-bbl";
++      url = "https://github.com/tectonic-typesetting/tectonic/commit/fbb145cd079497b8c88197276f92cb89685b4d54.patch";
++      hash = "sha256-6FW5MFkOWnqzYX8Eg5DfmLaEhVWKYVZwodE4SGXHKV0=";
++    })
++  ];
++
+   cargoPatches = [
+-    # fix build with rust 1.80
+     (fetchpatch2 {
++      name = "1202-fix-build-with-rust-1_80";
+       url = "https://github.com/tectonic-typesetting/tectonic/commit/6b49ca8db40aaca29cb375ce75add3e575558375.patch";
+       hash = "sha256-i1L3XaSuBbsmgOSXIWVqr6EHlHGs8A+6v06kJ3C50sk=";
+     })
+-- 
+2.46.0
+
