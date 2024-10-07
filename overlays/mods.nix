@@ -11,27 +11,6 @@ with prev;
     nodejs_16;
   inherit (nodejs_16.pkgs) grammarly-languageserver;
 
-  stdoutisatty = callPackage
-    ({ stdenv, fetchFromGitHub, cmake, makeBinaryWrapper }: stdenv.mkDerivation (finalAttrs: {
-      pname = "stdoutisatty";
-      version = "1.0";
-      src = fetchFromGitHub {
-        owner = "lilydjwg";
-        repo = finalAttrs.pname;
-        rev = finalAttrs.version;
-        hash = "sha256-NyVn9cxx0rY1ridNDTqe0pzcVhdLVaPCKT4hoQkQzRs=";
-      };
-      nativeBuildInputs = [
-        cmake
-        makeBinaryWrapper
-      ];
-      preFixup = ''
-        wrapProgram $out/bin/${finalAttrs.pname} \
-          --prefix LD_LIBRARY_PATH : "$out/lib"
-      '';
-    }))
-    { };
-
   texstudio-lazy_resize = texstudio.overrideAttrs ({ patches ? [ ], ... }: {
     pname = "texstudio-lazy_resize";
     patches = patches ++ [
