@@ -17,6 +17,8 @@ if [[ -z $prNumber ]]; then
 fi
 
 commitHash=$(gh --repo NixOS/nixpkgs pr view --json mergeCommit --jq .mergeCommit.oid "$prNumber")
->&2 echo "# checking PR $prNumber @ $commitHash ..."
+compareLink="NixOS/nixpkgs/compare/$commitHash...$trackedBranch"
 
-gh api "repos/NixOS/nixpkgs/compare/$commitHash...$trackedBranch?per_page=1000000&page=100" --jq .status
+>&2 echo "# checking PR $prNumber: https://github.com/$compareLink"
+
+gh api "repos/$compareLink?per_page=1000000&page=100" --jq .status
