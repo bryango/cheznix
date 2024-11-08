@@ -3,19 +3,19 @@
     "flakes": {
       "active": true,
       "attrPath": "packages.x86_64-linux.default",
-      "originalUrl": "path:/home/bryan/apps/nixpkgs/flakes",
+      "originalUrl": "git+file:///home/bryan/apps/nixpkgs/flakes",
       "outputs": null,
       "priority": 5,
       "storePaths": [
-        "/nix/store/s99xwk5nafbds188qd0j7lljqmddvqry-home-apps"
+        "/nix/store/nm5ll2kn062wkfh7jfvp63zanlshx26w-home-apps"
       ],
-      "url": "path:/home/bryan/apps/nixpkgs/flakes?lastModified=1729076566&narHash=sha256-l/rJOZyKmI6KrhzzGWEvG1/NfsjVrMqzMkpsSz95mrE%3D"
+      "url": "git+file:///home/bryan/apps/nixpkgs/flakes?ref=refs/heads/dev&rev=0bbf0f0c177f97fc11a29c39e6f79a1dab7e4a88"
     },
     "home-manager-path": {
       "active": true,
       "priority": 5,
       "storePaths": [
-        "/nix/store/bxw096r2bq270kprivpr0lv7z119hfcl-home-manager-path"
+        "/nix/store/ikli56i84w2451gvnfizwwik7w6hna6w-home-manager-path"
       ]
     }
   },
