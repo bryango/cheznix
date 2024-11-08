@@ -61,8 +61,6 @@ let
 
   /** a set of nixpkgs pull requests ids and their respective hashes */
   prHashes = {
-    # git-branchless fix
-    "342278" = "sha256-kkHXQdsB12fELd+M3Ir5RMHCPUJKai8TVAVlIJDqHMQ=";
   };
 
   /**

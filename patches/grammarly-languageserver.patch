@@ -1,4 +1,4 @@
-From 840e73782b1792328a3cfb514fb21f91cdd6b786 Mon Sep 17 00:00:00 2001
+From 138d5a6f4932d3a5d73e8289024593e2ac1945d8 Mon Sep 17 00:00:00 2001
 From: Bryan Lai <bryanlais@gmail.com>
 Date: Sat, 3 Aug 2024 19:45:33 +0800
 Subject: [PATCH 1/5] Revert "nodejs_16: drop"
@@ -6,9 +6,8 @@ Subject: [PATCH 1/5] Revert "nodejs_16: drop"
 This reverts commit b013b3ee50cace81104bc29b8fc4496a3093b5cd.
 ---
  pkgs/development/web/nodejs/v16.nix | 35 +++++++++++++++++++++++++++++
- pkgs/top-level/aliases.nix          |  2 --
  pkgs/top-level/all-packages.nix     |  3 +++
- 3 files changed, 38 insertions(+), 2 deletions(-)
+ 2 files changed, 38 insertions(+)
  create mode 100644 pkgs/development/web/nodejs/v16.nix
 
 diff --git a/pkgs/development/web/nodejs/v16.nix b/pkgs/development/web/nodejs/v16.nix
@@ -52,26 +51,11 @@ index 000000000000..930b648ca559
 +      ./node-npm-build-npm-package-logic-node16.patch
 +    ] ++ npmPatches;
 +  }
-diff --git a/pkgs/top-level/aliases.nix b/pkgs/top-level/aliases.nix
-index 3ac307ad53b6..57320e2fa01b 100644
---- a/pkgs/top-level/aliases.nix
-+++ b/pkgs/top-level/aliases.nix
-@@ -1076,10 +1076,8 @@ mapAliases ({
-   nodejs-slim_14 = throw "nodejs-slim_14 has been removed as it is EOL."; # Added 2023-10-30
-   nodejs-14_x = nodejs_14; # Added 2022-11-06
-   nodejs-slim-14_x = nodejs-slim_14; # Added 2022-11-06
--  nodejs_16 = throw "nodejs_16 has been removed as it is EOL."; # Added 2023-10-30
-   nodejs-16_x = nodejs_16; # Added 2022-11-06
-   nodejs-16_x-openssl_1_1 = throw "nodejs-16_x-openssl_1_1 has been removed."; # Added 2023-02-04
--  nodejs-slim_16 = throw "nodejs-slim_16 has been removed as it is EOL."; # Added 2022-11-06
-   nodejs-slim-16_x = nodejs-slim_16; # Added 2022-11-06
-   nodejs-18_x = nodejs_18; # Added 2022-11-06
-   nodejs-slim-18_x = nodejs-slim_18; # Added 2022-11-06
 diff --git a/pkgs/top-level/all-packages.nix b/pkgs/top-level/all-packages.nix
-index 1701b1f2a043..35ce2c05ba99 100644
+index dcb755b53f1a..c7ee46753014 100644
 --- a/pkgs/top-level/all-packages.nix
 +++ b/pkgs/top-level/all-packages.nix
-@@ -9710,6 +9710,9 @@ with pkgs;
+@@ -9381,6 +9381,9 @@ with pkgs;
    nodejs-slim = nodejs-slim_20;
    corepack = hiPrio corepack_20;
  
@@ -82,10 +66,10 @@ index 1701b1f2a043..35ce2c05ba99 100644
    nodejs-slim_18 = callPackage ../development/web/nodejs/v18.nix { enableNpm = false; };
    corepack_18 = hiPrio (callPackage ../development/web/nodejs/corepack.nix { nodejs = nodejs_18; });
 -- 
-2.45.2
+2.46.1
 
 
-From 65558a15811d822550b488b82dfacdf449ea3699 Mon Sep 17 00:00:00 2001
+From cd462ac925ab95ff3e0c72ec0fb2f8d51d3a4874 Mon Sep 17 00:00:00 2001
 From: Bryan Lai <bryanlais@gmail.com>
 Date: Mon, 5 Aug 2024 22:49:54 +0800
 Subject: [PATCH 2/5] nodejs_16: add removed patch and fix build
@@ -239,10 +223,10 @@ index 930b648ca559..6ddb40395ba4 100644
 +    checkTarget = lib.replaceStrings [ "test-ci-js" ] [ "" ] checkTarget;
 +  })
 -- 
-2.45.2
+2.46.1
 
 
-From ff441507122fd9b6ebd0bac42ce88e98bc73965b Mon Sep 17 00:00:00 2001
+From 5fa282400dd3dab41ee0e5fa1f2efe26b107477e Mon Sep 17 00:00:00 2001
 From: Bryan Lai <bryanlais@gmail.com>
 Date: Sat, 3 Aug 2024 20:01:02 +0800
 Subject: [PATCH 3/5] Revert "nodePackages.grammarly-languageserver: drop"
@@ -256,10 +240,10 @@ This reverts commit 9d41920ce37dc45dc37279efb58bf52c36a1597e.
  4 files changed, 53 insertions(+), 1 deletion(-)
 
 diff --git a/pkgs/development/node-packages/aliases.nix b/pkgs/development/node-packages/aliases.nix
-index e1c3fcb5eec3..8ba39f4432ea 100644
+index 6d1dcd366593..834f3257c5c6 100644
 --- a/pkgs/development/node-packages/aliases.nix
 +++ b/pkgs/development/node-packages/aliases.nix
-@@ -100,7 +100,6 @@ mapAliases {
+@@ -106,7 +106,6 @@ mapAliases {
    inherit (pkgs) get-graphql-schema; # added 2024-06-26
    inherit (pkgs) gqlint; # added 2023-08-19
    inherit (pkgs) gramma; # added 2024-06-26
@@ -268,10 +252,10 @@ index e1c3fcb5eec3..8ba39f4432ea 100644
    inherit (pkgs) graphqurl; # added 2023-08-19
    gtop = pkgs.gtop; # added 2023-07-31
 diff --git a/pkgs/development/node-packages/node-packages.json b/pkgs/development/node-packages/node-packages.json
-index bb694d4507a3..d58c26a9adaa 100644
+index d5de56d929ba..229fe516b64b 100644
 --- a/pkgs/development/node-packages/node-packages.json
 +++ b/pkgs/development/node-packages/node-packages.json
-@@ -101,6 +101,7 @@
+@@ -95,6 +95,7 @@
  , "ganache"
  , "gatsby-cli"
  , "@gitbeaker/cli"
@@ -280,10 +264,10 @@ index bb694d4507a3..d58c26a9adaa 100644
  , "graphql-cli"
  , "graphql-language-service-cli"
 diff --git a/pkgs/development/node-packages/node-packages.nix b/pkgs/development/node-packages/node-packages.nix
-index ad1a8bf16b5e..9aeda20279ad 100644
+index 94112fd7dd24..962612af0a9e 100644
 --- a/pkgs/development/node-packages/node-packages.nix
 +++ b/pkgs/development/node-packages/node-packages.nix
-@@ -68557,6 +68557,50 @@ in
+@@ -68158,6 +68158,50 @@ in
      bypassCache = true;
      reconstructLock = true;
    };
@@ -335,10 +319,10 @@ index ad1a8bf16b5e..9aeda20279ad 100644
      name = "graphql";
      packageName = "graphql";
 diff --git a/pkgs/development/node-packages/overrides.nix b/pkgs/development/node-packages/overrides.nix
-index 68e91ca81853..8ca7aef37cb4 100644
+index a9108d934d43..7ad01b533f71 100644
 --- a/pkgs/development/node-packages/overrides.nix
 +++ b/pkgs/development/node-packages/overrides.nix
-@@ -68,6 +68,14 @@ final: prev: {
+@@ -59,6 +59,14 @@ final: prev: {
      '';
    };
  
@@ -354,10 +338,10 @@ index 68e91ca81853..8ca7aef37cb4 100644
      nativeBuildInputs = [ pkgs.buildPackages.makeWrapper ];
      postInstall = ''
 -- 
-2.45.2
+2.46.1
 
 
-From 09ea7847a0c4fa80204423eab54d05b4835ea29c Mon Sep 17 00:00:00 2001
+From bb73e27da377e1deb9f1ef27e9561cecc2d2d29c Mon Sep 17 00:00:00 2001
 From: Bryan Lai <bryanlais@gmail.com>
 Date: Sat, 3 Aug 2024 20:03:38 +0800
 Subject: [PATCH 4/5] Revert "nodePackages.grammarly-languageserver: mark
@@ -369,10 +353,10 @@ This reverts commit 4b2a7dc32b01697940efb39af5f9b4d558140f9f.
  1 file changed, 8 deletions(-)
 
 diff --git a/pkgs/development/node-packages/overrides.nix b/pkgs/development/node-packages/overrides.nix
-index 8ca7aef37cb4..68e91ca81853 100644
+index 7ad01b533f71..a9108d934d43 100644
 --- a/pkgs/development/node-packages/overrides.nix
 +++ b/pkgs/development/node-packages/overrides.nix
-@@ -68,14 +68,6 @@ final: prev: {
+@@ -59,14 +59,6 @@ final: prev: {
      '';
    };
  
@@ -388,10 +372,10 @@ index 8ca7aef37cb4..68e91ca81853 100644
      nativeBuildInputs = [ pkgs.buildPackages.makeWrapper ];
      postInstall = ''
 -- 
-2.45.2
+2.46.1
 
 
-From a559062e2f0369fd4596d0ac2ebe854a18fce082 Mon Sep 17 00:00:00 2001
+From 680b5591554fd328b715ff4aa977739e7597549b Mon Sep 17 00:00:00 2001
 From: Bryan Lai <bryanlais@gmail.com>
 Date: Sat, 3 Aug 2024 21:21:59 +0800
 Subject: [PATCH 5/5] grammarly-languageserver: add sources
@@ -403,7 +387,7 @@ This partially reverts 131df0bffa29aa3d70eb3132168c06da2e3cc944.
  1 file changed, 39 insertions(+), 1 deletion(-)
 
 diff --git a/pkgs/development/node-packages/node-packages.nix b/pkgs/development/node-packages/node-packages.nix
-index 9aeda20279ad..dba95fc92138 100644
+index 962612af0a9e..ea01cff8c9a0 100644
 --- a/pkgs/development/node-packages/node-packages.nix
 +++ b/pkgs/development/node-packages/node-packages.nix
 @@ -4,6 +4,44 @@
@@ -451,7 +435,7 @@ index 9aeda20279ad..dba95fc92138 100644
      "@0no-co/graphql.web-1.0.8" = {
        name = "_at_0no-co_slash_graphql.web";
        packageName = "@0no-co/graphql.web";
-@@ -68587,7 +68625,7 @@ in
+@@ -68188,7 +68226,7 @@ in
        sources."vscode-languageserver-protocol-3.16.0"
        sources."vscode-languageserver-textdocument-1.0.11"
        sources."vscode-languageserver-types-3.16.0"
@@ -461,5 +445,5 @@ index 9aeda20279ad..dba95fc92138 100644
        sources."whatwg-url-5.0.0"
      ];
 -- 
-2.45.2
+2.46.1
 
