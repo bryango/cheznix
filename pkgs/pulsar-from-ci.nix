@@ -1,6 +1,6 @@
 /** pulsar from ci builds, instead of github releases */
 
-{ pulsar, fetchzip }:
+{ pulsar, fetchzip, lib }:
 
 /**
   Pulsar follows a semi-automated release process. Look under github
@@ -41,15 +41,17 @@ let
 
   /** id of the linux artifact from the github action,
       obtained from the download link through the web ui */
-  artifact_id = "2076456401";
-  hash = "sha256-hFh+CCWAdTX5l45zYwBG3P6a9gjUXu4/gsDJEpHPGNw=";
+  artifact_id = "2216562902";
+  /** comment these out to use the default version */
+  optional = {
+    hash = "sha256-6jLZBOPgnL0LN7PfzNeIsUGq3lcXRujKxPig4XfZcAQ=";
+    version = "1.123.0";
+  };
 
 in
 
 pulsar.overrideAttrs (final: prev: {
-  version = "1.122.0";
   src = (fetchzip {
-
     url = "https://api.github.com/repos/pulsar-edit/pulsar/actions/artifacts/${artifact_id}/zip";
     extension = "zip";
     stripRoot = false;
@@ -60,7 +62,8 @@ pulsar.overrideAttrs (final: prev: {
       mv "$unpackDir"/*.tar.gz "$out"
     '';
     name = "Linux.pulsar-${final.version}.tar.gz";
-    inherit hash;
+    hash = optional.hash or lib.fakeHash;
+    version = optional.version or prev.version;
 
     /**
       `netrcImpureEnvVars` is appended to the usual `impureEnvVars`.
