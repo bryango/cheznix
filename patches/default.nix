@@ -96,19 +96,24 @@ let
       ))
     ];
 
+  patched = applyPatches {
+    name = "nixpkgs-patched";
+    inherit src;
+    /**
+      It may be possible to create a `fetchpatchLocal` by overriding the
+      `fetchurl` of `fetchpatch`, but this hasn't yet been implemented, for now.
+      See: https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/fetchpatch/default.nix
+    */
+    patches = lib.attrValues patches;
+    passthru = { inherit patches trimPatch; };
+  };
+  
+  # this takes care of the case where `patches` is empty.
+  overrideAttrs = patched.overrideAttrs or (_: patched);
+
 in
 
-(applyPatches {
-  name = "nixpkgs-patched";
-  inherit src;
-  /**
-    It may be possible to create a `fetchpatchLocal` by overriding the
-    `fetchurl` of `fetchpatch`, but this hasn't yet been implemented, for now.
-    See: https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/fetchpatch/default.nix
-  */
-  patches = lib.attrValues patches;
-  passthru = { inherit patches trimPatch; };
-}).overrideAttrs {
+overrideAttrs {
   preferLocalBuild = false;
   allowSubstitutes = true;
   /**
