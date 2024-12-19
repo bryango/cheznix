@@ -9,8 +9,7 @@ with prev;
   inherit
     # gitbutler
     tectonic
-    nodejs_16;
-  inherit (nodejs_16.pkgs) grammarly-languageserver;
+  ;
 
   texstudio-lazy_resize = texstudio.overrideAttrs ({ patches ? [ ], ... }: {
     pname = "texstudio-lazy_resize";
