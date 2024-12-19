@@ -98,7 +98,6 @@ let
       tectonic tectonic.biber
       fuse-overlayfs
       inetutils # telnet
-      grammarly-languageserver
       dufs # file server
     ];
 
