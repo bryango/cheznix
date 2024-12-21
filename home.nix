@@ -124,12 +124,12 @@ let
       nixgl.nixVulkanIntel
       zed-editor
       (writeShellApplication {
-        name = "zed";
+        name = "zeditor";
         runtimeInputs = [
           zed-editor
           nixgl.nixVulkanIntel
         ];
-        text = ''exec -a zed nixVulkanIntel zed "$@"'';
+        text = ''exec -a zeditor nixVulkanIntel zeditor "$@"'';
         meta.priority = (zed-editor.meta.priority or 5) - 1;
         # override the original zed binary
       })
