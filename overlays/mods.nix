@@ -9,6 +9,7 @@ with prev;
   inherit
     # gitbutler
     tectonic
+    hydra-check
   ;
 
   texstudio-lazy_resize = texstudio.overrideAttrs ({ patches ? [ ], ... }: {
