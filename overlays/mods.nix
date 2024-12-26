@@ -12,6 +12,13 @@ with prev;
     hydra-check
   ;
 
+  nixPatched = nixVersions.nix_2_24.overrideAttrs ({ patches ? [ ], ... }: {
+    patches = patches ++ [
+      ./nix-git-file.patch
+    ];
+    doInstallCheck = false;
+  });
+
   texstudio-lazy_resize = texstudio.overrideAttrs ({ patches ? [ ], ... }: {
     pname = "texstudio-lazy_resize";
     patches = patches ++ [

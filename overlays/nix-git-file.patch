@@ -1,0 +1,25 @@
+From 422cf65d86deb951183c2c2e6f70d730231b761d Mon Sep 17 00:00:00 2001
+From: Bryan Lai <bryanlais@gmail.com>
+Date: Thu, 26 Dec 2024 16:53:12 +0800
+Subject: [PATCH] wip: allow relative path for the git accessor
+
+---
+ src/libutil/posix-source-accessor.cc | 2 +-
+ 1 file changed, 1 insertion(+), 1 deletion(-)
+
+diff --git a/src/libutil/posix-source-accessor.cc b/src/libutil/posix-source-accessor.cc
+index 7524c1885..780d1934b 100644
+--- a/src/libutil/posix-source-accessor.cc
++++ b/src/libutil/posix-source-accessor.cc
+@@ -10,7 +10,7 @@ namespace nix {
+ PosixSourceAccessor::PosixSourceAccessor(std::filesystem::path && argRoot)
+     : root(std::move(argRoot))
+ {
+-    assert(root.empty() || root.is_absolute());
++    // assert(root.empty() || root.is_absolute());
+     displayPrefix = root.string();
+ }
+ 
+-- 
+2.44.1
+
