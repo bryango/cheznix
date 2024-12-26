@@ -1,25 +1,34 @@
-From 422cf65d86deb951183c2c2e6f70d730231b761d Mon Sep 17 00:00:00 2001
+From 0550d5a14ad3895b518cab5d0c2bb61747c8ce42 Mon Sep 17 00:00:00 2001
 From: Bryan Lai <bryanlais@gmail.com>
 Date: Thu, 26 Dec 2024 16:53:12 +0800
-Subject: [PATCH] wip: allow relative path for the git accessor
+Subject: [PATCH] wip: make relative path absolute, for local git repo
 
 ---
- src/libutil/posix-source-accessor.cc | 2 +-
- 1 file changed, 1 insertion(+), 1 deletion(-)
+ src/libfetchers/git.cc | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
 
-diff --git a/src/libutil/posix-source-accessor.cc b/src/libutil/posix-source-accessor.cc
-index 7524c1885..780d1934b 100644
---- a/src/libutil/posix-source-accessor.cc
-+++ b/src/libutil/posix-source-accessor.cc
-@@ -10,7 +10,7 @@ namespace nix {
- PosixSourceAccessor::PosixSourceAccessor(std::filesystem::path && argRoot)
-     : root(std::move(argRoot))
- {
--    assert(root.empty() || root.is_absolute());
-+    // assert(root.empty() || root.is_absolute());
-     displayPrefix = root.string();
- }
+diff --git a/src/libfetchers/git.cc b/src/libfetchers/git.cc
+index c73f53765..dd99f824f 100644
+--- a/src/libfetchers/git.cc
++++ b/src/libfetchers/git.cc
+@@ -426,7 +426,16 @@ struct GitInputScheme : InputScheme
+         auto url = parseURL(getStrAttr(input.attrs, "url"));
+         bool isBareRepository = url.scheme == "file" && !pathExists(url.path + "/.git");
+         repoInfo.isLocal = url.scheme == "file" && !forceHttp && !isBareRepository;
+-        repoInfo.url = repoInfo.isLocal ? url.path : url.base;
++        //
++        // FIXME: here we turn a possibly relative path into an absolute path.
++        // This allows relative git flake inputs to be resolved against the
++        // **current working directory** (as in POSIX), which tends to work out
++        // ok in the context of flakes, but is the wrong behavior,
++        // as it should resolve against the flake.nix base directory instead.
++        //
++        // See: https://discourse.nixos.org/t/57783 and NixOS/nix#9708
++        //
++        repoInfo.url = repoInfo.isLocal ? std::filesystem::absolute(url.path).string() : url.base;
  
+         // If this is a local directory and no ref or revision is
+         // given, then allow the use of an unclean working tree.
 -- 
 2.44.1
 

@@ -16,7 +16,7 @@ with prev;
     patches = patches ++ [
       ./nix-git-file.patch
     ];
-    doInstallCheck = false;
+    # doInstallCheck = false;
   });
 
   texstudio-lazy_resize = texstudio.overrideAttrs ({ patches ? [ ], ... }: {
