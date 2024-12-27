@@ -1,14 +1,14 @@
-From 0550d5a14ad3895b518cab5d0c2bb61747c8ce42 Mon Sep 17 00:00:00 2001
+From e971a3b0f20fe9b213ee05843fe9110636343390 Mon Sep 17 00:00:00 2001
 From: Bryan Lai <bryanlais@gmail.com>
-Date: Thu, 26 Dec 2024 16:53:12 +0800
-Subject: [PATCH] wip: make relative path absolute, for local git repo
+Date: Thu, 26 Dec 2024 20:50:36 +0800
+Subject: [PATCH 1/2] fetchers/git: make path absolute for local repo
 
 ---
  src/libfetchers/git.cc | 11 ++++++++++-
  1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/src/libfetchers/git.cc b/src/libfetchers/git.cc
-index c73f53765..dd99f824f 100644
+index c73f53765..41864c694 100644
 --- a/src/libfetchers/git.cc
 +++ b/src/libfetchers/git.cc
 @@ -426,7 +426,16 @@ struct GitInputScheme : InputScheme
@@ -23,12 +23,48 @@ index c73f53765..dd99f824f 100644
 +        // ok in the context of flakes, but is the wrong behavior,
 +        // as it should resolve against the flake.nix base directory instead.
 +        //
-+        // See: https://discourse.nixos.org/t/57783 and NixOS/nix#9708
++        // See: https://discourse.nixos.org/t/57783 and #9708
 +        //
 +        repoInfo.url = repoInfo.isLocal ? std::filesystem::absolute(url.path).string() : url.base;
  
          // If this is a local directory and no ref or revision is
          // given, then allow the use of an unclean working tree.
+-- 
+2.44.1
+
+
+From 91116452236c1126bceb0bd250ea2e2e60dde456 Mon Sep 17 00:00:00 2001
+From: Bryan Lai <bryanlais@gmail.com>
+Date: Fri, 27 Dec 2024 17:35:44 +0800
+Subject: [PATCH 2/2] tests/flakes: check git+file:./${submodule} protocol
+
+Relative, local git repo used to work (for submodules), but it
+fails after 3e0129ce3b9eb094d4a3cc8023884f372f1d7ff6.
+
+This commit adds a test to prevent such failure in the future.
+---
+ tests/functional/flakes/flakes.sh | 8 ++++++++
+ 1 file changed, 8 insertions(+)
+
+diff --git a/tests/functional/flakes/flakes.sh b/tests/functional/flakes/flakes.sh
+index 6c466a0c7..acbd32a91 100755
+--- a/tests/functional/flakes/flakes.sh
++++ b/tests/functional/flakes/flakes.sh
+@@ -106,6 +106,14 @@ nix build -o "$TEST_ROOT/result" "git+file://$flake1Dir#default"
+ nix build -o "$TEST_ROOT/result" "$flake1Dir?ref=HEAD#default"
+ nix build -o "$TEST_ROOT/result" "git+file://$flake1Dir?ref=HEAD#default"
+ 
++# Check that relative paths are allowed for git flakes.
++# This may change in the future once git submodule support is refined.
++# See: https://discourse.nixos.org/t/57783 and #9708.
++(
++  cd "$flake1Dir/.."
++  nix build -o "$TEST_ROOT/result" "git+file:./$(basename "$flake1Dir")"
++)
++
+ # Check that store symlinks inside a flake are not interpreted as flakes.
+ nix build -o "$flake1Dir/result" "git+file://$flake1Dir"
+ nix path-info "$flake1Dir/result"
 -- 
 2.44.1
 
