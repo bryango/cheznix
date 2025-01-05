@@ -178,7 +178,7 @@ in {
 
   programs.v2ray-ctrl = {
     # enable = false;
-    outbounds = "la6";
+    outbounds = "dal4";
     # routings =
     #   "private-direct,cn-direct,tencent-direct,ms-transit,zoom-transit";
   };
@@ -231,9 +231,8 @@ in {
     max-jobs = "auto";
     fallback = true;
 
-    ## invalidate negative cache hits in 10min
-    ## to invalidate all, pass `--option narinfo-cache-negative-ttl 0`
-    narinfo-cache-negative-ttl = 600;
+    ## do _not_ cache negative substituter hits
+    narinfo-cache-negative-ttl = 0;
     
     ## need to set `trusted-users = @wheel` in `/etc/nix/nix.conf`
     # tarball-ttl = 4294967295;
