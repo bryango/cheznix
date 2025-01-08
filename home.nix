@@ -83,6 +83,7 @@ let
       mold  # linker for non-nix projects; for nix, use `mold-wrapped`
       cargo-binstall  # then `cargo binstall cargo-quickinstall`
       cargo-tarpaulin  # show test coverage
+      cargo-nextest  # better test runner
       nodejs  # required by coc.nvim
       watchman  # as git fsmonitor
       # mise  # dev runtime manager
