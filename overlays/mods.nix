@@ -14,7 +14,8 @@ with prev;
 
   nixPatched = nixVersions.nix_2_24.overrideAttrs ({ patches ? [ ], ... }: {
     patches = patches ++ [
-      ./nix-git-file.patch
+      ./12051-nix-skip-some-tests.patch
+      ./12107-nix-git-file.patch
     ];
     # doInstallCheck = false;
   });
