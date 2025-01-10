@@ -12,7 +12,7 @@ Co-authored-by: Robert Hensing <roberth@users.noreply.github.com>
  tests/functional/build-remote-trustless.sh            |  1 +
  tests/functional/build-remote.sh                      |  2 ++
  tests/functional/chroot-store.sh                      |  1 +
- tests/functional/common/functions.sh                  | 11 +++++++++++
+ tests/functional/common/vars-and-functions.sh         | 11 +++++++++++
  tests/functional/linux-sandbox.sh                     |  1 +
  tests/functional/local-overlay-store/bad-uris.sh      |  2 +-
  tests/functional/local-overlay-store/common.sh        |  4 ----
@@ -80,8 +80,8 @@ index 46e91f0aaea939c0da609b617857e019b6255423..ccde3e90bb5b7c9dd03cc70299fc5cdc
  
 diff --git a/tests/functional/common/functions.sh b/tests/functional/common/functions.sh
 index 7195149cbfcf57bbb6f5f28f73e79b44480cab79..bf3dd2ca861afcdfc04ed3537194c4950a1c327e 100644
---- a/tests/functional/common/functions.sh
-+++ b/tests/functional/common/functions.sh
+--- a/tests/functional/common/vars-and-functions.sh
++++ b/tests/functional/common/vars-and-functions.sh
 @@ -345,4 +345,15 @@ count() {
  
  trap onError ERR
@@ -97,7 +97,7 @@ index 7195149cbfcf57bbb6f5f28f73e79b44480cab79..bf3dd2ca861afcdfc04ed3537194c495
 +  exec unshare --mount --map-root-user "$SHELL" "$@"
 +}
 +
- fi # COMMON_FUNCTIONS_SH_SOURCED
+ fi # COMMON_VARS_AND_FUNCTIONS_SH_SOURCED
 diff --git a/tests/functional/linux-sandbox.sh b/tests/functional/linux-sandbox.sh
 index 81ef36237969bbfc49c1db8a1bfcdcf77f0eb59d..abb635f11952bc55f9323fc881085d754847c9be 100755
 --- a/tests/functional/linux-sandbox.sh
@@ -182,7 +182,7 @@ index 50259a3e1f9d3b7be6d80f2bc58f39e30c920694..400333f7d4b65cfac2bc136c4f0adeca
  
  TODO_NixOS
  
--unshare --mount --map-root-user -- bash -e -x <<EOF
+-unshare --mount --map-root-user bash <<EOF
 +execUnshare <<EOF
    source common.sh
  
