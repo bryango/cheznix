@@ -28,7 +28,7 @@
         flake=''${FLAKE_CONFIG_URI%#*}
         flakePath=$(
           nix eval --raw --impure \
-            --expr "toString (builtins.getFlake $flake)" \
+            --expr "toString (builtins.getFlake (toString $flake))" \
             | xargs
         )  ## the /nix/store path of $flake
         "$flakePath/activate.sh"
