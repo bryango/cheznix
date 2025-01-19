@@ -1,17 +1,18 @@
-From 5e630188225f907b1d54cd3a8d4c237fc66d506b Mon Sep 17 00:00:00 2001
+From 6e44bc2a89a4eb66b07d42750fb1047a9e4b4a62 Mon Sep 17 00:00:00 2001
 From: Bryan Lai <bryanlais@gmail.com>
 Date: Thu, 26 Dec 2024 20:50:36 +0800
-Subject: [PATCH 1/3] fetchers/git: make path absolute for local repo
+Subject: [PATCH 1/7] fetchers/git: make path absolute for local repo
 
+(cherry picked from commit 96bd9bad2f434fe3489b039ac665679878460b0c)
 ---
  src/libfetchers/git.cc | 11 ++++++++++-
  1 file changed, 10 insertions(+), 1 deletion(-)
 
 diff --git a/src/libfetchers/git.cc b/src/libfetchers/git.cc
-index d894550c0..c4dfc27a2 100644
+index 6c5bda47000..ae30de8fb87 100644
 --- a/src/libfetchers/git.cc
 +++ b/src/libfetchers/git.cc
-@@ -426,7 +426,16 @@ struct GitInputScheme : InputScheme
+@@ -425,7 +425,16 @@ struct GitInputScheme : InputScheme
          auto url = parseURL(getStrAttr(input.attrs, "url"));
          bool isBareRepository = url.scheme == "file" && !pathExists(url.path + "/.git");
          repoInfo.isLocal = url.scheme == "file" && !forceHttp && !isBareRepository;
@@ -29,28 +30,27 @@ index d894550c0..c4dfc27a2 100644
  
          // If this is a local directory and no ref or revision is
          // given, then allow the use of an unclean working tree.
--- 
-2.44.1
 
-
-From 3164a9ab3abb62ae875b13fe2b42090292330c3e Mon Sep 17 00:00:00 2001
+From 84e3f4ad795499c6f24c9071a9100dda6c2666ba Mon Sep 17 00:00:00 2001
 From: Bryan Lai <bryanlais@gmail.com>
 Date: Fri, 27 Dec 2024 17:35:44 +0800
-Subject: [PATCH 2/3] tests/flakes: check git+file:./${submodule} protocol
+Subject: [PATCH 2/7] tests/flakes: check git+file:./${submodule} protocol
 
 Relative, local git repo used to work (for submodules), but it
 fails after 3e0129ce3b9eb094d4a3cc8023884f372f1d7ff6.
 
 This commit adds a test to prevent such failure in the future.
+
+(cherry picked from commit 9d088fa50242c5fe2ad94bffb61a4742f232ff0b)
 ---
  tests/functional/flakes/flakes.sh | 8 ++++++++
  1 file changed, 8 insertions(+)
 
 diff --git a/tests/functional/flakes/flakes.sh b/tests/functional/flakes/flakes.sh
-index 6c466a0c7..acbd32a91 100755
+index 26b91eda751..43e740adbc4 100755
 --- a/tests/functional/flakes/flakes.sh
 +++ b/tests/functional/flakes/flakes.sh
-@@ -106,6 +106,14 @@ nix build -o "$TEST_ROOT/result" "git+file://$flake1Dir#default"
+@@ -228,6 +228,14 @@ nix build -o "$TEST_ROOT/result" "git+file://$flake1Dir#default"
  nix build -o "$TEST_ROOT/result" "$flake1Dir?ref=HEAD#default"
  nix build -o "$TEST_ROOT/result" "git+file://$flake1Dir?ref=HEAD#default"
  
@@ -65,21 +65,19 @@ index 6c466a0c7..acbd32a91 100755
  # Check that store symlinks inside a flake are not interpreted as flakes.
  nix build -o "$flake1Dir/result" "git+file://$flake1Dir"
  nix path-info "$flake1Dir/result"
--- 
-2.44.1
 
-
-From aaf0ff684b94340ba5918306b12178246e9f94c8 Mon Sep 17 00:00:00 2001
+From d4f0e8f4e3628b1d6a88a6449b2d16927c63709c Mon Sep 17 00:00:00 2001
 From: Bryan Lai <bryanlais@gmail.com>
 Date: Wed, 1 Jan 2025 14:53:04 +0800
-Subject: [PATCH 3/3] tests/flake-in-submodule: git+file:./* input
+Subject: [PATCH 3/7] tests/flake-in-submodule: git+file:./* input
 
+(cherry picked from commit 37ac18d1d9faba24ce09653723342465bcac3e0b)
 ---
  tests/functional/flakes/flake-in-submodule.sh | 18 ++++++++++++++++++
  1 file changed, 18 insertions(+)
 
 diff --git a/tests/functional/flakes/flake-in-submodule.sh b/tests/functional/flakes/flake-in-submodule.sh
-index 817f77783..12feb74cd 100755
+index 817f77783c0..74b2e76c32f 100755
 --- a/tests/functional/flakes/flake-in-submodule.sh
 +++ b/tests/functional/flakes/flake-in-submodule.sh
 @@ -63,3 +63,21 @@ flakeref=git+file://$rootRepo\?submodules=1\&dir=submodule
@@ -97,13 +95,207 @@ index 817f77783..12feb74cd 100755
 +}
 +EOF
 +git -C "$rootRepo" add flake.nix
-+git -C "$rootRepo" commit -m "Add flake.nix"
++git -C "$rootRepo" commit -m "Add subRepo input"
 +(
 +  cd "$rootRepo"
 +  # The submodule must be locked to the relative path,
 +  # _not_ the absolute path:
 +  [[ $(nix flake metadata --json | jq -r .locks.nodes.subRepo.locked.url) = "file:./submodule" ]]
 +)
--- 
-2.44.1
 
+From b2acf4ab974b484baadd38f04b51b1144fed9223 Mon Sep 17 00:00:00 2001
+From: Robert Hensing <roberth@users.noreply.github.com>
+Date: Fri, 10 Jan 2025 09:57:54 +0100
+Subject: [PATCH 4/7] Clarify cd call in tests/functional/flakes/flakes.sh
+
+(cherry picked from commit d9a50c0af2c73d0fb0b890975d9bcb0ff8a31b76)
+---
+ tests/functional/flakes/flakes.sh | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/tests/functional/flakes/flakes.sh b/tests/functional/flakes/flakes.sh
+index 43e740adbc4..423f0abfed2 100755
+--- a/tests/functional/flakes/flakes.sh
++++ b/tests/functional/flakes/flakes.sh
+@@ -232,6 +232,7 @@ nix build -o "$TEST_ROOT/result" "git+file://$flake1Dir?ref=HEAD#default"
+ # This may change in the future once git submodule support is refined.
+ # See: https://discourse.nixos.org/t/57783 and #9708.
+ (
++  # This `cd` should not be required and is indicative of aforementioned bug.
+   cd "$flake1Dir/.."
+   nix build -o "$TEST_ROOT/result" "git+file:./$(basename "$flake1Dir")"
+ )
+
+From d944cb7f582ab16172764c60bcf8c2e3adb18796 Mon Sep 17 00:00:00 2001
+From: Eelco Dolstra <edolstra@gmail.com>
+Date: Tue, 14 Jan 2025 17:42:26 +0100
+Subject: [PATCH 5/7] Use isAbsolute()
+
+(cherry picked from commit ff9d886f3cb28db13bfb88d1dc4d6fe3dc83270f)
+---
+ src/libexpr/eval.cc            | 2 +-
+ src/libfetchers/path.cc        | 2 +-
+ src/libfetchers/registry.cc    | 2 +-
+ src/libflake/flake/flakeref.cc | 2 +-
+ src/libutil/file-system.cc     | 7 +------
+ src/libutil/file-system.hh     | 5 +++++
+ src/libutil/source-accessor.cc | 2 +-
+ 7 files changed, 11 insertions(+), 11 deletions(-)
+
+diff --git a/src/libexpr/eval.cc b/src/libexpr/eval.cc
+index 4de4646783c..15a28936068 100644
+--- a/src/libexpr/eval.cc
++++ b/src/libexpr/eval.cc
+@@ -438,7 +438,7 @@ void EvalState::checkURI(const std::string & uri)
+ 
+     /* If the URI is a path, then check it against allowedPaths as
+        well. */
+-    if (hasPrefix(uri, "/")) {
++    if (isAbsolute(uri)) {
+         if (auto rootFS2 = rootFS.dynamic_pointer_cast<AllowListSourceAccessor>())
+             rootFS2->checkAccess(CanonPath(uri));
+         return;
+diff --git a/src/libfetchers/path.cc b/src/libfetchers/path.cc
+index fca0df84b10..e255dd22872 100644
+--- a/src/libfetchers/path.cc
++++ b/src/libfetchers/path.cc
+@@ -96,7 +96,7 @@ struct PathInputScheme : InputScheme
+     std::optional<std::string> isRelative(const Input & input) const
+     {
+         auto path = getStrAttr(input.attrs, "path");
+-        if (hasPrefix(path, "/"))
++        if (isAbsolute(path))
+             return std::nullopt;
+         else
+             return path;
+diff --git a/src/libfetchers/registry.cc b/src/libfetchers/registry.cc
+index 3c893c8ea33..7f25521433f 100644
+--- a/src/libfetchers/registry.cc
++++ b/src/libfetchers/registry.cc
+@@ -156,7 +156,7 @@ static std::shared_ptr<Registry> getGlobalRegistry(const Settings & settings, re
+             return std::make_shared<Registry>(settings, Registry::Global); // empty registry
+         }
+ 
+-        if (!hasPrefix(path, "/")) {
++        if (!isAbsolute(path)) {
+             auto storePath = downloadFile(store, path, "flake-registry.json").storePath;
+             if (auto store2 = store.dynamic_pointer_cast<LocalFSStore>())
+                 store2->addPermRoot(storePath, getCacheDir() + "/nix/flake-registry.json");
+diff --git a/src/libflake/flake/flakeref.cc b/src/libflake/flake/flakeref.cc
+index a57fce9f319..8fd15a52d6f 100644
+--- a/src/libflake/flake/flakeref.cc
++++ b/src/libflake/flake/flakeref.cc
+@@ -175,7 +175,7 @@ std::pair<FlakeRef, std::string> parsePathFlakeRefWithFragment(
+         }
+ 
+     } else {
+-        if (!hasPrefix(path, "/"))
++        if (!isAbsolute(path))
+             throw BadURL("flake reference '%s' is not an absolute path", url);
+         path = canonPath(path + "/" + getOr(query, "dir", ""));
+     }
+diff --git a/src/libutil/file-system.cc b/src/libutil/file-system.cc
+index 732e0a327f4..558593ca37d 100644
+--- a/src/libutil/file-system.cc
++++ b/src/libutil/file-system.cc
+@@ -29,12 +29,7 @@ namespace fs = std::filesystem;
+ 
+ namespace nix {
+ 
+-/**
+- * Treat the string as possibly an absolute path, by inspecting the
+- * start of it. Return whether it was probably intended to be
+- * absolute.
+- */
+-static bool isAbsolute(PathView path)
++bool isAbsolute(PathView path)
+ {
+     return fs::path { path }.is_absolute();
+ }
+diff --git a/src/libutil/file-system.hh b/src/libutil/file-system.hh
+index 92168cbb9b0..7d2f6a916f4 100644
+--- a/src/libutil/file-system.hh
++++ b/src/libutil/file-system.hh
+@@ -42,6 +42,11 @@ namespace nix {
+ struct Sink;
+ struct Source;
+ 
++/**
++ * Return whether the path denotes an absolute path.
++ */
++bool isAbsolute(PathView path);
++
+ /**
+  * @return An absolutized path, resolving paths relative to the
+  * specified directory, or the current directory otherwise.  The path
+diff --git a/src/libutil/source-accessor.cc b/src/libutil/source-accessor.cc
+index e797951c76e..1876db92cdb 100644
+--- a/src/libutil/source-accessor.cc
++++ b/src/libutil/source-accessor.cc
+@@ -94,7 +94,7 @@ CanonPath SourceAccessor::resolveSymlinks(
+                         throw Error("infinite symlink recursion in path '%s'", showPath(path));
+                     auto target = readLink(res);
+                     res.pop();
+-                    if (hasPrefix(target, "/"))
++                    if (isAbsolute(target))
+                         res = CanonPath::root;
+                     todo.splice(todo.begin(), tokenizeString<std::list<std::string>>(target, "/"));
+                 }
+
+From f27e263f8966bd723bae0dad38045cdfb5268da7 Mon Sep 17 00:00:00 2001
+From: Eelco Dolstra <edolstra@gmail.com>
+Date: Thu, 16 Jan 2025 17:22:54 +0100
+Subject: [PATCH 6/7] Warn against the use of relative 'git+file:' flake inputs
+
+(cherry picked from commit 12e14956e22a42c26715ca084bb6b17d35628bb9)
+---
+ src/libfetchers/git.cc | 11 ++++++++++-
+ 1 file changed, 10 insertions(+), 1 deletion(-)
+
+diff --git a/src/libfetchers/git.cc b/src/libfetchers/git.cc
+index ae30de8fb87..c2d3b42ed35 100644
+--- a/src/libfetchers/git.cc
++++ b/src/libfetchers/git.cc
+@@ -434,7 +434,16 @@ struct GitInputScheme : InputScheme
+         //
+         // See: https://discourse.nixos.org/t/57783 and #9708
+         //
+-        repoInfo.url = repoInfo.isLocal ? std::filesystem::absolute(url.path).string() : url.to_string();
++        if (repoInfo.isLocal) {
++            if (!isAbsolute(url.path)) {
++                warn(
++                    "Fetching Git repository '%s', which uses a path relative to the current directory. "
++                    "This is not supported and will stop working in a future release.",
++                    url.to_string());
++            }
++            repoInfo.url = std::filesystem::absolute(url.path).string();
++        } else
++            repoInfo.url = url.to_string();
+ 
+         // If this is a local directory and no ref or revision is
+         // given, then allow the use of an unclean working tree.
+
+From 876d724061dd7274a1a4b7b2943fddf610034220 Mon Sep 17 00:00:00 2001
+From: Eelco Dolstra <edolstra@gmail.com>
+Date: Fri, 17 Jan 2025 12:33:23 +0100
+Subject: [PATCH 7/7] Add link to tracking issue
+
+(cherry picked from commit 3197c19a31f5ce42b099d257b6ba22fb25e707c4)
+---
+ src/libfetchers/git.cc | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/src/libfetchers/git.cc b/src/libfetchers/git.cc
+index c2d3b42ed35..eca678bdeef 100644
+--- a/src/libfetchers/git.cc
++++ b/src/libfetchers/git.cc
+@@ -438,7 +438,8 @@ struct GitInputScheme : InputScheme
+             if (!isAbsolute(url.path)) {
+                 warn(
+                     "Fetching Git repository '%s', which uses a path relative to the current directory. "
+-                    "This is not supported and will stop working in a future release.",
++                    "This is not supported and will stop working in a future release. "
++                    "See https://github.com/NixOS/nix/issues/12281 for details.",
+                     url.to_string());
+             }
+             repoInfo.url = std::filesystem::absolute(url.path).string();
