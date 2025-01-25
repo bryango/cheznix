@@ -41,11 +41,11 @@ let
 
   /** id of the linux artifact from the github action,
       obtained from the download link through the web ui */
-  artifact_id = "2324188898";
+  artifact_id = "2465825941";
   /** comment these out to use the default version */
   optional = {
-    hash = "sha256-Z03hFT+rJK9OxLS+C26vzNNGq23webcGWizVG4e9CEE=";
-    version = "1.124.0";
+    hash = "sha256-hnZYEfsMnmh75jVjSdsJd3o39T/JaC4yHwrpYALrYeo=";
+    version = "1.125.0";
   };
 
 in
