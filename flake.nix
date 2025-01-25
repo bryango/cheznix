@@ -3,7 +3,7 @@
 
   inputs = {
 
-    nixpkgs.url = "nixpkgs";  # flake registry: nixpkgs/nixpkgs-unstable
+    nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
     /* alternatively,
       - use `master`, which is slightly more advanced;
