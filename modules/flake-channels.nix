@@ -50,8 +50,7 @@ in {
       nix registry add "${flakeSelfName}" "$flake"
       nix registry add "home-manager" "${links.home-manager.source}"
 
-      ## cool but unnecessary: double copy takes a long time
-      # nix registry add "nixpkgs-patched" "${links.nixpkgs-patched.source}"
+      nix registry add "nixpkgs" "github:NixOS/nixpkgs/${flakeInputs.nixpkgs.sourceInfo.rev}"
     '';
 
     ## prevent cheznix inputs from being garbage collected
