@@ -24,8 +24,12 @@ if [[ -z $prNumber ]]; then
   exit
 fi
 
-if commitHash=$(gh --repo "$REPO" pr view --json mergeCommit --jq .mergeCommit.oid "$prNumber");
-then :; else
+if commitHash=$(gh --repo "$REPO" pr view --json mergeCommit --jq .mergeCommit.oid "$prNumber"); then
+  if [[ -z $commitHash ]]; then
+    >&2 echo "# PR #$prNumber is not yet merged; see: $REPO_URL/pull/$prNumber"
+    exit 1
+  fi
+else
   commitHash=$prNumber # allow using plain hash
 fi
 compareLink="$REPO/compare/$commitHash...$trackedBranch"
