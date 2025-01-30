@@ -12,7 +12,7 @@ with prev;
     hydra-check
   ;
 
-  nixPatched = nixVersions.nix_2_24;
+  nixPatched = nixVersions.stable;
 
   texstudio-lazy_resize = texstudio.overrideAttrs ({ patches ? [ ], ... }: {
     pname = "texstudio-lazy_resize";
