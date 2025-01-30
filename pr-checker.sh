@@ -1,4 +1,6 @@
-#!/bin/bash
+#!/usr/bin/env nix
+#! nix env shell nixpkgs#bash nixpkgs#gh --command bash
+# shellcheck shell=bash
 # check pr status
 
 set -e
