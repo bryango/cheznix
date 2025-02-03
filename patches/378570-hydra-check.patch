@@ -1,0 +1,139 @@
+From a49761e3f7107466f30622186c3435a538a2e0ca Mon Sep 17 00:00:00 2001
+From: Doron Behar <doron.behar@gmail.com>
+Date: Sat, 1 Feb 2025 18:15:39 +0200
+Subject: [PATCH 1/4] hydra-check: 2.0.1 -> 2.0.2
+
+Diff: https://github.com/nix-community/hydra-check/compare/v2.0.1...v2.0.2
+---
+ pkgs/by-name/hy/hydra-check/package.nix | 8 ++++----
+ 1 file changed, 4 insertions(+), 4 deletions(-)
+
+diff --git a/pkgs/by-name/hy/hydra-check/package.nix b/pkgs/by-name/hy/hydra-check/package.nix
+index 11bd4c99373f..46823dab7d69 100644
+--- a/pkgs/by-name/hy/hydra-check/package.nix
++++ b/pkgs/by-name/hy/hydra-check/package.nix
+@@ -10,16 +10,16 @@
+ 
+ rustPlatform.buildRustPackage rec {
+   pname = "hydra-check";
+-  version = "2.0.1";
++  version = "2.0.2";
+ 
+   src = fetchFromGitHub {
+     owner = "nix-community";
+     repo = "hydra-check";
+-    rev = "v${version}";
+-    hash = "sha256-QdCXToHNymOdlTyQjk9eo7LTznGKB+3pIOgjjaGoTXg=";
++    tag = "v${version}";
++    hash = "sha256-FfeT6oxhHORbd4uR4gRNhI6W9YOkG8ieiL0Co3GWzb4=";
+   };
+ 
+-  cargoHash = "sha256-iqFUMok36G1qSUbfY7WD6etY0dtfro3F7mLoOELzxbs=";
++  cargoHash = "sha256-35e+ACUyp5sQiHz9fgDXXz365XbxHMLcX2aTA41rJN0=";
+ 
+   nativeBuildInputs = [
+     pkg-config
+-- 
+2.47.1
+
+
+From ca8728859a95baf0b74b8c7715f8c68a2ae296ef Mon Sep 17 00:00:00 2001
+From: Doron Behar <doron.behar@gmail.com>
+Date: Sun, 2 Feb 2025 14:32:13 +0200
+Subject: [PATCH 2/4] hydra-check: add versionCheckHook
+
+---
+ pkgs/by-name/hy/hydra-check/package.nix | 7 +++++++
+ 1 file changed, 7 insertions(+)
+
+diff --git a/pkgs/by-name/hy/hydra-check/package.nix b/pkgs/by-name/hy/hydra-check/package.nix
+index 46823dab7d69..dd1e363c7f1a 100644
+--- a/pkgs/by-name/hy/hydra-check/package.nix
++++ b/pkgs/by-name/hy/hydra-check/package.nix
+@@ -6,6 +6,7 @@
+   openssl,
+   stdenv,
+   installShellFiles,
++  versionCheckHook,
+ }:
+ 
+ rustPlatform.buildRustPackage rec {
+@@ -37,6 +38,12 @@ rustPlatform.buildRustPackage rec {
+       --zsh <($out/bin/hydra-check --shell-completion zsh)
+   '';
+ 
++  nativeInstallCheckInputs = [
++    versionCheckHook
++  ];
++
++  doInstallCheck = true;
++
+   meta = {
+     description = "Check hydra for the build status of a package";
+     homepage = "https://github.com/nix-community/hydra-check";
+-- 
+2.47.1
+
+
+From 249d1d1dd1fcb3317cc06263744f07f32bc6fa4f Mon Sep 17 00:00:00 2001
+From: Doron Behar <doron.behar@gmail.com>
+Date: Mon, 3 Feb 2025 11:47:28 +0200
+Subject: [PATCH 3/4] hydra-check: 2.0.2 -> 2.0.3
+
+Diff: https://github.com/nix-community/hydra-check/compare/refs/tags/v2.0.2...v2.0.3
+---
+ pkgs/by-name/hy/hydra-check/package.nix | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/pkgs/by-name/hy/hydra-check/package.nix b/pkgs/by-name/hy/hydra-check/package.nix
+index dd1e363c7f1a..0c4e197dd9a2 100644
+--- a/pkgs/by-name/hy/hydra-check/package.nix
++++ b/pkgs/by-name/hy/hydra-check/package.nix
+@@ -11,16 +11,16 @@
+ 
+ rustPlatform.buildRustPackage rec {
+   pname = "hydra-check";
+-  version = "2.0.2";
++  version = "2.0.3";
+ 
+   src = fetchFromGitHub {
+     owner = "nix-community";
+     repo = "hydra-check";
+     tag = "v${version}";
+-    hash = "sha256-FfeT6oxhHORbd4uR4gRNhI6W9YOkG8ieiL0Co3GWzb4=";
++    hash = "sha256-h8bs6oe8zkzEDCoC9F6IzTaTkNf4eAAjt663V0qn73I=";
+   };
+ 
+-  cargoHash = "sha256-35e+ACUyp5sQiHz9fgDXXz365XbxHMLcX2aTA41rJN0=";
++  cargoHash = "sha256-aV4URx9bGAOLWRh/kFDU67GiXk7RdCqfahG+fZPfdUo=";
+ 
+   nativeBuildInputs = [
+     pkg-config
+-- 
+2.47.1
+
+
+From 4938448d5e23b7c65d42279e3d5db07bdd11b95b Mon Sep 17 00:00:00 2001
+From: Bryan Lai <bryanlais@gmail.com>
+Date: Mon, 3 Feb 2025 20:25:21 +0800
+Subject: [PATCH 4/4] hydra-check: useFetchCargoVendor
+
+---
+ pkgs/by-name/hy/hydra-check/package.nix | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/pkgs/by-name/hy/hydra-check/package.nix b/pkgs/by-name/hy/hydra-check/package.nix
+index 0c4e197dd9a2..d824037c7969 100644
+--- a/pkgs/by-name/hy/hydra-check/package.nix
++++ b/pkgs/by-name/hy/hydra-check/package.nix
+@@ -20,6 +20,7 @@ rustPlatform.buildRustPackage rec {
+     hash = "sha256-h8bs6oe8zkzEDCoC9F6IzTaTkNf4eAAjt663V0qn73I=";
+   };
+ 
++  useFetchCargoVendor = true;
+   cargoHash = "sha256-aV4URx9bGAOLWRh/kFDU67GiXk7RdCqfahG+fZPfdUo=";
+ 
+   nativeBuildInputs = [
+-- 
+2.47.1
+
