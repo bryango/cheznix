@@ -55,6 +55,22 @@
         "url": "ssh://git@github.com/bryango/attrs.git"
       }
     },
+    "infuse": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1738726976,
+        "narHash": "sha256-N+u3vnK3zyXLUuDj/vr62r9tM7uarhKVCaLHWxjo/YY=",
+        "ref": "refs/heads/trunk",
+        "rev": "c8fb7397039215e1444c835e36a0da7dc3c743f8",
+        "revCount": 48,
+        "type": "git",
+        "url": "https://codeberg.org/amjoseph/infuse.nix.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://codeberg.org/amjoseph/infuse.nix.git"
+      }
+    },
     "nixgl": {
       "inputs": {
         "flake-utils": [
@@ -82,11 +98,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1738644632,
-        "narHash": "sha256-DyvJjOOGmTSkkEfHq0oWkwtZOgejYIB5S865wmf/qos=",
+        "lastModified": 1739077011,
+        "narHash": "sha256-t3lPEmMGXRW28XQJTn8bnzVR/8XkvfzPoXBlprUVOxY=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "95ea544c84ebed84a31896b0ecea2570e5e0e236",
+        "rev": "4f554b1da13be17c2656a2efd609f5c6b6f61190",
         "type": "github"
       },
       "original": {
@@ -100,15 +116,16 @@
       "inputs": {
         "flake-utils": "flake-utils",
         "haumea": "haumea",
+        "infuse": "infuse",
         "nixgl": "nixgl",
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1738683286,
-        "narHash": "sha256-mQC122cI5opqg18IG73SyYdyCrPfPmwi24l+FhxHZ0A=",
+        "lastModified": 1739170342,
+        "narHash": "sha256-HVovNO8LFt4BaLUlssZy7+/pwXHH0z3Vpfq8EuIffVM=",
         "ref": "refs/heads/dev",
-        "rev": "be54dfb5184259ef906e15669799a393972a7baf",
-        "revCount": 385,
+        "rev": "3839c6ed2bfd8746a8020dacc61c1438d2e63452",
+        "revCount": 387,
         "type": "git",
         "url": "file:./nixpkgs-config"
       },
