@@ -5,14 +5,6 @@
 
     nixpkgs.url = "github:NixOS/nixpkgs/nixpkgs-unstable";
 
-    /* alternatively,
-      - use `master`, which is slightly more advanced;
-      - pin to hash, e.g. "nixpkgs/a3a3dda3bacf61e8a39258a0ed9c924eeca8e293";
-        ^ note that this is once problematic, but I cannot reproduce
-        ^ find nice snapshots from hydra builds:
-          https://hydra.nixos.org/jobset/nixpkgs/trunk/evals
-    */
-
     # nixpkgs_python2 = {
     #   /*
     #     - https://github.com/NixOS/nixpkgs/pull/201859 marks insecure
@@ -20,19 +12,26 @@
     #     - https://github.com/NixOS/nixpkgs/pull/246976 fixes build
     #     - https://github.com/NixOS/nixpkgs/pull/246963 breaks again
     #     - https://github.com/NixOS/nixpkgs/pull/251548 fixes build
-
+    #
     #     pin to a working rev:
     #   */
     #   url = "github:NixOS/nixpkgs/8a33bfa212653a1f4d5f2c2d6097418bd639dda9";
     # };
 
-    ## a nice filesystem based importer
+    /** a nice filesystem based importer */
     haumea = {
       url = "github:nix-community/haumea/v0.2.2";
       inputs.nixpkgs.follows = "nixpkgs";
       ## ^ only nixpkgs.lib is actually required
     };
 
+    /** a cool library for overrides */
+    infuse = {
+      url = "git+https://codeberg.org/amjoseph/infuse.nix.git";
+      flake = false;
+    };
+
+    /** opengl support */
     nixgl = {
       url = "github:nix-community/nixGL";
       inputs.nixpkgs.follows = "nixpkgs";
@@ -44,11 +43,13 @@
 
   };
 
-  outputs = { self, nixpkgs, haumea, nixgl, ... }:
+  outputs = { self, nixpkgs, haumea, infuse, nixgl, ... }:
   let
 
     lib = nixpkgs.lib.extend (final: prev: let lib = prev; in with final; {
       importer = haumea.lib;
+      infusions = import infuse { inherit lib; };
+      infuse = infusions.v1.infuse;
       mySystems = [ "x86_64-linux" ];
       forMySystems = lib.genAttrs mySystems;
     });
