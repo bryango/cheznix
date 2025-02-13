@@ -121,6 +121,7 @@ let
     gui.app = [
       xorg.xinput
       pulsar  # atom fork
+      remmina
       gimp-with-plugins
       nixgl.nixGLIntel
       nixgl.nixVulkanIntel
