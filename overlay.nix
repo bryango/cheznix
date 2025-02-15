@@ -2,6 +2,18 @@ final: prev: with prev; {
 
   ## do NOT overlay `nix`, otherwise issues may propagate!
 
+  nix-flake-tree = stdenvNoCC.mkDerivation {
+    name = "nix-flake-tree";
+    buildInputs = [ pkgs.python3 ];
+    dontUnpack = true;
+    dontBuild = true;
+    installPhase = ''
+      mkdir -p $out/bin
+      cp --reflink=auto ${./flake-tree.py} $out/bin/$name
+      chmod +x $out/bin/$name
+    '';
+  };
+
   home-manager = (home-manager.override {
     ## option inspection does not work for flakes
     ## so simply drop this dependency to save space

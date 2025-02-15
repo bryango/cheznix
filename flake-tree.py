@@ -1,5 +1,12 @@
 #!/usr/bin/env python3
 # vim: nomodeline
+#
+# minimal implementation of `nix flake metadata`
+#
+# namely, print a tree of _locked_ flake inputs
+# with each node labeled by the _unique_ name in flake.lock
+# this is useful for deduplicating flake inputs
+#
 
 import json
 import itertools

@@ -33,6 +33,7 @@ let
       nix-init  # generate package
       nix-update
       nix-output-monitor
+      nix-flake-tree # ./flake-tree.py
       nixpkgs-hammering
       nixpkgs-review
       # hydra-check
