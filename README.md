@@ -29,6 +29,10 @@ Multiple versions are sometimes a requirement, which pacman refuses to handle. F
 - read on for some quick tips
 - jump to [#intro](#nix-intro) for some basics
 
+## determinate bootstrap
+
+- download from https://github.com/DeterminateSystems/nix-installer/releases; this should be legit as it seems that the artifacts are publish via github actions: https://github.com/DeterminateSystems/nix-installer/blob/main/.github/workflows/release-tags.yml
+
 ## strategies
 
 For package management:
