@@ -75,6 +75,7 @@ let
     ];
 
     cli.dev = [
+      aichat
       mosh
       difftastic
       jc
