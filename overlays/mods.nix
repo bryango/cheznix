@@ -14,6 +14,9 @@ with prev;
 
   nixPatched = nixVersions.stable;
 
+  nixpkgs-pr-checker = callPackage ../pkgs/nixpkgs-pr-checker.nix { };
+  open-webui-cli = callPackage ../pkgs/open-webui-cli.nix { };
+
   texstudio-lazy_resize = texstudio.overrideAttrs ({ patches ? [ ], ... }: {
     pname = "texstudio-lazy_resize";
     patches = patches ++ [

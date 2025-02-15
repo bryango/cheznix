@@ -3,7 +3,7 @@
 # shellcheck shell=bash
 # check pr status
 
-set -e
+set -eo pipefail
 
 REPO=NixOS/nixpkgs
 BASE_URL=https://github.com
