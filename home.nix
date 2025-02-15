@@ -34,6 +34,7 @@ let
       nix-update
       nix-output-monitor
       nix-flake-tree # ./flake-tree.py
+      nixpkgs-pr-checker # ./nixpkgs-config/pr-checker.sh
       nixpkgs-hammering
       nixpkgs-review
       # hydra-check
