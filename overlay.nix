@@ -4,13 +4,31 @@ final: prev: with prev; {
 
   nix-flake-tree = stdenvNoCC.mkDerivation {
     name = "nix-flake-tree";
-    buildInputs = [ pkgs.python3 ];
+    buildInputs = [ python3 ];
+    nativeBuildInputs = [
+      python3Packages.shtab
+      installShellFiles
+    ];
     dontUnpack = true;
     dontBuild = true;
     installPhase = ''
+      runHook preInstall
       mkdir -p $out/bin
       cp --reflink=auto ${./flake-tree.py} $out/bin/$name
       chmod +x $out/bin/$name
+      runHook postInstall
+    '';
+
+    postInstall = let
+      pyModule = "flake_tree";
+      shtab = "shtab ${pyModule}.get_args_parser --error-unimportable --prog=$name --shell";
+    in ''
+      pushd "$(mktemp -d)"
+      cp --reflink=auto ${./flake-tree.py} ${pyModule}.py
+      installShellCompletion --cmd $name \
+        --bash <(${shtab} bash) \
+        --zsh <(${shtab} zsh)
+      popd
     '';
   };
 

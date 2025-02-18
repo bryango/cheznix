@@ -11,32 +11,34 @@
 import json
 import itertools
 import argparse
+import sys
 
-parser = argparse.ArgumentParser(
-    description="print the inputs tree from Nix's flake.lock",
-)
-parser_group = parser.add_mutually_exclusive_group()
-parser_group.add_argument(
-    "--resolve",
-    action="store_true",
-    help="print the _flattened_ resolved inputs in JSON",
-)
-parser_group.add_argument(
-    "--json",
-    action="store_true",
-    help="print the resolved inputs _tree_ in JSON",
-)
-parser_group.add_argument(
-    "--jsonc",
-    action="store_true",
-    help="print the JSON tree with a vim modeline comment for folding",
-)
-parser_group.add_argument(
-    "--ascii",
-    action="store_true",
-    help="format the tree using only ascii characters",
-)
-args = parser.parse_args()
+def get_args_parser():
+    args_parser = argparse.ArgumentParser(
+        description="print the inputs tree from Nix's flake.lock",
+    )
+    args_parser_group = args_parser.add_mutually_exclusive_group()
+    args_parser_group.add_argument(
+        "--resolve",
+        action="store_true",
+        help="print the _flattened_ resolved inputs in JSON",
+    )
+    args_parser_group.add_argument(
+        "--json",
+        action="store_true",
+        help="print the resolved inputs _tree_ in JSON",
+    )
+    args_parser_group.add_argument(
+        "--jsonc",
+        action="store_true",
+        help="print the JSON tree with a vim modeline comment for folding",
+    )
+    args_parser_group.add_argument(
+        "--ascii",
+        action="store_true",
+        help="format the tree using only ascii characters",
+    )
+    return args_parser
 
 # unique id of a node, namely "global" keys of "nodes" in flake.lock
 NodeID = str
@@ -49,15 +51,6 @@ NodeLink = list[str]
 # each flake input is a map from a "local" name to a `NodeTag`
 # "local" names are the last component of a `NodeLink`
 NodeTag = NodeID | NodeLink
-
-with open("flake.lock", "r") as lockfile:
-    lock = json.load(lockfile)
-    version = lock["version"]
-    if version != 7:
-        print(f"unsupported lockfile version {version}")
-        exit(1)
-
-    nodes: AllNodes = lock["nodes"]
 
 
 def get_node_link(tag: NodeTag) -> NodeLink:
@@ -94,12 +87,6 @@ def resolve_inputs(nodes: AllNodes, root: NodeID) -> dict:
     }
 
 
-resolved = {root: resolve_inputs(nodes, root) for root in nodes}
-if args.resolve:
-    print(json.dumps(resolved, indent=2))
-    exit(0)
-
-
 def absorb_descendants(resolved: AllNodes, root: NodeID):
     inputs: dict[str, dict] = resolved[root]
     return {
@@ -107,13 +94,6 @@ def absorb_descendants(resolved: AllNodes, root: NodeID):
         for res in inputs.values()  # fmt: skip
     }
 
-
-absorbed = {lock["root"]: absorb_descendants(resolved, lock["root"])}
-if args.json or args.jsonc:
-    print(json.dumps(absorbed, indent=2))
-    if args.jsonc:
-        print("// vim: ft=jsonnet foldmethod=syntax foldlevel=3")
-    exit(0)
 
 """
     Library for formatting trees, from https://github.com/jonathanj/eliottree
@@ -234,7 +214,31 @@ def format_tree(root: NodeID, children: TreeBranches, options=None):
     return "\n".join(lines)
 
 
-if args.ascii:
-    print(format_tree("root", absorbed["root"], ASCII_OPTIONS))
-else:
-    print(format_tree("root", absorbed["root"]))
+if __name__ == "__main__":
+    args = get_args_parser().parse_args()
+
+    with open("flake.lock", "r") as lockfile:
+        lock = json.load(lockfile)
+        version = lock["version"]
+        if version != 7:
+            print(f"unsupported lockfile version {version}")
+            sys.exit(1)
+
+        nodes: AllNodes = lock["nodes"]
+
+    resolved = {root: resolve_inputs(nodes, root) for root in nodes}
+    if args.resolve:
+        print(json.dumps(resolved, indent=2))
+        sys.exit(0)
+
+    absorbed = {lock["root"]: absorb_descendants(resolved, lock["root"])}
+    if args.json or args.jsonc:
+        print(json.dumps(absorbed, indent=2))
+        if args.jsonc:
+            print("// vim: ft=jsonnet foldmethod=syntax foldlevel=3")
+        sys.exit(0)
+
+    if args.ascii:
+        print(format_tree("root", absorbed["root"], ASCII_OPTIONS))
+    else:
+        print(format_tree("root", absorbed["root"]))
