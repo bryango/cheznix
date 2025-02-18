@@ -10,11 +10,45 @@
 
 import json
 import itertools
+import argparse
 
-NodeLink = list[str]
+parser = argparse.ArgumentParser(
+    description="print the inputs tree from Nix's flake.lock",
+)
+parser_group = parser.add_mutually_exclusive_group()
+parser_group.add_argument(
+    "--resolve",
+    action="store_true",
+    help="print the _flattened_ resolved inputs in JSON",
+)
+parser_group.add_argument(
+    "--json",
+    action="store_true",
+    help="print the resolved inputs _tree_ in JSON",
+)
+parser_group.add_argument(
+    "--jsonc",
+    action="store_true",
+    help="print the JSON tree with a vim modeline comment for folding",
+)
+parser_group.add_argument(
+    "--ascii",
+    action="store_true",
+    help="format the tree using only ascii characters",
+)
+args = parser.parse_args()
+
+# unique id of a node, namely "global" keys of "nodes" in flake.lock
 NodeID = str
-NodeTag = NodeID | NodeLink
 AllNodes = dict[NodeID, dict]
+
+# link to another flake input, used for the `.follows` redirection
+NodeLink = list[str]
+
+# resolved / unresolved value of a flake input
+# each flake input is a map from a "local" name to a `NodeTag`
+# "local" names are the last component of a `NodeLink`
+NodeTag = NodeID | NodeLink
 
 with open("flake.lock", "r") as lockfile:
     lock = json.load(lockfile)
@@ -23,42 +57,47 @@ with open("flake.lock", "r") as lockfile:
         print(f"unsupported lockfile version {version}")
         exit(1)
 
-    nodes = lock["nodes"]
+    nodes: AllNodes = lock["nodes"]
 
 
 def get_node_link(tag: NodeTag) -> NodeLink:
-    if isinstance(tag, str):
+    if isinstance(tag, NodeID):
         return [tag]
     return tag
 
 
-def resolve_node(nodes: AllNodes, link: NodeLink) -> NodeID:
-    if len(link) == 1:
-        return link[0]
+def resolve_node(nodes: AllNodes, tag: NodeTag) -> NodeID:
+    if isinstance(tag, NodeID):
+        return tag
+    if len(tag) == 1:
+        return tag[0]
 
-    tag = nodes[link[0]]["inputs"][link[1]]
-    link = get_node_link(tag) + link[2:]
+    link: NodeLink = tag
 
-    return resolve_node(nodes, link)
+    # resolve the first parts ([0], [1]) of the link
+    resolved_tag: NodeTag = nodes[link[0]]["inputs"][link[1]]
 
+    # continue to the next parts [2:]
+    new_link = get_node_link(resolved_tag) + link[2:]
 
-def get_node(nodes: AllNodes, tag: NodeTag) -> NodeID:
-    return resolve_node(nodes, get_node_link(tag))
+    return resolve_node(nodes, new_link)
 
 
 def resolve_inputs(nodes: AllNodes, root: NodeID) -> dict:
     node: dict = nodes[root]
     inputs: dict[str, NodeTag] = node.get("inputs", {})
     return {
-        key: {"tag": tag, "id": get_node(nodes, tag)}
-        # if get_node(nodes, tag) != tag
+        key: {"tag": tag, "id": resolve_node(nodes, tag)}
+        # if resolve_node(nodes, tag) != tag
         # else tag # human-readable, but not machine readable
         for key, tag in inputs.items()
     }
 
 
 resolved = {root: resolve_inputs(nodes, root) for root in nodes}
-# print(json.dumps(resolved, indent=2))
+if args.resolve:
+    print(json.dumps(resolved, indent=2))
+    exit(0)
 
 
 def absorb_descendants(resolved: AllNodes, root: NodeID):
@@ -70,9 +109,11 @@ def absorb_descendants(resolved: AllNodes, root: NodeID):
 
 
 absorbed = {lock["root"]: absorb_descendants(resolved, lock["root"])}
-# print(json.dumps(absorbed, indent=2))
-# print("// vim: ft=jsonnet foldmethod=syntax foldlevel=3")
-
+if args.json or args.jsonc:
+    print(json.dumps(absorbed, indent=2))
+    if args.jsonc:
+        print("// vim: ft=jsonnet foldmethod=syntax foldlevel=3")
+    exit(0)
 
 """
     Library for formatting trees, from https://github.com/jonathanj/eliottree
@@ -188,14 +229,12 @@ def format_tree(root: NodeID, children: TreeBranches, options=None):
     lines = itertools.chain(
         [root],
         _format_tree(children, options or TreeOptions()),
-        [""],
+        # [""],
     )
     return "\n".join(lines)
 
 
-def format_ascii_tree(tree, children):
-    """Formats the tree using only ascii characters"""
-    return format_tree(tree, children, ASCII_OPTIONS)
-
-
-print(format_tree("root", absorbed["root"]))
+if args.ascii:
+    print(format_tree("root", absorbed["root"], ASCII_OPTIONS))
+else:
+    print(format_tree("root", absorbed["root"]))
