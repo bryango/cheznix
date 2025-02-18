@@ -31,7 +31,15 @@ Multiple versions are sometimes a requirement, which pacman refuses to handle. F
 
 ## determinate bootstrap
 
-- download from https://github.com/DeterminateSystems/nix-installer/releases; this should be legit as it seems that the artifacts are publish via github actions: https://github.com/DeterminateSystems/nix-installer/blob/main/.github/workflows/release-tags.yml
+- download from [DeterminateSystems/nix-installer/releases](https://github.com/DeterminateSystems/nix-installer/releases); this should be legit as it seems that the artifacts are published via github actions: [DeterminateSystems/nix-installer: release-tags.yml](https://github.com/DeterminateSystems/nix-installer/blob/main/.github/workflows/release-tags.yml)
+- install:
+  ```bash
+  # save the install plan, just to be safe
+  ./nix-installer plan --diagnostic-endpoint="" --out-file nix-install-plan.json
+
+  # actually install nix, be careful of the Determinate ads
+  ./nix-installer install --diagnostic-endpoint="" --explain
+  ```
 
 ## strategies
 
