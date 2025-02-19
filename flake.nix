@@ -68,7 +68,7 @@
       linuxMachines = lib.filterAttrs (_: isLinux) machines;
       darwinMachines = lib.filterAttrs (_: isDarwin) machines;
 
-      forMyMachines = f: lib.mapAttrs' f machines;
+      # forMyMachines = f: lib.mapAttrs' f machines;
       forMyLinux = f: lib.mapAttrs' f linuxMachines;
       forMyDarwin = f: lib.mapAttrs' f darwinMachines;
       inherit (lib)
@@ -133,7 +133,7 @@
     in
     {
       inherit lib;
-      homeConfigurations = forMyMachines mkHomeConfig;
+      homeConfigurations = forMyLinux mkHomeConfig;
       systemConfigs = forMyLinux mkSystemConfig;
       darwinConfigurations = forMyDarwin mkDarwinConfig;
       legacyPackages = forMySystems mkSystemPkgs;

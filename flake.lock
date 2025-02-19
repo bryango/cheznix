@@ -42,11 +42,11 @@
     },
     "home-attrs": {
       "locked": {
-        "lastModified": 1698053176,
-        "narHash": "sha256-YUSZiwfIBVdZRH2in7wzk+Z/HNxs4H5bH5zFAOgbmQ4=",
+        "lastModified": 1739978400,
+        "narHash": "sha256-irJNxGSEHPa1KR7BwiZG8hHla5soF8wA5wk0wo4NvJo=",
         "ref": "refs/heads/master",
-        "rev": "27266942ab5edfc3169cf9856a85a21b5b8d40c7",
-        "revCount": 9,
+        "rev": "af6d347b73c0e30d8cd089f0b91a03888ed03448",
+        "revCount": 10,
         "type": "git",
         "url": "ssh://git@github.com/bryango/attrs.git"
       },
