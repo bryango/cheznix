@@ -7,9 +7,9 @@
       "outputs": null,
       "priority": 5,
       "storePaths": [
-        "/nix/store/fdlwsyvdaaikdf4822wg92r4sc37jksl-home-apps"
+        "/nix/store/j4v1xgas08h4f3s3w1mhq0gy0rl3g1rb-home-apps"
       ],
-      "url": "git+file:///home/bryan/apps/nixpkgs/flakes?ref=refs/heads/dev&rev=66fc40d9352973e892e0e27d1b5cecdfd6616839"
+      "url": "git+file:///home/bryan/apps/nixpkgs/flakes?ref=refs/heads/dev&rev=d89bcef6be62aff97ea6b5ae8ecbe1e07a089eb3"
     },
     "home-manager-path": {
       "active": true,

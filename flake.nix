@@ -31,9 +31,13 @@
       inputs.nixpkgs.follows = "nixpkgs-config/nixpkgs";
     };
 
+    nix-darwin = {
+      url = "github:LnL7/nix-darwin/master";
+      inputs.nixpkgs.follows = "nixpkgs-config/nixpkgs";
+    };
   };
 
-  outputs = { self, home-attrs, system-manager, ... }:
+  outputs = { self, home-attrs, system-manager, nix-darwin, ... }:
     let
 
       ## consistent namings
@@ -59,7 +63,14 @@
       });
 
       machines = lib.mapAttrs updateHomeAttrs home-attrs.outputs;
+      isLinux = { system, ... }: lib.hasSuffix system "linux";
+      isDarwin = { system, ... }: lib.hasSuffix system "darwin";
+      linuxMachines = lib.filterAttrs (_: isLinux) machines;
+      darwinMachines = lib.filterAttrs (_: isDarwin) machines;
+
       forMyMachines = f: lib.mapAttrs' f machines;
+      forMyLinux = f: lib.mapAttrs' f linuxMachines;
+      forMyDarwin = f: lib.mapAttrs' f darwinMachines;
       inherit (lib)
         mySystems
         forMySystems;
@@ -105,14 +116,30 @@
           };
         };
 
+      mkDarwinConfig = id: attrs:
+        {
+          name = "${attrs.hostname}";
+          value = nix-darwin.lib.darwinSystem {
+
+            modules = [ ./darwin ];
+            specialArgs = {
+              inherit attrs cheznix nixpkgs-follows;
+              # inherit (attrs) pkgs;
+              # ## ^ add overlaid nixpkgs (not sure if supported)
+            };
+          };
+        };
+
     in
     {
       inherit lib;
       homeConfigurations = forMyMachines mkHomeConfig;
-      systemConfigs = forMyMachines mkSystemConfig;
+      systemConfigs = forMyLinux mkSystemConfig;
+      darwinConfigurations = forMyDarwin mkDarwinConfig;
       legacyPackages = forMySystems mkSystemPkgs;
       packages = forMySystems (system: {
         default = self.legacyPackages.${system}.home-manager;
+        inherit (self.nix-darwin.${system}) darwin-rebuild;
       });
       overlays.default = overlay;
     };
