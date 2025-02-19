@@ -58,7 +58,7 @@
         inherit (system-manager.packages.${system}) system-manager;
       });
 
-      machines = home-attrs.outputs;
+      machines = lib.mapAttrs updateHomeAttrs home-attrs.outputs;
       forMyMachines = f: lib.mapAttrs' f machines;
       inherit (lib)
         mySystems
@@ -66,22 +66,18 @@
 
       mkSystemPkgs = system: nixpkgs.legacyPackages.${system}.extend overlay;
 
-      updateHomeAttrs = id: profile:
-        profile // {
-          hostname = profile.hostname or id;
+      updateHomeAttrs = id: attrs:
+        attrs // {
+          hostname = attrs.hostname or id;
           pkgs =
-            assert lib.elem profile.system mySystems;
-            mkSystemPkgs profile.system;
+            assert lib.elem attrs.system mySystems;
+            mkSystemPkgs attrs.system;
         };
 
-      mkHomeConfig = id: profile:
-        let
-          attrs = updateHomeAttrs id profile;
-          home-manager = attrs.pkgs.home-manager.flake;
-        in
+      mkHomeConfig = id: attrs:
         {
           name = "${attrs.username}@${attrs.hostname}";
-          value = home-manager.lib.homeManagerConfiguration {
+          value = attrs.pkgs.home-manager.flake.lib.homeManagerConfiguration {
             inherit (attrs) pkgs;
 
             ## specify your home configuration modules
@@ -94,10 +90,7 @@
           };
         };
 
-      mkSystemConfig = id: profile:
-        let
-          attrs = updateHomeAttrs id profile;
-        in
+      mkSystemConfig = id: attrs:
         {
           name = "${attrs.hostname}";
           value = system-manager.lib.makeSystemConfig {
