@@ -50,7 +50,7 @@
       importer = haumea.lib;
       infusions = import infuse { inherit lib; };
       infuse = infusions.v1.infuse;
-      mySystems = [ "x86_64-linux" ];
+      mySystems = [ "x86_64-linux" "aarch64-darwin" ];
       forMySystems = lib.genAttrs mySystems;
     });
 
