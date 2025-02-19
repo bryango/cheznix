@@ -96,7 +96,7 @@
         # };
 
         gimp = prev.gimp.override {
-          withPython = true;
+          withPython = prev.stdenv.hostPlatform.isLinux;
           # python2 = final.pkgsPython2.python2;
         };
 
