@@ -1,12 +1,12 @@
-{ pkgs, ... }:
+{ pkgs, lib, ... }:
 
 {
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
-   environment.systemPackages =
-     with pkgs; [ 
-     ];
+  environment.systemPackages = with pkgs; [
+  ];
 
+  /** homebrew managed incrementally; need to install first */
   homebrew = {
     enable = true;
     casks = [
@@ -15,10 +15,9 @@
   };
   services.tailscale.enable = true;
 
-  # Necessary for using flakes on this system.
   nix.settings = {
-    experimental-features = "nix-command flakes";
-    trusted-users = [ "@admin" ];
+    experimental-features = "nix-command flakes fetch-closure";
+    trusted-users = lib.optionals pkgs.hostPlatform.isDarwin [ "@admin" ];
     # extra-nix-path = "nixpkgs=flake:nixpkgs";
   };
 
