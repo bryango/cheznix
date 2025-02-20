@@ -1,15 +1,14 @@
 {
-  description = "Home Manager configuration of bryan";
+  description = "system configurations of bryan";
 
   inputs = {
 
     /**
-      _private_ machine profiles
-      _not_ secret, might leak through /nix/store & cache!
+      _private_ machine attributes
+      _not_ secret tho, might leak through /nix/store & cache!
 
       machines = home-attrs.outputs = {
         id = {
-          ## machine's "profile"
           system = ... ;    ## required, for `nixpkgs.system`
           username = ... ;  ## required, for `home.username`
           homeDirectory = ... ;  ## optional, defaults to "/home/${username}"
@@ -63,12 +62,12 @@
       });
 
       machines = lib.mapAttrs updateHomeAttrs home-attrs.outputs;
-      isLinux = { system, ... }: lib.hasSuffix system "linux";
-      isDarwin = { system, ... }: lib.hasSuffix system "darwin";
-      linuxMachines = lib.filterAttrs (_: isLinux) machines;
-      darwinMachines = lib.filterAttrs (_: isDarwin) machines;
+      isLinux = lib.hasSuffix "linux";
+      isDarwin = lib.hasSuffix "darwin";
+      linuxMachines = lib.filterAttrs (_: { system, ... }: isLinux system) machines;
+      darwinMachines = lib.filterAttrs (_: { system, ... }: isDarwin system) machines;
 
-      # forMyMachines = f: lib.mapAttrs' f machines;
+      forMyMachines = f: lib.mapAttrs' f machines;
       forMyLinux = f: lib.mapAttrs' f linuxMachines;
       forMyDarwin = f: lib.mapAttrs' f darwinMachines;
       inherit (lib)
@@ -133,14 +132,25 @@
     in
     {
       inherit lib;
-      homeConfigurations = forMyLinux mkHomeConfig;
+      homeConfigurations = forMyMachines mkHomeConfig;
       systemConfigs = forMyLinux mkSystemConfig;
       darwinConfigurations = forMyDarwin mkDarwinConfig;
       legacyPackages = forMySystems mkSystemPkgs;
       packages = forMySystems (system: {
-        default = self.legacyPackages.${system}.home-manager;
-        inherit (self.nix-darwin.${system}) darwin-rebuild;
+        inherit (self.legacyPackages.${system}) home-manager;
+        inherit (nix-darwin.packages.${system}) darwin-rebuild;
+        default =
+          if isDarwin system
+          then self.packages.${system}.darwin-rebuild
+          else self.packages.${system}.home-manager;
       });
       overlays.default = overlay;
+
+      # configurations by system for ci
+      checkConfigurations = forMySystems (system:
+        if isDarwin system
+        then forMyDarwin mkDarwinConfig
+        else forMyLinux mkHomeConfig
+      );
     };
 }

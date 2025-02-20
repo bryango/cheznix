@@ -1,5 +1,11 @@
 { attrs, config, lib, pkgs, ... }:
 
+let
+
+  inherit (pkgs.hostPlatform) isDarwin isLinux;
+
+in
+
 {
   config = {
 
@@ -9,9 +15,13 @@
       packages = [ pkgs.home-manager ];
 
       username = attrs.username;
-      homeDirectory = attrs.homeDirectory or "/home/${attrs.username}";
+      homeDirectory = attrs.homeDirectory or (
+        if isDarwin
+        then "/Users/${attrs.username}"
+        else "/home/${attrs.username}"
+      );
 
-      file = {
+      file = lib.optionalAttrs isLinux {
         ## override /usr/lib/environment.d/nix-daemon.conf
         ".config/environment.d/nix-daemon.conf".text = "";
       };
