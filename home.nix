@@ -204,7 +204,7 @@ in {
     #   "private-direct,cn-direct,tencent-direct,ms-transit,zoom-transit";
   };
 
-  services.redshift-many = {
+  services.redshift-many = lib.optionalAttrs isLinux {
     redshift = {
       settings.randr.crtc = 0;
       temperature.always = 3200;

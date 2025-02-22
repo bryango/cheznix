@@ -16,8 +16,10 @@ nix eval --raw cheznix#cheznix.inputs.home-attrs.outPath | cachix push chezbryan
 
 # chores
 # verify downstream overrides of upstream files
-git diff --color=always --no-index \
-  {/usr/share/zsh/site-functions,~/.zsh_profiles/completions}/_systemctl || true
+if [[ $HOSTNAME == btrsamsung ]]; then
+  git diff --color=always --no-index \
+    {/usr/share/zsh/site-functions,~/.zsh_profiles/completions}/_systemctl || true
+fi
 
 # the following commands will be silent
 set +x
@@ -30,8 +32,10 @@ ln -sf ../../pre-push pre-push
 popd &>/dev/null || exit 1
 >&2 echo "completed."
 
->&2 cat <<- EOF
+if [[ $OSTYPE == linux* ]];
+then >&2 cat <<- EOF
 
 	## to activate system config:
 	sudo system-manager switch --flake "${FLAKE_CONFIG_URI%#*}"
 EOF
+fi
