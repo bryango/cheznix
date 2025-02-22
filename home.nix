@@ -3,9 +3,11 @@
   ... across _all_ platforms
 */
 
-{ pkgs, config, ... }:
+{ pkgs, lib, config, ... }:
 
 let
+
+  inherit (pkgs.hostPlatform) isDarwin isLinux;
 
   packages = with pkgs; {
 
@@ -18,10 +20,10 @@ let
 
     os.basic = [
       ## <nixpkgs> pkgs/stdenv/generic/common-path.nix
-      coreutils util-linux findutils diffutils iputils
+      coreutils util-linux findutils diffutils
       gnused gnugrep gnumake
       which tree file procps less
-    ];
+    ] ++ lib.optionals isLinux [ iputils ];
 
     nix.basic = [
       config.nix.package  # manage itself ## daemon managed by root
@@ -43,7 +45,7 @@ let
       nixpkgs-hammering
       nixpkgs-review
       # hydra-check
-      system-manager  # to be stabilized
+      # system-manager  # to be stabilized
       # nixd  # future lsp ## not stable # needs llvmPackages.llvm.lib
       # nvd  # version diff
     ];
@@ -71,14 +73,15 @@ let
       bottom
       jujutsu
       faketty
-      stdoutisatty  # from nixpkgs-config
       openssh  # need to unset SSH_AUTH_SOCK, maybe
       # trashy  # better, but its zsh completion is broken
 
-      proxychains
       # (binaryFallback "proxychains4" proxychains-ng)
       (writeShellScriptBin "proxychains" ''exec proxychains4 "$@"'')
       (binaryFallback "aria2c" aria2)
+    ] ++ lib.optionals isLinux [
+      stdoutisatty  # from nixpkgs-config
+      proxychains
     ];
 
     cli.dev = [
@@ -106,9 +109,10 @@ let
       circumflex  # hacker news terminal
       uxplay  # airplay server
       tectonic tectonic.biber
-      fuse-overlayfs
       inetutils # telnet
       dufs # file server
+    ] ++ lib.optionals isLinux [
+      fuse-overlayfs
     ];
 
     cli.python = let
@@ -128,16 +132,14 @@ let
 
     gui.app = [
       xorg.xinput
-      pulsar  # atom fork
       remmina
       gimp-with-plugins
-      nixgl.nixGLIntel
-      nixgl.nixVulkanIntel
       zed-editor
       (writeShellApplication {
         name = "zeditor";
         runtimeInputs = [
           zed-editor
+    ] ++ lib.optionals isLinux [
           nixgl.nixVulkanIntel
         ];
         text = ''exec -a zeditor nixVulkanIntel zeditor "$@"'';
@@ -148,6 +150,10 @@ let
 
       ## vscode dummy:
       (binaryFallback "code" (writeShellScriptBin "code" ''exec echo "$@"''))
+    ] ++ lib.optionals isLinux [
+      pulsar  # atom fork
+      nixgl.nixGLIntel
+      nixgl.nixVulkanIntel
     ];
 
   };
@@ -158,9 +164,10 @@ in {
     ./modules/redshift-many
     ./modules/v2ray-ctrl
     ./modules/nixpkgs-helpers
-    ./modules/flake-channels.nix
     ./modules/home-setup.nix
     ## ^ process & pass home attrs with basic setup
+    ] ++ lib.optionals isLinux [
+    ./modules/flake-channels.nix
   ];
 
   home.packages = with packages;
@@ -236,7 +243,7 @@ in {
 
   ## nix settings
   ## must set for `nix.settings` and stuff
-  nix.package = pkgs.nixPatched; # from `nixpkgs-config`
+  nix.package = lib.mkForce pkgs.nixPatched; # from `nixpkgs-config`
   nix.settings = {
     max-jobs = "auto";
     fallback = true;

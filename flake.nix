@@ -58,7 +58,7 @@
       ## home overlay:
       overlay = final: prev: import ./overlay.nix final prev // (with final; {
         inherit cheznix;
-        inherit (system-manager.packages.${system}) system-manager;
+        # inherit (system-manager.packages.${system}) system-manager;
       });
 
       machines = lib.mapAttrs updateHomeAttrs home-attrs.outputs;
@@ -129,7 +129,7 @@
               attrs.pkgs.home-manager.flake.darwinModules.home-manager
 
               # config nix-darwin & home-manager modules
-              {
+              { users.users.${attrs.username}.home = attrs.homeDirectory;
                 home-manager = {
                   useGlobalPkgs = true;
                   useUserPackages = true;
