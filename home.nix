@@ -7,7 +7,9 @@
 
 let
 
-  inherit (pkgs.hostPlatform) isDarwin isLinux;
+  inherit (pkgs.hostPlatform)
+    # isDarwin
+    isLinux;
 
   packages = with pkgs; {
 
@@ -23,7 +25,9 @@ let
       coreutils util-linux findutils diffutils
       gnused gnugrep gnumake
       which tree file procps less
-    ] ++ lib.optionals isLinux [ iputils ];
+    ] ++ lib.optionals isLinux [
+      iputils
+    ];
 
     nix.basic = [
       config.nix.package  # manage itself ## daemon managed by root
@@ -45,9 +49,10 @@ let
       nixpkgs-hammering
       nixpkgs-review
       # hydra-check
-      # system-manager  # to be stabilized
       # nixd  # future lsp ## not stable # needs llvmPackages.llvm.lib
       # nvd  # version diff
+    ] ++ lib.optionals isLinux [
+      system-manager  # to be stabilized
     ];
 
     cli.basic = [
@@ -139,7 +144,7 @@ let
         name = "zeditor";
         runtimeInputs = [
           zed-editor
-    ] ++ lib.optionals isLinux [
+        ] ++ lib.optionals isLinux [
           nixgl.nixVulkanIntel
         ];
         text = ''exec -a zeditor nixVulkanIntel zeditor "$@"'';
@@ -164,10 +169,9 @@ in {
     ./modules/redshift-many
     ./modules/v2ray-ctrl
     ./modules/nixpkgs-helpers
+    ./modules/flake-channels.nix
     ./modules/home-setup.nix
     ## ^ process & pass home attrs with basic setup
-    ] ++ lib.optionals isLinux [
-    ./modules/flake-channels.nix
   ];
 
   home.packages = with packages;
