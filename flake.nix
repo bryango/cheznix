@@ -121,21 +121,9 @@
         {
           name = "${attrs.hostname}";
           value = nix-darwin.lib.darwinSystem {
-
             modules = [
               ./darwin
-
-              # import the home-manager darwin module
-              attrs.pkgs.home-manager.flake.darwinModules.home-manager
-
-              # config nix-darwin & home-manager modules
-              { users.users.${attrs.username}.home = attrs.homeDirectory;
-                home-manager = {
-                  useGlobalPkgs = true;
-                  useUserPackages = true;
-                  users.${attrs.username} = import ./home.nix;
-                  extraSpecialArgs = mkSpecialAttrs attrs;
-                };
+              {
                 nixpkgs = {
                   inherit (attrs) pkgs;
                 };

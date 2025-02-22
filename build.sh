@@ -14,3 +14,9 @@ for oneConfig in "${allConfigs[@]}"; do
   # same command for `home-manager` and `darwin-rebuild`
   nix run . -- build -v --flake ".#$oneConfig" "$@"
 done
+
+# work around: build a home-manager configuration for darwin
+# this logic better exist in flake.nix
+if [[ "$OSTYPE" == "darwin"* ]]; then
+  nix run ".#home-manager" -- build -v --flake ".#bryan@memoriam" "$@"
+fi
