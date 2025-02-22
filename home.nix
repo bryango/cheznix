@@ -81,12 +81,12 @@ let
       openssh  # need to unset SSH_AUTH_SOCK, maybe
       # trashy  # better, but its zsh completion is broken
 
-      # (binaryFallback "proxychains4" proxychains-ng)
-      (writeShellScriptBin "proxychains" ''exec proxychains4 "$@"'')
       (binaryFallback "aria2c" aria2)
     ] ++ lib.optionals isLinux [
       stdoutisatty  # from nixpkgs-config
       proxychains
+      # (binaryFallback "proxychains4" proxychains-ng)
+      (writeShellScriptBin "proxychains" ''exec proxychains4 "$@"'')
     ];
 
     cli.dev = [
@@ -112,12 +112,12 @@ let
     cli.app = [
       gh
       circumflex  # hacker news terminal
-      uxplay  # airplay server
       tectonic tectonic.biber
       inetutils # telnet
       dufs # file server
     ] ++ lib.optionals isLinux [
       fuse-overlayfs
+      uxplay  # airplay server
     ];
 
     cli.python = let
@@ -136,29 +136,29 @@ let
     ];
 
     gui.app = [
-      xorg.xinput
       remmina
       gimp-with-plugins
       zed-editor
+      texstudio-lazy_resize # fork from nixpkgs-config
+
+      ## vscode dummy:
+      (binaryFallback "code" (writeShellScriptBin "code" ''echo "$@"''))
+    ] ++ lib.optionals isLinux [
+      xorg.xinput
+      pulsar  # atom fork
+
+      nixgl.nixGLIntel
+      nixgl.nixVulkanIntel
       (writeShellApplication {
         name = "zeditor";
         runtimeInputs = [
           zed-editor
-        ] ++ lib.optionals isLinux [
           nixgl.nixVulkanIntel
         ];
         text = ''exec -a zeditor nixVulkanIntel zeditor "$@"'';
         meta.priority = (zed-editor.meta.priority or 5) - 1;
         # override the original zed binary
       })
-      texstudio-lazy_resize # fork from nixpkgs-config
-
-      ## vscode dummy:
-      (binaryFallback "code" (writeShellScriptBin "code" ''exec echo "$@"''))
-    ] ++ lib.optionals isLinux [
-      pulsar  # atom fork
-      nixgl.nixGLIntel
-      nixgl.nixVulkanIntel
     ];
 
   };
@@ -247,7 +247,7 @@ in {
 
   ## nix settings
   ## must set for `nix.settings` and stuff
-  nix.package = lib.mkForce pkgs.nixPatched; # from `nixpkgs-config`
+  nix.package = pkgs.nixPatched; # from `nixpkgs-config`
   nix.settings = {
     max-jobs = "auto";
     fallback = true;
