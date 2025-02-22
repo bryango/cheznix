@@ -128,7 +128,7 @@
               # import the home-manager darwin module
               attrs.pkgs.home-manager.flake.darwinModules.home-manager
 
-              # config home-manager darwin module
+              # config nix-darwin & home-manager modules
               {
                 home-manager = {
                   useGlobalPkgs = true;
@@ -136,12 +136,13 @@
                   users.${attrs.username} = import ./home.nix;
                   extraSpecialArgs = mkSpecialAttrs attrs;
                 };
+                nixpkgs = {
+                  inherit (attrs) pkgs;
+                };
               }
             ];
             specialArgs = {
               inherit attrs cheznix nixpkgs-follows;
-              # inherit (attrs) pkgs;
-              # ## ^ add overlaid nixpkgs (not sure if supported)
             };
           };
         };
