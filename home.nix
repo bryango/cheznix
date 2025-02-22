@@ -1,3 +1,8 @@
+/**
+  _unique_ entrypoint for home-manager configurations
+  ... across _all_ platforms
+*/
+
 { pkgs, config, ... }:
 
 let

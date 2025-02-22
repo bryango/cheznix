@@ -84,6 +84,10 @@
             mkSystemPkgs attrs.system;
         };
 
+      mkSpecialAttrs = attrs: {
+        inherit attrs cheznix nixpkgs-follows;
+      };
+
       mkHomeConfig = id: attrs:
         {
           name = "${attrs.username}@${attrs.hostname}";
@@ -94,9 +98,7 @@
             modules = [ ./home.nix ];
 
             ## pass through arguments to home.nix
-            extraSpecialArgs = {
-              inherit attrs cheznix nixpkgs-follows;
-            };
+            extraSpecialArgs = mkSpecialAttrs attrs;
           };
         };
 
@@ -120,7 +122,17 @@
           name = "${attrs.hostname}";
           value = nix-darwin.lib.darwinSystem {
 
-            modules = [ ./darwin ];
+            modules = [
+              ./darwin
+              (attrs.pkgs.home-manager.flake.darwinModules.home-manager {
+                home-manager = {
+                  useGlobalPkgs = true;
+                  useUserPackages = true;
+                  users.${attrs.username} = import ./home.nix;
+                  extraSpecialArgs = mkSpecialAttrs attrs;
+                };
+              })
+            ];
             specialArgs = {
               inherit attrs cheznix nixpkgs-follows;
               # inherit (attrs) pkgs;
