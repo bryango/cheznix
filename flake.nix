@@ -124,14 +124,19 @@
 
             modules = [
               ./darwin
-              (attrs.pkgs.home-manager.flake.darwinModules.home-manager {
+
+              # import the home-manager darwin module
+              attrs.pkgs.home-manager.flake.darwinModules.home-manager
+
+              # config home-manager darwin module
+              {
                 home-manager = {
                   useGlobalPkgs = true;
                   useUserPackages = true;
                   users.${attrs.username} = import ./home.nix;
                   extraSpecialArgs = mkSpecialAttrs attrs;
                 };
-              })
+              }
             ];
             specialArgs = {
               inherit attrs cheznix nixpkgs-follows;
