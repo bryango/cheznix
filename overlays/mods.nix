@@ -8,8 +8,9 @@ with prev;
   ## inherit to trigger ci builds
   inherit
     # gitbutler
-    tectonic
-    hydra-check
+    # tectonic
+    # hydra-check
+    python2
   ;
 
   nixPatched = nixVersions.stable;
