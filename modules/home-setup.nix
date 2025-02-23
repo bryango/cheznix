@@ -36,12 +36,17 @@ in
 
       activation.userScript = lib.hm.dag.entryAfter [ "installPackages" ] ''
         flake=''${FLAKE_CONFIG_URI%#*}
-        flakePath=$(
-          nix eval --raw --impure \
-            --expr "toString (builtins.getFlake (toString $flake))" \
-            | xargs
-        )  ## the /nix/store path of $flake
-        "$flakePath/activate.sh"
+        if [[ $flake == path:* ]]; then
+          flakePath=$(
+            nix eval --raw --impure \
+              --expr "toString (builtins.getFlake (toString \"$flake\"))" \
+              | xargs
+          )  ## the /nix/store path of $flake
+          "$flakePath/activate.sh"
+        else
+          # guard against illegal flake refs
+          >&2 echo "nix registry: illegal home-manager \$FLAKE_CONFIG_URI: $flake"
+        fi
       '';
 
     };

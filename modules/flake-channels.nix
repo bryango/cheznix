@@ -44,10 +44,15 @@ in {
     userFlakeRegistry = ''
       flake=''${FLAKE_CONFIG_URI%#*}  ## scheme: "path:$HOME/..."
       nixpkgs="$flake/${nixpkgs-follows}"
-      ## ^ relies on the subdir structure of the input!
+      # ^ relies on the subdir structure of the input!
 
-      nix registry add "${nixpkgs-follows}" "$nixpkgs"
-      nix registry add "${flakeSelfName}" "$flake"
+      if [[ $flake == path:* ]]; then
+        nix registry add "${nixpkgs-follows}" "$nixpkgs"
+        nix registry add "${flakeSelfName}" "$flake"
+      else
+        # guard against illegal flake refs
+        >&2 echo "nix registry: illegal home-manager \$FLAKE_CONFIG_URI: $flake"
+      fi
       nix registry add "home-manager" "${links.home-manager.source}"
 
       nix registry add "nixpkgs" "github:NixOS/nixpkgs/${flakeInputs.nixpkgs.sourceInfo.rev}"
