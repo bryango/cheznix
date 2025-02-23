@@ -46,7 +46,7 @@ in {
       nixpkgs="$flake/${nixpkgs-follows}"
       # ^ relies on the subdir structure of the input!
 
-      if [[ $flake == path:* ]]; then
+      if [[ $flake == path:* ]] || [[ $flake == /* ]]; then
         nix registry add "${nixpkgs-follows}" "$nixpkgs"
         nix registry add "${flakeSelfName}" "$flake"
       else

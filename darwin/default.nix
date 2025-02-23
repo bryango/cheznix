@@ -4,6 +4,11 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   environment.systemPackages = with pkgs; [
+    iterm2
+  ];
+
+  fonts.packages = [
+    pkgs.nerd-fonts.hack
   ];
 
   /** homebrew managed incrementally; need to install first */

@@ -36,7 +36,7 @@ in
 
       activation.userScript = lib.hm.dag.entryAfter [ "installPackages" ] ''
         flake=''${FLAKE_CONFIG_URI%#*}
-        if [[ $flake == path:* ]]; then
+        if [[ $flake == path:* ]] || [[ $flake == /* ]]; then
           flakePath=$(
             nix eval --raw --impure \
               --expr "toString (builtins.getFlake (toString \"$flake\"))" \
