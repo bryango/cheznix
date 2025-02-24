@@ -67,7 +67,8 @@
       linuxMachines = lib.filterAttrs (_: { system, ... }: isLinux system) machines;
       darwinMachines = lib.filterAttrs (_: { system, ... }: isDarwin system) machines;
 
-      forMyMachines = f: lib.mapAttrs' f machines;
+      mergeAttrsListDeep = lib.foldl lib.recursiveUpdate { };
+      forMyMachines = f: mergeAttrsListDeep (lib.mapAttrsToList f machines);
       forMyLinux = f: lib.mapAttrs' f linuxMachines;
       forMyDarwin = f: lib.mapAttrs' f darwinMachines;
       inherit (lib)
@@ -88,9 +89,9 @@
         inherit attrs cheznix nixpkgs-follows;
       };
 
-      mkHomeConfig = id: attrs:
-        {
-          name = "${attrs.username}@${attrs.hostname}";
+      mkHomeConfig = id: {system, username, hostname, pkgs, ...}@attrs:
+        let
+          name = "${username}@${hostname}";
           value = attrs.pkgs.home-manager.flake.lib.homeManagerConfiguration {
             inherit (attrs) pkgs;
 
@@ -100,6 +101,12 @@
             ## pass through arguments to home.nix
             extraSpecialArgs = mkSpecialAttrs attrs;
           };
+        in {
+          ${name} = value;
+
+          # some aliases
+          ${system}.${name} = value;
+          ${id} = value;
         };
 
       mkSystemConfig = id: attrs:
@@ -146,6 +153,20 @@
         inherit (self.legacyPackages.${system}) home-manager;
         inherit (nix-darwin.packages.${system}) darwin-rebuild;
         default =
+        # let
+        #   pkgs = (mkSystemPkgs system);
+        #   inherit (self.packages.${system})
+        #     darwin-rebuild
+        #     home-manager;
+        # in pkgs.writeShellApplication {
+        #   name = "build-config";
+        #   runtimeInputs = [ pkgs.nix ];
+        #   text = ''
+        #       ${lib.optionalString (isDarwin system) ''
+
+        #       ''}
+        #   '';
+        # };
           if isDarwin system
           then self.packages.${system}.darwin-rebuild
           else self.packages.${system}.home-manager;
