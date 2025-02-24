@@ -1,0 +1,466 @@
+From 5c8c79a1cc773cacdf72474f2e5dff27d57f69f5 Mon Sep 17 00:00:00 2001
+From: Bryan Lai <bryanlais@gmail.com>
+Date: Mon, 24 Feb 2025 18:36:20 +0800
+Subject: [PATCH 1/9] texpresso, texpresso.tectonic: simplify overrides
+
+The previous implementation (overriding `buildRustPackage`) breaks
+downstream `buildRustPackage.overrides` in subtle ways. It's thus better
+to use `.overrideAttrs` explicitly and reconstruct `cargoDeps` when
+needed.
+
+This commit should cause no rebuild, but the underlying change is
+necessary for an upcoming patch on tectonic itself.
+---
+ .../typesetting/tex/texpresso/tectonic.nix    | 23 +++++++++----------
+ 1 file changed, 11 insertions(+), 12 deletions(-)
+
+diff --git a/pkgs/tools/typesetting/tex/texpresso/tectonic.nix b/pkgs/tools/typesetting/tex/texpresso/tectonic.nix
+index f5550e2a8c82..cd8baeee21b2 100644
+--- a/pkgs/tools/typesetting/tex/texpresso/tectonic.nix
++++ b/pkgs/tools/typesetting/tex/texpresso/tectonic.nix
+@@ -1,11 +1,5 @@
+-{ tectonic-unwrapped, fetchFromGitHub }:
+-tectonic-unwrapped.override (old: {
+-  rustPlatform = old.rustPlatform // {
+-    buildRustPackage =
+-      args:
+-      old.rustPlatform.buildRustPackage (
+-        args
+-        // {
++{ tectonic-unwrapped, fetchFromGitHub, rustPlatform }:
++tectonic-unwrapped.overrideAttrs (finalAttrs: prevAttrs: {
+           pname = "texpresso-tonic";
+           src = fetchFromGitHub {
+             owner = "let-def";
+@@ -16,10 +10,18 @@ tectonic-unwrapped.override (old: {
+           };
+           useFetchCargoVendor = true;
+           cargoHash = "sha256-mqhbIv5r/5EDRDfP2BymXv9se2NCKxzRGqNqwqbD9A0=";
++          # rebuild cargoDeps by hand because `.overrideAttrs cargoHash`
++          # does not reconstruct cargoDeps (a known limitation):
++          cargoDeps = rustPlatform.fetchCargoVendor {
++            inherit (finalAttrs) src;
++            name = "${finalAttrs.pname}-${finalAttrs.version}";
++            hash = finalAttrs.cargoHash;
++            patches = finalAttrs.cargoPatches;
++          };
+           # binary has a different name, bundled tests won't work
+           doCheck = false;
+           postInstall = ''
+-            ${args.postInstall or ""}
++            ${prevAttrs.postInstall or ""}
+ 
+             # Remove the broken `nextonic` symlink
+             # It points to `tectonic`, which doesn't exist because the exe is
+@@ -27,7 +29,4 @@ tectonic-unwrapped.override (old: {
+             rm $out/bin/nextonic
+           '';
+           meta.mainProgram = "texpresso-tonic";
+-        }
+-      );
+-  };
+ })
+
+From dd7d9801c5340e26965d8decd87b7b01f13cabe6 Mon Sep 17 00:00:00 2001
+From: Doron Behar <doron.behar@gmail.com>
+Date: Sun, 23 Feb 2025 23:32:34 +0200
+Subject: [PATCH 2/9] tectonic: cleanup Darwin specific apple_sdk usage
+
+---
+ .../by-name/te/tectonic-unwrapped/package.nix | 22 +++++--------------
+ 1 file changed, 6 insertions(+), 16 deletions(-)
+
+diff --git a/pkgs/by-name/te/tectonic-unwrapped/package.nix b/pkgs/by-name/te/tectonic-unwrapped/package.nix
+index e9b9dcb2c815..197568c236d5 100644
+--- a/pkgs/by-name/te/tectonic-unwrapped/package.nix
++++ b/pkgs/by-name/te/tectonic-unwrapped/package.nix
+@@ -11,7 +11,6 @@
+   stdenv,
+   fetchFromGitHub,
+   rustPlatform,
+-  darwin,
+   fontconfig,
+   harfbuzzFull,
+   openssl,
+@@ -56,21 +55,12 @@ rustPlatform.buildRustPackage rec {
+ 
+   buildFeatures = [ "external-harfbuzz" ];
+ 
+-  buildInputs =
+-    [
+-      icu
+-      fontconfig
+-      harfbuzzFull
+-      openssl
+-    ]
+-    ++ lib.optionals stdenv.hostPlatform.isDarwin (
+-      with darwin.apple_sdk.frameworks;
+-      [
+-        ApplicationServices
+-        Cocoa
+-        Foundation
+-      ]
+-    );
++  buildInputs = [
++    icu
++    fontconfig
++    harfbuzzFull
++    openssl
++  ];
+ 
+   postInstall =
+     ''
+
+From 852f56050af67a0ffe3a06150ad2352075482d05 Mon Sep 17 00:00:00 2001
+From: Bryan Lai <bryanlais@gmail.com>
+Date: Mon, 24 Feb 2025 15:37:48 +0800
+Subject: [PATCH 3/9] tectonic, tectonic-unwrapped: fix linux build
+
+---
+ pkgs/by-name/te/tectonic-unwrapped/package.nix | 16 +++++++++++++---
+ 1 file changed, 13 insertions(+), 3 deletions(-)
+
+diff --git a/pkgs/by-name/te/tectonic-unwrapped/package.nix b/pkgs/by-name/te/tectonic-unwrapped/package.nix
+index 197568c236d5..50d64c8416e1 100644
+--- a/pkgs/by-name/te/tectonic-unwrapped/package.nix
++++ b/pkgs/by-name/te/tectonic-unwrapped/package.nix
+@@ -8,7 +8,7 @@
+ 
+ {
+   lib,
+-  stdenv,
++  clangStdenv,
+   fetchFromGitHub,
+   rustPlatform,
+   fontconfig,
+@@ -19,7 +19,17 @@
+   fetchpatch2,
+ }:
+ 
+-rustPlatform.buildRustPackage rec {
++let
++
++  buildRustPackage = rustPlatform.buildRustPackage.override {
++    # use clang to work around build failure with GCC 14
++    # see: https://github.com/tectonic-typesetting/tectonic/issues/1263
++    stdenv = clangStdenv;
++  };
++
++in
++
++buildRustPackage rec {
+   pname = "tectonic";
+   version = "0.15.0";
+ 
+@@ -67,7 +77,7 @@ rustPlatform.buildRustPackage rec {
+       # Makes it possible to automatically use the V2 CLI API
+       ln -s $out/bin/tectonic $out/bin/nextonic
+     ''
+-    + lib.optionalString stdenv.hostPlatform.isLinux ''
++    + lib.optionalString clangStdenv.hostPlatform.isLinux ''
+       substituteInPlace dist/appimage/tectonic.desktop \
+         --replace Exec=tectonic Exec=$out/bin/tectonic
+       install -D dist/appimage/tectonic.desktop -t $out/share/applications/
+
+From 573d8406491e92ac6097aeba3b973a820e77a8c2 Mon Sep 17 00:00:00 2001
+From: Doron Behar <doron.behar@gmail.com>
+Date: Mon, 24 Feb 2025 13:30:53 +0200
+Subject: [PATCH 4/9] texpresso.tectonic: fix meta
+
+---
+ pkgs/tools/typesetting/tex/texpresso/tectonic.nix | 4 +++-
+ 1 file changed, 3 insertions(+), 1 deletion(-)
+
+diff --git a/pkgs/tools/typesetting/tex/texpresso/tectonic.nix b/pkgs/tools/typesetting/tex/texpresso/tectonic.nix
+index cd8baeee21b2..2beebaf35263 100644
+--- a/pkgs/tools/typesetting/tex/texpresso/tectonic.nix
++++ b/pkgs/tools/typesetting/tex/texpresso/tectonic.nix
+@@ -28,5 +28,7 @@ tectonic-unwrapped.overrideAttrs (finalAttrs: prevAttrs: {
+             # renamed to texpresso-tonic
+             rm $out/bin/nextonic
+           '';
+-          meta.mainProgram = "texpresso-tonic";
++          meta = prevAttrs.meta // {
++            mainProgram = "texpresso-tonic";
++          };
+ })
+
+From c69f479b008b4d04032c8bf49b3aceb62a779164 Mon Sep 17 00:00:00 2001
+From: Doron Behar <doron.behar@gmail.com>
+Date: Mon, 24 Feb 2025 13:31:15 +0200
+Subject: [PATCH 5/9] texpresso.tectonic: nixfmt
+
+---
+ .../typesetting/tex/texpresso/tectonic.nix    | 73 ++++++++++---------
+ 1 file changed, 40 insertions(+), 33 deletions(-)
+
+diff --git a/pkgs/tools/typesetting/tex/texpresso/tectonic.nix b/pkgs/tools/typesetting/tex/texpresso/tectonic.nix
+index 2beebaf35263..6b9719245327 100644
+--- a/pkgs/tools/typesetting/tex/texpresso/tectonic.nix
++++ b/pkgs/tools/typesetting/tex/texpresso/tectonic.nix
+@@ -1,34 +1,41 @@
+-{ tectonic-unwrapped, fetchFromGitHub, rustPlatform }:
+-tectonic-unwrapped.overrideAttrs (finalAttrs: prevAttrs: {
+-          pname = "texpresso-tonic";
+-          src = fetchFromGitHub {
+-            owner = "let-def";
+-            repo = "tectonic";
+-            rev = "b38cb3b2529bba947d520ac29fbb7873409bd270";
+-            hash = "sha256-ap7fEPHsASAphIQkjcvk1CC7egTdxaUh7IpSS5os4W8=";
+-            fetchSubmodules = true;
+-          };
+-          useFetchCargoVendor = true;
+-          cargoHash = "sha256-mqhbIv5r/5EDRDfP2BymXv9se2NCKxzRGqNqwqbD9A0=";
+-          # rebuild cargoDeps by hand because `.overrideAttrs cargoHash`
+-          # does not reconstruct cargoDeps (a known limitation):
+-          cargoDeps = rustPlatform.fetchCargoVendor {
+-            inherit (finalAttrs) src;
+-            name = "${finalAttrs.pname}-${finalAttrs.version}";
+-            hash = finalAttrs.cargoHash;
+-            patches = finalAttrs.cargoPatches;
+-          };
+-          # binary has a different name, bundled tests won't work
+-          doCheck = false;
+-          postInstall = ''
+-            ${prevAttrs.postInstall or ""}
++{
++  tectonic-unwrapped,
++  fetchFromGitHub,
++  rustPlatform,
++}:
+ 
+-            # Remove the broken `nextonic` symlink
+-            # It points to `tectonic`, which doesn't exist because the exe is
+-            # renamed to texpresso-tonic
+-            rm $out/bin/nextonic
+-          '';
+-          meta = prevAttrs.meta // {
+-            mainProgram = "texpresso-tonic";
+-          };
+-})
++tectonic-unwrapped.overrideAttrs (
++  finalAttrs: prevAttrs: {
++    pname = "texpresso-tonic";
++    src = fetchFromGitHub {
++      owner = "let-def";
++      repo = "tectonic";
++      rev = "b38cb3b2529bba947d520ac29fbb7873409bd270";
++      hash = "sha256-ap7fEPHsASAphIQkjcvk1CC7egTdxaUh7IpSS5os4W8=";
++      fetchSubmodules = true;
++    };
++    useFetchCargoVendor = true;
++    cargoHash = "sha256-mqhbIv5r/5EDRDfP2BymXv9se2NCKxzRGqNqwqbD9A0=";
++    # rebuild cargoDeps by hand because `.overrideAttrs cargoHash`
++    # does not reconstruct cargoDeps (a known limitation):
++    cargoDeps = rustPlatform.fetchCargoVendor {
++      inherit (finalAttrs) src;
++      name = "${finalAttrs.pname}-${finalAttrs.version}";
++      hash = finalAttrs.cargoHash;
++      patches = finalAttrs.cargoPatches;
++    };
++    # binary has a different name, bundled tests won't work
++    doCheck = false;
++    postInstall = ''
++      ${prevAttrs.postInstall or ""}
++
++      # Remove the broken `nextonic` symlink
++      # It points to `tectonic`, which doesn't exist because the exe is
++      # renamed to texpresso-tonic
++      rm $out/bin/nextonic
++    '';
++    meta = prevAttrs.meta // {
++      mainProgram = "texpresso-tonic";
++    };
++  }
++)
+
+From 7f75c0a0f0abd5da0480b8afe54f477cb11ebc90 Mon Sep 17 00:00:00 2001
+From: Doron Behar <doron.behar@gmail.com>
+Date: Mon, 24 Feb 2025 13:34:25 +0200
+Subject: [PATCH 6/9] texpresso.tectonic: set version
+
+---
+ pkgs/tools/typesetting/tex/texpresso/tectonic.nix | 1 +
+ 1 file changed, 1 insertion(+)
+
+diff --git a/pkgs/tools/typesetting/tex/texpresso/tectonic.nix b/pkgs/tools/typesetting/tex/texpresso/tectonic.nix
+index 6b9719245327..515fc53cf3cb 100644
+--- a/pkgs/tools/typesetting/tex/texpresso/tectonic.nix
++++ b/pkgs/tools/typesetting/tex/texpresso/tectonic.nix
+@@ -7,6 +7,7 @@
+ tectonic-unwrapped.overrideAttrs (
+   finalAttrs: prevAttrs: {
+     pname = "texpresso-tonic";
++    version = "0.15.0-unstable-2024-04-19";
+     src = fetchFromGitHub {
+       owner = "let-def";
+       repo = "tectonic";
+
+From 6aadbf5b86673e10891828358c34a7d5ba0a38ae Mon Sep 17 00:00:00 2001
+From: Doron Behar <doron.behar@gmail.com>
+Date: Mon, 24 Feb 2025 13:35:20 +0200
+Subject: [PATCH 7/9] texpresso: callPackage ./tectonic.nix from package
+ expression
+
+---
+ pkgs/tools/typesetting/tex/texpresso/default.nix | 6 +++---
+ pkgs/top-level/all-packages.nix                  | 4 +---
+ 2 files changed, 4 insertions(+), 6 deletions(-)
+
+diff --git a/pkgs/tools/typesetting/tex/texpresso/default.nix b/pkgs/tools/typesetting/tex/texpresso/default.nix
+index 17f27483b7a6..eae765f8e1c1 100644
+--- a/pkgs/tools/typesetting/tex/texpresso/default.nix
++++ b/pkgs/tools/typesetting/tex/texpresso/default.nix
+@@ -13,7 +13,7 @@
+   openjpeg,
+   gumbo,
+   libjpeg,
+-  texpresso-tectonic,
++  callPackage,
+ }:
+ 
+ stdenv.mkDerivation rec {
+@@ -63,11 +63,11 @@ stdenv.mkDerivation rec {
+   # needs to have texpresso-tonic on its path
+   postInstall = ''
+     wrapProgram $out/bin/texpresso \
+-      --prefix PATH : ${lib.makeBinPath [ texpresso-tectonic ]}
++      --prefix PATH : ${lib.makeBinPath [ passthru.tectonic ]}
+   '';
+ 
+   passthru = {
+-    tectonic = texpresso-tectonic;
++    tectonic = callPackage ./tectonic.nix { };
+     updateScript = writeScript "update-texpresso" ''
+       #!/usr/bin/env nix-shell
+       #!nix-shell -i bash -p curl jq nix-update
+diff --git a/pkgs/top-level/all-packages.nix b/pkgs/top-level/all-packages.nix
+index 0d62daa57645..275402d35146 100644
+--- a/pkgs/top-level/all-packages.nix
++++ b/pkgs/top-level/all-packages.nix
+@@ -10623,9 +10623,7 @@ with pkgs;
+     fmt = fmt_11;
+   };
+ 
+-  texpresso = callPackage ../tools/typesetting/tex/texpresso {
+-    texpresso-tectonic = callPackage ../tools/typesetting/tex/texpresso/tectonic.nix { };
+-  };
++  texpresso = callPackage ../tools/typesetting/tex/texpresso { };
+ 
+   tinyxml = tinyxml2;
+ 
+
+From 4a3755155c5ddb1faa027c16504c3c0ff02535ba Mon Sep 17 00:00:00 2001
+From: Doron Behar <doron.behar@gmail.com>
+Date: Mon, 24 Feb 2025 13:36:01 +0200
+Subject: [PATCH 8/9] texpresso: move to pkgs/by-name
+
+---
+ .../texpresso/default.nix => by-name/te/texpresso/package.nix}  | 0
+ .../typesetting/tex => by-name/te}/texpresso/tectonic.nix       | 0
+ pkgs/top-level/all-packages.nix                                 | 2 --
+ 3 files changed, 2 deletions(-)
+ rename pkgs/{tools/typesetting/tex/texpresso/default.nix => by-name/te/texpresso/package.nix} (100%)
+ rename pkgs/{tools/typesetting/tex => by-name/te}/texpresso/tectonic.nix (100%)
+
+diff --git a/pkgs/tools/typesetting/tex/texpresso/default.nix b/pkgs/by-name/te/texpresso/package.nix
+similarity index 100%
+rename from pkgs/tools/typesetting/tex/texpresso/default.nix
+rename to pkgs/by-name/te/texpresso/package.nix
+diff --git a/pkgs/tools/typesetting/tex/texpresso/tectonic.nix b/pkgs/by-name/te/texpresso/tectonic.nix
+similarity index 100%
+rename from pkgs/tools/typesetting/tex/texpresso/tectonic.nix
+rename to pkgs/by-name/te/texpresso/tectonic.nix
+diff --git a/pkgs/top-level/all-packages.nix b/pkgs/top-level/all-packages.nix
+index 275402d35146..77b36e2496e0 100644
+--- a/pkgs/top-level/all-packages.nix
++++ b/pkgs/top-level/all-packages.nix
+@@ -10623,8 +10623,6 @@ with pkgs;
+     fmt = fmt_11;
+   };
+ 
+-  texpresso = callPackage ../tools/typesetting/tex/texpresso { };
+-
+   tinyxml = tinyxml2;
+ 
+   tinyxml2 = callPackage ../development/libraries/tinyxml/2.6.2.nix { };
+
+From 3e07cb79a67474008aefc4e6b6c396f21c4bf280 Mon Sep 17 00:00:00 2001
+From: Doron Behar <doron.behar@gmail.com>
+Date: Mon, 24 Feb 2025 13:37:29 +0200
+Subject: [PATCH 9/9] texpresso: modernize / standardize
+
+Move src closer to version attribute, so diffs of version bumps will be
+smaller and easier to read, and a version attribute changing without a
+hash changing will be more apparent, in case that happens.
+---
+ pkgs/by-name/te/texpresso/package.nix | 24 ++++++++++++------------
+ 1 file changed, 12 insertions(+), 12 deletions(-)
+
+diff --git a/pkgs/by-name/te/texpresso/package.nix b/pkgs/by-name/te/texpresso/package.nix
+index eae765f8e1c1..ab4c11d7e980 100644
+--- a/pkgs/by-name/te/texpresso/package.nix
++++ b/pkgs/by-name/te/texpresso/package.nix
+@@ -16,10 +16,17 @@
+   callPackage,
+ }:
+ 
+-stdenv.mkDerivation rec {
++stdenv.mkDerivation (finalAttrs: {
+   pname = "texpresso";
+   version = "0-unstable-2025-01-29";
+ 
++  src = fetchFromGitHub {
++    owner = "let-def";
++    repo = "texpresso";
++    rev = "c42a5912f501f180984840fa8adf9ffc09c5ac13";
++    hash = "sha256-T/vou7OcGtNoodCrznmjBLxg6ZAFDCjhpYgNyZaf44g=";
++  };
++
+   postPatch = ''
+     substituteInPlace Makefile \
+       --replace-fail "CC=gcc" "CC=${stdenv.cc.targetPrefix}cc" \
+@@ -39,13 +46,6 @@ stdenv.mkDerivation rec {
+     libjpeg
+   ];
+ 
+-  src = fetchFromGitHub {
+-    owner = "let-def";
+-    repo = "texpresso";
+-    rev = "c42a5912f501f180984840fa8adf9ffc09c5ac13";
+-    hash = "sha256-T/vou7OcGtNoodCrznmjBLxg6ZAFDCjhpYgNyZaf44g=";
+-  };
+-
+   buildFlags = [ "texpresso" ];
+ 
+   env.NIX_CFLAGS_COMPILE = toString (
+@@ -56,14 +56,14 @@ stdenv.mkDerivation rec {
+ 
+   installPhase = ''
+     runHook preInstall
+-    install -Dm0755 -t "$out/bin/" "build/${pname}"
++    install -Dm0755 -t "$out/bin/" "build/${finalAttrs.pname}"
+     runHook postInstall
+   '';
+ 
+   # needs to have texpresso-tonic on its path
+   postInstall = ''
+     wrapProgram $out/bin/texpresso \
+-      --prefix PATH : ${lib.makeBinPath [ passthru.tectonic ]}
++      --prefix PATH : ${lib.makeBinPath [ finalAttrs.finalPackage.passthru.tectonic ]}
+   '';
+ 
+   passthru = {
+@@ -79,10 +79,10 @@ stdenv.mkDerivation rec {
+   };
+ 
+   meta = {
+-    inherit (src.meta) homepage;
++    inherit (finalAttrs.src.meta) homepage;
+     description = "Live rendering and error reporting for LaTeX";
+     maintainers = with lib.maintainers; [ nickhu ];
+     license = lib.licenses.mit;
+     platforms = lib.platforms.unix;
+   };
+-}
++})

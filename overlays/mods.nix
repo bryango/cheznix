@@ -8,8 +8,9 @@ with prev;
   ## inherit to trigger ci builds
   inherit
     # gitbutler
-    # tectonic
     # hydra-check
+    tectonic
+    texpresso
     python2
   ;
 
