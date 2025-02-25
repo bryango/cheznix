@@ -53,6 +53,7 @@
       cheznix = self;
       nixpkgs = self.inputs.${nixpkgs-follows};
       inherit (nixpkgs) lib;
+      inherit (lib) yants;
 
       ## upstream overrides: inputs.${nixpkgs-follows}
       ## home overlay:
@@ -67,8 +68,11 @@
       linuxMachines = lib.filterAttrs (_: { system, ... }: isLinux system) machines;
       darwinMachines = lib.filterAttrs (_: { system, ... }: isDarwin system) machines;
 
+      /** lib.mergeAttrsList, but with deep merges */
       mergeAttrsListDeep = lib.foldl lib.recursiveUpdate { };
-      forMyMachines = f: mergeAttrsListDeep (lib.mapAttrsToList f machines);
+      genMergedAttrs = x: f: mergeAttrsListDeep (lib.mapAttrsToList f x);
+
+      forMyMachines = genMergedAttrs machines;
       forMyLinux = f: lib.mapAttrs' f linuxMachines;
       forMyDarwin = f: lib.mapAttrs' f darwinMachines;
       inherit (lib)
