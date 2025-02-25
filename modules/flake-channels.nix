@@ -56,6 +56,7 @@ in {
       nix registry add "home-manager" "${links.home-manager.source}"
 
       nix registry add "nixpkgs" "github:NixOS/nixpkgs/${flakeInputs.nixpkgs.sourceInfo.rev}"
+      nix registry add "nix-darwin" "github:LnL7/nix-darwin/${flakeInputs.nix-darwin.sourceInfo.rev}"
     '';
 
     ## prevent cheznix inputs from being garbage collected
