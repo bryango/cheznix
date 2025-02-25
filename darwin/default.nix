@@ -1,4 +1,4 @@
-{ pkgs, lib, ... }:
+{ pkgs, lib, cheznix, ... }:
 
 {
   # List packages installed in system profile. To search by name, run:
@@ -26,11 +26,13 @@
     # extra-nix-path = "nixpkgs=flake:nixpkgs";
   };
 
-  # Enable alternative shell support in nix-darwin.
-  # programs.fish.enable = true;
-
-  # # Set Git commit hash for darwin-version.
-  # system.configurationRevision = self.rev or self.dirtyRev or null;
+  # Set Git commit hash for darwin-version.
+  system.configurationRevision =
+    cheznix.rev
+      or cheznix.dirtyRev
+      or cheznix.lastModifiedDate
+      or cheznix.lastModified
+      or null;
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
