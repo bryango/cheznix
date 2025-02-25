@@ -70,7 +70,7 @@
 
       mkConfigWithAliases = id: { system, ... }@_attrs: { name, value }: {
         ${name} = value;
-        ${system}.${name} = value; # .${system} alias
+        ${system}.${id} = value; # .${system} alias
       } // {
         ${id} = value; # unique id
       };
@@ -114,75 +114,92 @@
           };
         };
 
-      mkSystemConfig = id: attrs:
+      mkSystemConfig = id: {pkgs, ...}@attrs:
         mkConfigWithAliases id attrs {
           name = "${attrs.hostname}";
           value = system-manager.lib.makeSystemConfig {
 
             modules = [ ./system-modules ];
-            extraSpecialArgs = {
-              inherit attrs cheznix nixpkgs-follows;
-              inherit (attrs) pkgs;
+            extraSpecialArgs = mkSpecialAttrs attrs // {
+              inherit pkgs;
               ## ^ add overlaid nixpkgs
               ## ^ override github:numtide/system-manager/main/nix/lib.nix
             };
           };
         };
 
-      mkDarwinConfig = id: attrs:
+      mkDarwinConfig = id: {hostname, pkgs, ...}@attrs:
         mkConfigWithAliases id attrs {
-          name = "${attrs.hostname}";
+          name = "${hostname}";
           value = nix-darwin.lib.darwinSystem {
             modules = [
               ./darwin
               {
                 nixpkgs = {
-                  inherit (attrs) pkgs;
+                  inherit pkgs;
                 };
               }
             ];
-            specialArgs = {
-              inherit attrs cheznix nixpkgs-follows;
-            };
+            specialArgs = mkSpecialAttrs attrs;
           };
         };
 
     in
     {
       inherit lib;
+      overlays.default = overlay;
       homeConfigurations = forMyMachines mkHomeConfig;
       systemConfigs = forMyLinux mkSystemConfig;
       darwinConfigurations = forMyDarwin mkDarwinConfig;
       legacyPackages = forMySystems mkSystemPkgs;
-      packages = forMySystems (system: {
-        inherit (self.legacyPackages.${system}) home-manager;
-        inherit (nix-darwin.packages.${system}) darwin-rebuild;
+      packages = forMySystems (system: 
+      let
+        pkgs = self.legacyPackages.${system};
+        nixDarwinPackages = nix-darwin.packages.${system};
+
+        packages = lib.optionalAttrs (nixDarwinPackages ? darwin-rebuild) {
+          darwin-rebuild = nixDarwinPackages.darwin-rebuild // {
+            flake = nix-darwin;
+            packages = nixDarwinPackages;
+          };
+        } // rec {
+          home-manager = pkgs.home-manager // {
+            packages = home-manager.flake.packages.${system};
+          };
+        };
+      in packages // {
         default =
-        # let
-        #   pkgs = (mkSystemPkgs system);
-        #   inherit (self.packages.${system})
-        #     darwin-rebuild
-        #     home-manager;
-        # in pkgs.writeShellApplication {
-        #   name = "build-config";
-        #   runtimeInputs = [ pkgs.nix ];
-        #   text = ''
-        #       ${lib.optionalString (isDarwin system) ''
+        let
+          mkConfigNames = configs: lib.pipe configs [
+            (x: x.${system} or { })
+            lib.attrNames
+            lib.escapeShellArgs
+          ];
+          darwinConfigNames = mkConfigNames self.darwinConfigurations;
+          homeConfigNames = mkConfigNames self.homeConfigurations;
 
-        #       ''}
-        #   '';
-        # };
-          if isDarwin system
-          then self.packages.${system}.darwin-rebuild
-          else self.packages.${system}.home-manager;
+        in pkgs.writeShellApplication rec {
+          name = "config-manager";
+          runtimeInputs = lib.attrValues packages;
+          text = ''
+            >&2 echo ${name}: applying [ "$@" ] to all supported configurations:
+            >&2 echo
+            >&2 echo "   - darwinConfigurations: [ ${darwinConfigNames} ] "
+            >&2 echo "   - homeConfigurations: [ ${homeConfigNames} ] "
+            >&2 echo
+            >&2 echo ${name}: starting in 3 seconds ...
+            >&2 echo
+            sleep 3
+            set -x
+            for oneConfig in ${darwinConfigNames}; do
+              darwin-rebuild --flake ".#$oneConfig" "$@"
+            done
+            for oneConfig in ${homeConfigNames}; do
+              home-manager --flake .#$oneConfig "$@"
+            done
+            set +x
+          '';
+        };
       });
-      overlays.default = overlay;
-
-      # configurations by system for ci
-      checkConfigurations = forMySystems (system:
-        if isDarwin system
-        then forMyDarwin mkDarwinConfig
-        else forMyLinux mkHomeConfig
-      );
     };
 }
