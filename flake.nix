@@ -31,6 +31,12 @@
       flake = false;
     };
 
+    /** a nice type-checker for nix */
+    yants = {
+      url = "git+https://code.tvl.fyi/depot.git:/nix/yants.git";
+      flake = false;
+    };
+
     /** opengl support */
     nixgl = {
       url = "github:nix-community/nixGL";
@@ -43,13 +49,16 @@
 
   };
 
-  outputs = { self, nixpkgs, haumea, infuse, nixgl, ... }:
+  outputs = { self, nixpkgs, haumea, infuse, nixgl, yants, ... }:
   let
 
     lib = nixpkgs.lib.extend (final: prev: let lib = prev; in with final; {
       importer = haumea.lib;
+
+      yants = import yants { inherit lib; };
       infusions = import infuse { inherit lib; };
       infuse = infusions.v1.infuse;
+
       mySystems = [ "x86_64-linux" "aarch64-darwin" ];
       forMySystems = lib.genAttrs mySystems;
     });
@@ -70,7 +79,6 @@
           || (hasPrefix "python-2.7" name)
           || (hasPrefix "pulsar" name)
           || (hasPrefix "openssl-1.1.1w" name)
-          || (hasPrefix "nodejs-16" name)
         ;
     };
 
