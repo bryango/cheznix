@@ -181,6 +181,9 @@
         in pkgs.writeShellApplication rec {
           name = "config-manager";
           runtimeInputs = lib.attrValues packages;
+          excludeShellChecks = [
+            "SC2043" # allow for loops to run only once
+          ];
           text = ''
             >&2 echo ${name}: applying [ "$@" ] to all supported configurations:
             >&2 echo
