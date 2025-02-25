@@ -9,7 +9,7 @@ CHEZNIX="$HOME/.config/home-manager"
 set -x
 
 cd "$HOME" || exit 1
-chezmoi init --ssh bryango/chezmoi
+chezmoi init --ssh bryango/chezmoi --branch dev
 
 # ensure that `home-attrs` is cached
 nix eval --raw cheznix#cheznix.inputs.home-attrs.outPath | cachix push chezbryan &
@@ -23,7 +23,8 @@ fi
 
 # the following commands will be silent
 set +x
-nix profile list --json | jq > "$CHEZNIX/profile.json"
+profile_hash=$(echo "$USER@$HOST" | sha1sum | head -c 5)
+nix profile list --json | jq > "$CHEZNIX/profile-${profile_hash}.json"
 
 >&2 echo
 >&2 printf "## installing git hooks ... "
