@@ -53,7 +53,7 @@
       cheznix = self;
       nixpkgs = self.inputs.${nixpkgs-follows};
       inherit (nixpkgs) lib;
-      inherit (lib) yants;
+      # inherit (lib) yants;
 
       ## upstream overrides: inputs.${nixpkgs-follows}
       ## home overlay:
@@ -68,13 +68,20 @@
       linuxMachines = lib.filterAttrs (_: { system, ... }: isLinux system) machines;
       darwinMachines = lib.filterAttrs (_: { system, ... }: isDarwin system) machines;
 
+      mkConfigWithAliases = id: { system, ... }@_attrs: { name, value }: {
+        ${name} = value;
+        ${system}.${name} = value; # .${system} alias
+      } // {
+        ${id} = value; # unique id
+      };
+
       /** lib.mergeAttrsList, but with deep merges */
       mergeAttrsListDeep = lib.foldl lib.recursiveUpdate { };
       genMergedAttrs = x: f: mergeAttrsListDeep (lib.mapAttrsToList f x);
 
       forMyMachines = genMergedAttrs machines;
-      forMyLinux = f: lib.mapAttrs' f linuxMachines;
-      forMyDarwin = f: lib.mapAttrs' f darwinMachines;
+      forMyLinux = genMergedAttrs linuxMachines;
+      forMyDarwin = genMergedAttrs darwinMachines;
       inherit (lib)
         mySystems
         forMySystems;
@@ -94,10 +101,10 @@
       };
 
       mkHomeConfig = id: {system, username, hostname, pkgs, ...}@attrs:
-        let
+        mkConfigWithAliases id attrs {
           name = "${username}@${hostname}";
-          value = attrs.pkgs.home-manager.flake.lib.homeManagerConfiguration {
-            inherit (attrs) pkgs;
+          value = pkgs.home-manager.flake.lib.homeManagerConfiguration {
+            inherit pkgs;
 
             ## specify your home configuration modules
             modules = [ ./home.nix ];
@@ -105,16 +112,10 @@
             ## pass through arguments to home.nix
             extraSpecialArgs = mkSpecialAttrs attrs;
           };
-        in {
-          ${name} = value;
-
-          # some aliases
-          ${system}.${name} = value;
-          ${id} = value;
         };
 
       mkSystemConfig = id: attrs:
-        {
+        mkConfigWithAliases id attrs {
           name = "${attrs.hostname}";
           value = system-manager.lib.makeSystemConfig {
 
@@ -129,7 +130,7 @@
         };
 
       mkDarwinConfig = id: attrs:
-        {
+        mkConfigWithAliases id attrs {
           name = "${attrs.hostname}";
           value = nix-darwin.lib.darwinSystem {
             modules = [
