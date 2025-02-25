@@ -36,6 +36,7 @@ in
 
       activation.userScript = lib.hm.dag.entryAfter [ "installPackages" ] ''
         flake=''${FLAKE_CONFIG_URI%#*}
+        export hmConfigRef="${attrs.username}@${attrs.hostname}"
         if [[ $flake == path:* ]] || [[ $flake == /* ]]; then
           flakePath=$(
             nix eval --raw --impure \

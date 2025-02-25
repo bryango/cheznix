@@ -16,14 +16,17 @@ nix eval --raw cheznix#cheznix.inputs.home-attrs.outPath | cachix push chezbryan
 
 # chores
 # verify downstream overrides of upstream files
-if [[ $HOSTNAME == btrsamsung ]]; then
-  git diff --color=always --no-index \
-    {/usr/share/zsh/site-functions,~/.zsh_profiles/completions}/_systemctl || true
-fi
+# if [[ $HOSTNAME == btrsamsung ]]; then
+#   git diff --color=always --no-index \
+#     {/usr/share/zsh/site-functions,~/.zsh_profiles/completions}/_systemctl || true
+# fi
 
 # the following commands will be silent
 set +x
-profile_hash=$(echo "$USER@$HOST" | sha1sum | head -c 5)
+
+# note that $hmConfigRef is exported from ./modules/home-setup.nix
+# shellcheck disable=2154
+profile_hash=$(echo "$hmConfigRef" | sha1sum | head -c 5)
 nix profile list --json | jq > "$CHEZNIX/profile-${profile_hash}.json"
 
 >&2 echo
