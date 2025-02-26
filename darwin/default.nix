@@ -11,7 +11,7 @@
     extraActivation.text = ''
       >&2 echo linking /etc/nix-darwin...
       set -xeuo pipefail
-      ln -sf "${attrs.homeDirectory or "/Users/${attrs.username}"}/.config/home-manager" /etc/nix-darwin
+      ln -sfn "${attrs.homeDirectory or "/Users/${attrs.username}"}/.config/home-manager" /etc/nix-darwin
       set +x
     '';
   };
@@ -26,6 +26,7 @@
     casks = [
       "firefox"
       "tencent-meeting"
+      "wechat"
     ];
   };
   services.tailscale.enable = true;
