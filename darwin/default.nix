@@ -1,4 +1,4 @@
-{ pkgs, lib, cheznix, ... }:
+{ pkgs, lib, cheznix, attrs, ... }:
 
 {
   # List packages installed in system profile. To search by name, run:
@@ -6,6 +6,15 @@
   environment.systemPackages = with pkgs; [
     iterm2
   ];
+
+  system.activationScripts = {
+    extraActivation.text = ''
+      >&2 echo linking /etc/nix-darwin...
+      set -xeuo pipefail
+      ln -sf "${attrs.homeDirectory or "/Users/${attrs.username}"}/.config/home-manager" /etc/nix-darwin
+      set +x
+    '';
+  };
 
   fonts.packages = [
     pkgs.nerd-fonts.hack
@@ -16,6 +25,7 @@
     enable = true;
     casks = [
       "firefox"
+      "tencent-meeting"
     ];
   };
   services.tailscale.enable = true;
