@@ -100,7 +100,7 @@
         inherit attrs cheznix nixpkgs-follows;
       };
 
-      mkHomeConfig = id: {system, username, hostname, pkgs, ...}@attrs:
+      mkHomeConfig = id: { system, username, hostname, pkgs, ... }@attrs:
         mkConfigWithAliases id attrs {
           name = "${username}@${hostname}";
           value = pkgs.home-manager.flake.lib.homeManagerConfiguration {
@@ -114,7 +114,7 @@
           };
         };
 
-      mkSystemConfig = id: {pkgs, ...}@attrs:
+      mkSystemConfig = id: { pkgs, ... }@attrs:
         mkConfigWithAliases id attrs {
           name = "${attrs.hostname}";
           value = system-manager.lib.makeSystemConfig {
@@ -128,7 +128,7 @@
           };
         };
 
-      mkDarwinConfig = id: {hostname, pkgs, ...}@attrs:
+      mkDarwinConfig = id: { hostname, pkgs, ... }@attrs:
         mkConfigWithAliases id attrs {
           name = "${hostname}";
           value = nix-darwin.lib.darwinSystem {
@@ -152,21 +152,24 @@
       systemConfigs = forMyLinux mkSystemConfig;
       darwinConfigurations = forMyDarwin mkDarwinConfig;
       legacyPackages = forMySystems mkSystemPkgs;
-      packages = forMySystems (system: 
+      packages = forMySystems (system:
       let
         pkgs = self.legacyPackages.${system};
         nixDarwinPackages = nix-darwin.packages.${system};
 
-        packages = lib.optionalAttrs (nixDarwinPackages ? darwin-rebuild) {
-          darwin-rebuild = nixDarwinPackages.darwin-rebuild // {
-            flake = nix-darwin;
-            packages = nixDarwinPackages;
+        packages =
+        lib.optionalAttrs (nixDarwinPackages ? darwin-rebuild)
+          {
+            darwin-rebuild = nixDarwinPackages.darwin-rebuild // {
+              flake = nix-darwin;
+              packages = nixDarwinPackages;
+            };
+          }
+        // rec {
+            home-manager = pkgs.home-manager // {
+              packages = home-manager.flake.packages.${system};
+            };
           };
-        } // rec {
-          home-manager = pkgs.home-manager // {
-            packages = home-manager.flake.packages.${system};
-          };
-        };
       in packages // {
         default =
         let
