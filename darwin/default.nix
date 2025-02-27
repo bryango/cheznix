@@ -3,9 +3,11 @@
 {
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
-  environment.systemPackages = with pkgs; [
-    iterm2
-  ];
+  users.users.${attrs.username} = {
+    packages = with pkgs; [
+      iterm2
+    ];
+  };
 
   system.activationScripts = {
     extraActivation.text = ''

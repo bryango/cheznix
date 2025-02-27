@@ -4,7 +4,7 @@
       "active": true,
       "priority": 5,
       "storePaths": [
-        "/nix/store/kp61cfmc2r5cxrwxa4j9spg3cw9igywy-home-manager-path"
+        "/nix/store/ajrmb7ryj9q8c1zg5k6vhzs7hxdn5ihy-home-manager-path"
       ]
     },
     "zsh": {

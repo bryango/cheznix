@@ -60,6 +60,7 @@ let
       jq
       bat
       fzf
+      ripgrep
       byobu-with-tmux
       diff-so-fancy
       shellcheck
