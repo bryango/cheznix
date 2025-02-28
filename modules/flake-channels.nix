@@ -23,6 +23,9 @@ let
 
     ## include the home-manager flake itself from nixpkgs
     home-manager.outPath = pkgs.home-manager.src;
+
+    ## alias darwin to nix-darwin
+    darwin = flakeInputs''.nix-darwin;
   };
 
   generateLinks = prefix: name: flake: {

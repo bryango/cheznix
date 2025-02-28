@@ -39,6 +39,8 @@
     # extra-nix-path = "nixpkgs=flake:nixpkgs";
   };
 
+  nix.channel.enable = false;
+
   # Set Git commit hash for darwin-version.
   system.configurationRevision =
     cheznix.rev
