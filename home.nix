@@ -83,11 +83,20 @@ let
       # trashy  # better, but its zsh completion is broken
 
       (binaryFallback "aria2c" aria2)
+      (writeShellScriptBin "proxychains" ''
+        if command -v proxychains4 &>/dev/null; then
+          exec proxychains4 "$@"
+        fi
+        if command -v env-proxy &>/dev/null; then
+          exec env-proxy "$@"
+        fi
+        >&2 echo could not find "proxychains" or "env-proxy"
+        exit 1
+      '')
     ] ++ lib.optionals isLinux [
       stdoutisatty  # from nixpkgs-config
       proxychains
       # (binaryFallback "proxychains4" proxychains-ng)
-      (writeShellScriptBin "proxychains" ''exec proxychains4 "$@"'')
     ];
 
     cli.dev = [
