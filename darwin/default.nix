@@ -6,6 +6,7 @@
   users.users.${attrs.username} = {
     packages = with pkgs; [
       iterm2
+      code-cursor
     ];
   };
 
@@ -29,8 +30,10 @@
       "firefox"
       "tencent-meeting"
       "wechat"
+      "karabiner-elements"
     ];
   };
+
   services.tailscale.enable = true;
 
   nix.settings = {
@@ -40,6 +43,16 @@
   };
 
   nix.channel.enable = false;
+
+  system.defaults = {
+    NSGlobalDomain = {
+      AppleShowAllExtensions = true;
+      AppleShowAllFiles = true;
+    };
+    finder = {
+      FXPreferredViewStyle = "Nlsv";
+    };
+  };
 
   # Set Git commit hash for darwin-version.
   system.configurationRevision =

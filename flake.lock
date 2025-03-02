@@ -144,11 +144,11 @@
         "yants": "yants"
       },
       "locked": {
-        "lastModified": 1740730784,
-        "narHash": "sha256-cALdCZxHkmtmqCOXcjadmvCn2tknEa8XYpX7fQAnePw=",
+        "lastModified": 1740894403,
+        "narHash": "sha256-xr6tRkKASypjG2HKyDZ80+X8s15Y+iXXmdeyIBNX7jc=",
         "ref": "refs/heads/dev",
-        "rev": "786523627e1d7a8b20af0ba940aba2ecb1fae472",
-        "revCount": 398,
+        "rev": "8920d3f0b929cac13e615760f62f7ed961766e73",
+        "revCount": 399,
         "type": "git",
         "url": "file:./nixpkgs-config"
       },
