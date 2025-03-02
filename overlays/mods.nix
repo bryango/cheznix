@@ -12,6 +12,7 @@ with prev;
     tectonic
     texpresso
     python2
+    code-cursor
   ;
 
   nixPatched = nixVersions.stable;
