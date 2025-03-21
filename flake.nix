@@ -103,10 +103,10 @@
         #   inherit (prev) system config;
         # };
 
-        gimp = prev.gimp.override {
-          withPython = prev.stdenv.hostPlatform.isLinux;
-          # python2 = final.pkgsPython2.python2;
-        };
+        # gimp = prev.gimp.override {
+        #   withPython = prev.stdenv.hostPlatform.isLinux;
+        #   # python2 = final.pkgsPython2.python2;
+        # };
 
         ## nixpkgs source, i.e. `outPath`, in `pkgs`
         inherit (nixpkgs) outPath;
