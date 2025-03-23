@@ -332,13 +332,16 @@ in {
   home.stateVersion = "22.11"; # Please read the comment before changing.
 
 
-  ## does not work well with non-nix host
-  # i18n.inputMethod = {
-  #   enabled = "fcitx5";
-  #   fcitx5.addons = with pkgs; [
-  #     ## https://github.com/NixOS/nixpkgs/blob/master/pkgs/tools/inputmethods/fcitx5/with-addons.nix
-  #     fcitx5-chinese-addons
-  #   ];
-  # };
+  i18n.inputMethod = lib.optionalAttrs isLinux {
+    enabled = "fcitx5";
+    fcitx5 = with pkgs; {
+      # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/i18n/input-method/fcitx5.nix
+      # https://github.com/NixOS/nixpkgs/blob/master/pkgs/tools/inputmethods/fcitx5/with-addons.nix
+      inherit (qt6Packages) fcitx5-with-addons;
+      addons = [
+        fcitx5-chinese-addons
+      ];
+    };
+  };
 
 }
