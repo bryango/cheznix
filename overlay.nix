@@ -66,10 +66,6 @@ final: prev: with prev; {
 
   neovim = neovim.override { withRuby = false; };
 
-  gimp-with-plugins = gimp-with-plugins.override {
-    plugins = with gimpPlugins; [ resynthesizer ];
-  };
-
   redshift-vanilla = (redshift.override {
     withGeolocation = false;
     withAppIndicator = false;

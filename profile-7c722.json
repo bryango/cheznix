@@ -1,5 +1,12 @@
 {
   "elements": {
+    "fcitx5-with-addons": {
+      "active": true,
+      "priority": 5,
+      "storePaths": [
+        "/nix/store/8zq011y1iccxw1mkmlsz3vdk9dsqrnh2-fcitx5-with-addons-5.1.12"
+      ]
+    },
     "flakes": {
       "active": true,
       "attrPath": "packages.x86_64-linux.default",
@@ -7,15 +14,15 @@
       "outputs": null,
       "priority": 5,
       "storePaths": [
-        "/nix/store/8yz5iq73ayyhrmgl23y0khl5pmwfr474-home-apps"
+        "/nix/store/rx24sgp0s68a8mnvqvv4pybl5hbka4dj-home-apps"
       ],
-      "url": "git+file:///home/bryan/apps/nixpkgs/flakes?ref=refs/heads/dev&rev=ba6e721383bf4768ccdfa8669a9652e50f68eef7"
+      "url": "git+file:///home/bryan/apps/nixpkgs/flakes?ref=refs/heads/dev&rev=ba66c5b02857391d44e07dad2ae23bf1f7d8d920"
     },
     "home-manager-path": {
       "active": true,
       "priority": 5,
       "storePaths": [
-        "/nix/store/jyznqy8gypwnrvbcvsq0pw1dd0v5abps-home-manager-path"
+        "/nix/store/8hbyw4r3a5h05xnq3diig1m7vwglr951-home-manager-path"
       ]
     }
   },

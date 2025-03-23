@@ -147,7 +147,15 @@ let
 
     gui.app = [
       remmina
-      gimp-with-plugins
+      (gimp-with-plugins.override {
+        plugins = # with gimpPlugins;
+        [
+          # # broken since removal of enum34
+          # # https://github.com/NixOS/nixpkgs/pull/389263
+          # resynthesizer
+        ];
+      })
+
       zed-editor
       texstudio-lazy_resize # fork from nixpkgs-config
 
