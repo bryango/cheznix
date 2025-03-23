@@ -47,11 +47,10 @@ with prev;
 
   pulsar = callPackage ../pkgs/pulsar-from-ci.nix { inherit pulsar; };
 
-  ## no longer used by me, disabled to save build time
-  fcitx5-configtool = lib.dontDistribute
-    (libsForQt5.callPackage ../pkgs/unused/fcitx5-configtool.nix {
-      kcmSupport = false;
-    });
+  # we do not need kcm support on e.g. gnome
+  fcitx5-configtool-no-kcm = kdePackages.fcitx5-configtool.override {
+    kcmSupport = false;
+  };
 
   byobu-with-tmux = symlinkJoin {
     name = "byobu-with-tmux-${byobu.version}";
