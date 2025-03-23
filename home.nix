@@ -334,10 +334,14 @@ in {
 
   i18n.inputMethod = lib.optionalAttrs isLinux {
     enabled = "fcitx5";
+    # one might also need to install native system integrations, e.g.
+    # sudo pacman -S fcitx5-gtk
     fcitx5 = with pkgs; {
       # https://github.com/NixOS/nixpkgs/blob/master/nixos/modules/i18n/input-method/fcitx5.nix
       # https://github.com/NixOS/nixpkgs/blob/master/pkgs/tools/inputmethods/fcitx5/with-addons.nix
-      inherit (qt6Packages) fcitx5-with-addons;
+      fcitx5-with-addons = qt6Packages.fcitx5-with-addons.override {
+        fcitx5-configtool = fcitx5-configtool-no-kcm; # defined in nixpkgs-config
+      };
       addons = [
         fcitx5-chinese-addons
       ];

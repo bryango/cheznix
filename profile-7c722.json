@@ -1,12 +1,5 @@
 {
   "elements": {
-    "fcitx5-with-addons": {
-      "active": true,
-      "priority": 5,
-      "storePaths": [
-        "/nix/store/8zq011y1iccxw1mkmlsz3vdk9dsqrnh2-fcitx5-with-addons-5.1.12"
-      ]
-    },
     "flakes": {
       "active": true,
       "attrPath": "packages.x86_64-linux.default",
@@ -22,7 +15,7 @@
       "active": true,
       "priority": 5,
       "storePaths": [
-        "/nix/store/8hbyw4r3a5h05xnq3diig1m7vwglr951-home-manager-path"
+        "/nix/store/5j9dgfnw9f6g24wbmkpbv3pvn6b6fys2-home-manager-path"
       ]
     }
   },
