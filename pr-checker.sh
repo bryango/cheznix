@@ -16,13 +16,15 @@ trackedBranch=$2
 (
   targetHash=$(gh api "/repos/$REPO/commits/$trackedBranch" --jq .sha)
   [[ "$trackedBranch" != "$targetHash" ]] && >&2 echo "# $trackedBranch: $REPO_URL/commit/$targetHash"
+  [[ -z "$prNumber" ]] && echo "$targetHash"
 ) &
 
 if [[ -z $prNumber ]]; then
   cmd="gh --repo \"$REPO\" pr list --author \"@me\" --state merged --limit 10"
   >&2 echo "# re-run and specify a PR to check, e.g."
   >&2 echo "$ $cmd"
-  eval "$cmd"
+  eval "$cmd >&2"
+  wait
   exit
 fi
 
