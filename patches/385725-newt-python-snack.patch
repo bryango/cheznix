@@ -102,10 +102,10 @@ index 4e6f408acc338f7093f2aa783eaa2b4b17d556d0..94459d70d67434b393329960627db724
    };
  }
 diff --git a/pkgs/top-level/all-packages.nix b/pkgs/top-level/all-packages.nix
-index 6262d930dfb44697c022b9782c77b2af10fdc400..4b0d0b8db1cd5759f0beb1a60f4b29b93082b902 100644
+index e40fe12a25a6187ed1475766d208fe3d3baceb8b..bcb9f2470f646f42811f18ad5ab64bd1ecbc8b46 100644
 --- a/pkgs/top-level/all-packages.nix
 +++ b/pkgs/top-level/all-packages.nix
-@@ -9970,8 +9970,6 @@ with pkgs;
+@@ -9740,8 +9740,6 @@ with pkgs;
  
    nettle = import ../development/libraries/nettle { inherit callPackage fetchurl; };
  
@@ -115,15 +115,15 @@ index 6262d930dfb44697c022b9782c77b2af10fdc400..4b0d0b8db1cd5759f0beb1a60f4b29b9
  
    nghttp3 = callPackage ../development/libraries/nghttp3 { inherit (darwin.apple_sdk.frameworks) CoreServices; };
 diff --git a/pkgs/top-level/python-packages.nix b/pkgs/top-level/python-packages.nix
-index fa6c77666d550fc8239dae0cd3b0e91a242f7b82..7307d8565dc9a73acd38a6a53f8c05dc304d8985 100644
+index d42500f8352e34f50a43b7c4a4e630a218cf74ac..c7ea49b48ca02d511975f8a554e60a792ef41b33 100644
 --- a/pkgs/top-level/python-packages.nix
 +++ b/pkgs/top-level/python-packages.nix
-@@ -15266,7 +15266,7 @@ self: super: with self; {
+@@ -16542,7 +16542,7 @@ self: super: with self; {
+ 
    smtpdfix = callPackage ../development/python-modules/smtpdfix { };
  
-   snack = toPythonModule (pkgs.newt.override {
--    inherit (self) python;
-+    python3 = self.python;
-   });
+-  snack = toPythonModule (pkgs.newt.override { inherit (self) python; });
++  snack = toPythonModule (pkgs.newt.override { python3 = self.python; });
  
-   snakemake = toPythonModule (pkgs.snakemake.override {
+   snakebite = callPackage ../development/python-modules/snakebite { };
+ 
