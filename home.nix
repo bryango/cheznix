@@ -122,12 +122,14 @@ let
     cli.app = [
       gh
       circumflex  # hacker news terminal
-      tectonic tectonic.biber
+      tectonic
+      (writeShellScriptBin "biber-for-tectonic" ''exec ${lib.getExe tectonic.biber} "$@"'')
       inetutils # telnet
       dufs # file server
     ] ++ lib.optionals isLinux [
       fuse-overlayfs
       uxplay  # airplay server
+      miktex
     ];
 
     cli.python = let
