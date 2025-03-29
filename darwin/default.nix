@@ -10,15 +10,6 @@
     ];
   };
 
-  system.activationScripts = {
-    extraActivation.text = ''
-      >&2 echo linking /etc/nix-darwin...
-      set -xeuo pipefail
-      ln -sfn "${attrs.homeDirectory or "/Users/${attrs.username}"}/.config/home-manager" /etc/nix-darwin
-      set +x
-    '';
-  };
-
   fonts.packages = [
     pkgs.nerd-fonts.hack
   ];
@@ -31,6 +22,9 @@
       "tencent-meeting"
       "wechat"
       "karabiner-elements"
+      "middleclick"
+      "rectangle"
+      "tunnelblick"
     ];
   };
 
@@ -61,6 +55,15 @@
       or cheznix.lastModifiedDate
       or cheznix.lastModified
       or null;
+
+  system.activationScripts = {
+    extraActivation.text = ''
+      >&2 echo linking /etc/nix-darwin...
+      set -xeuo pipefail
+      ln -sfn "${attrs.homeDirectory or "/Users/${attrs.username}"}/.config/home-manager" /etc/nix-darwin
+      set +x
+    '';
+  };
 
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
