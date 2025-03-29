@@ -4,20 +4,19 @@
       "active": true,
       "priority": 5,
       "storePaths": [
-        "/nix/store/y33j49nfbvciz3f73xql12fgjmyb3345-home-manager-path"
+        "/nix/store/a9d6iblxfc1ag3s01nhpkdzqv2f4iwrm-home-manager-path"
       ]
     },
-    "zsh": {
+    "hydra-check": {
       "active": true,
-      "attrPath": "legacyPackages.aarch64-darwin.zsh",
+      "attrPath": "legacyPackages.aarch64-darwin.hydra-check",
       "originalUrl": "flake:nixpkgs",
       "outputs": null,
       "priority": 5,
       "storePaths": [
-        "/nix/store/8zfrwxy5rgdfn2fv6s94js6p5yqzgjrl-zsh-5.9",
-        "/nix/store/bfjsy29zvgr53lrypzyxqgs2bs4fyd87-zsh-5.9-man"
+        "/nix/store/za51xqxwbjaqksl1v67ix8zay1jmncck-hydra-check-2.0.4"
       ],
-      "url": "github:NixOS/nixpkgs/b1b43d32be000928cc71250ed77f4a0a5f2bc23a?narHash=sha256-8S9n69Dnpg8DhfFlP0YvMGmSOY2X4kImGSPWXYNpaHM%3D"
+      "url": "github:NixOS/nixpkgs/25d1b84f5c90632a623c48d83a2faf156451e6b1?narHash=sha256-biPjLws6FiBVUUDHEMFq5pUQL84Wf7PntPYdo3oKkFw%3D"
     }
   },
   "version": 3

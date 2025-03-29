@@ -25,6 +25,7 @@
       "middleclick"
       "rectangle"
       "tunnelblick"
+      "hiddenbar"
     ];
   };
 
@@ -45,6 +46,13 @@
     };
     finder = {
       FXPreferredViewStyle = "Nlsv";
+    };
+    CustomUserPreferences = {
+      NSGlobalDomain = {
+        # adjust status whitespace
+        NSStatusItemSpacing = 12;
+        NSStatusItemSelectionPadding = 8;
+      };
     };
   };
 
