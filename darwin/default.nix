@@ -1,4 +1,4 @@
-{ pkgs, lib, cheznix, attrs, ... }:
+{ pkgs, lib, cheznix, attrs, config, ... }:
 
 {
   # List packages installed in system profile. To search by name, run:
@@ -65,15 +65,27 @@
       or cheznix.lastModified
       or null;
 
-  system.activationScripts = {
+  system.activationScripts = let
+    etcNixDarwin = "/etc/nix-darwin";
+    brewfilePackage = pkgs.writeText "Brewfile" config.homebrew.brewfile;
+    brewFile = "${etcNixDarwin}/Brewfile";
+    brewInfo = "${etcNixDarwin}/brew-info.json";
+  in {
     extraActivation.text = ''
       set -xeuo pipefail
 
       >&2 echo linking /etc/nix-darwin...
-      ln -sfn "${attrs.homeDirectory or "/Users/${attrs.username}"}/.config/home-manager" /etc/nix-darwin
+      ln -sfn "${attrs.homeDirectory or "/Users/${attrs.username}"}/.config/home-manager" "${etcNixDarwin}"
+
+      set +x
+    '';
+    postUserActivation.text = ''
+      set -xeuo pipefail
 
       >&2 echo export brew info...
-      brew info --installed --json=v2 > /etc/nix-darwin/brew-info.json
+      cat "${brewfilePackage}" > "${brewFile}";
+      /opt/homebrew/bin/brew info --installed --json=v2 > "${brewInfo}";
+
       set +x
     '';
   };

@@ -1,0 +1,909 @@
+{
+  "formulae": [
+
+  ],
+  "casks": [
+    {
+      "token": "firefox",
+      "full_token": "firefox",
+      "old_tokens": [
+
+      ],
+      "tap": "homebrew/cask",
+      "name": [
+        "Mozilla Firefox"
+      ],
+      "desc": "Web browser",
+      "homepage": "https://www.mozilla.org/firefox/",
+      "url": "https://download-installer.cdn.mozilla.net/pub/firefox/releases/135.0.1/mac/en-US/Firefox%20135.0.1.dmg",
+      "url_specs": {
+        "verified": "download-installer.cdn.mozilla.net/pub/firefox/releases/"
+      },
+      "version": "135.0.1",
+      "installed": "135.0.1",
+      "installed_time": 1740032756,
+      "bundle_version": "13525.2.16",
+      "bundle_short_version": "135.0.1",
+      "outdated": false,
+      "sha256": "adf1cdebf43d85b022e9b4555984f13d7c1eb75b6c007994432a96f2a73450f4",
+      "artifacts": [
+        {
+          "preflight": null
+        },
+        {
+          "uninstall": [
+            {
+              "quit": "org.mozilla.firefox"
+            }
+          ]
+        },
+        {
+          "app": [
+            "Firefox.app"
+          ]
+        },
+        {
+          "binary": [
+            "/opt/homebrew/Caskroom/firefox/135.0.1/firefox.wrapper.sh",
+            {
+              "target": "firefox"
+            }
+          ]
+        },
+        {
+          "zap": [
+            {
+              "trash": [
+                "/Library/Logs/DiagnosticReports/firefox_*",
+                "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/org.mozilla.firefox.sfl*",
+                "~/Library/Application Support/CrashReporter/firefox_*",
+                "~/Library/Application Support/Firefox",
+                "~/Library/Caches/Firefox",
+                "~/Library/Caches/Mozilla/updates/Applications/Firefox",
+                "~/Library/Caches/org.mozilla.crashreporter",
+                "~/Library/Caches/org.mozilla.firefox",
+                "~/Library/Preferences/org.mozilla.crashreporter.plist",
+                "~/Library/Preferences/org.mozilla.firefox.plist",
+                "~/Library/Saved Application State/org.mozilla.firefox.savedState",
+                "~/Library/WebKit/org.mozilla.firefox"
+              ],
+              "rmdir": [
+                "~/Library/Application Support/Mozilla",
+                "~/Library/Caches/Mozilla",
+                "~/Library/Caches/Mozilla/updates",
+                "~/Library/Caches/Mozilla/updates/Applications"
+              ]
+            }
+          ]
+        }
+      ],
+      "caveats": null,
+      "depends_on": {
+        "macos": {
+          ">=": [
+            "10.15"
+          ]
+        }
+      },
+      "conflicts_with": {
+        "cask": [
+          "firefox@beta",
+          "firefox@cn",
+          "firefox@esr"
+        ]
+      },
+      "container": null,
+      "auto_updates": true,
+      "deprecated": false,
+      "deprecation_date": null,
+      "deprecation_reason": null,
+      "deprecation_replacement": null,
+      "disabled": false,
+      "disable_date": null,
+      "disable_reason": null,
+      "disable_replacement": null,
+      "tap_git_head": "685d2bcaab99fa204705c3ca687b81c2c82b47c7",
+      "languages": [
+        "ach",
+        "af",
+        "an",
+        "ar",
+        "ast",
+        "az",
+        "be",
+        "bg",
+        "bn",
+        "br",
+        "bs",
+        "ca",
+        "cak",
+        "cs",
+        "cy",
+        "da",
+        "de",
+        "dsb",
+        "el",
+        "en-CA",
+        "en-GB",
+        "en",
+        "eo",
+        "es-AR",
+        "es-CL",
+        "es-ES",
+        "es-MX",
+        "et",
+        "eu",
+        "fa",
+        "ff",
+        "fi",
+        "fr",
+        "fur",
+        "fy",
+        "ga",
+        "gd",
+        "gl",
+        "gn",
+        "gu",
+        "he",
+        "hi",
+        "hr",
+        "hsb",
+        "hu",
+        "hy",
+        "ia",
+        "id",
+        "in",
+        "is",
+        "it",
+        "ja",
+        "ka",
+        "kab",
+        "kk",
+        "km",
+        "kn",
+        "ko",
+        "lij",
+        "lt",
+        "lv",
+        "mk",
+        "mr",
+        "ms",
+        "my",
+        "nb",
+        "ne",
+        "nl",
+        "nn",
+        "oc",
+        "pa-IN",
+        "pl",
+        "pt-BR",
+        "pt",
+        "rm",
+        "ro",
+        "ru",
+        "sat",
+        "sc",
+        "sco",
+        "si",
+        "sk",
+        "skr",
+        "sl",
+        "son",
+        "sq",
+        "sr",
+        "sv",
+        "szl",
+        "ta",
+        "te",
+        "tg",
+        "th",
+        "tl",
+        "tr",
+        "trs",
+        "uk",
+        "ur",
+        "uz",
+        "vi",
+        "xh",
+        "zh-TW",
+        "zh"
+      ],
+      "ruby_source_path": "Casks/f/firefox.rb",
+      "ruby_source_checksum": {
+        "sha256": "2e1607bd84efbcbd7558e15db83f371bce554b55befdf31490318d3b850d4f5e"
+      }
+    },
+    {
+      "token": "hiddenbar",
+      "full_token": "hiddenbar",
+      "old_tokens": [
+
+      ],
+      "tap": "homebrew/cask",
+      "name": [
+        "Hidden Bar"
+      ],
+      "desc": "Utility to hide menu bar items",
+      "homepage": "https://github.com/dwarvesf/hidden/",
+      "url": "https://github.com/dwarvesf/hidden/releases/download/v1.9/Hidden.Bar.1.9.dmg",
+      "url_specs": {
+      },
+      "version": "1.9",
+      "installed": "1.9",
+      "installed_time": 1743209844,
+      "bundle_version": "13",
+      "bundle_short_version": "1.9",
+      "outdated": false,
+      "sha256": "3f54b024f5c1c40bc18aebe39014710289b47e147e71561fae22a661cab26d02",
+      "artifacts": [
+        {
+          "uninstall": [
+            {
+              "launchctl": "com.dwarvesv.LauncherApplication",
+              "quit": "com.dwarvesv.minimalbar"
+            }
+          ]
+        },
+        {
+          "app": [
+            "Hidden Bar.app"
+          ]
+        },
+        {
+          "zap": [
+            {
+              "trash": [
+                "~/Library/Application Scripts/com.dwarvesv.LauncherApplication",
+                "~/Library/Application Scripts/com.dwarvesv.minimalbar",
+                "~/Library/Containers/com.dwarvesv.LauncherApplication",
+                "~/Library/Containers/com.dwarvesv.minimalbar"
+              ]
+            }
+          ]
+        }
+      ],
+      "caveats": null,
+      "depends_on": {
+        "macos": {
+          ">=": [
+            "10.13"
+          ]
+        }
+      },
+      "conflicts_with": null,
+      "container": null,
+      "auto_updates": null,
+      "deprecated": false,
+      "deprecation_date": null,
+      "deprecation_reason": null,
+      "deprecation_replacement": null,
+      "disabled": false,
+      "disable_date": null,
+      "disable_reason": null,
+      "disable_replacement": null,
+      "tap_git_head": "685d2bcaab99fa204705c3ca687b81c2c82b47c7",
+      "languages": [
+
+      ],
+      "ruby_source_path": "Casks/h/hiddenbar.rb",
+      "ruby_source_checksum": {
+        "sha256": "76ed211fa78387073a2ed3e42fa2f77d385b5497c776e08607983585f65ccd30"
+      }
+    },
+    {
+      "token": "karabiner-elements",
+      "full_token": "karabiner-elements",
+      "old_tokens": [
+
+      ],
+      "tap": "homebrew/cask",
+      "name": [
+        "Karabiner Elements"
+      ],
+      "desc": "Keyboard customiser",
+      "homepage": "https://karabiner-elements.pqrs.org/",
+      "url": "https://github.com/pqrs-org/Karabiner-Elements/releases/download/v15.3.0/Karabiner-Elements-15.3.0.dmg",
+      "url_specs": {
+        "verified": "github.com/pqrs-org/Karabiner-Elements/"
+      },
+      "version": "15.3.0",
+      "installed": "15.3.0",
+      "installed_time": 1740806643,
+      "bundle_version": null,
+      "bundle_short_version": null,
+      "outdated": false,
+      "sha256": "4b37f69810bc738240dcacb840f4ef4b8189d0f5c56cdd18ed1a6e9bd9510011",
+      "artifacts": [
+        {
+          "uninstall": [
+            {
+              "early_script": {
+                "executable": "/Library/Application Support/org.pqrs/Karabiner-DriverKit-VirtualHIDDevice/scripts/uninstall/remove_files.sh",
+                "sudo": true
+              },
+              "launchctl": [
+                "org.pqrs.karabiner.agent.karabiner_grabber",
+                "org.pqrs.karabiner.agent.karabiner_observer",
+                "org.pqrs.karabiner.karabiner_console_user_server",
+                "org.pqrs.karabiner.karabiner_grabber",
+                "org.pqrs.karabiner.karabiner_observer",
+                "org.pqrs.karabiner.karabiner_session_monitor",
+                "org.pqrs.karabiner.NotificationWindow"
+              ],
+              "signal": [
+                [
+                  "TERM",
+                  "org.pqrs.Karabiner-Menu"
+                ],
+                [
+                  "TERM",
+                  "org.pqrs.Karabiner-NotificationWindow"
+                ]
+              ],
+              "script": {
+                "executable": "/Library/Application Support/org.pqrs/Karabiner-Elements/uninstall_core.sh",
+                "sudo": true
+              },
+              "pkgutil": [
+                "org.pqrs.Karabiner-DriverKit-VirtualHIDDevice",
+                "org.pqrs.Karabiner-Elements"
+              ],
+              "delete": "/Library/Application Support/org.pqrs/"
+            }
+          ]
+        },
+        {
+          "pkg": [
+            "Karabiner-Elements.pkg"
+          ]
+        },
+        {
+          "binary": [
+            "/Library/Application Support/org.pqrs/Karabiner-Elements/bin/karabiner_cli"
+          ]
+        },
+        {
+          "zap": [
+            {
+              "trash": [
+                "~/.config/karabiner",
+                "~/.local/share/karabiner",
+                "~/Library/Application Scripts/org.pqrs.Karabiner-VirtualHIDDevice-Manager",
+                "~/Library/Application Support/Karabiner-Elements",
+                "~/Library/Caches/org.pqrs.Karabiner-Elements.Updater",
+                "~/Library/Containers/org.pqrs.Karabiner-VirtualHIDDevice-Manager",
+                "~/Library/HTTPStorages/org.pqrs.Karabiner-Elements.Settings",
+                "~/Library/Preferences/org.pqrs.Karabiner-Elements.Updater.plist"
+              ]
+            }
+          ]
+        }
+      ],
+      "caveats": null,
+      "depends_on": {
+        "macos": {
+          ">=": [
+            "10.11"
+          ]
+        }
+      },
+      "conflicts_with": null,
+      "container": null,
+      "auto_updates": true,
+      "deprecated": false,
+      "deprecation_date": null,
+      "deprecation_reason": null,
+      "deprecation_replacement": null,
+      "disabled": false,
+      "disable_date": null,
+      "disable_reason": null,
+      "disable_replacement": null,
+      "tap_git_head": "685d2bcaab99fa204705c3ca687b81c2c82b47c7",
+      "languages": [
+
+      ],
+      "ruby_source_path": "Casks/k/karabiner-elements.rb",
+      "ruby_source_checksum": {
+        "sha256": "dcc56169e690447177cc1207494bbc74ec78fa6a0303a4b24c59cd1fddfab7a9"
+      }
+    },
+    {
+      "token": "middleclick",
+      "full_token": "middleclick",
+      "old_tokens": [
+
+      ],
+      "tap": "homebrew/cask",
+      "name": [
+        "MiddleClick"
+      ],
+      "desc": "Utility to extend trackpad functionality",
+      "homepage": "https://github.com/artginzburg/MiddleClick-Sonoma",
+      "url": "https://github.com/artginzburg/MiddleClick-Sonoma/releases/download/2.7/MiddleClick.zip",
+      "url_specs": {
+      },
+      "version": "2.7",
+      "installed": "2.7",
+      "installed_time": 1740897453,
+      "bundle_version": "22112023",
+      "bundle_short_version": "2.7",
+      "outdated": false,
+      "sha256": "c5a98a652d880878452d8827630cf7a7266ce588edb5cf7b1cda5686f5ae71f3",
+      "artifacts": [
+        {
+          "uninstall": [
+            {
+              "quit": "com.rouge41.middleClick",
+              "login_item": "MiddleClick"
+            }
+          ]
+        },
+        {
+          "app": [
+            "MiddleClick.app"
+          ]
+        },
+        {
+          "zap": [
+            {
+              "trash": "~/Library/Preferences/com.rouge41.middleClick.plist"
+            }
+          ]
+        }
+      ],
+      "caveats": null,
+      "depends_on": {
+        "macos": {
+          ">=": [
+            "10.11"
+          ]
+        }
+      },
+      "conflicts_with": null,
+      "container": null,
+      "auto_updates": null,
+      "deprecated": false,
+      "deprecation_date": null,
+      "deprecation_reason": null,
+      "deprecation_replacement": null,
+      "disabled": false,
+      "disable_date": null,
+      "disable_reason": null,
+      "disable_replacement": null,
+      "tap_git_head": "685d2bcaab99fa204705c3ca687b81c2c82b47c7",
+      "languages": [
+
+      ],
+      "ruby_source_path": "Casks/m/middleclick.rb",
+      "ruby_source_checksum": {
+        "sha256": "9911d36f000688280ebdd2c8fee2ff3dc41b38e5255cebd4da26f5da11ad79fa"
+      }
+    },
+    {
+      "token": "nutstore",
+      "full_token": "nutstore",
+      "old_tokens": [
+
+      ],
+      "tap": "homebrew/cask",
+      "name": [
+        "Nutstore"
+      ],
+      "desc": "Cloud storage service platform",
+      "homepage": "https://www.jianguoyun.com/",
+      "url": "https://www.jianguoyun.com/static/exe/installer/NutstoreOSXInstaller.dmg",
+      "url_specs": {
+      },
+      "version": "6.4.0",
+      "installed": "6.4.0",
+      "installed_time": 1743289193,
+      "bundle_version": null,
+      "bundle_short_version": null,
+      "outdated": false,
+      "sha256": "no_check",
+      "artifacts": [
+        {
+          "uninstall": [
+            {
+              "launchctl": "net.nutstore.agent",
+              "quit": [
+                "net.nutstore.NutstoreJavaBE",
+                "net.nutstore.osxapp",
+                "net.nutstore.osxapp.FinderSyncExtension"
+              ],
+              "login_item": "Nutstore",
+              "delete": "/Applications/Nutstore.app"
+            }
+          ]
+        },
+        {
+          "installer": [
+            {
+              "script": {
+                "executable": "坚果云安装程序.app/Contents/MacOS/NutstoreOnlineInstaller",
+                "args": [
+                  "-q"
+                ]
+              }
+            }
+          ]
+        },
+        {
+          "zap": [
+            {
+              "trash": [
+                "~/Library/Preferences/net.nutstore.NutstoreJavaBE.plist",
+                "~/Library/Preferences/net.nutstore.osxapp.plist",
+                "~/Library/Saved Application State/net.nutstore.osxapp.nutstoreInstaller.savedState"
+              ]
+            }
+          ]
+        }
+      ],
+      "caveats": null,
+      "depends_on": {
+        "macos": {
+          ">=": [
+            "10.11"
+          ]
+        }
+      },
+      "conflicts_with": null,
+      "container": null,
+      "auto_updates": true,
+      "deprecated": false,
+      "deprecation_date": null,
+      "deprecation_reason": null,
+      "deprecation_replacement": null,
+      "disabled": false,
+      "disable_date": null,
+      "disable_reason": null,
+      "disable_replacement": null,
+      "tap_git_head": "685d2bcaab99fa204705c3ca687b81c2c82b47c7",
+      "languages": [
+
+      ],
+      "ruby_source_path": "Casks/n/nutstore.rb",
+      "ruby_source_checksum": {
+        "sha256": "21a6957c122e6eef4b339f472e001d9aa859b91bf33fc94f21913a45988a52cc"
+      }
+    },
+    {
+      "token": "rectangle",
+      "full_token": "rectangle",
+      "old_tokens": [
+
+      ],
+      "tap": "homebrew/cask",
+      "name": [
+        "Rectangle"
+      ],
+      "desc": "Move and resize windows using keyboard shortcuts or snap areas",
+      "homepage": "https://rectangleapp.com/",
+      "url": "https://github.com/rxhanson/Rectangle/releases/download/v0.86/Rectangle0.86.dmg",
+      "url_specs": {
+        "verified": "github.com/rxhanson/Rectangle/"
+      },
+      "version": "0.86",
+      "installed": "0.86",
+      "installed_time": 1740898070,
+      "bundle_version": "92",
+      "bundle_short_version": "0.86",
+      "outdated": false,
+      "sha256": "5142f9c5a667f8d0d0e55be5547f5139e9390054397f264b1ae6cb73fa90a9c2",
+      "artifacts": [
+        {
+          "uninstall": [
+            {
+              "quit": "com.knollsoft.Rectangle"
+            }
+          ]
+        },
+        {
+          "app": [
+            "Rectangle.app"
+          ]
+        },
+        {
+          "zap": [
+            {
+              "trash": [
+                "~/Library/Application Scripts/com.knollsoft.RectangleLauncher",
+                "~/Library/Application Support/Rectangle",
+                "~/Library/Caches/com.knollsoft.Rectangle",
+                "~/Library/Containers/com.knollsoft.RectangleLauncher",
+                "~/Library/HTTPStorages/com.knollsoft.Rectangle",
+                "~/Library/Preferences/com.knollsoft.Rectangle.plist",
+                "~/Library/WebKit/com.knollsoft.Rectangle"
+              ]
+            }
+          ]
+        }
+      ],
+      "caveats": null,
+      "depends_on": {
+        "macos": {
+          ">=": [
+            "10.15"
+          ]
+        }
+      },
+      "conflicts_with": null,
+      "container": null,
+      "auto_updates": true,
+      "deprecated": false,
+      "deprecation_date": null,
+      "deprecation_reason": null,
+      "deprecation_replacement": null,
+      "disabled": false,
+      "disable_date": null,
+      "disable_reason": null,
+      "disable_replacement": null,
+      "tap_git_head": "685d2bcaab99fa204705c3ca687b81c2c82b47c7",
+      "languages": [
+
+      ],
+      "ruby_source_path": "Casks/r/rectangle.rb",
+      "ruby_source_checksum": {
+        "sha256": "dd624c892eaf244e6f739c70ceab48c893b98c3cee30587835f207dbca33bda8"
+      }
+    },
+    {
+      "token": "tencent-meeting",
+      "full_token": "tencent-meeting",
+      "old_tokens": [
+
+      ],
+      "tap": "homebrew/cask",
+      "name": [
+        "Tencent Meeting",
+        "腾讯会议"
+      ],
+      "desc": "Cloud video conferencing",
+      "homepage": "https://meeting.tencent.com/",
+      "url": "https://updatecdn.meeting.qq.com/cos/3866bd6756af079a0ee3d555c0d6feff/TencentMeeting_0300000000_3.31.2.431.publish.arm64.officialwebsite.dmg",
+      "url_specs": {
+        "verified": "updatecdn.meeting.qq.com/cos/"
+      },
+      "version": "3.31.2.431,3866bd6756af079a0ee3d555c0d6feff",
+      "installed": "3.31.2.431,3866bd6756af079a0ee3d555c0d6feff",
+      "installed_time": 1740553531,
+      "bundle_version": "431",
+      "bundle_short_version": "3.31.2",
+      "outdated": false,
+      "sha256": "35f8b0c5f00fcc605922db8a989f916ba147f39f2ebbcc103df174dbbd3fd172",
+      "artifacts": [
+        {
+          "uninstall": [
+            {
+              "quit": "com.tencent.meeting"
+            }
+          ]
+        },
+        {
+          "app": [
+            "TencentMeeting.app"
+          ]
+        },
+        {
+          "zap": [
+            {
+              "trash": [
+                "~/Library/Application Scripts/com.tencent.meeting",
+                "~/Library/Application Scripts/FN2V63AD2J.com.tencent.meeting",
+                "~/Library/Caches/com.tencent.meeting*",
+                "~/Library/Containers/com.tencent.meeting*",
+                "~/Library/Containers/com.tencent.wemeet.FileDelta",
+                "~/Library/Group Containers/FN2V63AD2J.com.tencent.meeting",
+                "~/Library/HTTPStorages/com.tencent.meeting*",
+                "~/Library/Preferences/com.tencent.meeting*.plist",
+                "~/Library/Saved Application State/com.tencent.meeting.savedState",
+                "~/Library/WebKit/com.tencent.meeting"
+              ]
+            }
+          ]
+        }
+      ],
+      "caveats": null,
+      "depends_on": {
+        "macos": {
+          ">=": [
+            "10.11"
+          ]
+        }
+      },
+      "conflicts_with": null,
+      "container": null,
+      "auto_updates": true,
+      "deprecated": false,
+      "deprecation_date": null,
+      "deprecation_reason": null,
+      "deprecation_replacement": null,
+      "disabled": false,
+      "disable_date": null,
+      "disable_reason": null,
+      "disable_replacement": null,
+      "tap_git_head": "685d2bcaab99fa204705c3ca687b81c2c82b47c7",
+      "languages": [
+
+      ],
+      "ruby_source_path": "Casks/t/tencent-meeting.rb",
+      "ruby_source_checksum": {
+        "sha256": "94425edaf1abccd7bc2ab493ceb2a48af4306303dd4ae2e7fff96ca57a37e4a6"
+      }
+    },
+    {
+      "token": "tunnelblick",
+      "full_token": "tunnelblick",
+      "old_tokens": [
+
+      ],
+      "tap": "homebrew/cask",
+      "name": [
+        "Tunnelblick"
+      ],
+      "desc": "Free and open-source OpenVPN client",
+      "homepage": "https://www.tunnelblick.net/",
+      "url": "https://tunnelblick.net/iprelease/Tunnelblick_6.0.1_build_6161.dmg",
+      "url_specs": {
+      },
+      "version": "6.0.1,6161",
+      "installed": "6.0.1,6161",
+      "installed_time": 1743205240,
+      "bundle_version": "6161",
+      "bundle_short_version": "6.0.1 (build 6161)",
+      "outdated": false,
+      "sha256": "728f929d890b1a577d2db8de7d38fdaf9e648ca831e0c9d913cf98ec73520608",
+      "artifacts": [
+        {
+          "uninstall_preflight": null
+        },
+        {
+          "uninstall": [
+            {
+              "launchctl": [
+                "net.tunnelblick.tunnelblick.LaunchAtLogin",
+                "net.tunnelblick.tunnelblick.tunnelblickd"
+              ],
+              "quit": "net.tunnelblick.tunnelblick",
+              "delete": "/Library/Application Support/Tunnelblick"
+            }
+          ]
+        },
+        {
+          "app": [
+            "Tunnelblick.app"
+          ]
+        },
+        {
+          "zap": [
+            {
+              "trash": [
+                "~/Library/Application Support/Tunnelblick",
+                "~/Library/Caches/com.apple.helpd/SDMHelpData/Other/English/HelpSDMIndexFile/Tunnelblick*",
+                "~/Library/Caches/net.tunnelblick.tunnelblick",
+                "~/Library/Cookies/net.tunnelblick.tunnelblick.binarycookies",
+                "~/Library/HTTPStorages/net.tunnelblick.tunnelblick",
+                "~/Library/Preferences/net.tunnelblick.tunnelblick.plist"
+              ]
+            }
+          ]
+        }
+      ],
+      "caveats": "For security reasons, tunnelblick must be installed to /Applications,\nand will request to be moved at launch.\n",
+      "depends_on": {
+        "macos": {
+          ">=": [
+            "13"
+          ]
+        }
+      },
+      "conflicts_with": null,
+      "container": null,
+      "auto_updates": true,
+      "deprecated": false,
+      "deprecation_date": null,
+      "deprecation_reason": null,
+      "deprecation_replacement": null,
+      "disabled": false,
+      "disable_date": null,
+      "disable_reason": null,
+      "disable_replacement": null,
+      "tap_git_head": "685d2bcaab99fa204705c3ca687b81c2c82b47c7",
+      "languages": [
+
+      ],
+      "ruby_source_path": "Casks/t/tunnelblick.rb",
+      "ruby_source_checksum": {
+        "sha256": "714015d7768347d41091d678c900bc87bc227e05c9ba2a4a0ec9c0227bb1c6bf"
+      }
+    },
+    {
+      "token": "wechat",
+      "full_token": "wechat",
+      "old_tokens": [
+
+      ],
+      "tap": "homebrew/cask",
+      "name": [
+        "WeChat for Mac",
+        "微信 Mac 版"
+      ],
+      "desc": "Free messaging and calling application",
+      "homepage": "https://mac.weixin.qq.com/",
+      "url": "https://dldir1.qq.com/weixin/mac/WeChatMac.dmg",
+      "url_specs": {
+      },
+      "version": "3.8.10.17",
+      "installed": "3.8.10.17",
+      "installed_time": 1740554834,
+      "bundle_version": "28632",
+      "bundle_short_version": "3.8.10.17",
+      "outdated": false,
+      "sha256": "no_check",
+      "artifacts": [
+        {
+          "uninstall": [
+            {
+              "quit": "com.tencent.xinWeChat"
+            }
+          ]
+        },
+        {
+          "app": [
+            "WeChat.app"
+          ]
+        },
+        {
+          "zap": [
+            {
+              "trash": [
+                "~/Library/Application Scripts/$(TeamIdentifierPrefix)com.tencent.xinWeChat",
+                "~/Library/Application Scripts/$(TeamIdentifierPrefix)com.tencent.xinWeChat.IPCHelper",
+                "~/Library/Application Scripts/com.tencent.xinWeChat",
+                "~/Library/Application Scripts/com.tencent.xinWeChat.MiniProgram",
+                "~/Library/Application Scripts/com.tencent.xinWeChat.WeChatMacShare",
+                "~/Library/Caches/com.tencent.xinWeChat",
+                "~/Library/Containers/$(TeamIdentifierPrefix)com.tencent.xinWeChat.IPCHelper",
+                "~/Library/Containers/com.tencent.xinWeChat",
+                "~/Library/Containers/com.tencent.xinWeChat.MiniProgram",
+                "~/Library/Containers/com.tencent.xinWeChat.WeChatMacShare",
+                "~/Library/Cookies/com.tencent.xinWeChat.binarycookies",
+                "~/Library/Group Containers/$(TeamIdentifierPrefix)com.tencent.xinWeChat",
+                "~/Library/Preferences/com.tencent.xinWeChat.plist",
+                "~/Library/Saved Application State/com.tencent.xinWeChat.savedState"
+              ]
+            }
+          ]
+        }
+      ],
+      "caveats": null,
+      "depends_on": {
+        "macos": {
+          ">=": [
+            "14"
+          ]
+        }
+      },
+      "conflicts_with": null,
+      "container": null,
+      "auto_updates": true,
+      "deprecated": false,
+      "deprecation_date": null,
+      "deprecation_reason": null,
+      "deprecation_replacement": null,
+      "disabled": false,
+      "disable_date": null,
+      "disable_reason": null,
+      "disable_replacement": null,
+      "tap_git_head": "685d2bcaab99fa204705c3ca687b81c2c82b47c7",
+      "languages": [
+
+      ],
+      "ruby_source_path": "Casks/w/wechat.rb",
+      "ruby_source_checksum": {
+        "sha256": "9d46421decb45da286fea0b54193adaabfd1289debcca813b948dc648a7a8214"
+      }
+    }
+  ]
+}
