@@ -21,6 +21,7 @@
       "firefox"
       "tencent-meeting"
       "wechat"
+      "nutstore"
       "karabiner-elements"
       "middleclick"
       "rectangle"
@@ -66,9 +67,13 @@
 
   system.activationScripts = {
     extraActivation.text = ''
-      >&2 echo linking /etc/nix-darwin...
       set -xeuo pipefail
+
+      >&2 echo linking /etc/nix-darwin...
       ln -sfn "${attrs.homeDirectory or "/Users/${attrs.username}"}/.config/home-manager" /etc/nix-darwin
+
+      >&2 echo export brew info...
+      brew info --installed --json=v2 > /etc/nix-darwin/brew-info.json
       set +x
     '';
   };
