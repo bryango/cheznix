@@ -4,7 +4,7 @@
       "active": true,
       "priority": 5,
       "storePaths": [
-        "/nix/store/a9d6iblxfc1ag3s01nhpkdzqv2f4iwrm-home-manager-path"
+        "/nix/store/9rnygq5nal0cyv6ds6vl9g1rp9jlra1m-home-manager-path"
       ]
     },
     "hydra-check": {

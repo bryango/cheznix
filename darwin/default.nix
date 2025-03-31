@@ -71,6 +71,7 @@
     brewFile = "${etcNixDarwin}/Brewfile";
     brewInfo = "${etcNixDarwin}/brew-info.json";
   in {
+    # see: https://github.com/nix-darwin/nix-darwin/blob/master/modules/system/activation-scripts.nix
     extraActivation.text = ''
       set -xeuo pipefail
 
