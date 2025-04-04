@@ -15,17 +15,17 @@
       ],
       "desc": "Web browser",
       "homepage": "https://www.mozilla.org/firefox/",
-      "url": "https://download-installer.cdn.mozilla.net/pub/firefox/releases/135.0.1/mac/en-US/Firefox%20135.0.1.dmg",
+      "url": "https://download-installer.cdn.mozilla.net/pub/firefox/releases/137.0/mac/en-US/Firefox%20137.0.dmg",
       "url_specs": {
         "verified": "download-installer.cdn.mozilla.net/pub/firefox/releases/"
       },
-      "version": "135.0.1",
-      "installed": "135.0.1",
-      "installed_time": 1740032756,
-      "bundle_version": "13525.2.16",
-      "bundle_short_version": "135.0.1",
+      "version": "137.0",
+      "installed": "137.0",
+      "installed_time": 1743581058,
+      "bundle_version": "13725.3.27",
+      "bundle_short_version": "137.0",
       "outdated": false,
-      "sha256": "adf1cdebf43d85b022e9b4555984f13d7c1eb75b6c007994432a96f2a73450f4",
+      "sha256": "bd9bff96ae3701f9c4957675ff3990fcb8306cbb2f6554fb81ad2427b1ec8464",
       "artifacts": [
         {
           "preflight": null
@@ -44,7 +44,7 @@
         },
         {
           "binary": [
-            "/opt/homebrew/Caskroom/firefox/135.0.1/firefox.wrapper.sh",
+            "/opt/homebrew/Caskroom/firefox/137.0/firefox.wrapper.sh",
             {
               "target": "firefox"
             }
@@ -102,7 +102,7 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "685d2bcaab99fa204705c3ca687b81c2c82b47c7",
+      "tap_git_head": "363451479d1c274c7c55cbba1cbee1fae0da7cb0",
       "languages": [
         "ach",
         "af",
@@ -210,7 +210,7 @@
       ],
       "ruby_source_path": "Casks/f/firefox.rb",
       "ruby_source_checksum": {
-        "sha256": "2e1607bd84efbcbd7558e15db83f371bce554b55befdf31490318d3b850d4f5e"
+        "sha256": "e12b72899e0fc45b70a511517f07532962e00abb88976497c0c51a544e6ce729"
       }
     },
     {
@@ -281,7 +281,7 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "685d2bcaab99fa204705c3ca687b81c2c82b47c7",
+      "tap_git_head": "363451479d1c274c7c55cbba1cbee1fae0da7cb0",
       "languages": [
 
       ],
@@ -398,7 +398,7 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "685d2bcaab99fa204705c3ca687b81c2c82b47c7",
+      "tap_git_head": "363451479d1c274c7c55cbba1cbee1fae0da7cb0",
       "languages": [
 
       ],
@@ -418,22 +418,22 @@
         "MiddleClick"
       ],
       "desc": "Utility to extend trackpad functionality",
-      "homepage": "https://github.com/artginzburg/MiddleClick-Sonoma",
-      "url": "https://github.com/artginzburg/MiddleClick-Sonoma/releases/download/2.7/MiddleClick.zip",
+      "homepage": "https://github.com/artginzburg/MiddleClick",
+      "url": "https://github.com/artginzburg/MiddleClick/releases/download/3.0.0/MiddleClick.zip",
       "url_specs": {
       },
-      "version": "2.7",
-      "installed": "2.7",
-      "installed_time": 1740897453,
-      "bundle_version": "22112023",
-      "bundle_short_version": "2.7",
+      "version": "3.0.0",
+      "installed": "3.0.0",
+      "installed_time": 1743580677,
+      "bundle_version": "26",
+      "bundle_short_version": "3.0.0",
       "outdated": false,
-      "sha256": "c5a98a652d880878452d8827630cf7a7266ce588edb5cf7b1cda5686f5ae71f3",
+      "sha256": "e80bc000bc8370349c83648307f5443dfa3e7cac3f67faaad589bceebec9fc33",
       "artifacts": [
         {
           "uninstall": [
             {
-              "quit": "com.rouge41.middleClick",
+              "quit": "art.ginzburg.MiddleClick",
               "login_item": "MiddleClick"
             }
           ]
@@ -446,7 +446,7 @@
         {
           "zap": [
             {
-              "trash": "~/Library/Preferences/com.rouge41.middleClick.plist"
+              "trash": "~/Library/Preferences/art.ginzburg.MiddleClick.plist"
             }
           ]
         }
@@ -455,7 +455,7 @@
       "depends_on": {
         "macos": {
           ">=": [
-            "10.11"
+            "10.13"
           ]
         }
       },
@@ -470,13 +470,13 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "685d2bcaab99fa204705c3ca687b81c2c82b47c7",
+      "tap_git_head": "363451479d1c274c7c55cbba1cbee1fae0da7cb0",
       "languages": [
 
       ],
       "ruby_source_path": "Casks/m/middleclick.rb",
       "ruby_source_checksum": {
-        "sha256": "9911d36f000688280ebdd2c8fee2ff3dc41b38e5255cebd4da26f5da11ad79fa"
+        "sha256": "be9f28e6c39bf6d69302196a6c48c65c9bc340cdd423a18701e07f07f602a1bc"
       }
     },
     {
@@ -494,9 +494,9 @@
       "url": "https://www.jianguoyun.com/static/exe/installer/NutstoreOSXInstaller.dmg",
       "url_specs": {
       },
-      "version": "6.4.0",
-      "installed": "6.4.0",
-      "installed_time": 1743289193,
+      "version": "6.4.1",
+      "installed": "6.4.1",
+      "installed_time": 1743581903,
       "bundle_version": null,
       "bundle_short_version": null,
       "outdated": false,
@@ -559,13 +559,13 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "685d2bcaab99fa204705c3ca687b81c2c82b47c7",
+      "tap_git_head": "363451479d1c274c7c55cbba1cbee1fae0da7cb0",
       "languages": [
 
       ],
       "ruby_source_path": "Casks/n/nutstore.rb",
       "ruby_source_checksum": {
-        "sha256": "21a6957c122e6eef4b339f472e001d9aa859b91bf33fc94f21913a45988a52cc"
+        "sha256": "8aad94342e5ce652c911298f0996fdd9458b1033d626850934a6b55437078e16"
       }
     },
     {
@@ -639,7 +639,7 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "685d2bcaab99fa204705c3ca687b81c2c82b47c7",
+      "tap_git_head": "363451479d1c274c7c55cbba1cbee1fae0da7cb0",
       "languages": [
 
       ],
@@ -661,17 +661,17 @@
       ],
       "desc": "Cloud video conferencing",
       "homepage": "https://meeting.tencent.com/",
-      "url": "https://updatecdn.meeting.qq.com/cos/3866bd6756af079a0ee3d555c0d6feff/TencentMeeting_0300000000_3.31.2.431.publish.arm64.officialwebsite.dmg",
+      "url": "https://updatecdn.meeting.qq.com/cos/7697ad4bd85e66aeee606d62bfcef765/TencentMeeting_0300000000_3.32.3.406.publish.arm64.officialwebsite.dmg",
       "url_specs": {
         "verified": "updatecdn.meeting.qq.com/cos/"
       },
-      "version": "3.31.2.431,3866bd6756af079a0ee3d555c0d6feff",
-      "installed": "3.31.2.431,3866bd6756af079a0ee3d555c0d6feff",
-      "installed_time": 1740553531,
-      "bundle_version": "431",
-      "bundle_short_version": "3.31.2",
+      "version": "3.32.3.406,7697ad4bd85e66aeee606d62bfcef765",
+      "installed": "3.32.3.406,7697ad4bd85e66aeee606d62bfcef765",
+      "installed_time": 1743582123,
+      "bundle_version": "406",
+      "bundle_short_version": "3.32.3",
       "outdated": false,
-      "sha256": "35f8b0c5f00fcc605922db8a989f916ba147f39f2ebbcc103df174dbbd3fd172",
+      "sha256": "3ca87f45a577f06244d2866049ce8a9adcc9192c1263ffad9264120d4e788102",
       "artifacts": [
         {
           "uninstall": [
@@ -723,13 +723,13 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "685d2bcaab99fa204705c3ca687b81c2c82b47c7",
+      "tap_git_head": "363451479d1c274c7c55cbba1cbee1fae0da7cb0",
       "languages": [
 
       ],
       "ruby_source_path": "Casks/t/tencent-meeting.rb",
       "ruby_source_checksum": {
-        "sha256": "94425edaf1abccd7bc2ab493ceb2a48af4306303dd4ae2e7fff96ca57a37e4a6"
+        "sha256": "a7e3385963135790dcfe723b62c83de8890751940e8de4a73a4ab1153ac3d956"
       }
     },
     {
@@ -809,7 +809,7 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "685d2bcaab99fa204705c3ca687b81c2c82b47c7",
+      "tap_git_head": "363451479d1c274c7c55cbba1cbee1fae0da7cb0",
       "languages": [
 
       ],
@@ -881,7 +881,7 @@
       "depends_on": {
         "macos": {
           ">=": [
-            "14"
+            "10.13"
           ]
         }
       },
@@ -896,13 +896,13 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "685d2bcaab99fa204705c3ca687b81c2c82b47c7",
+      "tap_git_head": "363451479d1c274c7c55cbba1cbee1fae0da7cb0",
       "languages": [
 
       ],
       "ruby_source_path": "Casks/w/wechat.rb",
       "ruby_source_checksum": {
-        "sha256": "9d46421decb45da286fea0b54193adaabfd1289debcca813b948dc648a7a8214"
+        "sha256": "962ac6f99b3fee56ac8f49e4bff08c2971342d60237c834d3bf2acde31902120"
       }
     }
   ]

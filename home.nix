@@ -126,7 +126,12 @@ let
       (writeShellScriptBin "biber-for-tectonic" ''exec ${lib.getExe tectonic.biber} "$@"'')
       inetutils # telnet
       dufs # file server
-      (if isLinux then miktex else texliveSmall)
+      (if isLinux then miktex else texliveSmall.withPackages (ps: with ps; [
+        enumitem
+        doublestroke
+        todonotes
+        nowidow
+      ]))
     ] ++ lib.optionals isLinux [
       fuse-overlayfs
       uxplay  # airplay server
