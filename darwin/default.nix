@@ -35,7 +35,12 @@
   nix.settings = {
     experimental-features = "nix-command flakes fetch-closure";
     trusted-users = lib.optionals pkgs.hostPlatform.isDarwin [ "@admin" ];
-    # extra-nix-path = "nixpkgs=flake:nixpkgs";
+    extra-nix-path = "nixpkgs=flake:nixpkgs";
+  };
+
+  nixpkgs.flake = {
+    setFlakeRegistry = false; # managed by home-manager
+    setNixPath = false; # managed manually in nix.settings.extra-nix-path
   };
 
   nix.channel.enable = false;
