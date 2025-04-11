@@ -5,28 +5,29 @@
   # $ nix-env -qaP | grep wget
   users.users.${attrs.username} = {
     packages = with pkgs; [
-      iterm2
       code-cursor
     ];
   };
 
   fonts.packages = [
     pkgs.nerd-fonts.hack
+    pkgs.ankacoder-condensed
   ];
 
   /** homebrew managed incrementally; need to install first */
   homebrew = {
     enable = true;
     casks = [
+      "iterm2"
       "firefox"
       "tencent-meeting"
       "wechat"
       "nutstore"
       "karabiner-elements"
       "middleclick"
-      "rectangle"
+      "rectangle" "amethyst" # window management
       "tunnelblick"
-      "hiddenbar"
+      "jordanbaird-ice" # hide top bar icons
     ];
   };
 
@@ -44,6 +45,8 @@
   };
 
   nix.channel.enable = false;
+
+  security.pam.services.sudo_local.touchIdAuth = true;
 
   system.defaults = {
     NSGlobalDomain = {

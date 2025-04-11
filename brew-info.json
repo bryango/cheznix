@@ -4,6 +4,78 @@
   ],
   "casks": [
     {
+      "token": "amethyst",
+      "full_token": "amethyst",
+      "old_tokens": [
+
+      ],
+      "tap": "homebrew/cask",
+      "name": [
+        "Amethyst"
+      ],
+      "desc": "Automatic tiling window manager similar to xmonad",
+      "homepage": "https://ianyh.com/amethyst/",
+      "url": "https://github.com/ianyh/Amethyst/releases/download/v0.23.1/Amethyst.zip",
+      "url_specs": {
+        "verified": "github.com/ianyh/Amethyst/"
+      },
+      "version": "0.23.1",
+      "installed": "0.23.1",
+      "installed_time": 1744071628,
+      "bundle_version": "123",
+      "bundle_short_version": "0.23.1",
+      "outdated": false,
+      "sha256": "b8c833ffe00585075a8a6935c13cf2a0d5991bc5e6e6f5e3809a1fb5fd2c67a3",
+      "artifacts": [
+        {
+          "app": [
+            "Amethyst.app"
+          ]
+        },
+        {
+          "zap": [
+            {
+              "trash": [
+                "~/Library/Application Support/Amethyst",
+                "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.amethyst.amethyst.sfl*",
+                "~/Library/Caches/com.amethyst.Amethyst",
+                "~/Library/Cookies/com.amethyst.Amethyst.binarycookies",
+                "~/Library/HTTPStorages/com.amethyst.Amethyst",
+                "~/Library/Preferences/com.amethyst.Amethyst.plist"
+              ]
+            }
+          ]
+        }
+      ],
+      "caveats": null,
+      "depends_on": {
+        "macos": {
+          ">=": [
+            "10.12"
+          ]
+        }
+      },
+      "conflicts_with": null,
+      "container": null,
+      "auto_updates": true,
+      "deprecated": false,
+      "deprecation_date": null,
+      "deprecation_reason": null,
+      "deprecation_replacement": null,
+      "disabled": false,
+      "disable_date": null,
+      "disable_reason": null,
+      "disable_replacement": null,
+      "tap_git_head": "d3fe0eece7f3e48d38677323dde445e31b2d6c93",
+      "languages": [
+
+      ],
+      "ruby_source_path": "Casks/a/amethyst.rb",
+      "ruby_source_checksum": {
+        "sha256": "107abbf8c2af38c0d76f4f4c11ee7d857304c2e6660a2b05d04c52a04555c679"
+      }
+    },
+    {
       "token": "firefox",
       "full_token": "firefox",
       "old_tokens": [
@@ -15,17 +87,17 @@
       ],
       "desc": "Web browser",
       "homepage": "https://www.mozilla.org/firefox/",
-      "url": "https://download-installer.cdn.mozilla.net/pub/firefox/releases/137.0/mac/en-US/Firefox%20137.0.dmg",
+      "url": "https://download-installer.cdn.mozilla.net/pub/firefox/releases/137.0.1/mac/en-US/Firefox%20137.0.1.dmg",
       "url_specs": {
         "verified": "download-installer.cdn.mozilla.net/pub/firefox/releases/"
       },
-      "version": "137.0",
-      "installed": "137.0",
-      "installed_time": 1743581058,
-      "bundle_version": "13725.3.27",
-      "bundle_short_version": "137.0",
+      "version": "137.0.1",
+      "installed": "137.0.1",
+      "installed_time": 1744150479,
+      "bundle_version": "13725.4.7",
+      "bundle_short_version": "137.0.1",
       "outdated": false,
-      "sha256": "bd9bff96ae3701f9c4957675ff3990fcb8306cbb2f6554fb81ad2427b1ec8464",
+      "sha256": "0a7b63ff8894506d3884b3c067ca0a6ceb38d8b6aa412585c3018d3f46c38213",
       "artifacts": [
         {
           "preflight": null
@@ -44,7 +116,7 @@
         },
         {
           "binary": [
-            "/opt/homebrew/Caskroom/firefox/137.0/firefox.wrapper.sh",
+            "/opt/homebrew/Caskroom/firefox/137.0.1/firefox.wrapper.sh",
             {
               "target": "firefox"
             }
@@ -102,7 +174,7 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "363451479d1c274c7c55cbba1cbee1fae0da7cb0",
+      "tap_git_head": "d3fe0eece7f3e48d38677323dde445e31b2d6c93",
       "languages": [
         "ach",
         "af",
@@ -210,53 +282,56 @@
       ],
       "ruby_source_path": "Casks/f/firefox.rb",
       "ruby_source_checksum": {
-        "sha256": "e12b72899e0fc45b70a511517f07532962e00abb88976497c0c51a544e6ce729"
+        "sha256": "ffe5cfbb357c8210e149ea850e89631ea1bd3f7a6f529414f6297599e2de7ff2"
       }
     },
     {
-      "token": "hiddenbar",
-      "full_token": "hiddenbar",
+      "token": "iterm2",
+      "full_token": "iterm2",
       "old_tokens": [
 
       ],
       "tap": "homebrew/cask",
       "name": [
-        "Hidden Bar"
+        "iTerm2"
       ],
-      "desc": "Utility to hide menu bar items",
-      "homepage": "https://github.com/dwarvesf/hidden/",
-      "url": "https://github.com/dwarvesf/hidden/releases/download/v1.9/Hidden.Bar.1.9.dmg",
+      "desc": "Terminal emulator as alternative to Apple's Terminal app",
+      "homepage": "https://iterm2.com/",
+      "url": "https://iterm2.com/downloads/stable/iTerm2-3_5_12.zip",
       "url_specs": {
       },
-      "version": "1.9",
-      "installed": "1.9",
-      "installed_time": 1743209844,
-      "bundle_version": "13",
-      "bundle_short_version": "1.9",
+      "version": "3.5.12",
+      "installed": "3.5.12",
+      "installed_time": 1744236903,
+      "bundle_version": "3.5.12",
+      "bundle_short_version": "3.5.12",
       "outdated": false,
-      "sha256": "3f54b024f5c1c40bc18aebe39014710289b47e147e71561fae22a661cab26d02",
+      "sha256": "87b297803b492a877d33f8961a77e85b2e4f1206ea604f8c51f5f9b08dec3af6",
       "artifacts": [
         {
-          "uninstall": [
-            {
-              "launchctl": "com.dwarvesv.LauncherApplication",
-              "quit": "com.dwarvesv.minimalbar"
-            }
-          ]
-        },
-        {
           "app": [
-            "Hidden Bar.app"
+            "iTerm.app"
           ]
         },
         {
           "zap": [
             {
               "trash": [
-                "~/Library/Application Scripts/com.dwarvesv.LauncherApplication",
-                "~/Library/Application Scripts/com.dwarvesv.minimalbar",
-                "~/Library/Containers/com.dwarvesv.LauncherApplication",
-                "~/Library/Containers/com.dwarvesv.minimalbar"
+                "~/Library/Application Scripts/com.googlecode.iterm2.iTermFileProvider",
+                "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.googlecode.iterm2.itermai.sfl*",
+                "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.googlecode.iterm2.sfl*",
+                "~/Library/Application Support/iTerm",
+                "~/Library/Application Support/iTerm2",
+                "~/Library/Caches/com.googlecode.iterm2",
+                "~/Library/Containers/com.googlecode.iterm2.iTermFileProvider",
+                "~/Library/Containers/iTermAI",
+                "~/Library/Cookies/com.googlecode.iterm2.binarycookies",
+                "~/Library/HTTPStorages/com.googlecode.iterm2",
+                "~/Library/HTTPStorages/com.googlecode.iterm2.binarycookies",
+                "~/Library/Preferences/com.googlecode.iterm2.plist",
+                "~/Library/Preferences/com.googlecode.iterm2.private.plist",
+                "~/Library/Saved Application State/com.googlecode.iterm2*.savedState",
+                "~/Library/WebKit/com.googlecode.iterm2"
               ]
             }
           ]
@@ -266,13 +341,18 @@
       "depends_on": {
         "macos": {
           ">=": [
-            "10.13"
+            "10.12"
           ]
         }
       },
-      "conflicts_with": null,
+      "conflicts_with": {
+        "cask": [
+          "iterm2@beta",
+          "iterm2@nightly"
+        ]
+      },
       "container": null,
-      "auto_updates": null,
+      "auto_updates": true,
       "deprecated": false,
       "deprecation_date": null,
       "deprecation_reason": null,
@@ -281,13 +361,91 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "363451479d1c274c7c55cbba1cbee1fae0da7cb0",
+      "tap_git_head": "d3fe0eece7f3e48d38677323dde445e31b2d6c93",
       "languages": [
 
       ],
-      "ruby_source_path": "Casks/h/hiddenbar.rb",
+      "ruby_source_path": "Casks/i/iterm2.rb",
       "ruby_source_checksum": {
-        "sha256": "76ed211fa78387073a2ed3e42fa2f77d385b5497c776e08607983585f65ccd30"
+        "sha256": "67208992ce46f17f4d54a249baec0f6464c9029110fd9f4e83b775e5adf5b0e2"
+      }
+    },
+    {
+      "token": "jordanbaird-ice",
+      "full_token": "jordanbaird-ice",
+      "old_tokens": [
+
+      ],
+      "tap": "homebrew/cask",
+      "name": [
+        "Ice"
+      ],
+      "desc": "Menu bar manager",
+      "homepage": "https://icemenubar.app/",
+      "url": "https://github.com/jordanbaird/ice-releases/releases/download/0.11.12/Ice.zip",
+      "url_specs": {
+        "verified": "github.com/jordanbaird/ice-releases/"
+      },
+      "version": "0.11.12",
+      "installed": "0.11.12",
+      "installed_time": 1743895027,
+      "bundle_version": "1117",
+      "bundle_short_version": "0.11.12",
+      "outdated": false,
+      "sha256": "d770e81597566dd2d2363feb350f808c7a92e363df95c51e48140eb30e452cc9",
+      "artifacts": [
+        {
+          "uninstall": [
+            {
+              "quit": "com.jordanbaird.Ice",
+              "login_item": "Ice"
+            }
+          ]
+        },
+        {
+          "app": [
+            "Ice.app"
+          ]
+        },
+        {
+          "zap": [
+            {
+              "trash": [
+                "~/Library/Caches/com.jordanbaird.Ice",
+                "~/Library/HTTPStorages/com.jordanbaird.Ice",
+                "~/Library/Preferences/com.jordanbaird.Ice.plist",
+                "~/Library/WebKit/com.jordanbaird.Ice"
+              ]
+            }
+          ]
+        }
+      ],
+      "caveats": null,
+      "depends_on": {
+        "macos": {
+          ">=": [
+            "14"
+          ]
+        }
+      },
+      "conflicts_with": null,
+      "container": null,
+      "auto_updates": true,
+      "deprecated": false,
+      "deprecation_date": null,
+      "deprecation_reason": null,
+      "deprecation_replacement": null,
+      "disabled": false,
+      "disable_date": null,
+      "disable_reason": null,
+      "disable_replacement": null,
+      "tap_git_head": "d3fe0eece7f3e48d38677323dde445e31b2d6c93",
+      "languages": [
+
+      ],
+      "ruby_source_path": "Casks/j/jordanbaird-ice.rb",
+      "ruby_source_checksum": {
+        "sha256": "3d34bf9678d5cecfdd87545ba35897d1b055eae4b2ba1f259fa6705828045422"
       }
     },
     {
@@ -398,13 +556,105 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "363451479d1c274c7c55cbba1cbee1fae0da7cb0",
+      "tap_git_head": "d3fe0eece7f3e48d38677323dde445e31b2d6c93",
       "languages": [
 
       ],
       "ruby_source_path": "Casks/k/karabiner-elements.rb",
       "ruby_source_checksum": {
         "sha256": "dcc56169e690447177cc1207494bbc74ec78fa6a0303a4b24c59cd1fddfab7a9"
+      }
+    },
+    {
+      "token": "keka",
+      "full_token": "keka",
+      "old_tokens": [
+
+      ],
+      "tap": "homebrew/cask",
+      "name": [
+        "Keka"
+      ],
+      "desc": "File archiver",
+      "homepage": "https://www.keka.io/",
+      "url": "https://github.com/aonez/Keka/releases/download/v1.4.8/Keka-1.4.8.dmg",
+      "url_specs": {
+        "verified": "github.com/aonez/Keka/"
+      },
+      "version": "1.4.8",
+      "installed": "1.4.8",
+      "installed_time": 1744161688,
+      "bundle_version": "5573",
+      "bundle_short_version": "1.4.8",
+      "outdated": false,
+      "sha256": "ae33510c32bdc77a2b63f0cd069a0c9ef063ee7a84d8b68abbcf1fe9511376a2",
+      "artifacts": [
+        {
+          "preflight": null
+        },
+        {
+          "app": [
+            "Keka.app"
+          ]
+        },
+        {
+          "binary": [
+            "/opt/homebrew/Caskroom/keka/1.4.8/keka.wrapper.sh",
+            {
+              "target": "keka"
+            }
+          ]
+        },
+        {
+          "zap": [
+            {
+              "trash": [
+                "~/Library/Application Scripts/*.group.com.aone.keka",
+                "~/Library/Application Scripts/com.aone.keka",
+                "~/Library/Application Scripts/com.aone.keka.KekaFinderIntegration",
+                "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.aone.keka.sfl*",
+                "~/Library/Application Support/Keka",
+                "~/Library/Caches/com.aone.keka",
+                "~/Library/Containers/com.aone.keka",
+                "~/Library/Containers/com.aone.keka.KekaFinderIntegration",
+                "~/Library/Group Containers/*.group.com.aone.keka",
+                "~/Library/Preferences/com.aone.keka.plist",
+                "~/Library/Saved Application State/com.aone.keka.savedState"
+              ]
+            }
+          ]
+        }
+      ],
+      "caveats": null,
+      "depends_on": {
+        "macos": {
+          ">=": [
+            "10.11"
+          ]
+        }
+      },
+      "conflicts_with": {
+        "cask": [
+          "keka@beta"
+        ]
+      },
+      "container": null,
+      "auto_updates": true,
+      "deprecated": false,
+      "deprecation_date": null,
+      "deprecation_reason": null,
+      "deprecation_replacement": null,
+      "disabled": false,
+      "disable_date": null,
+      "disable_reason": null,
+      "disable_replacement": null,
+      "tap_git_head": "d3fe0eece7f3e48d38677323dde445e31b2d6c93",
+      "languages": [
+
+      ],
+      "ruby_source_path": "Casks/k/keka.rb",
+      "ruby_source_checksum": {
+        "sha256": "d6406751bfdb3b22c09da4825cbcc2c32afbd979b58b7a7b28d9e90d80fbd11b"
       }
     },
     {
@@ -470,7 +720,7 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "363451479d1c274c7c55cbba1cbee1fae0da7cb0",
+      "tap_git_head": "d3fe0eece7f3e48d38677323dde445e31b2d6c93",
       "languages": [
 
       ],
@@ -559,7 +809,7 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "363451479d1c274c7c55cbba1cbee1fae0da7cb0",
+      "tap_git_head": "d3fe0eece7f3e48d38677323dde445e31b2d6c93",
       "languages": [
 
       ],
@@ -580,17 +830,17 @@
       ],
       "desc": "Move and resize windows using keyboard shortcuts or snap areas",
       "homepage": "https://rectangleapp.com/",
-      "url": "https://github.com/rxhanson/Rectangle/releases/download/v0.86/Rectangle0.86.dmg",
+      "url": "https://github.com/rxhanson/Rectangle/releases/download/v0.87/Rectangle0.87.dmg",
       "url_specs": {
         "verified": "github.com/rxhanson/Rectangle/"
       },
-      "version": "0.86",
-      "installed": "0.86",
-      "installed_time": 1740898070,
-      "bundle_version": "92",
-      "bundle_short_version": "0.86",
+      "version": "0.87",
+      "installed": "0.87",
+      "installed_time": 1744150492,
+      "bundle_version": "93",
+      "bundle_short_version": "0.87",
       "outdated": false,
-      "sha256": "5142f9c5a667f8d0d0e55be5547f5139e9390054397f264b1ae6cb73fa90a9c2",
+      "sha256": "a275f345152faf75a2567f4967154ba9715c0a6146feed67fa83ac4c440c8bef",
       "artifacts": [
         {
           "uninstall": [
@@ -639,13 +889,13 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "363451479d1c274c7c55cbba1cbee1fae0da7cb0",
+      "tap_git_head": "d3fe0eece7f3e48d38677323dde445e31b2d6c93",
       "languages": [
 
       ],
       "ruby_source_path": "Casks/r/rectangle.rb",
       "ruby_source_checksum": {
-        "sha256": "dd624c892eaf244e6f739c70ceab48c893b98c3cee30587835f207dbca33bda8"
+        "sha256": "c47bfd1ed10aeebee8d689ce0cc8e1fb8c573bedd7433932f9f388252a71c9a8"
       }
     },
     {
@@ -723,7 +973,7 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "363451479d1c274c7c55cbba1cbee1fae0da7cb0",
+      "tap_git_head": "d3fe0eece7f3e48d38677323dde445e31b2d6c93",
       "languages": [
 
       ],
@@ -809,7 +1059,7 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "363451479d1c274c7c55cbba1cbee1fae0da7cb0",
+      "tap_git_head": "d3fe0eece7f3e48d38677323dde445e31b2d6c93",
       "languages": [
 
       ],
@@ -896,7 +1146,7 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "363451479d1c274c7c55cbba1cbee1fae0da7cb0",
+      "tap_git_head": "d3fe0eece7f3e48d38677323dde445e31b2d6c93",
       "languages": [
 
       ],

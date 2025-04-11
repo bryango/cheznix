@@ -131,6 +131,9 @@ let
         doublestroke
         todonotes
         nowidow
+        helvetic
+        comment
+        uri
       ]))
     ] ++ lib.optionals isLinux [
       fuse-overlayfs
