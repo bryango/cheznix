@@ -1,22 +1,22 @@
 {
   "elements": {
+    "flakes": {
+      "active": true,
+      "attrPath": "packages.aarch64-darwin.default",
+      "originalUrl": "git+file:///Users/bryan/apps/flakes",
+      "outputs": null,
+      "priority": 5,
+      "storePaths": [
+        "/nix/store/z2lf6q2998760kgbgj4rza6gwq6qbw1i-home-apps"
+      ],
+      "url": "git+file:///Users/bryan/apps/flakes?ref=refs/heads/dev&rev=f71eb38775c7e3e04c62f404ad32db116e476e62"
+    },
     "home-manager-path": {
       "active": true,
       "priority": 5,
       "storePaths": [
-        "/nix/store/ngmmskz7jszx7m68fcxi1ibapjc7a7l1-home-manager-path"
+        "/nix/store/kz892s0d326530h0rk2kdbswk8kjdlva-home-manager-path"
       ]
-    },
-    "hydra-check": {
-      "active": true,
-      "attrPath": "legacyPackages.aarch64-darwin.hydra-check",
-      "originalUrl": "flake:nixpkgs",
-      "outputs": null,
-      "priority": 5,
-      "storePaths": [
-        "/nix/store/za51xqxwbjaqksl1v67ix8zay1jmncck-hydra-check-2.0.4"
-      ],
-      "url": "github:NixOS/nixpkgs/25d1b84f5c90632a623c48d83a2faf156451e6b1?narHash=sha256-biPjLws6FiBVUUDHEMFq5pUQL84Wf7PntPYdo3oKkFw%3D"
     }
   },
   "version": 3
