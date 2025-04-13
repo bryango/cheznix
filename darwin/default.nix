@@ -18,15 +18,19 @@
   homebrew = {
     enable = true;
     casks = [
-      "iterm2"
+      # trusted
       "firefox"
-      "tencent-meeting"
-      "wechat"
+
+      # proprietary but trusted
       "nutstore"
+
+      "iterm2"
       "karabiner-elements"
       "middleclick"
-      "rectangle" "amethyst" # window management
-      "tunnelblick"
+      "rectangle"
+      "keka" # archiver
+      "amethyst" # window management
+      "tunnelblick" # openvpn client
       "jordanbaird-ice" # hide top bar icons
     ];
   };
