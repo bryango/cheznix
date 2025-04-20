@@ -8,7 +8,7 @@
 let
 
   inherit (pkgs.hostPlatform)
-    # isDarwin
+    isDarwin
     isLinux;
 
   packages = with pkgs; {
@@ -187,6 +187,8 @@ let
         meta.priority = (zed-editor.meta.priority or 5) - 1;
         # override the original zed binary
       })
+    ] ++ lib.optionals isDarwin [
+      darwin-apps # from cheznix.inputs.darwin-apps
     ];
 
   };

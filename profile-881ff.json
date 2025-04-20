@@ -9,13 +9,13 @@
       "storePaths": [
         "/nix/store/z2lf6q2998760kgbgj4rza6gwq6qbw1i-home-apps"
       ],
-      "url": "git+file:///Users/bryan/apps/flakes?ref=refs/heads/dev&rev=f71eb38775c7e3e04c62f404ad32db116e476e62"
+      "url": "git+file:///Users/bryan/apps/flakes?ref=refs/heads/dev&rev=061c43afc4b1e3cc0f8eb9f1bf1f9cdfc7c88b14"
     },
     "home-manager-path": {
       "active": true,
       "priority": 5,
       "storePaths": [
-        "/nix/store/3cgdn3na67i9j8imcly5bcl9ycjpqxsh-home-manager-path"
+        "/nix/store/d4xs6nq9c11w6ihpc5zj6505m1b0kmnh-home-manager-path"
       ]
     }
   },

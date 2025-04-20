@@ -2,6 +2,23 @@ final: prev: with prev; {
 
   ## do NOT overlay `nix`, otherwise issues may propagate!
 
+  darwin-apps = pkgs.buildEnv {
+    name = "darwin-apps";
+    paths = [
+      (let
+        path = lib.strings.trim (builtins.readFile final.cheznix.inputs.darwin-apps);
+      in
+      builtins.fetchClosure {
+        fromStore = "https://chezbryan.cachix.org";
+        # it seems that cachix doesn't advertise ca-derivations;
+        # no worries, just treat them as input addressed:
+        toPath = path;
+        fromPath = path;
+      })
+    ];
+    meta.platforms = [ "aarch64-darwin" ];
+  };
+
   nix-flake-tree = stdenvNoCC.mkDerivation {
     name = "nix-flake-tree";
     buildInputs = [ python3 ];

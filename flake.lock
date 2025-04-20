@@ -1,5 +1,17 @@
 {
   "nodes": {
+    "darwin-apps": {
+      "flake": false,
+      "locked": {
+        "narHash": "sha256-oLzusxjkeDhjkblafk4NvBEoumgMxZmdbmACYATnxFE=",
+        "type": "file",
+        "url": "https://github.com/bryango/flakes/raw/refs/heads/dev/darwin/darwin-apps.txt"
+      },
+      "original": {
+        "type": "file",
+        "url": "https://github.com/bryango/flakes/raw/refs/heads/dev/darwin/darwin-apps.txt"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -159,6 +171,7 @@
     },
     "root": {
       "inputs": {
+        "darwin-apps": "darwin-apps",
         "home-attrs": "home-attrs",
         "nix-darwin": "nix-darwin",
         "nixpkgs-config": "nixpkgs-config",

@@ -4,6 +4,85 @@
   ],
   "casks": [
     {
+      "token": "alt-tab",
+      "full_token": "alt-tab",
+      "old_tokens": [
+
+      ],
+      "tap": "homebrew/cask",
+      "name": [
+        "AltTab"
+      ],
+      "desc": "Enable Windows-like alt-tab",
+      "homepage": "https://alt-tab-macos.netlify.app/",
+      "url": "https://github.com/lwouis/alt-tab-macos/releases/download/v7.23.0/AltTab-7.23.0.zip",
+      "url_specs": {
+        "verified": "github.com/lwouis/alt-tab-macos/"
+      },
+      "version": "7.23.0",
+      "installed": "7.23.0",
+      "installed_time": 1744520369,
+      "bundle_version": "7.23.0",
+      "bundle_short_version": "7.23.0",
+      "outdated": false,
+      "sha256": "3530ec23446d8e1f96c609c9d53a34f3a30d7c01668887922c0c368b39a3b250",
+      "artifacts": [
+        {
+          "uninstall": [
+            {
+              "quit": "com.lwouis.alt-tab-macos"
+            }
+          ]
+        },
+        {
+          "app": [
+            "AltTab.app"
+          ]
+        },
+        {
+          "zap": [
+            {
+              "trash": [
+                "~/Library/Application Support/com.lwouis.alt-tab-macos",
+                "~/Library/Caches/com.lwouis.alt-tab-macos",
+                "~/Library/Cookies/com.lwouis.alt-tab-macos.binarycookies",
+                "~/Library/HTTPStorages/com.lwouis.alt-tab-macos",
+                "~/Library/LaunchAgents/com.lwouis.alt-tab-macos.plist",
+                "~/Library/Preferences/com.lwouis.alt-tab-macos.plist"
+              ]
+            }
+          ]
+        }
+      ],
+      "caveats": null,
+      "depends_on": {
+        "macos": {
+          ">=": [
+            "10.12"
+          ]
+        }
+      },
+      "conflicts_with": null,
+      "container": null,
+      "auto_updates": true,
+      "deprecated": false,
+      "deprecation_date": null,
+      "deprecation_reason": null,
+      "deprecation_replacement": null,
+      "disabled": false,
+      "disable_date": null,
+      "disable_reason": null,
+      "disable_replacement": null,
+      "tap_git_head": "cd38ba9cb8adb4465df9cefdf3e9926e3f1a6e46",
+      "languages": [
+
+      ],
+      "ruby_source_path": "Casks/a/alt-tab.rb",
+      "ruby_source_checksum": {
+        "sha256": "ec758267be0c587ad7d30fe34d9fba6a08e8d7636215cff17363d6c3a5df5af6"
+      }
+    },
+    {
       "token": "amethyst",
       "full_token": "amethyst",
       "old_tokens": [
@@ -66,7 +145,7 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "d3fe0eece7f3e48d38677323dde445e31b2d6c93",
+      "tap_git_head": "cd38ba9cb8adb4465df9cefdf3e9926e3f1a6e46",
       "languages": [
 
       ],
@@ -174,7 +253,7 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "d3fe0eece7f3e48d38677323dde445e31b2d6c93",
+      "tap_git_head": "cd38ba9cb8adb4465df9cefdf3e9926e3f1a6e46",
       "languages": [
         "ach",
         "af",
@@ -297,16 +376,16 @@
       ],
       "desc": "Terminal emulator as alternative to Apple's Terminal app",
       "homepage": "https://iterm2.com/",
-      "url": "https://iterm2.com/downloads/stable/iTerm2-3_5_12.zip",
+      "url": "https://iterm2.com/downloads/stable/iTerm2-3_5_13.zip",
       "url_specs": {
       },
-      "version": "3.5.12",
+      "version": "3.5.13",
       "installed": "3.5.12",
       "installed_time": 1744236903,
       "bundle_version": "3.5.12",
       "bundle_short_version": "3.5.12",
       "outdated": false,
-      "sha256": "87b297803b492a877d33f8961a77e85b2e4f1206ea604f8c51f5f9b08dec3af6",
+      "sha256": "87f8f6ca41a8af5fa9ea38bdea2e51881311e7fac241a2c79d7630bc509a374d",
       "artifacts": [
         {
           "app": [
@@ -361,91 +440,13 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "d3fe0eece7f3e48d38677323dde445e31b2d6c93",
+      "tap_git_head": "cd38ba9cb8adb4465df9cefdf3e9926e3f1a6e46",
       "languages": [
 
       ],
       "ruby_source_path": "Casks/i/iterm2.rb",
       "ruby_source_checksum": {
-        "sha256": "67208992ce46f17f4d54a249baec0f6464c9029110fd9f4e83b775e5adf5b0e2"
-      }
-    },
-    {
-      "token": "jordanbaird-ice",
-      "full_token": "jordanbaird-ice",
-      "old_tokens": [
-
-      ],
-      "tap": "homebrew/cask",
-      "name": [
-        "Ice"
-      ],
-      "desc": "Menu bar manager",
-      "homepage": "https://icemenubar.app/",
-      "url": "https://github.com/jordanbaird/ice-releases/releases/download/0.11.12/Ice.zip",
-      "url_specs": {
-        "verified": "github.com/jordanbaird/ice-releases/"
-      },
-      "version": "0.11.12",
-      "installed": "0.11.12",
-      "installed_time": 1743895027,
-      "bundle_version": "1117",
-      "bundle_short_version": "0.11.12",
-      "outdated": false,
-      "sha256": "d770e81597566dd2d2363feb350f808c7a92e363df95c51e48140eb30e452cc9",
-      "artifacts": [
-        {
-          "uninstall": [
-            {
-              "quit": "com.jordanbaird.Ice",
-              "login_item": "Ice"
-            }
-          ]
-        },
-        {
-          "app": [
-            "Ice.app"
-          ]
-        },
-        {
-          "zap": [
-            {
-              "trash": [
-                "~/Library/Caches/com.jordanbaird.Ice",
-                "~/Library/HTTPStorages/com.jordanbaird.Ice",
-                "~/Library/Preferences/com.jordanbaird.Ice.plist",
-                "~/Library/WebKit/com.jordanbaird.Ice"
-              ]
-            }
-          ]
-        }
-      ],
-      "caveats": null,
-      "depends_on": {
-        "macos": {
-          ">=": [
-            "14"
-          ]
-        }
-      },
-      "conflicts_with": null,
-      "container": null,
-      "auto_updates": true,
-      "deprecated": false,
-      "deprecation_date": null,
-      "deprecation_reason": null,
-      "deprecation_replacement": null,
-      "disabled": false,
-      "disable_date": null,
-      "disable_reason": null,
-      "disable_replacement": null,
-      "tap_git_head": "d3fe0eece7f3e48d38677323dde445e31b2d6c93",
-      "languages": [
-
-      ],
-      "ruby_source_path": "Casks/j/jordanbaird-ice.rb",
-      "ruby_source_checksum": {
-        "sha256": "3d34bf9678d5cecfdd87545ba35897d1b055eae4b2ba1f259fa6705828045422"
+        "sha256": "ccd93fa2b25029c7f81c8f8d3d4e90f1de515d962bc620f9be338bcdd65bd321"
       }
     },
     {
@@ -556,7 +557,7 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "d3fe0eece7f3e48d38677323dde445e31b2d6c93",
+      "tap_git_head": "cd38ba9cb8adb4465df9cefdf3e9926e3f1a6e46",
       "languages": [
 
       ],
@@ -648,13 +649,90 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "d3fe0eece7f3e48d38677323dde445e31b2d6c93",
+      "tap_git_head": "cd38ba9cb8adb4465df9cefdf3e9926e3f1a6e46",
       "languages": [
 
       ],
       "ruby_source_path": "Casks/k/keka.rb",
       "ruby_source_checksum": {
         "sha256": "d6406751bfdb3b22c09da4825cbcc2c32afbd979b58b7a7b28d9e90d80fbd11b"
+      }
+    },
+    {
+      "token": "maccy",
+      "full_token": "maccy",
+      "old_tokens": [
+
+      ],
+      "tap": "homebrew/cask",
+      "name": [
+        "Maccy"
+      ],
+      "desc": "Clipboard manager",
+      "homepage": "https://maccy.app/",
+      "url": "https://github.com/p0deje/Maccy/releases/download/2.3.0/Maccy.app.zip",
+      "url_specs": {
+        "verified": "github.com/p0deje/Maccy/"
+      },
+      "version": "2.3.0",
+      "installed": "2.3.0",
+      "installed_time": 1744570314,
+      "bundle_version": "54",
+      "bundle_short_version": "2.3.0",
+      "outdated": false,
+      "sha256": "3ebaf4b773af3d6527510ddc4c4dc3fa38f501228a983bc66489ca953d56b09d",
+      "artifacts": [
+        {
+          "uninstall": [
+            {
+              "quit": "org.p0deje.Maccy"
+            }
+          ]
+        },
+        {
+          "app": [
+            "Maccy.app"
+          ]
+        },
+        {
+          "zap": [
+            {
+              "login_item": "Maccy",
+              "trash": [
+                "~/Library/Application Scripts/org.p0deje.Maccy",
+                "~/Library/Containers/org.p0deje.Maccy",
+                "~/Library/Preferences/org.p0deje.Maccy.plist"
+              ]
+            }
+          ]
+        }
+      ],
+      "caveats": null,
+      "depends_on": {
+        "macos": {
+          ">=": [
+            "14"
+          ]
+        }
+      },
+      "conflicts_with": null,
+      "container": null,
+      "auto_updates": true,
+      "deprecated": false,
+      "deprecation_date": null,
+      "deprecation_reason": null,
+      "deprecation_replacement": null,
+      "disabled": false,
+      "disable_date": null,
+      "disable_reason": null,
+      "disable_replacement": null,
+      "tap_git_head": "cd38ba9cb8adb4465df9cefdf3e9926e3f1a6e46",
+      "languages": [
+
+      ],
+      "ruby_source_path": "Casks/m/maccy.rb",
+      "ruby_source_checksum": {
+        "sha256": "a6185a9efa61720fb3d0b79fe19bc87f6591a490fc35fcab171fd43f5a1d95ce"
       }
     },
     {
@@ -720,7 +798,7 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "d3fe0eece7f3e48d38677323dde445e31b2d6c93",
+      "tap_git_head": "cd38ba9cb8adb4465df9cefdf3e9926e3f1a6e46",
       "languages": [
 
       ],
@@ -809,7 +887,7 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "d3fe0eece7f3e48d38677323dde445e31b2d6c93",
+      "tap_git_head": "cd38ba9cb8adb4465df9cefdf3e9926e3f1a6e46",
       "languages": [
 
       ],
@@ -889,7 +967,7 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "d3fe0eece7f3e48d38677323dde445e31b2d6c93",
+      "tap_git_head": "cd38ba9cb8adb4465df9cefdf3e9926e3f1a6e46",
       "languages": [
 
       ],
@@ -975,7 +1053,7 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "d3fe0eece7f3e48d38677323dde445e31b2d6c93",
+      "tap_git_head": "cd38ba9cb8adb4465df9cefdf3e9926e3f1a6e46",
       "languages": [
 
       ],

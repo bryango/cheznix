@@ -33,7 +33,6 @@
       "keka" # archiver
       "amethyst" # window management
       "tunnelblick" # openvpn client
-      "jordanbaird-ice" # hide top bar icons
     ];
   };
 
