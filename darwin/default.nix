@@ -28,6 +28,8 @@
       "karabiner-elements"
       "middleclick"
       "rectangle"
+      "alt-tab"
+      "maccy"
       "keka" # archiver
       "amethyst" # window management
       "tunnelblick" # openvpn client
