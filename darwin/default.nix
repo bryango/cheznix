@@ -24,11 +24,13 @@
       # proprietary but trusted
       "nutstore"
 
+      # probably okay
       "iterm2"
       "karabiner-elements"
+
+      # should try to build from source
       "middleclick"
       "rectangle"
-      "alt-tab"
       "maccy"
       "keka" # archiver
       "amethyst" # window management

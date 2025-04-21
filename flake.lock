@@ -3,7 +3,7 @@
     "darwin-apps": {
       "flake": false,
       "locked": {
-        "narHash": "sha256-oLzusxjkeDhjkblafk4NvBEoumgMxZmdbmACYATnxFE=",
+        "narHash": "sha256-Sv3r9Rqf8sq8tQF4NjlvHxKqQU6Swq7xGoUFL12L/LY=",
         "type": "file",
         "url": "https://github.com/bryango/flakes/raw/refs/heads/dev/darwin/darwin-apps.txt"
       },
