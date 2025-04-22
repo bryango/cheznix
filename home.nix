@@ -190,7 +190,7 @@ let
         # override the original zed binary
       })
     ] ++ lib.optionals isDarwin [
-      darwin-apps # from cheznix.inputs.darwin-apps
+      darwin-apps # from ./overlay.nix
     ];
 
   };

@@ -6,7 +6,7 @@ final: prev: with prev; {
     name = "darwin-apps";
     paths = [
       (let
-        path = lib.strings.trim (builtins.readFile final.cheznix.inputs.darwin-apps);
+        path = "/nix/store/52qwi378sskdzblgwmf7dm4gwf4qb522-darwin-apps";
       in
       builtins.fetchClosure {
         fromStore = "https://chezbryan.cachix.org";

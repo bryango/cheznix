@@ -35,11 +35,6 @@
       inputs.nixpkgs.follows = "nixpkgs-config/nixpkgs";
     };
 
-    /** provide store path for some homemade darwin .apps */
-    darwin-apps = {
-      url = "https://github.com/bryango/flakes/raw/refs/heads/dev/darwin/darwin-apps.txt";
-      flake = false;
-    };
   };
 
   outputs = { self, home-attrs, system-manager, nix-darwin, ... }:
