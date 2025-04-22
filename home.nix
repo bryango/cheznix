@@ -135,6 +135,8 @@ let
         comment
         uri
       ]))
+      hunspellDicts.en_US-large
+      hyphenDicts.en_US
     ] ++ lib.optionals isLinux [
       fuse-overlayfs
       uxplay  # airplay server
