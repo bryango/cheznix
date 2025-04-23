@@ -35,6 +35,12 @@
       inputs.nixpkgs.follows = "nixpkgs-config/nixpkgs";
     };
 
+    /** provide store path for some homemade darwin .apps */
+    darwin-apps = {
+      url = "git+https://gist.github.com/0057346dbf85981e58518be49d36fc06.git";
+      flake = false;
+    };
+
   };
 
   outputs = { self, home-attrs, system-manager, nix-darwin, ... }:

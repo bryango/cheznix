@@ -29,8 +29,6 @@
       "karabiner-elements"
 
       # should try to build from source
-      "middleclick"
-      "rectangle"
       "maccy"
       "keka" # archiver
       "amethyst" # window management

@@ -1,5 +1,21 @@
 {
   "nodes": {
+    "darwin-apps": {
+      "flake": false,
+      "locked": {
+        "lastModified": 1745388351,
+        "narHash": "sha256-ZtndDyxjz8Utrb3lZJ4JFNnJPMMeXshEZERymRSrofQ=",
+        "ref": "refs/heads/master",
+        "rev": "260394ad01fcc81a3307fdaf8191035fff71eb37",
+        "revCount": 3,
+        "type": "git",
+        "url": "https://gist.github.com/0057346dbf85981e58518be49d36fc06.git"
+      },
+      "original": {
+        "type": "git",
+        "url": "https://gist.github.com/0057346dbf85981e58518be49d36fc06.git"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -159,6 +175,7 @@
     },
     "root": {
       "inputs": {
+        "darwin-apps": "darwin-apps",
         "home-attrs": "home-attrs",
         "nix-darwin": "nix-darwin",
         "nixpkgs-config": "nixpkgs-config",
