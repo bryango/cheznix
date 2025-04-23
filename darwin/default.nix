@@ -14,6 +14,10 @@
     pkgs.ankacoder-condensed
   ];
 
+  programs.zsh = {
+    enableGlobalCompInit = false; # defer for later
+  };
+
   /** homebrew managed incrementally; need to install first */
   homebrew = {
     enable = true;

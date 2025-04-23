@@ -66,7 +66,7 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "cd38ba9cb8adb4465df9cefdf3e9926e3f1a6e46",
+      "tap_git_head": "24cf764df3352f0dea731eb201b34e6e064db655",
       "languages": [
 
       ],
@@ -87,17 +87,17 @@
       ],
       "desc": "Web browser",
       "homepage": "https://www.mozilla.org/firefox/",
-      "url": "https://download-installer.cdn.mozilla.net/pub/firefox/releases/137.0.1/mac/en-US/Firefox%20137.0.1.dmg",
+      "url": "https://download-installer.cdn.mozilla.net/pub/firefox/releases/137.0.2/mac/en-US/Firefox%20137.0.2.dmg",
       "url_specs": {
         "verified": "download-installer.cdn.mozilla.net/pub/firefox/releases/"
       },
-      "version": "137.0.1",
+      "version": "137.0.2",
       "installed": "137.0.1",
       "installed_time": 1744150479,
       "bundle_version": "13725.4.7",
       "bundle_short_version": "137.0.1",
       "outdated": false,
-      "sha256": "0a7b63ff8894506d3884b3c067ca0a6ceb38d8b6aa412585c3018d3f46c38213",
+      "sha256": "0338912d47bdcb9ea2c09bcf31b7e68a4ded1a083b60c129781534d535601ed5",
       "artifacts": [
         {
           "preflight": null
@@ -116,7 +116,7 @@
         },
         {
           "binary": [
-            "/opt/homebrew/Caskroom/firefox/137.0.1/firefox.wrapper.sh",
+            "/opt/homebrew/Caskroom/firefox/137.0.2/firefox.wrapper.sh",
             {
               "target": "firefox"
             }
@@ -174,7 +174,7 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "cd38ba9cb8adb4465df9cefdf3e9926e3f1a6e46",
+      "tap_git_head": "24cf764df3352f0dea731eb201b34e6e064db655",
       "languages": [
         "ach",
         "af",
@@ -282,7 +282,7 @@
       ],
       "ruby_source_path": "Casks/f/firefox.rb",
       "ruby_source_checksum": {
-        "sha256": "ffe5cfbb357c8210e149ea850e89631ea1bd3f7a6f529414f6297599e2de7ff2"
+        "sha256": "435aa5b152130812951e8ca00d9d5bd48363b8a38b28f051189c791405b16743"
       }
     },
     {
@@ -361,7 +361,7 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "cd38ba9cb8adb4465df9cefdf3e9926e3f1a6e46",
+      "tap_git_head": "24cf764df3352f0dea731eb201b34e6e064db655",
       "languages": [
 
       ],
@@ -428,7 +428,7 @@
                 "org.pqrs.Karabiner-DriverKit-VirtualHIDDevice",
                 "org.pqrs.Karabiner-Elements"
               ],
-              "delete": "/Library/Application Support/org.pqrs/"
+              "delete": "/Library/Application Support/org.pqrs"
             }
           ]
         },
@@ -478,13 +478,13 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "cd38ba9cb8adb4465df9cefdf3e9926e3f1a6e46",
+      "tap_git_head": "24cf764df3352f0dea731eb201b34e6e064db655",
       "languages": [
 
       ],
       "ruby_source_path": "Casks/k/karabiner-elements.rb",
       "ruby_source_checksum": {
-        "sha256": "dcc56169e690447177cc1207494bbc74ec78fa6a0303a4b24c59cd1fddfab7a9"
+        "sha256": "c78c551fe6654b30a9148b52ed2579f5ca10d7dd03e5592d65f1308aadb1e206"
       }
     },
     {
@@ -570,7 +570,7 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "cd38ba9cb8adb4465df9cefdf3e9926e3f1a6e46",
+      "tap_git_head": "24cf764df3352f0dea731eb201b34e6e064db655",
       "languages": [
 
       ],
@@ -647,85 +647,13 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "cd38ba9cb8adb4465df9cefdf3e9926e3f1a6e46",
+      "tap_git_head": "24cf764df3352f0dea731eb201b34e6e064db655",
       "languages": [
 
       ],
       "ruby_source_path": "Casks/m/maccy.rb",
       "ruby_source_checksum": {
         "sha256": "a6185a9efa61720fb3d0b79fe19bc87f6591a490fc35fcab171fd43f5a1d95ce"
-      }
-    },
-    {
-      "token": "middleclick",
-      "full_token": "middleclick",
-      "old_tokens": [
-
-      ],
-      "tap": "homebrew/cask",
-      "name": [
-        "MiddleClick"
-      ],
-      "desc": "Utility to extend trackpad functionality",
-      "homepage": "https://github.com/artginzburg/MiddleClick",
-      "url": "https://github.com/artginzburg/MiddleClick/releases/download/3.0.0/MiddleClick.zip",
-      "url_specs": {
-      },
-      "version": "3.0.0",
-      "installed": "3.0.0",
-      "installed_time": 1743580677,
-      "bundle_version": "26",
-      "bundle_short_version": "3.0.0",
-      "outdated": false,
-      "sha256": "e80bc000bc8370349c83648307f5443dfa3e7cac3f67faaad589bceebec9fc33",
-      "artifacts": [
-        {
-          "uninstall": [
-            {
-              "quit": "art.ginzburg.MiddleClick",
-              "login_item": "MiddleClick"
-            }
-          ]
-        },
-        {
-          "app": [
-            "MiddleClick.app"
-          ]
-        },
-        {
-          "zap": [
-            {
-              "trash": "~/Library/Preferences/art.ginzburg.MiddleClick.plist"
-            }
-          ]
-        }
-      ],
-      "caveats": null,
-      "depends_on": {
-        "macos": {
-          ">=": [
-            "10.13"
-          ]
-        }
-      },
-      "conflicts_with": null,
-      "container": null,
-      "auto_updates": null,
-      "deprecated": false,
-      "deprecation_date": null,
-      "deprecation_reason": null,
-      "deprecation_replacement": null,
-      "disabled": false,
-      "disable_date": null,
-      "disable_reason": null,
-      "disable_replacement": null,
-      "tap_git_head": "cd38ba9cb8adb4465df9cefdf3e9926e3f1a6e46",
-      "languages": [
-
-      ],
-      "ruby_source_path": "Casks/m/middleclick.rb",
-      "ruby_source_checksum": {
-        "sha256": "be9f28e6c39bf6d69302196a6c48c65c9bc340cdd423a18701e07f07f602a1bc"
       }
     },
     {
@@ -808,93 +736,13 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "cd38ba9cb8adb4465df9cefdf3e9926e3f1a6e46",
+      "tap_git_head": "24cf764df3352f0dea731eb201b34e6e064db655",
       "languages": [
 
       ],
       "ruby_source_path": "Casks/n/nutstore.rb",
       "ruby_source_checksum": {
         "sha256": "8aad94342e5ce652c911298f0996fdd9458b1033d626850934a6b55437078e16"
-      }
-    },
-    {
-      "token": "rectangle",
-      "full_token": "rectangle",
-      "old_tokens": [
-
-      ],
-      "tap": "homebrew/cask",
-      "name": [
-        "Rectangle"
-      ],
-      "desc": "Move and resize windows using keyboard shortcuts or snap areas",
-      "homepage": "https://rectangleapp.com/",
-      "url": "https://github.com/rxhanson/Rectangle/releases/download/v0.87/Rectangle0.87.dmg",
-      "url_specs": {
-        "verified": "github.com/rxhanson/Rectangle/"
-      },
-      "version": "0.87",
-      "installed": "0.87",
-      "installed_time": 1744150492,
-      "bundle_version": "93",
-      "bundle_short_version": "0.87",
-      "outdated": false,
-      "sha256": "a275f345152faf75a2567f4967154ba9715c0a6146feed67fa83ac4c440c8bef",
-      "artifacts": [
-        {
-          "uninstall": [
-            {
-              "quit": "com.knollsoft.Rectangle"
-            }
-          ]
-        },
-        {
-          "app": [
-            "Rectangle.app"
-          ]
-        },
-        {
-          "zap": [
-            {
-              "trash": [
-                "~/Library/Application Scripts/com.knollsoft.RectangleLauncher",
-                "~/Library/Application Support/Rectangle",
-                "~/Library/Caches/com.knollsoft.Rectangle",
-                "~/Library/Containers/com.knollsoft.RectangleLauncher",
-                "~/Library/HTTPStorages/com.knollsoft.Rectangle",
-                "~/Library/Preferences/com.knollsoft.Rectangle.plist",
-                "~/Library/WebKit/com.knollsoft.Rectangle"
-              ]
-            }
-          ]
-        }
-      ],
-      "caveats": null,
-      "depends_on": {
-        "macos": {
-          ">=": [
-            "10.15"
-          ]
-        }
-      },
-      "conflicts_with": null,
-      "container": null,
-      "auto_updates": true,
-      "deprecated": false,
-      "deprecation_date": null,
-      "deprecation_reason": null,
-      "deprecation_replacement": null,
-      "disabled": false,
-      "disable_date": null,
-      "disable_reason": null,
-      "disable_replacement": null,
-      "tap_git_head": "cd38ba9cb8adb4465df9cefdf3e9926e3f1a6e46",
-      "languages": [
-
-      ],
-      "ruby_source_path": "Casks/r/rectangle.rb",
-      "ruby_source_checksum": {
-        "sha256": "c47bfd1ed10aeebee8d689ce0cc8e1fb8c573bedd7433932f9f388252a71c9a8"
       }
     },
     {
@@ -909,16 +757,16 @@
       ],
       "desc": "Free and open-source OpenVPN client",
       "homepage": "https://www.tunnelblick.net/",
-      "url": "https://tunnelblick.net/iprelease/Tunnelblick_6.0.1_build_6161.dmg",
+      "url": "https://tunnelblick.net/iprelease/Tunnelblick_7.0_build_6210.dmg",
       "url_specs": {
       },
-      "version": "6.0.1,6161",
+      "version": "7.0,6210",
       "installed": "6.0.1,6161",
       "installed_time": 1743205240,
       "bundle_version": "6161",
       "bundle_short_version": "6.0.1 (build 6161)",
       "outdated": false,
-      "sha256": "728f929d890b1a577d2db8de7d38fdaf9e648ca831e0c9d913cf98ec73520608",
+      "sha256": "ab79a65ec56a7c02af93a798041c32acb29e2d7ccd81aa7c9ce6447a5df5b652",
       "artifacts": [
         {
           "uninstall_preflight": null
@@ -974,13 +822,13 @@
       "disable_date": null,
       "disable_reason": null,
       "disable_replacement": null,
-      "tap_git_head": "cd38ba9cb8adb4465df9cefdf3e9926e3f1a6e46",
+      "tap_git_head": "24cf764df3352f0dea731eb201b34e6e064db655",
       "languages": [
 
       ],
       "ruby_source_path": "Casks/t/tunnelblick.rb",
       "ruby_source_checksum": {
-        "sha256": "714015d7768347d41091d678c900bc87bc227e05c9ba2a4a0ec9c0227bb1c6bf"
+        "sha256": "20f1e11c2e430c4012a0d2c16d324f05857dee7b216c5281815fd29dfbf6494c"
       }
     }
   ]
