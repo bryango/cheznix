@@ -1,31 +1,27 @@
 {
-  "formulae": [
-
-  ],
+  "formulae": [],
   "casks": [
     {
       "token": "amethyst",
       "full_token": "amethyst",
-      "old_tokens": [
-
-      ],
+      "old_tokens": [],
       "tap": "homebrew/cask",
       "name": [
         "Amethyst"
       ],
       "desc": "Automatic tiling window manager similar to xmonad",
       "homepage": "https://ianyh.com/amethyst/",
-      "url": "https://github.com/ianyh/Amethyst/releases/download/v0.23.1/Amethyst.zip",
+      "url": "https://github.com/ianyh/Amethyst/releases/download/v0.24.0/Amethyst.zip",
       "url_specs": {
         "verified": "github.com/ianyh/Amethyst/"
       },
-      "version": "0.23.1",
+      "version": "0.24.0",
       "installed": "0.23.1",
       "installed_time": 1744071628,
       "bundle_version": "123",
       "bundle_short_version": "0.23.1",
       "outdated": false,
-      "sha256": "b8c833ffe00585075a8a6935c13cf2a0d5991bc5e6e6f5e3809a1fb5fd2c67a3",
+      "sha256": "bde78f466a2a211741f28fbc329cb7f82b1133612d1f17befbee944cc703316b",
       "artifacts": [
         {
           "app": [
@@ -61,26 +57,24 @@
       "deprecated": false,
       "deprecation_date": null,
       "deprecation_reason": null,
-      "deprecation_replacement": null,
+      "deprecation_replacement_formula": null,
+      "deprecation_replacement_cask": null,
       "disabled": false,
       "disable_date": null,
       "disable_reason": null,
-      "disable_replacement": null,
-      "tap_git_head": "24cf764df3352f0dea731eb201b34e6e064db655",
-      "languages": [
-
-      ],
+      "disable_replacement_formula": null,
+      "disable_replacement_cask": null,
+      "tap_git_head": "b946820d9dfebffc37a5c36d33d8dd95b9b1ba77",
+      "languages": [],
       "ruby_source_path": "Casks/a/amethyst.rb",
       "ruby_source_checksum": {
-        "sha256": "107abbf8c2af38c0d76f4f4c11ee7d857304c2e6660a2b05d04c52a04555c679"
+        "sha256": "850283bbf0f344f9e66ba42d4bf14ff0a4ef716174092a2426eeff2ed5c07ff5"
       }
     },
     {
       "token": "firefox",
       "full_token": "firefox",
-      "old_tokens": [
-
-      ],
+      "old_tokens": [],
       "tap": "homebrew/cask",
       "name": [
         "Mozilla Firefox"
@@ -169,12 +163,14 @@
       "deprecated": false,
       "deprecation_date": null,
       "deprecation_reason": null,
-      "deprecation_replacement": null,
+      "deprecation_replacement_formula": null,
+      "deprecation_replacement_cask": null,
       "disabled": false,
       "disable_date": null,
       "disable_reason": null,
-      "disable_replacement": null,
-      "tap_git_head": "24cf764df3352f0dea731eb201b34e6e064db655",
+      "disable_replacement_formula": null,
+      "disable_replacement_cask": null,
+      "tap_git_head": "b946820d9dfebffc37a5c36d33d8dd95b9b1ba77",
       "languages": [
         "ach",
         "af",
@@ -288,9 +284,7 @@
     {
       "token": "iterm2",
       "full_token": "iterm2",
-      "old_tokens": [
-
-      ],
+      "old_tokens": [],
       "tap": "homebrew/cask",
       "name": [
         "iTerm2"
@@ -298,13 +292,12 @@
       "desc": "Terminal emulator as alternative to Apple's Terminal app",
       "homepage": "https://iterm2.com/",
       "url": "https://iterm2.com/downloads/stable/iTerm2-3_5_13.zip",
-      "url_specs": {
-      },
+      "url_specs": {},
       "version": "3.5.13",
-      "installed": "3.5.12",
-      "installed_time": 1744236903,
-      "bundle_version": "3.5.12",
-      "bundle_short_version": "3.5.12",
+      "installed": "3.5.13",
+      "installed_time": 1745684783,
+      "bundle_version": "3.5.13",
+      "bundle_short_version": "3.5.13",
       "outdated": false,
       "sha256": "87f8f6ca41a8af5fa9ea38bdea2e51881311e7fac241a2c79d7630bc509a374d",
       "artifacts": [
@@ -356,15 +349,15 @@
       "deprecated": false,
       "deprecation_date": null,
       "deprecation_reason": null,
-      "deprecation_replacement": null,
+      "deprecation_replacement_formula": null,
+      "deprecation_replacement_cask": null,
       "disabled": false,
       "disable_date": null,
       "disable_reason": null,
-      "disable_replacement": null,
-      "tap_git_head": "24cf764df3352f0dea731eb201b34e6e064db655",
-      "languages": [
-
-      ],
+      "disable_replacement_formula": null,
+      "disable_replacement_cask": null,
+      "tap_git_head": "b946820d9dfebffc37a5c36d33d8dd95b9b1ba77",
+      "languages": [],
       "ruby_source_path": "Casks/i/iterm2.rb",
       "ruby_source_checksum": {
         "sha256": "ccd93fa2b25029c7f81c8f8d3d4e90f1de515d962bc620f9be338bcdd65bd321"
@@ -373,9 +366,7 @@
     {
       "token": "karabiner-elements",
       "full_token": "karabiner-elements",
-      "old_tokens": [
-
-      ],
+      "old_tokens": [],
       "tap": "homebrew/cask",
       "name": [
         "Karabiner Elements"
@@ -473,15 +464,15 @@
       "deprecated": false,
       "deprecation_date": null,
       "deprecation_reason": null,
-      "deprecation_replacement": null,
+      "deprecation_replacement_formula": null,
+      "deprecation_replacement_cask": null,
       "disabled": false,
       "disable_date": null,
       "disable_reason": null,
-      "disable_replacement": null,
-      "tap_git_head": "24cf764df3352f0dea731eb201b34e6e064db655",
-      "languages": [
-
-      ],
+      "disable_replacement_formula": null,
+      "disable_replacement_cask": null,
+      "tap_git_head": "b946820d9dfebffc37a5c36d33d8dd95b9b1ba77",
+      "languages": [],
       "ruby_source_path": "Casks/k/karabiner-elements.rb",
       "ruby_source_checksum": {
         "sha256": "c78c551fe6654b30a9148b52ed2579f5ca10d7dd03e5592d65f1308aadb1e206"
@@ -490,9 +481,7 @@
     {
       "token": "keka",
       "full_token": "keka",
-      "old_tokens": [
-
-      ],
+      "old_tokens": [],
       "tap": "homebrew/cask",
       "name": [
         "Keka"
@@ -565,15 +554,15 @@
       "deprecated": false,
       "deprecation_date": null,
       "deprecation_reason": null,
-      "deprecation_replacement": null,
+      "deprecation_replacement_formula": null,
+      "deprecation_replacement_cask": null,
       "disabled": false,
       "disable_date": null,
       "disable_reason": null,
-      "disable_replacement": null,
-      "tap_git_head": "24cf764df3352f0dea731eb201b34e6e064db655",
-      "languages": [
-
-      ],
+      "disable_replacement_formula": null,
+      "disable_replacement_cask": null,
+      "tap_git_head": "b946820d9dfebffc37a5c36d33d8dd95b9b1ba77",
+      "languages": [],
       "ruby_source_path": "Casks/k/keka.rb",
       "ruby_source_checksum": {
         "sha256": "d6406751bfdb3b22c09da4825cbcc2c32afbd979b58b7a7b28d9e90d80fbd11b"
@@ -582,9 +571,7 @@
     {
       "token": "maccy",
       "full_token": "maccy",
-      "old_tokens": [
-
-      ],
+      "old_tokens": [],
       "tap": "homebrew/cask",
       "name": [
         "Maccy"
@@ -642,15 +629,15 @@
       "deprecated": false,
       "deprecation_date": null,
       "deprecation_reason": null,
-      "deprecation_replacement": null,
+      "deprecation_replacement_formula": null,
+      "deprecation_replacement_cask": null,
       "disabled": false,
       "disable_date": null,
       "disable_reason": null,
-      "disable_replacement": null,
-      "tap_git_head": "24cf764df3352f0dea731eb201b34e6e064db655",
-      "languages": [
-
-      ],
+      "disable_replacement_formula": null,
+      "disable_replacement_cask": null,
+      "tap_git_head": "b946820d9dfebffc37a5c36d33d8dd95b9b1ba77",
+      "languages": [],
       "ruby_source_path": "Casks/m/maccy.rb",
       "ruby_source_checksum": {
         "sha256": "a6185a9efa61720fb3d0b79fe19bc87f6591a490fc35fcab171fd43f5a1d95ce"
@@ -659,9 +646,7 @@
     {
       "token": "nutstore",
       "full_token": "nutstore",
-      "old_tokens": [
-
-      ],
+      "old_tokens": [],
       "tap": "homebrew/cask",
       "name": [
         "Nutstore"
@@ -669,8 +654,7 @@
       "desc": "Cloud storage service platform",
       "homepage": "https://www.jianguoyun.com/",
       "url": "https://www.jianguoyun.com/static/exe/installer/NutstoreOSXInstaller.dmg",
-      "url_specs": {
-      },
+      "url_specs": {},
       "version": "6.4.1",
       "installed": "6.4.1",
       "installed_time": 1743581903,
@@ -731,42 +715,110 @@
       "deprecated": false,
       "deprecation_date": null,
       "deprecation_reason": null,
-      "deprecation_replacement": null,
+      "deprecation_replacement_formula": null,
+      "deprecation_replacement_cask": null,
       "disabled": false,
       "disable_date": null,
       "disable_reason": null,
-      "disable_replacement": null,
-      "tap_git_head": "24cf764df3352f0dea731eb201b34e6e064db655",
-      "languages": [
-
-      ],
+      "disable_replacement_formula": null,
+      "disable_replacement_cask": null,
+      "tap_git_head": "b946820d9dfebffc37a5c36d33d8dd95b9b1ba77",
+      "languages": [],
       "ruby_source_path": "Casks/n/nutstore.rb",
       "ruby_source_checksum": {
         "sha256": "8aad94342e5ce652c911298f0996fdd9458b1033d626850934a6b55437078e16"
       }
     },
     {
+      "token": "texshop",
+      "full_token": "texshop",
+      "old_tokens": [],
+      "tap": "homebrew/cask",
+      "name": [
+        "TeXShop"
+      ],
+      "desc": "LaTeX and TeX editor and previewer",
+      "homepage": "https://pages.uoregon.edu/koch/texshop/",
+      "url": "https://pages.uoregon.edu/koch/texshop/texshop-64/texshop552.zip",
+      "url_specs": {},
+      "version": "5.52",
+      "installed": "5.52",
+      "installed_time": 1745875802,
+      "bundle_version": "5.52",
+      "bundle_short_version": "5.52",
+      "outdated": false,
+      "sha256": "3f2a2b7a32e873c0463c22aba0b56d74f667c69f4b9a8155ff9701df05b40e32",
+      "artifacts": [
+        {
+          "app": [
+            "TeXShop.app"
+          ]
+        },
+        {
+          "zap": [
+            {
+              "trash": [
+                "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/texshop.sfl*",
+                "~/Library/Application Support/TeXShop",
+                "~/Library/Caches/com.apple.helpd/Generated/TeXShop Help*",
+                "~/Library/Caches/com.apple.helpd/SDMHelpData/Other/English/HelpSDMIndexFile/TeXShop Help*",
+                "~/Library/Caches/TeXShop",
+                "~/Library/HTTPStorages/TeXShop",
+                "~/Library/Preferences/TeXShop.plist",
+                "~/Library/TeXShop",
+                "~/Library/WebKit/TeXShop"
+              ]
+            }
+          ]
+        }
+      ],
+      "caveats": null,
+      "depends_on": {
+        "macos": {
+          ">=": [
+            "10.13"
+          ]
+        }
+      },
+      "conflicts_with": null,
+      "container": null,
+      "auto_updates": true,
+      "deprecated": false,
+      "deprecation_date": null,
+      "deprecation_reason": null,
+      "deprecation_replacement_formula": null,
+      "deprecation_replacement_cask": null,
+      "disabled": false,
+      "disable_date": null,
+      "disable_reason": null,
+      "disable_replacement_formula": null,
+      "disable_replacement_cask": null,
+      "tap_git_head": "b946820d9dfebffc37a5c36d33d8dd95b9b1ba77",
+      "languages": [],
+      "ruby_source_path": "Casks/t/texshop.rb",
+      "ruby_source_checksum": {
+        "sha256": "9084ca750fc2bb4a290b0c283bd48d84560744b08d67f4be6700e8066dd2949c"
+      }
+    },
+    {
       "token": "tunnelblick",
       "full_token": "tunnelblick",
-      "old_tokens": [
-
-      ],
+      "old_tokens": [],
       "tap": "homebrew/cask",
       "name": [
         "Tunnelblick"
       ],
       "desc": "Free and open-source OpenVPN client",
       "homepage": "https://www.tunnelblick.net/",
-      "url": "https://tunnelblick.net/iprelease/Tunnelblick_7.0_build_6210.dmg",
-      "url_specs": {
-      },
-      "version": "7.0,6210",
+      "url": "https://tunnelblick.net/iprelease/Tunnelblick_6.0.1_build_6161.dmg",
+      "url_specs": {},
+      "version": "6.0.1,6161",
       "installed": "6.0.1,6161",
       "installed_time": 1743205240,
       "bundle_version": "6161",
       "bundle_short_version": "6.0.1 (build 6161)",
       "outdated": false,
-      "sha256": "ab79a65ec56a7c02af93a798041c32acb29e2d7ccd81aa7c9ce6447a5df5b652",
+      "sha256": "728f929d890b1a577d2db8de7d38fdaf9e648ca831e0c9d913cf98ec73520608",
       "artifacts": [
         {
           "uninstall_preflight": null
@@ -817,18 +869,132 @@
       "deprecated": false,
       "deprecation_date": null,
       "deprecation_reason": null,
-      "deprecation_replacement": null,
+      "deprecation_replacement_formula": null,
+      "deprecation_replacement_cask": null,
       "disabled": false,
       "disable_date": null,
       "disable_reason": null,
-      "disable_replacement": null,
-      "tap_git_head": "24cf764df3352f0dea731eb201b34e6e064db655",
-      "languages": [
-
-      ],
+      "disable_replacement_formula": null,
+      "disable_replacement_cask": null,
+      "tap_git_head": "b946820d9dfebffc37a5c36d33d8dd95b9b1ba77",
+      "languages": [],
       "ruby_source_path": "Casks/t/tunnelblick.rb",
       "ruby_source_checksum": {
-        "sha256": "20f1e11c2e430c4012a0d2c16d324f05857dee7b216c5281815fd29dfbf6494c"
+        "sha256": "714015d7768347d41091d678c900bc87bc227e05c9ba2a4a0ec9c0227bb1c6bf"
+      }
+    },
+    {
+      "token": "zoom",
+      "full_token": "zoom",
+      "old_tokens": [],
+      "tap": "homebrew/cask",
+      "name": [
+        "Zoom"
+      ],
+      "desc": "Video communication and virtual meeting platform",
+      "homepage": "https://www.zoom.us/",
+      "url": "https://cdn.zoom.us/prod/6.4.6.53970/arm64/zoomusInstallerFull.pkg",
+      "url_specs": {},
+      "version": "6.4.6.53970",
+      "installed": "6.4.6.53970",
+      "installed_time": 1745518689,
+      "bundle_version": null,
+      "bundle_short_version": null,
+      "outdated": false,
+      "sha256": "c8db2215936d7b8e37d9df035320e13d43956cbba5ee051dbebfb7a8afd8fad9",
+      "artifacts": [
+        {
+          "uninstall": [
+            {
+              "launchctl": [
+                "us.zoom.updater",
+                "us.zoom.updater.login.check",
+                "us.zoom.ZoomDaemon"
+              ],
+              "signal": [
+                "KILL",
+                "us.zoom.xos"
+              ],
+              "pkgutil": "us.zoom.pkg.videomeeting",
+              "delete": [
+                "/Applications/zoom.us.app",
+                "/Library/Internet Plug-Ins/ZoomUsPlugIn.plugin",
+                "/Library/Logs/DiagnosticReports/zoom.us*",
+                "/Library/PrivilegedHelperTools/us.zoom.ZoomDaemon"
+              ]
+            }
+          ]
+        },
+        {
+          "pkg": [
+            "zoomusInstallerFull.pkg"
+          ]
+        },
+        {
+          "postflight": null
+        },
+        {
+          "zap": [
+            {
+              "trash": [
+                "~/.zoomus",
+                "~/Desktop/Zoom",
+                "~/Documents/Zoom",
+                "~/Library/Application Scripts/*.ZoomClient3rd",
+                "~/Library/Application Support/CloudDocs/session/containers/iCloud.us.zoom.videomeetings",
+                "~/Library/Application Support/CloudDocs/session/containers/iCloud.us.zoom.videomeetings.plist",
+                "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/us.zoom*.sfl*",
+                "~/Library/Application Support/CrashReporter/zoom.us*",
+                "~/Library/Application Support/zoom.us",
+                "~/Library/Application Support/ZoomUpdater",
+                "~/Library/Caches/us.zoom.xos",
+                "~/Library/Cookies/us.zoom.xos.binarycookies",
+                "~/Library/Group Containers/*.ZoomClient3rd",
+                "~/Library/HTTPStorages/us.zoom.xos",
+                "~/Library/HTTPStorages/us.zoom.xos.binarycookies",
+                "~/Library/Internet Plug-Ins/ZoomUsPlugIn.plugin",
+                "~/Library/Logs/zoom.us",
+                "~/Library/Logs/zoominstall.log",
+                "~/Library/Logs/ZoomPhone",
+                "~/Library/Preferences/us.zoom.*.plist",
+                "~/Library/Preferences/ZoomChat.plist",
+                "~/Library/Saved Application State/us.zoom.xos.savedState",
+                "~/Library/WebKit/us.zoom.xos"
+              ]
+            }
+          ]
+        }
+      ],
+      "caveats": null,
+      "depends_on": {
+        "macos": {
+          ">=": [
+            "10.11"
+          ]
+        }
+      },
+      "conflicts_with": {
+        "cask": [
+          "zoom-for-it-admins"
+        ]
+      },
+      "container": null,
+      "auto_updates": true,
+      "deprecated": false,
+      "deprecation_date": null,
+      "deprecation_reason": null,
+      "deprecation_replacement_formula": null,
+      "deprecation_replacement_cask": null,
+      "disabled": false,
+      "disable_date": null,
+      "disable_reason": null,
+      "disable_replacement_formula": null,
+      "disable_replacement_cask": null,
+      "tap_git_head": "b946820d9dfebffc37a5c36d33d8dd95b9b1ba77",
+      "languages": [],
+      "ruby_source_path": "Casks/z/zoom.rb",
+      "ruby_source_checksum": {
+        "sha256": "88e5ffd8ec4297cf45a572a72f42f0d71173f6c0f63ad932c8626aeaa71a00db"
       }
     }
   ]

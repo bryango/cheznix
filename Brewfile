@@ -3,6 +3,7 @@
 # Casks
 cask "firefox"
 cask "nutstore"
+cask "zoom"
 cask "iterm2"
 cask "karabiner-elements"
 cask "maccy"
