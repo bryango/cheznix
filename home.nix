@@ -134,6 +134,7 @@ let
         helvetic
         comment
         uri
+        tikz-cd
       ]))
       hunspellDicts.en_US-large
       hyphenDicts.en_US
@@ -152,7 +153,7 @@ let
       ### do NOT expose python itself for safety reasons
       python3Packages.ipython
       python3Packages.jedi-language-server
-      ruff-lsp  ruff  # exposes `ruff`
+      ruff  # exposes `ruff`
       poetry
       pipx
     ];

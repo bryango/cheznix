@@ -27,6 +27,7 @@
 
       # proprietary but trusted
       "nutstore"
+      "zoom"
 
       # probably okay
       "iterm2"
