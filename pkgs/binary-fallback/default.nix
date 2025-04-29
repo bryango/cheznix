@@ -1,6 +1,6 @@
 { stdenvNoCC
 , writeShellApplication
-, substituteAll
+, replaceVars
 , which
 , name
 , package
@@ -21,8 +21,7 @@
   ## manually pass `$textPath`
   textPath = concatText name [
     (writeText name prevAttrs.text)
-    (substituteAll {
-      src = ./binary-fallback.sh;
+    (replaceVars ./binary-fallback.sh {
       inherit name package;
     })
   ];
