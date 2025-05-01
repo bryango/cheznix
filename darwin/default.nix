@@ -21,6 +21,9 @@
   /** homebrew managed incrementally; need to install first */
   homebrew = {
     enable = true;
+    brews = [
+      "cocoapods"
+    ];
     casks = [
       # trusted
       "firefox"
@@ -34,6 +37,7 @@
       "karabiner-elements"
 
       # should try to build from source
+      "texshop"
       "maccy"
       "keka" # archiver
       "amethyst" # window management
