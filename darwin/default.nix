@@ -28,7 +28,7 @@
       # trusted
       "firefox"
 
-      # proprietary but trusted
+      # proprietary but necessary
       "nutstore"
       "zoom"
 
@@ -38,9 +38,6 @@
 
       # should try to build from source
       "texshop"
-      "maccy"
-      "keka" # archiver
-      "amethyst" # window management
       "tunnelblick" # openvpn client
     ];
   };

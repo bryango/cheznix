@@ -82,7 +82,7 @@
       "disable_replacement_cask": null,
       "post_install_defined": true,
       "service": null,
-      "tap_git_head": "8ec66b2f808704b4ee2a751792e77bb64427e671",
+      "tap_git_head": "124ff4c657a818ffde71902402efc8e70f21a166",
       "ruby_source_path": "Formula/c/ca-certificates.rb",
       "ruby_source_checksum": {
         "sha256": "fd1b33a512a663a15b6fdfd6dc23fc608852a5b22ba2410b0d34a372d0d34b8e"
@@ -243,7 +243,7 @@
       "disable_replacement_cask": null,
       "post_install_defined": false,
       "service": null,
-      "tap_git_head": "8ec66b2f808704b4ee2a751792e77bb64427e671",
+      "tap_git_head": "124ff4c657a818ffde71902402efc8e70f21a166",
       "ruby_source_path": "Formula/c/cocoapods.rb",
       "ruby_source_checksum": {
         "sha256": "f9acb80d178b013582c8aaf07cdd6d469c573de1447b2c49a9326bb313ada3a9"
@@ -400,7 +400,7 @@
       "disable_replacement_cask": null,
       "post_install_defined": false,
       "service": null,
-      "tap_git_head": "8ec66b2f808704b4ee2a751792e77bb64427e671",
+      "tap_git_head": "124ff4c657a818ffde71902402efc8e70f21a166",
       "ruby_source_path": "Formula/lib/libyaml.rb",
       "ruby_source_checksum": {
         "sha256": "a1e877a87ca697e739f9ac5252aff9466f4a625101d379a01b1ed42d02a72389"
@@ -551,7 +551,7 @@
       "disable_replacement_cask": null,
       "post_install_defined": true,
       "service": null,
-      "tap_git_head": "8ec66b2f808704b4ee2a751792e77bb64427e671",
+      "tap_git_head": "124ff4c657a818ffde71902402efc8e70f21a166",
       "ruby_source_path": "Formula/o/openssl@3.rb",
       "ruby_source_checksum": {
         "sha256": "9fbe32db88b960f278457b243184a4150643c8f1593443fd6417b8e4c11b3d94"
@@ -728,7 +728,7 @@
       "disable_replacement_cask": null,
       "post_install_defined": true,
       "service": null,
-      "tap_git_head": "8ec66b2f808704b4ee2a751792e77bb64427e671",
+      "tap_git_head": "124ff4c657a818ffde71902402efc8e70f21a166",
       "ruby_source_path": "Formula/r/ruby.rb",
       "ruby_source_checksum": {
         "sha256": "06a54646da0d339cc65072d33dbb01b7ac49ed72d62536168ae0cc1f1721bd44"
@@ -736,76 +736,6 @@
     }
   ],
   "casks": [
-    {
-      "token": "amethyst",
-      "full_token": "amethyst",
-      "old_tokens": [],
-      "tap": "homebrew/cask",
-      "name": [
-        "Amethyst"
-      ],
-      "desc": "Automatic tiling window manager similar to xmonad",
-      "homepage": "https://ianyh.com/amethyst/",
-      "url": "https://github.com/ianyh/Amethyst/releases/download/v0.24.0/Amethyst.zip",
-      "url_specs": {
-        "verified": "github.com/ianyh/Amethyst/"
-      },
-      "version": "0.24.0",
-      "installed": "0.23.1",
-      "installed_time": 1744071628,
-      "bundle_version": "123",
-      "bundle_short_version": "0.23.1",
-      "outdated": false,
-      "sha256": "bde78f466a2a211741f28fbc329cb7f82b1133612d1f17befbee944cc703316b",
-      "artifacts": [
-        {
-          "app": [
-            "Amethyst.app"
-          ]
-        },
-        {
-          "zap": [
-            {
-              "trash": [
-                "~/Library/Application Support/Amethyst",
-                "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.amethyst.amethyst.sfl*",
-                "~/Library/Caches/com.amethyst.Amethyst",
-                "~/Library/Cookies/com.amethyst.Amethyst.binarycookies",
-                "~/Library/HTTPStorages/com.amethyst.Amethyst",
-                "~/Library/Preferences/com.amethyst.Amethyst.plist"
-              ]
-            }
-          ]
-        }
-      ],
-      "caveats": null,
-      "depends_on": {
-        "macos": {
-          ">=": [
-            "10.12"
-          ]
-        }
-      },
-      "conflicts_with": null,
-      "container": null,
-      "auto_updates": true,
-      "deprecated": false,
-      "deprecation_date": null,
-      "deprecation_reason": null,
-      "deprecation_replacement_formula": null,
-      "deprecation_replacement_cask": null,
-      "disabled": false,
-      "disable_date": null,
-      "disable_reason": null,
-      "disable_replacement_formula": null,
-      "disable_replacement_cask": null,
-      "tap_git_head": "470f0cbed5c20d7476b8f0c8e316fb03fb0dcbfe",
-      "languages": [],
-      "ruby_source_path": "Casks/a/amethyst.rb",
-      "ruby_source_checksum": {
-        "sha256": "850283bbf0f344f9e66ba42d4bf14ff0a4ef716174092a2426eeff2ed5c07ff5"
-      }
-    },
     {
       "token": "firefox",
       "full_token": "firefox",
@@ -1211,171 +1141,6 @@
       "ruby_source_path": "Casks/k/karabiner-elements.rb",
       "ruby_source_checksum": {
         "sha256": "c78c551fe6654b30a9148b52ed2579f5ca10d7dd03e5592d65f1308aadb1e206"
-      }
-    },
-    {
-      "token": "keka",
-      "full_token": "keka",
-      "old_tokens": [],
-      "tap": "homebrew/cask",
-      "name": [
-        "Keka"
-      ],
-      "desc": "File archiver",
-      "homepage": "https://www.keka.io/",
-      "url": "https://github.com/aonez/Keka/releases/download/v1.4.8/Keka-1.4.8.dmg",
-      "url_specs": {
-        "verified": "github.com/aonez/Keka/"
-      },
-      "version": "1.4.8",
-      "installed": "1.4.8",
-      "installed_time": 1744161688,
-      "bundle_version": "5573",
-      "bundle_short_version": "1.4.8",
-      "outdated": false,
-      "sha256": "ae33510c32bdc77a2b63f0cd069a0c9ef063ee7a84d8b68abbcf1fe9511376a2",
-      "artifacts": [
-        {
-          "preflight": null
-        },
-        {
-          "app": [
-            "Keka.app"
-          ]
-        },
-        {
-          "binary": [
-            "/opt/homebrew/Caskroom/keka/1.4.8/keka.wrapper.sh",
-            {
-              "target": "keka"
-            }
-          ]
-        },
-        {
-          "zap": [
-            {
-              "trash": [
-                "~/Library/Application Scripts/*.group.com.aone.keka",
-                "~/Library/Application Scripts/com.aone.keka",
-                "~/Library/Application Scripts/com.aone.keka.KekaFinderIntegration",
-                "~/Library/Application Support/com.apple.sharedfilelist/com.apple.LSSharedFileList.ApplicationRecentDocuments/com.aone.keka.sfl*",
-                "~/Library/Application Support/Keka",
-                "~/Library/Caches/com.aone.keka",
-                "~/Library/Containers/com.aone.keka",
-                "~/Library/Containers/com.aone.keka.KekaFinderIntegration",
-                "~/Library/Group Containers/*.group.com.aone.keka",
-                "~/Library/Preferences/com.aone.keka.plist",
-                "~/Library/Saved Application State/com.aone.keka.savedState"
-              ]
-            }
-          ]
-        }
-      ],
-      "caveats": null,
-      "depends_on": {
-        "macos": {
-          ">=": [
-            "10.11"
-          ]
-        }
-      },
-      "conflicts_with": {
-        "cask": [
-          "keka@beta"
-        ]
-      },
-      "container": null,
-      "auto_updates": true,
-      "deprecated": false,
-      "deprecation_date": null,
-      "deprecation_reason": null,
-      "deprecation_replacement_formula": null,
-      "deprecation_replacement_cask": null,
-      "disabled": false,
-      "disable_date": null,
-      "disable_reason": null,
-      "disable_replacement_formula": null,
-      "disable_replacement_cask": null,
-      "tap_git_head": "470f0cbed5c20d7476b8f0c8e316fb03fb0dcbfe",
-      "languages": [],
-      "ruby_source_path": "Casks/k/keka.rb",
-      "ruby_source_checksum": {
-        "sha256": "d6406751bfdb3b22c09da4825cbcc2c32afbd979b58b7a7b28d9e90d80fbd11b"
-      }
-    },
-    {
-      "token": "maccy",
-      "full_token": "maccy",
-      "old_tokens": [],
-      "tap": "homebrew/cask",
-      "name": [
-        "Maccy"
-      ],
-      "desc": "Clipboard manager",
-      "homepage": "https://maccy.app/",
-      "url": "https://github.com/p0deje/Maccy/releases/download/2.3.0/Maccy.app.zip",
-      "url_specs": {
-        "verified": "github.com/p0deje/Maccy/"
-      },
-      "version": "2.3.0",
-      "installed": "2.3.0",
-      "installed_time": 1744570314,
-      "bundle_version": "54",
-      "bundle_short_version": "2.3.0",
-      "outdated": false,
-      "sha256": "3ebaf4b773af3d6527510ddc4c4dc3fa38f501228a983bc66489ca953d56b09d",
-      "artifacts": [
-        {
-          "uninstall": [
-            {
-              "quit": "org.p0deje.Maccy"
-            }
-          ]
-        },
-        {
-          "app": [
-            "Maccy.app"
-          ]
-        },
-        {
-          "zap": [
-            {
-              "login_item": "Maccy",
-              "trash": [
-                "~/Library/Application Scripts/org.p0deje.Maccy",
-                "~/Library/Containers/org.p0deje.Maccy",
-                "~/Library/Preferences/org.p0deje.Maccy.plist"
-              ]
-            }
-          ]
-        }
-      ],
-      "caveats": null,
-      "depends_on": {
-        "macos": {
-          ">=": [
-            "14"
-          ]
-        }
-      },
-      "conflicts_with": null,
-      "container": null,
-      "auto_updates": true,
-      "deprecated": false,
-      "deprecation_date": null,
-      "deprecation_reason": null,
-      "deprecation_replacement_formula": null,
-      "deprecation_replacement_cask": null,
-      "disabled": false,
-      "disable_date": null,
-      "disable_reason": null,
-      "disable_replacement_formula": null,
-      "disable_replacement_cask": null,
-      "tap_git_head": "470f0cbed5c20d7476b8f0c8e316fb03fb0dcbfe",
-      "languages": [],
-      "ruby_source_path": "Casks/m/maccy.rb",
-      "ruby_source_checksum": {
-        "sha256": "a6185a9efa61720fb3d0b79fe19bc87f6591a490fc35fcab171fd43f5a1d95ce"
       }
     },
     {

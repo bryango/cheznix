@@ -10,8 +10,5 @@ cask "zoom"
 cask "iterm2"
 cask "karabiner-elements"
 cask "texshop"
-cask "maccy"
-cask "keka"
-cask "amethyst"
 cask "tunnelblick"
 
