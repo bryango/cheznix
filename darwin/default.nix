@@ -35,9 +35,6 @@
       # probably okay
       "iterm2"
       "karabiner-elements"
-
-      # should try to build from source
-      "texshop"
       "tunnelblick" # openvpn client
     ];
   };
