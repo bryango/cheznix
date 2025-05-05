@@ -23,7 +23,7 @@
     */
 
     ## p13n nixpkgs with config
-    nixpkgs-config.url = "git+file:./nixpkgs-config";
+    nixpkgs-config.url = "path:./nixpkgs-config";
 
     system-manager = {
       url = "github:numtide/system-manager";
@@ -52,7 +52,7 @@
           result = "nixpkgs-config";
           lock = builtins.fromJSON (builtins.readFile ./flake.lock);
         in
-        assert lock.nodes.${result}.original.url == "file:./${result}";
+        assert lock.nodes.${result}.original.path == "./${result}";
         result;
       /* ^ refers to both the input _name_ & its _source_,
         .. therefore these two must coincide! */

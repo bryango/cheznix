@@ -160,18 +160,14 @@
         "yants": "yants"
       },
       "locked": {
-        "lastModified": 1745905930,
-        "narHash": "sha256-FfNuTlxnbpJVpupWIHjJUyGxpJwmn3wPZbXTSIiJmHk=",
-        "ref": "refs/heads/dev",
-        "rev": "f540a81aa6d04730e81ee692f12086cb78135bb2",
-        "revCount": 411,
-        "type": "git",
-        "url": "file:./nixpkgs-config"
+        "path": "./nixpkgs-config",
+        "type": "path"
       },
       "original": {
-        "type": "git",
-        "url": "file:./nixpkgs-config"
-      }
+        "path": "./nixpkgs-config",
+        "type": "path"
+      },
+      "parent": []
     },
     "root": {
       "inputs": {
