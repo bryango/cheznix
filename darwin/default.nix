@@ -4,8 +4,8 @@
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   users.users.${attrs.username} = {
-    packages = with pkgs; [
-      code-cursor
+    packages = [
+      # pkgs.code-cursor
     ];
   };
 
@@ -31,6 +31,7 @@
       # proprietary but necessary
       "nutstore"
       "zoom"
+      "visual-studio-code"
 
       # probably okay
       "iterm2"
