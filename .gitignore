@@ -2,3 +2,4 @@ result*
 gcroots
 packages
 __pycache__
+.envrc

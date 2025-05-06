@@ -3,11 +3,11 @@
     "darwin-apps": {
       "flake": false,
       "locked": {
-        "lastModified": 1746259007,
-        "narHash": "sha256-0Vg77ONDh9058v1+2eYJIWjoE4A3RYRs/smIx4XqOS4=",
+        "lastModified": 1746343333,
+        "narHash": "sha256-b7+U+8tV5jXhEnya1UTyk8Zz6IetBaQqgBcCPxna8mk=",
         "ref": "refs/heads/master",
-        "rev": "40b1e6acb174d2ac1f97bfc20b15737a34d033cc",
-        "revCount": 19,
+        "rev": "f7529225e848633d210151971fff4df502d27b8d",
+        "revCount": 20,
         "type": "git",
         "url": "https://gist.github.com/0057346dbf85981e58518be49d36fc06.git"
       },
@@ -95,11 +95,11 @@
         ]
       },
       "locked": {
-        "lastModified": 1745816321,
-        "narHash": "sha256-Gyh/fkCDqVNGM0BWvk+4UAS17w2UI6iwnbQQCmc1TDI=",
+        "lastModified": 1746254942,
+        "narHash": "sha256-Y062AuRx6l+TJNX8wxZcT59SSLsqD9EedAY0mqgTtQE=",
         "owner": "LnL7",
         "repo": "nix-darwin",
-        "rev": "4515dacafb0ccd42e5395aacc49fd58a43027e01",
+        "rev": "760a11c87009155afa0140d55c40e7c336d62d7a",
         "type": "github"
       },
       "original": {
