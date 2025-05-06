@@ -21,6 +21,10 @@
   /** homebrew managed incrementally; need to install first */
   homebrew = {
     enable = true;
+    onActivation = {
+      cleanup = "uninstall";
+      extraFlags = [ "--verbose" ];
+    };
     brews = [
       "cocoapods"
     ];
