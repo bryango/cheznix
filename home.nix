@@ -106,7 +106,6 @@ let
       jc
       rustc cargo clippy
       (lib.setPrio 3 rustup)
-      mold  # linker for non-nix projects; for nix, use `mold-wrapped`
       cargo-binstall  # then `cargo binstall cargo-quickinstall`
       cargo-tarpaulin  # show test coverage
       cargo-nextest  # better test runner
@@ -117,6 +116,9 @@ let
       # getoptions  # shell argument parser
       # diffoscopeMinimal  # too heavy, use distro package instead
       # devbox  # cool but I am mostly using vanilla nix flake
+    ] ++ lib.optionals isLinux [
+      mold  # linker for non-nix projects; for nix, use `mold-wrapped`
+            # ... currently broken on darwin
     ];
 
     cli.app = [
