@@ -101,6 +101,7 @@ let
 
     cli.dev = [
       aichat
+      geminicommit
       mosh
       difftastic
       jc
