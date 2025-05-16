@@ -32,7 +32,7 @@ nix profile list --json | jq > "$CHEZNIX/profile-${profile_hash}.json"
 >&2 echo
 >&2 printf "## installing git hooks ... "
 pushd "$CHEZNIX/.git/hooks" &>/dev/null || exit 1
-ln -sf ../../pre-push pre-push
+ln -sf ../../pre-commit pre-commit
 popd &>/dev/null || exit 1
 >&2 echo "completed."
 
