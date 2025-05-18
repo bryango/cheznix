@@ -103,7 +103,7 @@
 
       >&2 echo export brew info...
       cat "${brewfilePackage}" > "${brewFile}"
-      /opt/homebrew/bin/brew info --installed --json=v2 > "${brewInfo}"
+      # /opt/homebrew/bin/brew info --installed --json=v2 > "${brewInfo}"
 
       set +x
     '';
