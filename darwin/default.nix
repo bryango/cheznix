@@ -1,6 +1,8 @@
 { pkgs, lib, cheznix, attrs, config, ... }:
 
 {
+  system.primaryUser = attrs.username;
+
   # List packages installed in system profile. To search by name, run:
   # $ nix-env -qaP | grep wget
   users.users.${attrs.username} = {
@@ -99,14 +101,9 @@
       >&2 echo linking /etc/nix-darwin...
       ln -sfn "${attrs.homeDirectory or "/Users/${attrs.username}"}/.config/home-manager" "${etcNixDarwin}"
 
-      set +x
-    '';
-    postUserActivation.text = ''
-      set -xeuo pipefail
-
       >&2 echo export brew info...
-      cat "${brewfilePackage}" > "${brewFile}";
-      /opt/homebrew/bin/brew info --installed --json=v2 > "${brewInfo}";
+      cat "${brewfilePackage}" > "${brewFile}"
+      /opt/homebrew/bin/brew info --installed --json=v2 > "${brewInfo}"
 
       set +x
     '';
