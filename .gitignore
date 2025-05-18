@@ -3,3 +3,4 @@ gcroots
 packages
 __pycache__
 .envrc
+.DS_Store
