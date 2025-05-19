@@ -1,0 +1,92 @@
+From 773c335b907eff8aec66ef9d9a85a96ba878261d Mon Sep 17 00:00:00 2001
+From: Bryan Lai <bryanlais@gmail.com>
+Date: Mon, 19 May 2025 16:34:22 +0800
+Subject: [PATCH 1/2] home-manager: track upstream package.nix in test
+
+---
+ pkgs/by-name/ho/home-manager/package.nix | 25 +++++++++++++++++++++---
+ 1 file changed, 22 insertions(+), 3 deletions(-)
+
+diff --git a/pkgs/by-name/ho/home-manager/package.nix b/pkgs/by-name/ho/home-manager/package.nix
+index 5b663297324f..132f021ef871 100644
+--- a/pkgs/by-name/ho/home-manager/package.nix
++++ b/pkgs/by-name/ho/home-manager/package.nix
+@@ -13,8 +13,8 @@
+   ncurses,
+   nixos-option,
+   stdenvNoCC,
+-  unixtools,
+   unstableGitUpdater,
++  runCommand,
+ }:
+ 
+ stdenvNoCC.mkDerivation (finalAttrs: {
+@@ -79,8 +79,27 @@ stdenvNoCC.mkDerivation (finalAttrs: {
+       --subst-var-by OUT "$out"
+   '';
+ 
+-  passthru.updateScript = unstableGitUpdater {
+-    url = "https://github.com/nix-community/home-manager/";
++  passthru = {
++    updateScript = unstableGitUpdater {
++      url = "https://github.com/nix-community/home-manager/";
++    };
++    tests = {
++      /**
++        Ensure that upstream's packaging code has not changed.
++        Otherwise we might have to modify ours accordingly.
++        This is a fixed-output derivation triggered by version bumps.
++      */
++      upstreamPackaging =
++        runCommand "home-manager-${finalAttrs.version}.nix"
++          {
++            outputHashMode = "recursive";
++            outputHash = "sha256-O290IaZj50YwuCPtzyeAK9pMSseZpBwgXHG/lpVfzFY=";
++          }
++          ''
++            echo "# upstream packaging code (for reference only)" > $out
++            cat ${finalAttrs.src}/home-manager/default.nix >> $out
++          '';
++    };
+   };
+ 
+   meta = {
+-- 
+2.49.0
+
+
+From 626f28aa2d63d1dc4b7831ef46d8006c9c927c28 Mon Sep 17 00:00:00 2001
+From: Bryan Lai <bryanlais@gmail.com>
+Date: Mon, 19 May 2025 16:35:01 +0800
+Subject: [PATCH 2/2] home-manager: 0-unstable-2025-05-13 ->
+ 0-unstable-2025-05-18
+
+---
+ pkgs/by-name/ho/home-manager/package.nix | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/pkgs/by-name/ho/home-manager/package.nix b/pkgs/by-name/ho/home-manager/package.nix
+index 132f021ef871..9ea9be7399ac 100644
+--- a/pkgs/by-name/ho/home-manager/package.nix
++++ b/pkgs/by-name/ho/home-manager/package.nix
+@@ -19,14 +19,14 @@
+ 
+ stdenvNoCC.mkDerivation (finalAttrs: {
+   pname = "home-manager";
+-  version = "0-unstable-2025-05-13";
++  version = "0-unstable-2025-05-18";
+ 
+   src = fetchFromGitHub {
+     name = "home-manager-source";
+     owner = "nix-community";
+     repo = "home-manager";
+-    rev = "8d832ddfda9facf538f3dda9b6985fb0234f151c";
+-    hash = "sha256-NnPzzXEqfYjfrimLzK0JOBItfdEJdP/i6SNTuunCGgw=";
++    rev = "97118a310eb8e13bc1b9b12d67267e55b7bee6c8";
++    hash = "sha256-B6jmKHUEX1jxxcdoYHl7RVaeohtAVup8o3nuVkzkloA=";
+   };
+ 
+   nativeBuildInputs = [
+-- 
+2.49.0
+
