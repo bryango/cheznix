@@ -1361,8 +1361,8 @@
       "skip_livecheck": false,
       "installed": "1.99.3",
       "installed_time": 1746431169,
-      "bundle_version": "1.100.0",
-      "bundle_short_version": "1.100.0",
+      "bundle_version": "1.100.2",
+      "bundle_short_version": "1.100.2",
       "outdated": false,
       "sha256": "caa36137ea1b46c594cea880d0836345d79e7de4f8b3826f184ed297fed78128",
       "artifacts": [

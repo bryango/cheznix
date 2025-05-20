@@ -103,7 +103,12 @@
 
       >&2 echo export brew info...
       cat "${brewfilePackage}" > "${brewFile}"
-      # /opt/homebrew/bin/brew info --installed --json=v2 > "${brewInfo}"
+
+      # shellcheck disable=SC2024
+      sudo \
+        --user=${lib.escapeShellArg config.homebrew.user} \
+        --set-home \
+        /opt/homebrew/bin/brew info --installed --json=v2 > "${brewInfo}"
 
       set +x
     '';
