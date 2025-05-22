@@ -17,6 +17,7 @@ with prev;
 
   nixPatched = nixVersions.stable;
 
+  djview = callPackage ../pkgs/djview.nix { };
   nixpkgs-pr-checker = callPackage ../pkgs/nixpkgs-pr-checker.nix { };
   open-webui-cli = callPackage ../pkgs/open-webui-cli.nix { };
 
