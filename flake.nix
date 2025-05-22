@@ -31,7 +31,7 @@
     };
 
     nix-darwin = {
-      url = "github:LnL7/nix-darwin/master";
+      url = "github:bryango/nix-darwin/master";
       inputs.nixpkgs.follows = "nixpkgs-config/nixpkgs";
     };
 
