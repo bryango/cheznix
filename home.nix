@@ -162,6 +162,7 @@ let
     ];
 
     gui.app = [
+      djview
       remmina
       (gimp-with-plugins.override {
         plugins = # with gimpPlugins;
