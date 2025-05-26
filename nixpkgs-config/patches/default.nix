@@ -105,7 +105,6 @@ let
       See: https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/fetchpatch/default.nix
     */
     patches = lib.attrValues patches;
-    passthru = { inherit patches trimPatch; };
   };
   
   # this takes care of the case where `patches` is empty.
@@ -113,7 +112,8 @@ let
 
 in
 
-overrideAttrs {
+overrideAttrs ({ passthru ? { }, ... }: {
+  passthru = passthru // { inherit patches trimPatch; };
   preferLocalBuild = false;
   allowSubstitutes = true;
   /**
@@ -124,4 +124,4 @@ overrideAttrs {
   # outputHash = "sha256-3t6PVr8ww3w21S3jq9fb/9GdtXirn3fpC0+FM0/8X1o=";
   # outputHashMode = "recursive";
   # outputHashAlgo = "sha256";
-}
+})
