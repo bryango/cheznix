@@ -47,9 +47,12 @@
     /** only used for nixgl */
     flake-utils.url = "github:numtide/flake-utils";
 
+    /** mirror of https://git.lix.systems/lix-project/flake-compat */
+    flake-compat.url = "github:lix-project/flake-compat";
+
   };
 
-  outputs = { self, nixpkgs, haumea, infuse, nixgl, yants, ... }:
+  outputs = { self, nixpkgs, haumea, infuse, nixgl, yants, flake-compat, ... }:
   let
 
     lib = nixpkgs.lib.extend (final: prev: let lib = prev; in with final; {
@@ -58,6 +61,19 @@
       yants = import yants { inherit lib; };
       infusions = import infuse { inherit lib; };
       infuse = infusions.v1.infuse;
+
+      flake-compat = let f = import flake-compat; in {
+        __functor = self: f;
+        getFlake = src: (f {
+          inherit src;
+          useBuiltinsFetchTree = builtins ? fetchTree;
+        }).defaultNix;
+        getFlakeImpure = src: (f {
+          inherit src;
+          useBuiltinsFetchTree = builtins ? fetchTree;
+          copySourceTreeToStore = false;
+        }).defaultNix;
+      };
 
       mySystems = [ "x86_64-linux" "aarch64-darwin" ];
       forMySystems = lib.genAttrs mySystems;

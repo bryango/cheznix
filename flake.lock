@@ -16,6 +16,21 @@
         "url": "https://gist.github.com/0057346dbf85981e58518be49d36fc06.git"
       }
     },
+    "flake-compat": {
+      "locked": {
+        "lastModified": 1743448263,
+        "narHash": "sha256-PplvwAEkj+/MFkM6Q9V59L6f6i3Tbdc/9yLRf/iwECg=",
+        "owner": "lix-project",
+        "repo": "flake-compat",
+        "rev": "6588972962297c7abd300a72c55b2c7e21c1dc54",
+        "type": "github"
+      },
+      "original": {
+        "owner": "lix-project",
+        "repo": "flake-compat",
+        "type": "github"
+      }
+    },
     "flake-utils": {
       "inputs": {
         "systems": "systems"
@@ -152,6 +167,7 @@
     },
     "nixpkgs-config": {
       "inputs": {
+        "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
         "haumea": "haumea",
         "infuse": "infuse",
