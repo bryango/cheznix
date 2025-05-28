@@ -18,17 +18,18 @@
     },
     "flake-compat": {
       "locked": {
-        "lastModified": 1743448263,
-        "narHash": "sha256-PplvwAEkj+/MFkM6Q9V59L6f6i3Tbdc/9yLRf/iwECg=",
-        "owner": "lix-project",
-        "repo": "flake-compat",
-        "rev": "6588972962297c7abd300a72c55b2c7e21c1dc54",
-        "type": "github"
+        "lastModified": 1748421559,
+        "narHash": "sha256-VvXZcMnWtiDFO0XqrqPa40aDcEFBUPsI4JakX4/IsA8=",
+        "ref": "dev",
+        "rev": "78a8c4497961e49ca70306e4d9d94bee11966645",
+        "revCount": 119,
+        "type": "git",
+        "url": "https://git.lix.systems/bryango/flake-compat.git"
       },
       "original": {
-        "owner": "lix-project",
-        "repo": "flake-compat",
-        "type": "github"
+        "ref": "dev",
+        "type": "git",
+        "url": "https://git.lix.systems/bryango/flake-compat.git"
       }
     },
     "flake-utils": {
