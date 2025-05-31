@@ -284,7 +284,7 @@ in {
 
   ## nix settings
   ## must set for `nix.settings` and stuff
-  nix.package = pkgs.nixPatched; # from `nixpkgs-config`
+  # nix.package = pkgs.nixPatched; # from `nixpkgs-config`
   nix.settings = {
     max-jobs = "auto";
     fallback = true;

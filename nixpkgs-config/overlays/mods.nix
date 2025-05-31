@@ -15,6 +15,7 @@ with prev;
     code-cursor
   ;
 
+  # nixPatched = lixPackageSets.latest.lix;
   nixPatched = nixVersions.stable;
 
   djview = callPackage ../pkgs/djview.nix { };

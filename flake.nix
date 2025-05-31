@@ -114,7 +114,12 @@
             inherit pkgs;
 
             ## specify your home configuration modules
-            modules = [ ./home.nix ];
+            modules = [
+              ./home.nix
+              {
+                nix.package = pkgs.nixPatched;
+              }
+            ];
 
             ## pass through arguments to home.nix
             extraSpecialArgs = mkSpecialAttrs attrs;
@@ -126,7 +131,12 @@
           name = "${attrs.hostname}";
           value = system-manager.lib.makeSystemConfig {
 
-            modules = [ ./system-modules ];
+            modules = [
+              ./system-modules
+              # {
+              #   nix.package = pkgs.nixPatched;
+              # }
+            ];
             extraSpecialArgs = mkSpecialAttrs attrs // {
               inherit pkgs;
               ## ^ add overlaid nixpkgs
@@ -145,6 +155,7 @@
                 nixpkgs = {
                   inherit pkgs;
                 };
+                nix.package = pkgs.nixPatched;
               }
             ];
             specialArgs = mkSpecialAttrs attrs;

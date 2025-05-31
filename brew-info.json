@@ -85,7 +85,7 @@
       "disable_replacement_cask": null,
       "post_install_defined": true,
       "service": null,
-      "tap_git_head": "58adbc40c125067ae6b4178fa104f83fa4e2860a",
+      "tap_git_head": "ea3a0221da02ab890bd3b8e6f1fbd82971f1bf43",
       "ruby_source_path": "Formula/c/ca-certificates.rb",
       "ruby_source_checksum": {
         "sha256": "a52523e3825b48933e13861ccebd3a5a8433631f76a1f0e4c2ac61b324fa128f"
@@ -249,7 +249,7 @@
       "disable_replacement_cask": null,
       "post_install_defined": false,
       "service": null,
-      "tap_git_head": "58adbc40c125067ae6b4178fa104f83fa4e2860a",
+      "tap_git_head": "ea3a0221da02ab890bd3b8e6f1fbd82971f1bf43",
       "ruby_source_path": "Formula/c/cocoapods.rb",
       "ruby_source_checksum": {
         "sha256": "f9acb80d178b013582c8aaf07cdd6d469c573de1447b2c49a9326bb313ada3a9"
@@ -409,7 +409,7 @@
       "disable_replacement_cask": null,
       "post_install_defined": false,
       "service": null,
-      "tap_git_head": "58adbc40c125067ae6b4178fa104f83fa4e2860a",
+      "tap_git_head": "ea3a0221da02ab890bd3b8e6f1fbd82971f1bf43",
       "ruby_source_path": "Formula/lib/libyaml.rb",
       "ruby_source_checksum": {
         "sha256": "a1e877a87ca697e739f9ac5252aff9466f4a625101d379a01b1ed42d02a72389"
@@ -563,7 +563,7 @@
       "disable_replacement_cask": null,
       "post_install_defined": true,
       "service": null,
-      "tap_git_head": "58adbc40c125067ae6b4178fa104f83fa4e2860a",
+      "tap_git_head": "ea3a0221da02ab890bd3b8e6f1fbd82971f1bf43",
       "ruby_source_path": "Formula/o/openssl@3.rb",
       "ruby_source_checksum": {
         "sha256": "9fbe32db88b960f278457b243184a4150643c8f1593443fd6417b8e4c11b3d94"
@@ -743,7 +743,7 @@
       "disable_replacement_cask": null,
       "post_install_defined": true,
       "service": null,
-      "tap_git_head": "58adbc40c125067ae6b4178fa104f83fa4e2860a",
+      "tap_git_head": "ea3a0221da02ab890bd3b8e6f1fbd82971f1bf43",
       "ruby_source_path": "Formula/r/ruby.rb",
       "ruby_source_checksum": {
         "sha256": "9ae9a511f82d29df6dd219271ef05339fa44f517035ed690edbb209bcbb5158e"
@@ -761,11 +761,11 @@
       ],
       "desc": "Web browser",
       "homepage": "https://www.mozilla.org/firefox/",
-      "url": "https://download-installer.cdn.mozilla.net/pub/firefox/releases/138.0.4/mac/en-US/Firefox%20138.0.4.dmg",
+      "url": "https://download-installer.cdn.mozilla.net/pub/firefox/releases/139.0.1/mac/en-US/Firefox%20139.0.1.dmg",
       "url_specs": {
         "verified": "download-installer.cdn.mozilla.net/pub/firefox/releases/"
       },
-      "version": "138.0.4",
+      "version": "139.0.1",
       "autobump": true,
       "no_autobump_message": null,
       "skip_livecheck": false,
@@ -774,7 +774,7 @@
       "bundle_version": "13825.5.17",
       "bundle_short_version": "138.0.4",
       "outdated": false,
-      "sha256": "6842663f38b8b12b08b67239f0cc2118e93fa0b5b57e856c21f384fb501fb430",
+      "sha256": "243478e2a2fd5d9dd0cc261c812b0146e433d703fec960c27c7284b2de7e65bc",
       "artifacts": [
         {
           "preflight": null
@@ -793,7 +793,7 @@
         },
         {
           "binary": [
-            "/opt/homebrew/Caskroom/firefox/138.0.4/firefox.wrapper.sh",
+            "/opt/homebrew/Caskroom/firefox/139.0.1/firefox.wrapper.sh",
             {
               "target": "firefox"
             }
@@ -853,7 +853,7 @@
       "disable_reason": null,
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
-      "tap_git_head": "7b1e16c7d39018c5b33b1307058af359251bec66",
+      "tap_git_head": "a40fdc5c7a06ccccccb10721ae406eca05318950",
       "languages": [
         "ach",
         "af",
@@ -961,7 +961,7 @@
       ],
       "ruby_source_path": "Casks/f/firefox.rb",
       "ruby_source_checksum": {
-        "sha256": "74d6f5e59a276dbfb8c5c19f836d101b072f7b0e52b680d90605e303bb868cd4"
+        "sha256": "529057282102c6b3d08ef696bb05e5667c1292f90636a18571608f4747a5227f"
       }
     },
     {
@@ -1042,7 +1042,7 @@
       "disable_reason": null,
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
-      "tap_git_head": "7b1e16c7d39018c5b33b1307058af359251bec66",
+      "tap_git_head": "a40fdc5c7a06ccccccb10721ae406eca05318950",
       "languages": [],
       "ruby_source_path": "Casks/i/iterm2.rb",
       "ruby_source_checksum": {
@@ -1160,7 +1160,7 @@
       "disable_reason": null,
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
-      "tap_git_head": "7b1e16c7d39018c5b33b1307058af359251bec66",
+      "tap_git_head": "a40fdc5c7a06ccccccb10721ae406eca05318950",
       "languages": [],
       "ruby_source_path": "Casks/k/karabiner-elements.rb",
       "ruby_source_checksum": {
@@ -1249,7 +1249,7 @@
       "disable_reason": null,
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
-      "tap_git_head": "7b1e16c7d39018c5b33b1307058af359251bec66",
+      "tap_git_head": "a40fdc5c7a06ccccccb10721ae406eca05318950",
       "languages": [],
       "ruby_source_path": "Casks/n/nutstore.rb",
       "ruby_source_checksum": {
@@ -1335,7 +1335,7 @@
       "disable_reason": null,
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
-      "tap_git_head": "7b1e16c7d39018c5b33b1307058af359251bec66",
+      "tap_git_head": "a40fdc5c7a06ccccccb10721ae406eca05318950",
       "languages": [],
       "ruby_source_path": "Casks/t/tunnelblick.rb",
       "ruby_source_checksum": {
@@ -1428,7 +1428,7 @@
       "disable_reason": null,
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
-      "tap_git_head": "7b1e16c7d39018c5b33b1307058af359251bec66",
+      "tap_git_head": "a40fdc5c7a06ccccccb10721ae406eca05318950",
       "languages": [],
       "ruby_source_path": "Casks/v/visual-studio-code.rb",
       "ruby_source_checksum": {
@@ -1445,9 +1445,9 @@
       ],
       "desc": "Video communication and virtual meeting platform",
       "homepage": "https://www.zoom.us/",
-      "url": "https://cdn.zoom.us/prod/6.4.10.56141/arm64/zoomusInstallerFull.pkg",
+      "url": "https://cdn.zoom.us/prod/6.4.12.56699/arm64/zoomusInstallerFull.pkg",
       "url_specs": {},
-      "version": "6.4.10.56141",
+      "version": "6.4.12.56699",
       "autobump": true,
       "no_autobump_message": null,
       "skip_livecheck": false,
@@ -1456,7 +1456,7 @@
       "bundle_version": null,
       "bundle_short_version": null,
       "outdated": false,
-      "sha256": "2c8425facff659f6052041bf66cbe95a5b164614e807ee7eca601708c843a961",
+      "sha256": "aec3b81c0bc0ea10a218306e2d08ffa9858747a0e5a3e1bdae47e1c6f281a788",
       "artifacts": [
         {
           "uninstall": [
@@ -1545,11 +1545,11 @@
       "disable_reason": null,
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
-      "tap_git_head": "7b1e16c7d39018c5b33b1307058af359251bec66",
+      "tap_git_head": "a40fdc5c7a06ccccccb10721ae406eca05318950",
       "languages": [],
       "ruby_source_path": "Casks/z/zoom.rb",
       "ruby_source_checksum": {
-        "sha256": "0facd3679812f6ed1eb2a5f72d3b1fe0f667a435516dcddcdb3f1ff7e1be42bc"
+        "sha256": "5c3818288601e824fca0912133bd046eb574d272b50a4dcc6809d50ca2df8098"
       }
     }
   ]
