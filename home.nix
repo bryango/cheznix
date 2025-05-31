@@ -82,7 +82,7 @@ let
       openssh  # need to unset SSH_AUTH_SOCK, maybe
       # trashy  # better, but its zsh completion is broken
 
-      (binaryFallback "aria2c" aria2)
+      (if isLinux then (binaryFallback "aria2c" aria2) else aria2)
       (writeShellScriptBin "proxychains" ''
         if command -v proxychains4 &>/dev/null; then
           exec proxychains4 "$@"
