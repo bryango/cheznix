@@ -47,8 +47,7 @@
     /** only used for nixgl */
     flake-utils.url = "github:numtide/flake-utils";
 
-    /** mirror of https://git.lix.systems/lix-project/flake-compat */
-    flake-compat.url = "git+https://git.lix.systems/bryango/flake-compat.git?ref=dev";
+    flake-compat.url = "git+https://git.lix.systems/lix-project/flake-compat.git";
 
   };
 
@@ -67,12 +66,12 @@
         getFlake = src: (f {
           inherit src;
           useBuiltinsFetchTree = builtins ? fetchTree;
-        }).defaultNix;
+        }).outputs;
         getFlakeImpure = src: (f {
           inherit src;
           useBuiltinsFetchTree = builtins ? fetchTree;
           copySourceTreeToStore = false;
-        }).defaultNix;
+        }).outputs;
       };
 
       mySystems = [ "x86_64-linux" "aarch64-darwin" ];
