@@ -23,12 +23,12 @@
   )
 , path
 , applyPatches
-, fetchpatch
+, fetchpatch2
 , fetchFromGitHub
 , lib
 , buildPackages
 , trimPatch ? (
-    fetchpatch.override ({ patchutils, ... }: {
+    fetchpatch2.override ({ patchutils, ... }: {
       /** adapted to handle local files */
       fetchurl =
         ({ name ? "", src, hash ? lib.fakeHash, passthru ? { }, postFetch, nativeBuildInputs ? [ ], ... }:
@@ -74,7 +74,7 @@ let
   # now we process the supplied patches ...
 
   prPatches = lib.mapAttrs
-    (pr: hash: fetchpatch {
+    (pr: hash: fetchpatch2 {
       url = "https://patch-diff.githubusercontent.com/raw/NixOS/nixpkgs/pull/${pr}.patch";
       inherit hash;
     })
