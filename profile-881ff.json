@@ -7,15 +7,15 @@
       "outputs": null,
       "priority": 5,
       "storePaths": [
-        "/nix/store/z2lf6q2998760kgbgj4rza6gwq6qbw1i-home-apps"
+        "/nix/store/jl2lvjbdy0rrhkrbzs65c0a71nvc3x3a-home-apps"
       ],
-      "url": "git+file:///Users/bryan/apps/flakes?ref=refs/heads/dev&rev=061c43afc4b1e3cc0f8eb9f1bf1f9cdfc7c88b14"
+      "url": "git+file:///Users/bryan/apps/flakes?ref=refs/heads/dev&rev=c7dda4893c0f6023dab21c436426a185a6c7c839"
     },
     "home-manager-path": {
       "active": true,
       "priority": 5,
       "storePaths": [
-        "/nix/store/q80jbpjwlzsnyhrb3hsmdjsq84v52ww5-home-manager-path"
+        "/nix/store/y1pddf894mvx5sxcnx6bxsv3ka5r5m5g-home-manager-path"
       ]
     }
   },
