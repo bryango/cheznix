@@ -18,11 +18,7 @@ with prev;
   # nixPatched = lixPackageSets.latest.lix;
   nixPatched = nixVersions.stable.overrideAttrs ({ patches ? [  ], ... }: {
     patches = patches ++ [
-      (fetchpatch2 {
-        name = "13284-allow-user-registry-for-flake-override-input.patch";
-        url = "https://github.com/NixOS/nix/commit/d0a23238294198f6702e13d117f75af89dbeac62.patch?full_index=1";
-        hash = "sha256-sRhg2vl8OqqiVCP+o/V/JWZpNc9HRHRBiY9RxJUo2uY=";
-      })
+      ./13284-allow-user-registry-for-flake-override-input.patch
     ];
   });
 

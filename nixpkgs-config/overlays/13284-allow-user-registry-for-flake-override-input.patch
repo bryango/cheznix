@@ -1,0 +1,55 @@
+From d0a23238294198f6702e13d117f75af89dbeac62 Mon Sep 17 00:00:00 2001
+From: Seth Flynn <getchoo@tuta.io>
+Date: Tue, 27 May 2025 22:20:53 -0400
+Subject: [PATCH] lockFlake(): Allow registry lookups for overridden inputs
+
+Fixes #13144
+---
+ src/libflake/flake.cc | 11 ++++++-----
+ 1 file changed, 6 insertions(+), 5 deletions(-)
+
+diff --git a/src/libflake/flake.cc b/src/libflake/flake.cc
+index 89cf3a7fd..4a35f8c7c 100644
+--- a/src/libflake/flake.cc
++++ b/src/libflake/flake.cc
+@@ -627,7 +627,7 @@ LockedFlake lockFlake(
+ 
+                     /* Get the input flake, resolve 'path:./...'
+                        flakerefs relative to the parent flake. */
+-                    auto getInputFlake = [&](const FlakeRef & ref)
++                    auto getInputFlake = [&](const FlakeRef & ref, const fetchers::UseRegistries useRegistries)
+                     {
+                         if (auto resolvedPath = resolveRelativePath()) {
+                             return readFlake(state, ref, ref, ref, *resolvedPath, inputAttrPath);
+@@ -635,7 +635,7 @@ LockedFlake lockFlake(
+                             return getFlake(
+                                 state,
+                                 ref,
+-                                useRegistriesInputs,
++                                useRegistries,
+                                 flakeCache,
+                                 inputAttrPath);
+                         }
+@@ -718,7 +718,7 @@ LockedFlake lockFlake(
+                         }
+ 
+                         if (mustRefetch) {
+-                            auto inputFlake = getInputFlake(oldLock->lockedRef);
++                            auto inputFlake = getInputFlake(oldLock->lockedRef, useRegistriesInputs);
+                             nodePaths.emplace(childNode, inputFlake.path.parent());
+                             computeLocks(inputFlake.inputs, childNode, inputAttrPath, oldLock, followsPrefix,
+                                 inputFlake.path, false);
+@@ -743,10 +743,11 @@ LockedFlake lockFlake(
+                             nuked the next time we update the lock
+                             file. That is, overrides are sticky unless you
+                             use --no-write-lock-file. */
+-                        auto ref = (input2.ref && explicitCliOverrides.contains(inputAttrPath)) ? *input2.ref : *input.ref;
++                        auto inputIsOverride = explicitCliOverrides.contains(inputAttrPath);
++                        auto ref = (input2.ref && inputIsOverride) ? *input2.ref : *input.ref;
+ 
+                         if (input.isFlake) {
+-                            auto inputFlake = getInputFlake(*input.ref);
++                            auto inputFlake = getInputFlake(*input.ref, inputIsOverride ? fetchers::UseRegistries::All : useRegistriesInputs);
+ 
+                             auto childNode = make_ref<LockedNode>(
+                                 inputFlake.lockedRef,
