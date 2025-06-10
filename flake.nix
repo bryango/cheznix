@@ -66,7 +66,7 @@
       ## home overlay:
       overlay = final: prev: import ./overlay.nix final prev // (with final; {
         inherit cheznix;
-        inherit (system-manager.packages.${system}) system-manager;
+        system-manager = system-manager.packages.${system}.default;
       });
 
       machines = lib.mapAttrs updateHomeAttrs home-attrs.outputs;
