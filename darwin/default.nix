@@ -29,6 +29,7 @@
     };
     brews = [
       "cocoapods"
+      "unbound"
     ];
     casks = [
       # trusted

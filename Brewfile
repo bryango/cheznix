@@ -2,6 +2,7 @@
 
 # Brews
 brew "cocoapods"
+brew "unbound"
 
 # Casks
 cask "firefox"
