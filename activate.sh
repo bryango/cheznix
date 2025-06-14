@@ -14,8 +14,8 @@ chezmoi init --ssh bryango/chezmoi --branch dev
 # ensure that `home-attrs` is cached
 nix eval --raw cheznix#cheznix.inputs.home-attrs.outPath | cachix push chezbryan &
 
-chores
-verify downstream overrides of upstream files
+# chores
+# verify downstream overrides of upstream files
 if [[ $HOSTNAME == memoriam ]]; then
   git diff --color=always --no-index \
     {/run/current-system/sw/share/zsh/5.9/functions,~/.zsh_profiles/completions}/_networksetup || true
