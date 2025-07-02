@@ -18,7 +18,6 @@ with prev;
   # nixPatched = lixPackageSets.latest.lix;
   nixPatched = nixVersions.stable.overrideAttrs ({ patches ? [  ], ... }: {
     patches = patches ++ [
-      ./13284-allow-user-registry-for-flake-override-input.patch
     ];
   });
 
