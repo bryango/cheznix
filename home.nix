@@ -130,6 +130,7 @@ let
       inetutils # telnet
       dufs # file server
       (if isLinux then miktex else texliveSmall.withPackages (ps: with ps; [
+        texdoc
         enumitem
         doublestroke
         todonotes
