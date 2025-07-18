@@ -204,6 +204,7 @@ let
 in {
 
   imports = [
+    ./modules/direnv-exec-apps
     ./modules/redshift-many
     ./modules/v2ray-ctrl
     ./modules/nixpkgs-helpers
@@ -240,6 +241,16 @@ in {
     outbounds = "dal4";
     # routings =
     #   "private-direct,cn-direct,tencent-direct,ms-transit,zoom-transit";
+  };
+
+  programs.direnv-exec-apps = {
+    apps = [
+      "pdflatex"
+      "xelatex"
+      "biber"
+      "bibtex"
+      "texdoc"
+    ];
   };
 
   services.redshift-many = lib.optionalAttrs isLinux {
