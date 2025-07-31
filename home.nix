@@ -164,7 +164,6 @@ let
 
     gui.app = [
       djview
-      remmina
       (gimp-with-plugins.override {
         plugins = # with gimpPlugins;
         [
@@ -181,6 +180,7 @@ let
       (binaryFallback "code" (writeShellScriptBin "code" ''echo "$@"''))
     ] ++ lib.optionals isLinux [
       xorg.xinput
+      remmina
       pulsar  # atom fork
 
       nixgl.nixGLIntel
