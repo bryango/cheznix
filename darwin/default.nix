@@ -39,6 +39,7 @@
       "nutstore"
       "zoom"
       "visual-studio-code"
+      "tailscale-app"
 
       # probably okay
       "iterm2"
@@ -47,7 +48,7 @@
     ];
   };
 
-  services.tailscale.enable = true;
+  services.tailscale.enable = false; # use the homebrew cask gui app
 
   nix.settings = {
     experimental-features = "nix-command flakes fetch-closure";
