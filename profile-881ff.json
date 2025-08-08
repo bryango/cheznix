@@ -7,16 +7,27 @@
       "outputs": null,
       "priority": 5,
       "storePaths": [
-        "/nix/store/yfhag1f7dglzc6kzb0v9xh81kji4xl4l-home-apps"
+        "/nix/store/h46mkds9pjqlyblcyarzw4fj1rzlrv8n-home-apps"
       ],
-      "url": "git+file:///Users/bryan/apps/flakes?ref=refs/heads/dev&rev=da7a4bfdad658b380209477ecaef972419404318"
+      "url": "git+file:///Users/bryan/apps/flakes?ref=refs/heads/dev&rev=e498f29829bcf40924df0bc237c20c7a5d6d4a85"
     },
     "home-manager-path": {
       "active": true,
       "priority": 5,
       "storePaths": [
-        "/nix/store/kvjr6nwzyjbfp9s0nrq5jsxqflsdkm76-home-manager-path"
+        "/nix/store/hac4ilfhdjay0xnzw4r8gqyn39hn64gz-home-manager-path"
       ]
+    },
+    "nix-update": {
+      "active": true,
+      "attrPath": "packages.aarch64-darwin.default",
+      "originalUrl": "git+file:///Users/bryan/apps/dev/nix-update",
+      "outputs": null,
+      "priority": 3,
+      "storePaths": [
+        "/nix/store/blmfvijrcafzwfvcfws08d2qf24zxdi0-nix-update-1.12.0"
+      ],
+      "url": "git+file:///Users/bryan/apps/dev/nix-update?rev=e0e4b9f0546f2018fbe8fec8235a13b8fedbbb89"
     }
   },
   "version": 3

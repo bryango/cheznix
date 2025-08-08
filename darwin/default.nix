@@ -48,7 +48,7 @@
     ];
   };
 
-  services.tailscale.enable = false; # use the homebrew cask gui app
+  services.tailscale.enable = true; # use along with the cask app
 
   nix.settings = {
     experimental-features = "nix-command flakes fetch-closure";

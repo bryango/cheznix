@@ -1770,6 +1770,112 @@
       }
     },
     {
+      "token": "tailscale-app",
+      "full_token": "tailscale-app",
+      "old_tokens": [
+        "tailscale"
+      ],
+      "tap": "homebrew/cask",
+      "name": [
+        "Tailscale"
+      ],
+      "desc": "Mesh VPN based on WireGuard",
+      "homepage": "https://tailscale.com/",
+      "url": "https://pkgs.tailscale.com/stable/Tailscale-1.86.2-macos.pkg",
+      "url_specs": {},
+      "version": "1.86.2",
+      "autobump": true,
+      "no_autobump_message": null,
+      "skip_livecheck": false,
+      "installed": "1.86.2",
+      "installed_time": 1754356861,
+      "bundle_version": null,
+      "bundle_short_version": null,
+      "outdated": false,
+      "sha256": "f91999674765d5baff75162729cb4092847b482d21b9a44c2bdc47c5ac2162fc",
+      "artifacts": [
+        {
+          "preflight": null
+        },
+        {
+          "uninstall": [
+            {
+              "quit": "io.tailscale.ipn.macsys",
+              "login_item": "Tailscale",
+              "pkgutil": "com.tailscale.ipn.macsys"
+            }
+          ]
+        },
+        {
+          "pkg": [
+            "Tailscale-1.86.2-macos.pkg"
+          ]
+        },
+        {
+          "binary": [
+            "/opt/homebrew/Caskroom/tailscale-app/1.86.2/tailscale.wrapper.sh",
+            {
+              "target": "tailscale"
+            }
+          ]
+        },
+        {
+          "zap": [
+            {
+              "trash": [
+                "/Library/Tailscale",
+                "~/Library/Application Scripts/*.io.tailscale.ipn.macsys",
+                "~/Library/Application Scripts/io.tailscale.ipn.macsys",
+                "~/Library/Application Scripts/io.tailscale.ipn.macsys.login-item-helper",
+                "~/Library/Application Scripts/io.tailscale.ipn.macsys.share-extension",
+                "~/Library/Caches/io.tailscale.ipn.macsys",
+                "~/Library/Containers/io.tailscale.ipn.macos.network-extension",
+                "~/Library/Containers/io.tailscale.ipn.macsys",
+                "~/Library/Containers/io.tailscale.ipn.macsys.login-item-helper",
+                "~/Library/Containers/io.tailscale.ipn.macsys.share-extension",
+                "~/Library/Containers/Tailscale",
+                "~/Library/Group Containers/*.io.tailscale.ipn.macsys",
+                "~/Library/HTTPStorages/io.tailscale.ipn.macsys",
+                "~/Library/HTTPStorages/io.tailscale.ipn.macsys.binarycookies",
+                "~/Library/Preferences/io.tailscale.ipn.macsys.plist"
+              ]
+            }
+          ]
+        }
+      ],
+      "caveats": "tailscale-app requires a kernel extension to work.\nIf the installation fails, retry after you enable it in:\n  System Settings → Privacy & Security\n\nFor more information, refer to vendor documentation or this Apple Technical Note:\n  https://developer.apple.com/library/content/technotes/tn2459/_index.html\n\nInstalling tailscale-app means you have AGREED to the license at:\n  https://tailscale.com/terms\n",
+      "depends_on": {
+        "macos": {
+          ">=": [
+            "11"
+          ]
+        }
+      },
+      "conflicts_with": {
+        "formula": [
+          "tailscale"
+        ]
+      },
+      "container": null,
+      "auto_updates": true,
+      "deprecated": false,
+      "deprecation_date": null,
+      "deprecation_reason": null,
+      "deprecation_replacement_formula": null,
+      "deprecation_replacement_cask": null,
+      "disabled": false,
+      "disable_date": null,
+      "disable_reason": null,
+      "disable_replacement_formula": null,
+      "disable_replacement_cask": null,
+      "tap_git_head": "5dfc439b6a44533d83e36109063df360f7527070",
+      "languages": [],
+      "ruby_source_path": "Casks/t/tailscale-app.rb",
+      "ruby_source_checksum": {
+        "sha256": "b0b3a5f2ee877c719d3910d273a74085fff5a38a1cc794b2e08a801784c3611a"
+      }
+    },
+    {
       "token": "tunnelblick",
       "full_token": "tunnelblick",
       "old_tokens": [],
@@ -1874,8 +1980,8 @@
       "skip_livecheck": false,
       "installed": "1.102.3",
       "installed_time": 1754348806,
-      "bundle_version": "1.102.3",
-      "bundle_short_version": "1.102.3",
+      "bundle_version": "1.103.0",
+      "bundle_short_version": "1.103.0",
       "outdated": false,
       "sha256": "dbd8bffa6cf43425346423beb7395b4a5d622b1e7f1fcf5b1904ef451e7f3ee0",
       "artifacts": [
