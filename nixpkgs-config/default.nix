@@ -1,39 +1,50 @@
-{ flakeSystem ? args_.system
-    or builtins.currentSystem
-    or "x86_64-linux"
-, ...
-} @ args_:
+{
+  flakeSystem ? args.system or builtins.currentSystem or "x86_64-linux",
+  ...
+}@args:
 
 let
-  pathString = builtins.toString ./.;
-  flake = builtins.getFlake pathString;
+
+  lockFile = builtins.fromJSON (builtins.readFile ./flake.lock);
+  flake-compat-node = lockFile.nodes.${lockFile.nodes.root.inputs.flake-compat};
+  flake-compat = builtins.fetchTarball {
+    inherit (flake-compat-node.locked) url;
+    sha256 = flake-compat-node.locked.narHash;
+  };
+
+  flake =
+    (import flake-compat {
+      src = ./.;
+      copySourceTreeToStore = false;
+    }).outputs;
+
   nixpkgs = flake.inputs.nixpkgs;
   lib = flake.lib;
   pkgs = flake.legacyPackages.${flakeSystem};
 
-  /* prepare the arguments for the `nixpkgs` function
-  
+  /*
+    prepare the arguments for the `nixpkgs` function
+
     Note:
     - "config.*ackageOverrides" will be overriden, not merged
     - "overlays" are composed by stacking them together
     - see e.g. home-manager|nixos: modules/misc/nixpkgs.nix
   */
-  overlays =
-    (pkgs.overlays or [ ]) ++
-    (args_.overlays or [ ]);
+  overlays = (pkgs.overlays or [ ]) ++ (args.overlays or [ ]);
 
-  args__ = removeAttrs args_ [
+  cleanedArgs = removeAttrs args [
     "flakeSystem"
     "overlays"
-  ];  ## ^ remove processed args
+  ]; # ^ remove processed args
 
-  args = lib.recursiveUpdate
-    {
-      inherit (pkgs) config;
-      inherit overlays;
-    }
-    args__;
+  passedArgs = lib.recursiveUpdate {
+    inherit (pkgs) config;
+    inherit overlays;
+  } cleanedArgs;
 
-in import nixpkgs args // {
+in
+
+import nixpkgs passedArgs
+// {
   inherit flake;
 }
