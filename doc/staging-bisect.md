@@ -45,5 +45,16 @@ We are trying to find a commit that belongs to some PR which has been merged int
 We find that:
 - _The ancestor:_ https://github.com/NixOS/nixpkgs/commit/3e483a0e1fc75a57e2ef551c416f52ec598a426d
 
-is an automatic sync from the hydra built `staging-next` to `staging`. At some time in its future, it is manually merged back into `staging-next` and finally back into `master`, through https://github.com/NixOS/nixpkgs/pull/248496. We've hences successfully located the `staging-next` merge as above.
+is an automatic sync from the hydra built `staging-next` to `staging`. At some time in its future, it is manually merged back into `staging-next` and finally back into `master`, through https://github.com/NixOS/nixpkgs/pull/248496. We've hence successfully located the `staging-next` merge as above.
 Note that this merge point lies in the _future_ of the suspect https://github.com/NixOS/nixpkgs/pull/246963 of our interest, but it can be located by going to the _past_ of our suspect.
+
+# a more general prescription
+
+- with `git bisect` we can get a list of good and bad revs
+- just `git bisect skip` if the commit is not cached, to avoid rebuilding the universe
+- the suspects are given by `git log bad_revs ^good_revs`
+- `good_rev..bad_rev` is just a shorthand for `bad_rev ^good_rev`; in general, it is actually easier to use the latter syntax to specify multiple good revs and bad revs
+- it is possible that `--ancestry-path good_rev..bad_revs` gives an empty set; that simply means that these two revs are on the tips of two branches and their merge base is given by `git merge-base`
+- one can generally narrow it down to 200 or so commits, and we can assess the relevance of these suspects by hand
+
+This is how we discover https://github.com/NixOS/nixpkgs/issues/431934.
