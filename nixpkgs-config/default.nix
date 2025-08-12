@@ -1,5 +1,5 @@
 {
-  flakeSystem ? args.system or builtins.currentSystem or "x86_64-linux",
+  flakeSystem ? args.system or builtins.currentSystem or "aarch64-darwin",
   ...
 }@args:
 

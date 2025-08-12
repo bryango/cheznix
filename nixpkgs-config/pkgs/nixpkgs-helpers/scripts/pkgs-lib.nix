@@ -1,12 +1,12 @@
 #!/usr/bin/env -S nix repl --impure --file
 # get a flake, and its `pkgs` and `lib`
 
-{ system ? builtins.currentSystem or "x86_64-linux"
+{ system ? builtins.currentSystem or "aarch64-darwin"
 , flakeref ? "nixpkgs"
 , ... }:
 
 let
   flake = builtins.getFlake flakeref;
-  pkgs = flake.legacyPackages.${system} or {};
+  pkgs = flake.legacyPackages.${system} or flake.packages.${system} or {};
   lib = flake.lib or pkgs.lib or {};
 in flake // { inherit flake pkgs lib; }
