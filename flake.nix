@@ -117,7 +117,8 @@
             modules = [
               ./home.nix
               {
-                nix.package = pkgs.nixPatched;
+                # must set for `nix.settings` and stuff
+                nix.package = pkgs.nixPackage; # defined in `nixpkgs-config`
               }
             ];
 
@@ -134,7 +135,8 @@
             modules = [
               ./system-modules
               # {
-              #   nix.package = pkgs.nixPatched;
+              #   # not yet implemented upstream
+              #   nix.package = pkgs.nixPackage; # defined in `nixpkgs-config`
               # }
             ];
             extraSpecialArgs = mkSpecialAttrs attrs // {
@@ -155,7 +157,7 @@
                 nixpkgs = {
                   inherit pkgs;
                 };
-                nix.package = pkgs.nixPatched;
+                nix.package = pkgs.nixPackage; # defined in `nixpkgs-config`
               }
             ];
             specialArgs = mkSpecialAttrs attrs;

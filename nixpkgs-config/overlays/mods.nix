@@ -15,11 +15,13 @@ with prev;
     code-cursor
   ;
 
-  # nixPatched = lixPackageSets.latest.lix;
-  nixPatched = nixVersions.stable.overrideAttrs ({ patches ? [  ], ... }: {
-    patches = patches ++ [
-    ];
-  });
+  /** nix package used for the `nix.package` configuration */
+  nixPackage = nixVersions.latest;
+  # nixPackage = lixPackageSets.latest.lix;
+  # nixPackage = nixVersions.stable.overrideAttrs ({ patches ? [  ], ... }: {
+  #   patches = patches ++ [
+  #   ];
+  # });
 
   # many flaky tests
   tailscale = tailscale.overrideAttrs { doCheck = false; };
