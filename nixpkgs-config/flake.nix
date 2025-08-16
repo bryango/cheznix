@@ -152,7 +152,7 @@
     });
 
     packages = lib.forMySystems (system: rec {
-      inherit (legacyPackages.${system}) user-drv-overlays;
+      inherit (legacyPackages.${system}) user-drv-overlays nixpkgs-patched;
       default = user-drv-overlays;  # from `gatherOverlaid`
     });
 

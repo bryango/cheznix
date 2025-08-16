@@ -18,7 +18,7 @@ let
       copySourceTreeToStore = false;
     }).outputs;
 
-  nixpkgs = flake.inputs.nixpkgs;
+  nixpkgs = flake.packages.${flakeSystem}.nixpkgs-patched;
   lib = flake.lib;
   pkgs = flake.legacyPackages.${flakeSystem};
 
