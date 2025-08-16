@@ -39,7 +39,7 @@ let
     nix.dev = [
       nil  # language server
       nixpkgs-fmt  # the unofficial formatter
-      nixfmt-rfc-style  # the official formatter
+      nixfmt  # the official formatter
       nurl  # generate fetcher call
       nix-init  # generate package
       nix-update
