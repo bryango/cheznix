@@ -25,6 +25,8 @@
     ## p13n nixpkgs with config
     nixpkgs-config.url = "path:./nixpkgs-config";
 
+    nixpkgs.follows = "nixpkgs-config/nixpkgs";
+
     system-manager = {
       url = "github:numtide/system-manager";
       inputs.nixpkgs.follows = "nixpkgs-config/nixpkgs";

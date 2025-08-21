@@ -190,6 +190,10 @@
         "darwin-apps": "darwin-apps",
         "home-attrs": "home-attrs",
         "nix-darwin": "nix-darwin",
+        "nixpkgs": [
+          "nixpkgs-config",
+          "nixpkgs"
+        ],
         "nixpkgs-config": "nixpkgs-config",
         "system-manager": "system-manager"
       }
