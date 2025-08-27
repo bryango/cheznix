@@ -1,0 +1,216 @@
+From c40396185dac823b04944f1e71101587182b401d Mon Sep 17 00:00:00 2001
+From: Kira Bruneau <kira.bruneau@pm.me>
+Date: Tue, 26 Aug 2025 17:37:55 -0400
+Subject: [PATCH 1/2] python3Packages.lsprotocol: split 2023/2025 and use 2023
+ by default
+
+The 2025 version is a breaking change, we need to rollback to the 2023
+version to fix all packages that depend on it.
+
+This still provides the 2025 version for future packages that will
+depend on the latest version.
+---
+ .../python-modules/lsprotocol/2023.nix        | 70 +++++++++++++++++++
+ .../lsprotocol/{default.nix => 2025.nix}      | 20 +++---
+ pkgs/top-level/python-packages.nix            |  6 +-
+ 3 files changed, 85 insertions(+), 11 deletions(-)
+ create mode 100644 pkgs/development/python-modules/lsprotocol/2023.nix
+ rename pkgs/development/python-modules/lsprotocol/{default.nix => 2025.nix} (69%)
+
+diff --git a/pkgs/development/python-modules/lsprotocol/2023.nix b/pkgs/development/python-modules/lsprotocol/2023.nix
+new file mode 100644
+index 00000000000000..719014d3fa6dab
+--- /dev/null
++++ b/pkgs/development/python-modules/lsprotocol/2023.nix
+@@ -0,0 +1,70 @@
++{
++  lib,
++  attrs,
++  buildPythonPackage,
++  cattrs,
++  fetchFromGitHub,
++  flit-core,
++  importlib-resources,
++  jsonschema,
++  pyhamcrest,
++  pytestCheckHook,
++}:
++
++buildPythonPackage rec {
++  pname = "lsprotocol";
++  version = "2023.0.1";
++  pyproject = true;
++
++  src = fetchFromGitHub {
++    owner = "microsoft";
++    repo = "lsprotocol";
++    tag = version;
++    hash = "sha256-PHjLKazMaT6W4Lve1xNxm6hEwqE3Lr2m5L7Q03fqb68=";
++  };
++
++  sourceRoot = "${src.name}/packages/python";
++
++  build-system = [
++    flit-core
++  ];
++
++  dependencies = [
++    attrs
++    cattrs
++  ];
++
++  nativeCheckInputs = [ pytestCheckHook ];
++
++  checkInputs = [
++    importlib-resources
++    jsonschema
++    pyhamcrest
++  ];
++
++  disabledTests = [
++    # cattrs.errors.StructureHandlerNotFoundError: Unsupported type:
++    # typing.Union[str, lsprotocol.types.NotebookDocumentFilter_Type1,
++    # lsprotocol.types.NotebookDocumentFilter_Type2,
++    # lsprotocol.types.NotebookDocumentFilter_Type3, NoneType]. Register
++    # a structure hook for it.
++    "test_notebook_sync_options"
++  ];
++
++  preCheck = ''
++    cd ../../
++  '';
++
++  pythonImportsCheck = [ "lsprotocol" ];
++
++  meta = {
++    description = "Python implementation of the Language Server Protocol";
++    homepage = "https://github.com/microsoft/lsprotocol";
++    changelog = "https://github.com/microsoft/lsprotocol/releases/tag/${src.tag}";
++    license = lib.licenses.mit;
++    maintainers = with lib.maintainers; [
++      doronbehar
++      fab
++    ];
++  };
++}
+diff --git a/pkgs/development/python-modules/lsprotocol/default.nix b/pkgs/development/python-modules/lsprotocol/2025.nix
+similarity index 69%
+rename from pkgs/development/python-modules/lsprotocol/default.nix
+rename to pkgs/development/python-modules/lsprotocol/2025.nix
+index fdb10e5dd3c580..aaadea3e03d753 100644
+--- a/pkgs/development/python-modules/lsprotocol/default.nix
++++ b/pkgs/development/python-modules/lsprotocol/2025.nix
+@@ -9,7 +9,6 @@
+   jsonschema,
+   pyhamcrest,
+   pytestCheckHook,
+-  pythonOlder,
+ }:
+ 
+ buildPythonPackage rec {
+@@ -17,8 +16,6 @@ buildPythonPackage rec {
+   version = "2025.0.0";
+   pyproject = true;
+ 
+-  disabled = pythonOlder "3.7";
+-
+   src = fetchFromGitHub {
+     owner = "microsoft";
+     repo = "lsprotocol";
+@@ -26,9 +23,7 @@ buildPythonPackage rec {
+     hash = "sha256-DrWXHMgDZSQQ6vsmorThMrUTX3UQU+DajSEOdxoXrFQ=";
+   };
+ 
+-  postPatch = ''
+-    pushd packages/python
+-  '';
++  sourceRoot = "${src.name}/packages/python";
+ 
+   build-system = [
+     flit-core
+@@ -48,21 +43,26 @@ buildPythonPackage rec {
+   ];
+ 
+   disabledTests = [
++    # cattrs.errors.StructureHandlerNotFoundError: Unsupported type:
++    # typing.Union[str, lsprotocol.types.NotebookDocumentFilter_Type1,
++    # lsprotocol.types.NotebookDocumentFilter_Type2,
++    # lsprotocol.types.NotebookDocumentFilter_Type3, NoneType]. Register
++    # a structure hook for it.
+     "test_notebook_sync_options"
+   ];
+ 
+   preCheck = ''
+-    popd
++    cd ../../
+   '';
+ 
+   pythonImportsCheck = [ "lsprotocol" ];
+ 
+-  meta = with lib; {
++  meta = {
+     description = "Python implementation of the Language Server Protocol";
+     homepage = "https://github.com/microsoft/lsprotocol";
+     changelog = "https://github.com/microsoft/lsprotocol/releases/tag/${src.tag}";
+-    license = licenses.mit;
+-    maintainers = with maintainers; [
++    license = lib.licenses.mit;
++    maintainers = with lib.maintainers; [
+       doronbehar
+       fab
+     ];
+diff --git a/pkgs/top-level/python-packages.nix b/pkgs/top-level/python-packages.nix
+index 1933dcc869dcbf..766d1d248f3488 100644
+--- a/pkgs/top-level/python-packages.nix
++++ b/pkgs/top-level/python-packages.nix
+@@ -8727,7 +8727,11 @@ self: super: with self; {
+ 
+   lsp-tree-sitter = callPackage ../development/python-modules/lsp-tree-sitter { };
+ 
+-  lsprotocol = callPackage ../development/python-modules/lsprotocol { };
++  lsprotocol = lsprotocol2023;
++
++  lsprotocol2023 = callPackage ../development/python-modules/lsprotocol/2023.nix { };
++
++  lsprotocol2025 = callPackage ../development/python-modules/lsprotocol/2025.nix { };
+ 
+   ltpycld2 = callPackage ../development/python-modules/ltpycld2 { };
+ 
+
+From 6dcbebae46c5c68efd3f95d71371ef4eb0e14377 Mon Sep 17 00:00:00 2001
+From: Kira Bruneau <kira.bruneau@pm.me>
+Date: Tue, 26 Aug 2025 18:56:14 -0400
+Subject: [PATCH 2/2] python3Packages.pygls: use nix-update-script to ignore
+ pre-releases
+
+---
+ pkgs/development/python-modules/pygls/default.nix | 9 +++++++++
+ 1 file changed, 9 insertions(+)
+
+diff --git a/pkgs/development/python-modules/pygls/default.nix b/pkgs/development/python-modules/pygls/default.nix
+index 1fe85fb172f93a..935a373cd9b544 100644
+--- a/pkgs/development/python-modules/pygls/default.nix
++++ b/pkgs/development/python-modules/pygls/default.nix
+@@ -10,6 +10,7 @@
+   pythonOlder,
+   typeguard,
+   websockets,
++  nix-update-script,
+ }:
+ 
+ buildPythonPackage rec {
+@@ -59,6 +60,14 @@ buildPythonPackage rec {
+ 
+   pythonImportsCheck = [ "pygls" ];
+ 
++  passthru.updateScript = nix-update-script {
++    extraArgs = [
++      # Skips pre-releases
++      "--version-regex"
++      "^v([0-9.]+)$"
++    ];
++  };
++
+   meta = with lib; {
+     description = "Pythonic generic implementation of the Language Server Protocol";
+     homepage = "https://github.com/openlawlibrary/pygls";

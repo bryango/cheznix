@@ -1,0 +1,45 @@
+From b212429979e9e7782a63acc2b6a2f52b7b906ba7 Mon Sep 17 00:00:00 2001
+From: Mrmaxmeier <Mrmaxmeier@gmail.com>
+Date: Tue, 26 Aug 2025 19:57:09 +0200
+Subject: [PATCH] tectonic: fix build with rustc 1.89
+
+Rust 1.89 made the dangerous_implicit_autorefs lint deny-by-default
+which breaks the current tectonic release. This issue has been fixed
+upstream but there hasn't been a new release in a while.
+---
+ pkgs/by-name/te/tectonic-unwrapped/package.nix      |  1 +
+ ...tonic-0.15-fix-dangerous_implicit_autorefs.patch | 13 +++++++++++++
+ 2 files changed, 14 insertions(+)
+ create mode 100644 pkgs/by-name/te/tectonic-unwrapped/tectonic-0.15-fix-dangerous_implicit_autorefs.patch
+
+diff --git a/pkgs/by-name/te/tectonic-unwrapped/package.nix b/pkgs/by-name/te/tectonic-unwrapped/package.nix
+index 3b657c2e63d00e..fbb0e022b21b69 100644
+--- a/pkgs/by-name/te/tectonic-unwrapped/package.nix
++++ b/pkgs/by-name/te/tectonic-unwrapped/package.nix
+@@ -47,6 +47,7 @@ buildRustPackage rec {
+       url = "https://github.com/tectonic-typesetting/tectonic/commit/fbb145cd079497b8c88197276f92cb89685b4d54.patch";
+       hash = "sha256-6FW5MFkOWnqzYX8Eg5DfmLaEhVWKYVZwodE4SGXHKV0=";
+     })
++    ./tectonic-0.15-fix-dangerous_implicit_autorefs.patch
+   ];
+ 
+   cargoPatches = [
+diff --git a/pkgs/by-name/te/tectonic-unwrapped/tectonic-0.15-fix-dangerous_implicit_autorefs.patch b/pkgs/by-name/te/tectonic-unwrapped/tectonic-0.15-fix-dangerous_implicit_autorefs.patch
+new file mode 100644
+index 00000000000000..883c38486a7112
+--- /dev/null
++++ b/pkgs/by-name/te/tectonic-unwrapped/tectonic-0.15-fix-dangerous_implicit_autorefs.patch
+@@ -0,0 +1,13 @@
++diff --git a/crates/engine_bibtex/src/xbuf.rs b/crates/engine_bibtex/src/xbuf.rs
++index 8f3949e7..c216eb4d 100644
++--- a/crates/engine_bibtex/src/xbuf.rs
+++++ b/crates/engine_bibtex/src/xbuf.rs
++@@ -52,7 +52,7 @@ pub unsafe fn xrealloc_zeroed<T: SafelyZero>(
++     old: *mut [T],
++     new_len: usize,
++ ) -> Option<&'static mut [T]> {
++-    let old_len = (*old).len();
+++    let old_len = (&(*old)).len();
++     let new_size = new_len * mem::size_of::<T>();
++     // SAFETY: realloc can be called with any size, even 0, that will just deallocate and return null
++     let ptr = unsafe { xrealloc(old.cast(), new_size) }.cast::<T>();
