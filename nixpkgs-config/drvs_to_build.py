@@ -10,8 +10,9 @@ import re
 import subprocess
 import sys
 import json
+from typing import Optional
 
-STORE_DIR = "/nix/store"
+STORE_DIR: str = "/nix/store"
 
 
 class ColorFormatter(logging.Formatter):
@@ -30,77 +31,72 @@ class ColorFormatter(logging.Formatter):
     def format(self, record):
         levelname = record.levelname.lower()
         style = self.COLORS.get(record.levelname, "")
-        record.levelname = f"{style}{levelname}{self.RESET}"
+        record.levelname = f"{style}{levelname}:{self.RESET}"
         return super().format(record)
 
 
-handler = logging.StreamHandler(sys.stderr)
-handler.setFormatter(ColorFormatter("%(levelname)s: %(message)s"))
-logging.root.handlers = [handler]
-logging.root.setLevel(logging.INFO)
+def initialize_logging():
+    handler = logging.StreamHandler(sys.stderr)
+    handler.setFormatter(ColorFormatter("%(levelname)s %(message)s"))
+    logging.root.handlers = [handler]
+    logging.root.setLevel(logging.INFO)
 
 
-def get_build_plan() -> list[str]:
+initialize_logging()
+
+
+def get_build_plan(*args: str) -> list[str]:
     """
     Run `nix build --dry-run` and stream its output.
 
     Returns:
-        List[str]: List of non-empty lines from the build plan.
-
-    Raises:
-        subprocess.CalledProcessError: If nix build command fails.
-        SystemExit: If there's an error running the command.
+        list[str]: List of derivations that form the build plan.
     """
-    try:
-        build_cmd = ["nix", "build", "--dry-run"] + sys.argv[1:]
-        process = subprocess.Popen(
-            build_cmd,
-            stderr=subprocess.PIPE,
-            text=True,
-            bufsize=1,  # Line buffered
+    build_cmd = ["nix", "build", "--dry-run"] + list(args)
+    process = subprocess.Popen(
+        build_cmd,
+        stderr=subprocess.PIPE,
+        text=True,
+        bufsize=1,  # Line buffered
+    )
+
+    build_list = []
+
+    if process.stderr is not None:
+        for line in process.stderr:
+            # stream to stderr in real-time
+            print(line, end="", file=sys.stderr, flush=True)
+
+            if re.match(r"these (.*) derivations will be built.*", line):
+                logging.debug("^ found build plan header: %s")
+                continue
+
+            if re.match(r"these .* paths will be fetched.*", line):
+                logging.debug("^ found fetch plan header")
+                logging.info(
+                    "ignoring paths to be fetched, gathering derivations to be built"
+                )
+                break
+
+            if (
+                (stripped_line := line.strip())
+                and stripped_line.startswith("/")
+                and stripped_line.endswith(".drv")
+            ):
+                build_list.append(stripped_line)
+            else:
+                logging.warning("^ unexpected log output")
+
+    return_code = process.wait()
+    if return_code != 0:
+        logging.error(
+            f"command {build_cmd} failed with code {return_code} and output: {process.stdout}"
         )
 
-        build_list = []
-
-        if process.stderr is not None:
-            for line in process.stderr:
-                # stream to stderr in real-time
-                print(line, end="", file=sys.stderr, flush=True)
-
-                stripped_line = line.strip()
-                if re.match(r"these (.*) derivations will be built.*", line):
-                    logging.debug("found build plan header: %s", stripped_line)
-                    continue
-
-                if re.match(r"these .* paths will be fetched.*", line):
-                    logging.debug("found fetch plan header: %s", stripped_line)
-                    logging.info(
-                        "ignoring paths to be fetched, gathering derivations to be built"
-                    )
-                    break
-
-                if (
-                    stripped_line
-                    and stripped_line.startswith("/")
-                    and stripped_line.endswith(".drv")
-                ):
-                    build_list.append(stripped_line)
-                else:
-                    logging.warning("unexpected line: %s", stripped_line)
-
-        return_code = process.wait()
-        if return_code != 0:
-            raise subprocess.CalledProcessError(return_code, build_cmd)
-
-        return build_list
-
-    except subprocess.CalledProcessError as err:
-        logging.error("Error running nix build: %s", err)
-        logging.error("Error output: %s", err.stderr)
-        sys.exit(1)
+    return build_list
 
 
-def nix_eval(*expr: str) -> str | subprocess.CalledProcessError:
+def call_nix_eval(*expr: str) -> Optional[str]:
     """
     Evaluate a Nix expression and return its output.
 
@@ -122,11 +118,12 @@ def nix_eval(*expr: str) -> str | subprocess.CalledProcessError:
         )
         result = subprocess.run(cmd, capture_output=True, text=True, check=True)
         return result.stdout.strip()
-    except subprocess.CalledProcessError as error:
-        return error
+    except Exception as error:
+        logging.error(f"command {cmd} failed with: {error}")
+        return None
 
 
-def parse_drv_name(drv_path: str) -> dict:
+def parse_drv_name(drv_path: str) -> dict[str, str]:
     """
     Extract the derivation name from its path.
 
@@ -136,44 +133,40 @@ def parse_drv_name(drv_path: str) -> dict:
     Returns:
         str: The derivation name without the .drv extension.
     """
-    if storeDir := nix_eval("builtins.storeDir"):
-        if isinstance(storeDir, str):
-            global STORE_DIR
-            logging.debug("setting store directory: %s", storeDir)
-            STORE_DIR = storeDir
-        else:
-            logging.debug("error evaluating builtins.storeDir: %s", storeDir)
+    if storeDir := call_nix_eval("builtins.storeDir"):
+        global STORE_DIR
+        logging.debug("setting store directory: %s", storeDir)
+        STORE_DIR = storeDir
 
     basename = drv_path.removeprefix(STORE_DIR + "/").removesuffix(".drv")
-    print(basename)
     if match := re.match(r"^[a-z0-9]+-(.+)$", basename):
         filename = match.group(1)
     else:
         logging.error("unexpected drv path format: %s", drv_path)
-        sys.exit(1)
+        filename = ""
 
-    if json_str := nix_eval(
+    if json_str := call_nix_eval(
         f'"{filename}"', "--apply", "builtins.parseDrvName", "--json"
     ):
-        if isinstance(json_str, str):
-            try:
-                parsed = json.loads(json_str)
-                if "name" in parsed:
-                    return parsed
-                else:
-                    logging.error("parsed drv name missing 'name' field: %s", json_str)
-                    sys.exit(1)
-            except json.JSONDecodeError as e:
-                logging.error("error decoding JSON from parseDrvName: %s", e)
-                sys.exit(1)
-        else:
-            logging.error("error evaluating parseDrvName: %s", json_str)
-            sys.exit(1)
+        try:
+            parsed = json.loads(json_str)
+            if "name" not in parsed:
+                logging.error("parsed drv name missing 'name' field: %s", json_str)
+        except Exception as error:
+            logging.error("failed decoding JSON from parseDrvName: %s", error)
+            parsed = {}
 
-    return {}
+    parsed.update(path=drv_path)
+    return parsed
+
+
+def get_versioned_drv(drv_list: list[dict[str, str]]) -> list[dict[str, str]]:
+    return [drv for drv in drv_list if drv.get("version")]
 
 
 if __name__ == "__main__":
-    build_plan = [parse_drv_name(drv) | {"path": drv} for drv in get_build_plan()]
-    json.dump({"building": build_plan}, sys.stdout, indent=2)
+    build_plan = [parse_drv_name(drv) for drv in get_build_plan(*sys.argv[1:])]
+    versioned = get_versioned_drv(build_plan)
+
+    json.dump({"building": build_plan, "versioned": versioned}, sys.stdout, indent=2)
     print()  # ensure newline after JSON output
