@@ -123,7 +123,7 @@ def call_nix_eval(*expr: str) -> Optional[str]:
         return None
 
 
-def parse_drv_name(drv_path: str) -> dict[str, str]:
+def parse_drv_names(drv_list: list[str]) -> list[dict[str, str]]:
     """
     Extract the derivation name from its path.
 
@@ -138,35 +138,39 @@ def parse_drv_name(drv_path: str) -> dict[str, str]:
         logging.debug("setting store directory: %s", storeDir)
         STORE_DIR = storeDir
 
-    basename = drv_path.removeprefix(STORE_DIR + "/").removesuffix(".drv")
-    if match := re.match(r"^[a-z0-9]+-(.+)$", basename):
-        filename = match.group(1)
-    else:
-        logging.error("unexpected drv path format: %s", drv_path)
-        filename = ""
+    def clean_drv_path(drv_path: str) -> str:
+        basename = drv_path.removeprefix(STORE_DIR + "/").removesuffix(".drv")
+        if match := re.match(r"^[a-z0-9]+-(.+)$", basename):
+            filename = match.group(1)
+        else:
+            logging.error("unexpected drv path format: %s", drv_path)
+            filename = ""
+        return f'[ "{drv_path}" "{filename}" ]'  # nix list syntax
 
+    drv_list_str = " ".join([clean_drv_path(drv_path) for drv_path in drv_list])
+    drv_list_str = f"[ {drv_list_str} ]"  # nix list syntax
+
+    parsed = []
     if json_str := call_nix_eval(
-        f'"{filename}"', "--apply", "builtins.parseDrvName", "--json"
+        "map (x: with builtins; parseDrvName (elemAt x 1) // { path = head x; }) "
+        + drv_list_str,
+        "--json",
     ):
         try:
             parsed = json.loads(json_str)
-            if "name" not in parsed:
-                logging.error("parsed drv name missing 'name' field: %s", json_str)
         except Exception as error:
             logging.error("failed decoding JSON from parseDrvName: %s", error)
-            parsed = {}
 
-    parsed.update(path=drv_path)
     return parsed
 
 
-def get_versioned_drv(drv_list: list[dict[str, str]]) -> list[dict[str, str]]:
+def get_versioned_drvs(drv_list: list[dict[str, str]]) -> list[dict[str, str]]:
     return [drv for drv in drv_list if drv.get("version")]
 
 
 if __name__ == "__main__":
-    build_plan = [parse_drv_name(drv) for drv in get_build_plan(*sys.argv[1:])]
-    versioned = get_versioned_drv(build_plan)
+    build_plan = parse_drv_names(get_build_plan(*sys.argv[1:]))
+    versioned = get_versioned_drvs(build_plan)
 
     json.dump({"building": build_plan, "versioned": versioned}, sys.stdout, indent=2)
     print()  # ensure newline after JSON output
