@@ -193,7 +193,7 @@
             };
           };
       in packages // {
-        default =
+        config-manager =
         let
           mkConfigNames = configs: lib.pipe configs [
             (x: x.${system} or { })
@@ -227,6 +227,24 @@
             done
             set +x
           '';
+        };
+        default =
+        let
+          homeConfigs = self.homeConfigurations.${system} or {};
+          darwinConfigs = self.darwinConfigurations.${system} or {};
+          mapConfigs = configs: prefix: (lib.mapAttrs' (name: value: {
+            name = "${prefix}-${name}";
+            value = value.activationPackage or value.system;
+          }) configs);
+          homePackages = mapConfigs homeConfigs "home";
+          darwinPackages = mapConfigs darwinConfigs "darwin";
+          allPackages = darwinPackages // homePackages;
+        in pkgs.linkFarm "activation-packages" allPackages;
+      });
+      apps = forMySystems (system: {
+        default = {
+          type = "app";
+          program = lib.getExe self.packages.${system}.config-manager;
         };
       });
     };
