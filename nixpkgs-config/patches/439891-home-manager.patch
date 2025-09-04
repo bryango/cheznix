@@ -1,14 +1,15 @@
-From 9b4b034ad64a9588eda3a2721729eceb48b90a91 Mon Sep 17 00:00:00 2001
-From: "R. Ryantm" <ryantm-bot@ryantm.com>
-Date: Sun, 24 Aug 2025 10:08:21 +0000
-Subject: [PATCH] home-manager: 0-unstable-2025-08-14 -> 0-unstable-2025-08-24
+From 39a00bca7913646b8735387dbf06db4abccaf66d Mon Sep 17 00:00:00 2001
+From: Timo Kaufmann <timokau@zoho.com>
+Date: Wed, 3 Sep 2025 17:09:39 +0200
+Subject: [PATCH] home-manager: 0-unstable-2025-08-14 -> 0-unstable-2025-09-03
 
+Fixes https://github.com/nix-community/home-manager/issues/7735
 ---
  pkgs/by-name/ho/home-manager/package.nix | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/pkgs/by-name/ho/home-manager/package.nix b/pkgs/by-name/ho/home-manager/package.nix
-index 5e04c59a59ef16..2822c136d48a72 100644
+index 5e04c59a59ef16..a1d83d6caa634b 100644
 --- a/pkgs/by-name/ho/home-manager/package.nix
 +++ b/pkgs/by-name/ho/home-manager/package.nix
 @@ -19,14 +19,14 @@
@@ -16,7 +17,7 @@ index 5e04c59a59ef16..2822c136d48a72 100644
  stdenvNoCC.mkDerivation (finalAttrs: {
    pname = "home-manager";
 -  version = "0-unstable-2025-08-14";
-+  version = "0-unstable-2025-08-24";
++  version = "0-unstable-2025-09-03";
  
    src = fetchFromGitHub {
      name = "home-manager-source";
@@ -24,8 +25,8 @@ index 5e04c59a59ef16..2822c136d48a72 100644
      repo = "home-manager";
 -    rev = "11626a4383b458f8dc5ea3237eaa04e8ab1912f3";
 -    hash = "sha256-soZegto0xXzG2zYlu/zjknDHv0Z7tRS5EQs+Z/VRTBg=";
-+    rev = "9e3a33c0bcbc25619e540b9dfea372282f8a9740";
-+    hash = "sha256-J1i35r4HfNDdPpwL0vOBaZopQudAUVtartEerc1Jryc=";
++    rev = "30fc1b532645a21e157b6e33e3f8b4c154f86382";
++    hash = "sha256-XbtRMewPGJwTNhBC4pnBu3w/xT1XejvB0HfohC2Kga8=";
    };
  
    nativeBuildInputs = [
