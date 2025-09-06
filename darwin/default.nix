@@ -40,6 +40,7 @@
       "zoom"
       "visual-studio-code"
       "tailscale-app"
+      "obsidian"
 
       # probably okay
       "iterm2"

@@ -67,7 +67,7 @@ def get_build_plan(*args: str) -> list[str]:
             # stream to stderr in real-time
             print(line, end="", file=sys.stderr, flush=True)
 
-            if re.match(r"these (.*) derivations will be built.*", line):
+            if re.match(r"(these|this) (.*) derivation(s)* will be built.*", line):
                 logging.debug("^ found build plan header: %s")
                 continue
 
