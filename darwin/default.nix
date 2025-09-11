@@ -34,6 +34,7 @@
     casks = [
       # trusted
       "firefox"
+      "virtualbox"
 
       # proprietary but necessary
       "nutstore"
@@ -41,6 +42,7 @@
       "visual-studio-code"
       "tailscale-app"
       "obsidian"
+      "parallels"
 
       # probably okay
       "iterm2"
