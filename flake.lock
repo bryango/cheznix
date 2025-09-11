@@ -105,7 +105,6 @@
     "nix-darwin": {
       "inputs": {
         "nixpkgs": [
-          "nixpkgs-config",
           "nixpkgs"
         ]
       },
@@ -201,7 +200,6 @@
     "system-manager": {
       "inputs": {
         "nixpkgs": [
-          "nixpkgs-config",
           "nixpkgs"
         ]
       },

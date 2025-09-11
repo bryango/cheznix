@@ -29,12 +29,12 @@
 
     system-manager = {
       url = "github:numtide/system-manager";
-      inputs.nixpkgs.follows = "nixpkgs-config/nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin/master";
-      inputs.nixpkgs.follows = "nixpkgs-config/nixpkgs";
+      inputs.nixpkgs.follows = "nixpkgs";
     };
 
     /** provide store path for some homemade darwin .apps */
@@ -179,6 +179,15 @@
         pkgs = self.legacyPackages.${system};
         nixDarwinPackages = nix-darwin.packages.${system};
 
+        darwinConfigs = self.darwinConfigurations.${system} or { };
+        homeConfigs = self.homeConfigurations.${system} or { };
+        mkConfigNames = configs: lib.pipe configs [
+          lib.attrNames
+          lib.escapeShellArgs
+        ];
+        darwinConfigNames = mkConfigNames darwinConfigs;
+        homeConfigNames = mkConfigNames homeConfigs;
+
         packages =
         lib.optionalAttrs (nixDarwinPackages ? darwin-rebuild)
           {
@@ -193,17 +202,7 @@
             };
           };
       in packages // {
-        config-manager =
-        let
-          mkConfigNames = configs: lib.pipe configs [
-            (x: x.${system} or { })
-            lib.attrNames
-            lib.escapeShellArgs
-          ];
-          darwinConfigNames = mkConfigNames self.darwinConfigurations;
-          homeConfigNames = mkConfigNames self.homeConfigurations;
-
-        in pkgs.writeShellApplication rec {
+        config-manager = pkgs.writeShellApplication rec {
           name = "config-manager";
           runtimeInputs = lib.attrValues packages;
           excludeShellChecks = [
@@ -230,11 +229,9 @@
         };
         default =
         let
-          homeConfigs = self.homeConfigurations.${system} or {};
-          darwinConfigs = self.darwinConfigurations.${system} or {};
           mapConfigs = configs: prefix: (lib.mapAttrs' (name: value: {
             name = "${prefix}-${name}";
-            value = value.activationPackage or value.system;
+            value = value.activationPackage /* hm */ or value.system /* darwin */;
           }) configs);
           homePackages = mapConfigs homeConfigs "home";
           darwinPackages = mapConfigs darwinConfigs "darwin";
