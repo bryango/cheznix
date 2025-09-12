@@ -24,7 +24,9 @@ with prev;
   # });
 
   # many flaky tests
-  tailscale = tailscale.overrideAttrs { doCheck = false; };
+  tailscale = tailscale.overrideAttrs {
+    # doCheck = false;
+  };
 
   nixpkgs-pr-checker = callPackage ../pkgs/nixpkgs-pr-checker.nix { };
   open-webui-cli = callPackage ../pkgs/open-webui-cli.nix { };
