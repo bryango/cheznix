@@ -49,9 +49,18 @@
 
     flake-compat.url = "git+https://git.lix.systems/lix-project/flake-compat.git";
 
+    determinate-nix-src = {
+      url = "github:DeterminateSystems/nix-src/v3.11.2";
+      inputs.flake-parts.follows = "";
+      inputs.git-hooks-nix.follows = "";
+      inputs.nixpkgs.follows = "nixpkgs";
+      inputs.nixpkgs-regression.follows = "nixpkgs";
+      inputs.nixpkgs-23-11.follows = "nixpkgs";
+    };
+
   };
 
-  outputs = { self, nixpkgs, haumea, infuse, nixgl, yants, flake-compat, ... }:
+  outputs = { self, nixpkgs, haumea, infuse, nixgl, yants, flake-compat, determinate-nix-src, ... }:
   let
 
     lib = nixpkgs.lib.extend (final: prev: let lib = prev; in with final; {
@@ -110,7 +119,7 @@
       nixgl = nixgl.overlays.default;
 
       ## overlay specific to this flake
-      flake = final: prev: {
+      flake = final: prev @ { system, ... }: {
 
         flakeSelf = self;
 
@@ -122,6 +131,8 @@
         #   withPython = prev.stdenv.hostPlatform.isLinux;
         #   # python2 = final.pkgsPython2.python2;
         # };
+
+        determinate-nix-oss = determinate-nix-src.packages.${system}.nix;
 
         ## nixpkgs source, i.e. `outPath`, in `pkgs`
         inherit (nixpkgs) outPath;
