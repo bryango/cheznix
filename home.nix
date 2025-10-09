@@ -96,7 +96,6 @@ let
         exit 1
       '')
     ] ++ lib.optionals isLinux [
-      stdoutisatty  # from nixpkgs-config
       proxychains
       # (binaryFallback "proxychains4" proxychains-ng)
     ];
@@ -166,7 +165,7 @@ let
 
     gui.app = [
       djview
-      (gimp-with-plugins.override {
+      (gimp2-with-plugins.override {
         plugins = # with gimpPlugins;
         [
           # # broken since removal of enum34
