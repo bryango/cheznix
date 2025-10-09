@@ -12,7 +12,7 @@ stdenvNoCC.mkDerivation {
     mkdir -p $out/bin
 
     # replace the first #! line
-    sed '0,/^#!/s|^.*$|#!/bin/bash|' ${../pr-checker.sh} > $out/bin/$name
+    sed '0,/^#!/s|^.*$|#!/bin/bash|' ${../niz/scripts/pr-checker.sh} > $out/bin/$name
 
     chmod +x $out/bin/$name
   '';

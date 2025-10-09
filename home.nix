@@ -30,10 +30,11 @@ let
     ];
 
     nix.basic = [
-      config.nix.package  # manage itself ## daemon managed by root
       cachix
       nix-tree
       nix-diff
+    ] ++ lib.optionals isLinux [
+      config.nix.package  # manage itself ## daemon managed by root
     ];
 
     nix.dev = [
@@ -44,8 +45,8 @@ let
       nix-init  # generate package
       nix-update
       nix-output-monitor
-      nix-flake-tree # ./flake-tree.py
-      nixpkgs-pr-checker # ./nixpkgs-config/pr-checker.sh
+      nix-flake-tree # ./nixpkgs-config/niz/scripts/flake-tree.py
+      nixpkgs-pr-checker # ./nixpkgs-config/niz/scripts/pr-checker.sh
       nixpkgs-hammering
       nixpkgs-review
       # hydra-check

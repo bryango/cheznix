@@ -2,8 +2,12 @@
   "nodes": {
     "determinate-nix-src": {
       "inputs": {
-        "flake-parts": [],
-        "git-hooks-nix": [],
+        "flake-parts": [
+          "nixpkgs"
+        ],
+        "git-hooks-nix": [
+          "nixpkgs"
+        ],
         "nixpkgs": [
           "nixpkgs"
         ],

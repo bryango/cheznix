@@ -16,6 +16,44 @@
         "url": "https://gist.github.com/0057346dbf85981e58518be49d36fc06.git"
       }
     },
+    "determinate-nix-src": {
+      "inputs": {
+        "flake-parts": [
+          "nixpkgs-config",
+          "nixpkgs"
+        ],
+        "git-hooks-nix": [
+          "nixpkgs-config",
+          "nixpkgs"
+        ],
+        "nixpkgs": [
+          "nixpkgs-config",
+          "nixpkgs"
+        ],
+        "nixpkgs-23-11": [
+          "nixpkgs-config",
+          "nixpkgs"
+        ],
+        "nixpkgs-regression": [
+          "nixpkgs-config",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1757694985,
+        "narHash": "sha256-3Ia+y7Hbwnzcuf1hyuVnFtbnSR6ErQeFjemHdVxjCNE=",
+        "owner": "DeterminateSystems",
+        "repo": "nix-src",
+        "rev": "766f43aa6acb1b3578db488c19fbbedf04ed9f24",
+        "type": "github"
+      },
+      "original": {
+        "owner": "DeterminateSystems",
+        "ref": "v3.11.2",
+        "repo": "nix-src",
+        "type": "github"
+      }
+    },
     "flake-compat": {
       "locked": {
         "lastModified": 1751685974,
@@ -166,6 +204,7 @@
     },
     "nixpkgs-config": {
       "inputs": {
+        "determinate-nix-src": "determinate-nix-src",
         "flake-compat": "flake-compat",
         "flake-utils": "flake-utils",
         "haumea": "haumea",

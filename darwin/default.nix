@@ -35,6 +35,7 @@
       # trusted
       "firefox"
       "virtualbox"
+      "vlc"
 
       # proprietary but necessary
       "nutstore"

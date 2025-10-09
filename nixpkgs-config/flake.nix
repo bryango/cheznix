@@ -51,11 +51,12 @@
 
     determinate-nix-src = {
       url = "github:DeterminateSystems/nix-src/v3.11.2";
-      inputs.flake-parts.follows = "";
-      inputs.git-hooks-nix.follows = "";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.nixpkgs-regression.follows = "nixpkgs";
       inputs.nixpkgs-23-11.follows = "nixpkgs";
+      # work around https://github.com/NixOS/nix/issues/7807
+      inputs.flake-parts.follows = "nixpkgs";
+      inputs.git-hooks-nix.follows = "nixpkgs";
     };
 
   };
@@ -163,8 +164,16 @@
     });
 
     packages = lib.forMySystems (system: rec {
-      inherit (legacyPackages.${system}) user-drv-overlays nixpkgs-patched;
+      inherit (legacyPackages.${system}) user-drv-overlays nixpkgs-patched niz;
       default = user-drv-overlays;  # from `gatherOverlaid`
+    });
+
+    devShells = lib.forMySystems (system: rec {
+      niz = (self.packages.${system}.niz.override {
+        # prevent dependence on the source ./.; see ./niz/package.nix
+        source = null;
+      });
+      default = niz;
     });
 
   in {
@@ -172,6 +181,7 @@
     inherit
       legacyPackages
       packages
+      devShells
       lib
       overlays;
 

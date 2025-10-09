@@ -14,6 +14,7 @@ in
 
 ## be careful of `rec`, might not work
 {
+  niz = callPackage ../niz/package.nix { };
 
   ## some helper functions
   nixpkgs-helpers = callPackage ../pkgs/nixpkgs-helpers { };

@@ -7,6 +7,7 @@ brew "unbound"
 # Casks
 cask "firefox"
 cask "virtualbox"
+cask "vlc"
 cask "nutstore"
 cask "zoom"
 cask "visual-studio-code"

@@ -31,7 +31,7 @@ final: prev: with prev; {
     installPhase = ''
       runHook preInstall
       mkdir -p $out/bin
-      cp --reflink=auto ${./flake-tree.py} $out/bin/$name
+      cp --reflink=auto ${./nixpkgs-config/niz/scripts/flake-tree.py} $out/bin/$name
       chmod +x $out/bin/$name
       runHook postInstall
     '';
@@ -41,7 +41,7 @@ final: prev: with prev; {
       shtab = "shtab ${pyModule}.get_args_parser --error-unimportable --prog=$name --shell";
     in ''
       pushd "$(mktemp -d)"
-      cp --reflink=auto ${./flake-tree.py} ${pyModule}.py
+      cp --reflink=auto ${./nixpkgs-config/niz/scripts/flake-tree.py} ${pyModule}.py
       installShellCompletion --cmd $name \
         --bash <(${shtab} bash) \
         --zsh <(${shtab} zsh)

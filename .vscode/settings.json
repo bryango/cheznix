@@ -9,4 +9,7 @@
             },
         },
     },
+    "rust-analyzer.linkedProjects": [
+        "nixpkgs-config/niz/Cargo.toml"
+    ]
 }

@@ -1,0 +1,28 @@
+#compdef niz
+
+# experimental: pass through niz completions to nix
+# this is currently unused
+function _niz() {
+  local ifs_bk="$IFS"
+  local input=("${(Q)words[@]}")
+  local arg0="${input[1]//niz/nix}"
+  shift input
+  IFS=$'\n'
+  local res=($(NIX_GET_COMPLETIONS=$((CURRENT - 1)) "$arg0" "$input[@]" 2>/dev/null))
+  IFS="$ifs_bk"
+  local tpe="${${res[1]}%%>	*}"
+  local -a suggestions
+  declare -a suggestions
+  for suggestion in ${res:1}; do
+    suggestions+=("${suggestion%%	*}")
+  done
+  local -a args
+  if [[ "$tpe" == filenames ]]; then
+    args+=('-f')
+  elif [[ "$tpe" == attrs ]]; then
+    args+=('-S' '')
+  fi
+  compadd -J niz "${args[@]}" -a suggestions
+}
+
+_niz "$@"
