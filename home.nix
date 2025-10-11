@@ -81,6 +81,7 @@ let
       jujutsu
       faketty
       procs
+      wol
       openssh  # need to unset SSH_AUTH_SOCK, maybe
       # trashy  # better, but its zsh completion is broken
 
