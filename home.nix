@@ -85,6 +85,7 @@ let
       openssh  # need to unset SSH_AUTH_SOCK, maybe
       # trashy  # better, but its zsh completion is broken
 
+      (if isDarwin then (binaryFallback "ifconfig" inetutils) else inetutils)
       (if isLinux then (binaryFallback "aria2c" aria2) else aria2)
       (writeShellScriptBin "proxychains" ''
         if command -v proxychains4 &>/dev/null; then

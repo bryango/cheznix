@@ -15,7 +15,7 @@
       "active": true,
       "priority": 5,
       "storePaths": [
-        "/nix/store/jpbk87dbybazyhxji89d29nb79l0l41z-home-manager-path"
+        "/nix/store/d79gk4dbyifh1lhmwy5h1iqffm4jkxbs-home-manager-path"
       ]
     },
     "nix-update": {
