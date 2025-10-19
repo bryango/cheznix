@@ -1,0 +1,31 @@
+From aabb72d536239a3aff90cccbc8884756fb261551 Mon Sep 17 00:00:00 2001
+From: "R. Ryantm" <ryantm-bot@ryantm.com>
+Date: Sun, 19 Oct 2025 10:03:40 +0000
+Subject: [PATCH] home-manager: 0-unstable-2025-10-12 -> 0-unstable-2025-10-18
+
+---
+ pkgs/by-name/ho/home-manager/package.nix | 6 +++---
+ 1 file changed, 3 insertions(+), 3 deletions(-)
+
+diff --git a/pkgs/by-name/ho/home-manager/package.nix b/pkgs/by-name/ho/home-manager/package.nix
+index cd9fa500ef1b80..9c018c3657563e 100644
+--- a/pkgs/by-name/ho/home-manager/package.nix
++++ b/pkgs/by-name/ho/home-manager/package.nix
+@@ -19,14 +19,14 @@
+ 
+ stdenvNoCC.mkDerivation (finalAttrs: {
+   pname = "home-manager";
+-  version = "0-unstable-2025-10-12";
++  version = "0-unstable-2025-10-18";
+ 
+   src = fetchFromGitHub {
+     name = "home-manager-source";
+     owner = "nix-community";
+     repo = "home-manager";
+-    rev = "e121f3773fa596ecaba5b22e518936a632d72a90";
+-    hash = "sha256-U9SkK45314urw9P7MmjhEgiQwwD/BTj+T3HTuz1JU1Q=";
++    rev = "870883ba11ba1c84f756c0c1f9fa74cdb2a16c1e";
++    hash = "sha256-OxGcFcQdfOK8veZkPdQuqXIotFYiy4sBQB58dMNLeHY=";
+   };
+ 
+   nativeBuildInputs = [
