@@ -1,0 +1,30 @@
+From 5b15f92343e6c658e4f5ac7c250654bbfa8ed917 Mon Sep 17 00:00:00 2001
+From: Sam <30577766+Samasaur1@users.noreply.github.com>
+Date: Sun, 26 Oct 2025 00:00:02 -0700
+Subject: [PATCH] qt6.qtbase: override bad cmakeFlag in setup hook; fix finding
+ frameworks
+
+This essentially applies https://github.com/NixOS/nixpkgs/pull/455592 to
+qtbase (and thus all packages depending on Qt on Darwin) without
+rebuilding the world.
+
+We're doing this so that Qt-based applications will be fixed faster than
+the time it takes to wait for a staging cycle.
+---
+ pkgs/development/libraries/qt-6/modules/qtbase/default.nix | 3 +++
+ 1 file changed, 3 insertions(+)
+
+diff --git a/pkgs/development/libraries/qt-6/modules/qtbase/default.nix b/pkgs/development/libraries/qt-6/modules/qtbase/default.nix
+index ab35d1906f733..b16805ed09c2b 100644
+--- a/pkgs/development/libraries/qt-6/modules/qtbase/default.nix
++++ b/pkgs/development/libraries/qt-6/modules/qtbase/default.nix
+@@ -292,6 +292,9 @@ stdenv.mkDerivation rec {
+     # When this variable is not set, cmake tries to execute xcodebuild
+     # to query the version.
+     "-DQT_INTERNAL_XCODE_VERSION=0.1"
++    # This should be removed once https://github.com/NixOS/nixpkgs/pull/455592 makes it to master
++    # as it will become redundant.
++    "-DCMAKE_FIND_FRAMEWORK=FIRST"
+   ]
+   ++ lib.optionals isCrossBuild [
+     "-DQT_HOST_PATH=${pkgsBuildBuild.qt6.qtbase}"

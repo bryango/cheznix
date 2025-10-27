@@ -54,7 +54,7 @@ in
 
     # just copy instead of linking darwin apps
     targets.darwin.linkApps.enable = false;
-    targets.darwin.copyApps.enable = true;
+    targets.darwin.copyApps.enable = isDarwin;
     # home.activation.copyDarwinApps = lib.mkIf pkgs.stdenv.isDarwin (
     #   let
     #     apps = pkgs.buildEnv {

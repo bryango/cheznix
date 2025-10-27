@@ -1,0 +1,23 @@
+From c402aec62986761838f4952f1b9eedbfae0eeed5 Mon Sep 17 00:00:00 2001
+From: Sizhe Zhao <prc.zhao@outlook.com>
+Date: Sat, 25 Oct 2025 13:15:48 +0800
+Subject: [PATCH] wayland: add darwin to badPlatforms
+
+---
+ pkgs/development/libraries/wayland/default.nix | 3 ++-
+ 1 file changed, 2 insertions(+), 1 deletion(-)
+
+diff --git a/pkgs/development/libraries/wayland/default.nix b/pkgs/development/libraries/wayland/default.nix
+index 31be22e39c431..90d7384bb5bc0 100644
+--- a/pkgs/development/libraries/wayland/default.nix
++++ b/pkgs/development/libraries/wayland/default.nix
+@@ -107,7 +107,8 @@ stdenv.mkDerivation (finalAttrs: {
+     homepage = "https://wayland.freedesktop.org/";
+     license = licenses.mit; # Expat version
+     platforms = platforms.unix;
+-    broken = stdenv.hostPlatform.isDarwin; # requires more work: https://gitlab.freedesktop.org/wayland/wayland/-/merge_requests/481
++    # requires more work: https://gitlab.freedesktop.org/wayland/wayland/-/merge_requests/481
++    badPlatforms = lib.platforms.darwin;
+     maintainers = with maintainers; [
+       codyopel
+       qyliss
