@@ -16,13 +16,15 @@ with prev;
   ;
 
   /** nix package used for the `nix.package` configuration */
-  nixPackage = nixVersions.latest.appendPatches [
+  nixPackage = (nixVersions.latest.appendPatches [
     (fetchpatch2 {
       name = "fix-zsh-completions.patch";
       url = "https://github.com/bryango/nix/commit/956fffdd6f196fc5b61057e19d43a8b275369649.patch";
       hash = "sha256-u8OqATgFJO5zrDQx/v7hRRyk+W5QBWOH5QF1fV6/xTg=";
     })
-  ];
+  ]).overrideAllMesonComponents (_finalScope: _prevScope@ { version, ... }: {
+    version = lib.head (lib.splitString "+" version);
+  });
   # nixPackage = lixPackageSets.latest.lix;
   # nixPackage = nixVersions.stable.overrideAttrs ({ patches ? [  ], ... }: {
   #   patches = patches ++ [
