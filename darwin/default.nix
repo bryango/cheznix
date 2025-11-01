@@ -58,7 +58,7 @@
 
   nix.settings = {
     experimental-features = "nix-command flakes fetch-closure";
-    trusted-users = lib.optionals pkgs.hostPlatform.isDarwin [ "@admin" ];
+    trusted-users = lib.optionals pkgs.stdenv.hostPlatform.isDarwin [ "@admin" ];
     extra-nix-path = "nixpkgs=flake:nixpkgs";
   };
 
@@ -125,7 +125,4 @@
   # Used for backwards compatibility, please read the changelog before changing.
   # $ darwin-rebuild changelog
   system.stateVersion = 6;
-
-  # The platform the configuration will be used on.
-  # nixpkgs.hostPlatform = "aarch64-darwin";
 }

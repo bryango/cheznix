@@ -7,7 +7,7 @@
 
 let
 
-  inherit (pkgs.hostPlatform)
+  inherit (pkgs.stdenv.hostPlatform)
     isDarwin
     isLinux;
 
@@ -366,7 +366,8 @@ in {
 
 
   i18n.inputMethod = lib.optionalAttrs isLinux {
-    enabled = "fcitx5";
+    enable = true;
+    type = "fcitx5";
     # one might also need to install native system integrations, e.g.
     # sudo pacman -S fcitx5-gtk
     fcitx5 = with pkgs; {
@@ -375,7 +376,7 @@ in {
       fcitx5-with-addons = qt6Packages.fcitx5-with-addons.override {
         fcitx5-configtool = fcitx5-configtool-no-kcm; # defined in nixpkgs-config
       };
-      addons = [
+      addons = with qt6Packages; [
         fcitx5-chinese-addons
       ];
     };

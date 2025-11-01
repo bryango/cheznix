@@ -38,7 +38,7 @@ let
 
 in {
 
-  config = lib.mkIf pkgs.hostPlatform.isLinux {
+  config = lib.mkIf pkgs.stdenv.hostPlatform.isLinux {
     xdg.configFile = mergeConfig ["xdg" "configFile"];
     systemd = mergeConfig ["systemd"];
     home.packages = lib.mkMerge [

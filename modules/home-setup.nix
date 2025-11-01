@@ -2,7 +2,7 @@
 
 let
 
-  inherit (pkgs.hostPlatform) isDarwin isLinux;
+  inherit (pkgs.stdenv.hostPlatform) isDarwin isLinux;
 
 in
 
