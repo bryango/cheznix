@@ -44,6 +44,8 @@
       "tailscale-app"
       "obsidian"
       "parallels"
+      "yuanbao"
+      "notion"
 
       # probably okay
       "iterm2"
