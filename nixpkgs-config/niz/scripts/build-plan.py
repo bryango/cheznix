@@ -85,7 +85,7 @@ def get_build_plan(*args: str) -> list[str]:
             ):
                 build_list.append(stripped_line)
             else:
-                logging.warning("^ unexpected log output")
+                logging.debug("^ unexpected log output")
 
     return_code = process.wait()
     if return_code != 0:

@@ -74,7 +74,7 @@
   system.defaults = {
     NSGlobalDomain = {
       AppleShowAllExtensions = true;
-      AppleShowAllFiles = true;
+      # AppleShowAllFiles = true;
     };
     finder = {
       FXPreferredViewStyle = "Nlsv";
