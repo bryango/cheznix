@@ -46,6 +46,7 @@
       "parallels"
       "yuanbao"
       "notion"
+      "betterdisplay"
 
       # probably okay
       "iterm2"
