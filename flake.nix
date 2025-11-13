@@ -33,7 +33,8 @@
     };
 
     nix-darwin = {
-      url = "github:nix-darwin/nix-darwin/master";
+      /** https://github.com/nix-darwin/nix-darwin/pull/1635 */
+      url = "github:nix-darwin/nix-darwin?ref=pull/1635/merge";
       inputs.nixpkgs.follows = "nixpkgs";
     };
 

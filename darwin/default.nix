@@ -18,6 +18,7 @@
 
   programs.zsh = {
     enableGlobalCompInit = false; # defer for later
+    histSize = 1000000;
   };
 
   /** homebrew managed incrementally; need to install first */
