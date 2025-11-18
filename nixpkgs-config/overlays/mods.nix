@@ -17,17 +17,14 @@ with prev;
 
   /** nix package used for the `nix.package` configuration */
   nixPackage = (nixVersions.latest.appendPatches [
-    (fetchpatch2 {
-      name = "fix-zsh-completions.patch";
-      url = "https://github.com/NixOS/nix/commit/f434a3e3c637fcfd371e62f6167ac9bc136e012e.patch?full_index=1";
-      hash = "sha256-bBH9e4Eg6viEM7PlKGK4OrKFVzXt/80w/koZbAZmslE=";
-    })
-    (fetchpatch2 {
-      name = "fix-darwin-ld-versioning.patch";
-      url = "https://github.com/NixOS/nix/commit/a24df3d4e5ba03570294abfb49660b5258337484.patch?full_index=1";
-      hash = "sha256-LBlDXe7WMlCQFZF/SotBp0vLK24VNtoTS2l+Xct0dP0=";
-    })
-  ]);
+    # (fetchpatch2 {
+    #   name = "fix-darwin-ld-versioning.patch";
+    #   url = "https://github.com/NixOS/nix/commit/a24df3d4e5ba03570294abfb49660b5258337484.patch?full_index=1";
+    #   hash = "sha256-LBlDXe7WMlCQFZF/SotBp0vLK24VNtoTS2l+Xct0dP0=";
+    # })
+  ]).overrideAllMesonComponents (_finalScope: _prevScope@ { version, ... }: {
+    # version = lib.head (lib.splitString "+" version);
+  });
   # nixPackage = lixPackageSets.latest.lix;
   # nixPackage = nixVersions.stable.overrideAttrs ({ patches ? [  ], ... }: {
   #   patches = patches ++ [

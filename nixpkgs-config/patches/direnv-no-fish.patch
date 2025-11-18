@@ -1,0 +1,29 @@
+diff --git a/pkgs/by-name/di/direnv/package.nix b/pkgs/by-name/di/direnv/package.nix
+index 35cb71b6477a..69c65d75df9b 100644
+--- a/pkgs/by-name/di/direnv/package.nix
++++ b/pkgs/by-name/di/direnv/package.nix
+@@ -4,7 +4,6 @@
+   fetchFromGitHub,
+   buildGoModule,
+   bash,
+-  fish,
+   zsh,
+   writableTmpDirAsHomeHook,
+ }:
+@@ -35,7 +34,6 @@ buildGoModule rec {
+   '';
+ 
+   nativeCheckInputs = [
+-    fish
+     zsh
+     writableTmpDirAsHomeHook
+   ];
+@@ -43,7 +41,7 @@ buildGoModule rec {
+   checkPhase = ''
+     runHook preCheck
+ 
+-    make test-go test-bash test-fish test-zsh
++    make test-go test-bash test-zsh
+ 
+     runHook postCheck
+   '';

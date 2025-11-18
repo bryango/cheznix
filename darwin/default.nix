@@ -48,9 +48,11 @@
       "yuanbao"
       "notion"
       "betterdisplay"
+      "lm-studio"
 
       # probably okay
       "iterm2"
+      "jellyfin"
       "karabiner-elements"
       "tunnelblick" # openvpn client
     ];

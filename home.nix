@@ -66,6 +66,7 @@ let
       diff-so-fancy
       shellcheck
       git
+      lazygit
       chezmoi
       age
       fd
@@ -148,6 +149,8 @@ let
     ] ++ lib.optionals isLinux [
       fuse-overlayfs
       uxplay  # airplay server
+    ] ++ lib.optionals isDarwin [
+      nightlight
     ];
 
     cli.python = let
