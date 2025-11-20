@@ -49,6 +49,7 @@
       "notion"
       "betterdisplay"
       "lm-studio"
+      "qianwen"
 
       # probably okay
       "iterm2"

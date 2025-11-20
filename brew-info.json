@@ -86,7 +86,7 @@
       "disable_replacement_cask": null,
       "post_install_defined": true,
       "service": null,
-      "tap_git_head": "700e8c906d5a68c690af96be1c49a6ba4bb02489",
+      "tap_git_head": "3af77c838b1eb11f4f6bc50411ca24f9b87583c4",
       "ruby_source_path": "Formula/c/ca-certificates.rb",
       "ruby_source_checksum": {
         "sha256": "80813ee57a3971f0cf0517fa950a3c3a9faf801c1aab6bc7926105fab25241c5"
@@ -254,7 +254,7 @@
       "disable_replacement_cask": null,
       "post_install_defined": false,
       "service": null,
-      "tap_git_head": "700e8c906d5a68c690af96be1c49a6ba4bb02489",
+      "tap_git_head": "3af77c838b1eb11f4f6bc50411ca24f9b87583c4",
       "ruby_source_path": "Formula/c/cocoapods.rb",
       "ruby_source_checksum": {
         "sha256": "d071608e99857cbb12ac844f43bd26b9c13f6fb0a29e4d699a342c9721a092bc"
@@ -425,7 +425,7 @@
       "disable_replacement_cask": null,
       "post_install_defined": false,
       "service": null,
-      "tap_git_head": "700e8c906d5a68c690af96be1c49a6ba4bb02489",
+      "tap_git_head": "3af77c838b1eb11f4f6bc50411ca24f9b87583c4",
       "ruby_source_path": "Formula/lib/libevent.rb",
       "ruby_source_checksum": {
         "sha256": "21e8ee2e5781e89d7e436377f1e3463a738c4dd3ca2c91ec9b110be38629e5ee"
@@ -557,7 +557,7 @@
       "disable_replacement_cask": null,
       "post_install_defined": false,
       "service": null,
-      "tap_git_head": "700e8c906d5a68c690af96be1c49a6ba4bb02489",
+      "tap_git_head": "3af77c838b1eb11f4f6bc50411ca24f9b87583c4",
       "ruby_source_path": "Formula/lib/libnghttp2.rb",
       "ruby_source_checksum": {
         "sha256": "029e8d9343c3965b0f1e95f28599e24d86c8a0d1f05b69645698938a5d986dec"
@@ -727,7 +727,7 @@
       "disable_replacement_cask": null,
       "post_install_defined": false,
       "service": null,
-      "tap_git_head": "700e8c906d5a68c690af96be1c49a6ba4bb02489",
+      "tap_git_head": "3af77c838b1eb11f4f6bc50411ca24f9b87583c4",
       "ruby_source_path": "Formula/lib/libyaml.rb",
       "ruby_source_checksum": {
         "sha256": "b28c408eca2c3acf7f4512599594679a59f8b4b351dcbaea492d81c9e2fa8526"
@@ -883,7 +883,7 @@
       "disable_replacement_cask": null,
       "post_install_defined": true,
       "service": null,
-      "tap_git_head": "700e8c906d5a68c690af96be1c49a6ba4bb02489",
+      "tap_git_head": "3af77c838b1eb11f4f6bc50411ca24f9b87583c4",
       "ruby_source_path": "Formula/o/openssl@3.rb",
       "ruby_source_checksum": {
         "sha256": "acd2c7958e0a5d2462fd31369a48a13a4ff5f1ddaac022d72f257ec35c38d922"
@@ -1058,7 +1058,7 @@
       "disable_replacement_cask": null,
       "post_install_defined": true,
       "service": null,
-      "tap_git_head": "700e8c906d5a68c690af96be1c49a6ba4bb02489",
+      "tap_git_head": "3af77c838b1eb11f4f6bc50411ca24f9b87583c4",
       "ruby_source_path": "Formula/r/ruby.rb",
       "ruby_source_checksum": {
         "sha256": "1348438cc5c5e6299a11ddf4c7fb128026218ca8af629644ab25acdb6cf8e99f"
@@ -1263,7 +1263,7 @@
         },
         "require_root": true
       },
-      "tap_git_head": "700e8c906d5a68c690af96be1c49a6ba4bb02489",
+      "tap_git_head": "3af77c838b1eb11f4f6bc50411ca24f9b87583c4",
       "ruby_source_path": "Formula/u/unbound.rb",
       "ruby_source_checksum": {
         "sha256": "521065b3302fbe73d0b611673444ae77a69c70d412902ebd44b5a6694c8558bf"
@@ -1360,7 +1360,7 @@
       "disable_reason": null,
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
-      "tap_git_head": "73c3689302e44a6c356ba843bd312b1332b570fa",
+      "tap_git_head": "8fa065ea5089308e36ac637ddb4220415c7078ed",
       "languages": [],
       "ruby_source_path": "Casks/b/betterdisplay.rb",
       "ruby_source_checksum": {
@@ -1377,11 +1377,11 @@
       ],
       "desc": "Web browser",
       "homepage": "https://www.mozilla.org/firefox/",
-      "url": "https://download-installer.cdn.mozilla.net/pub/firefox/releases/145.0/mac/en-US/Firefox%20145.0.dmg",
+      "url": "https://download-installer.cdn.mozilla.net/pub/firefox/releases/145.0.1/mac/en-US/Firefox%20145.0.1.dmg",
       "url_specs": {
         "verified": "download-installer.cdn.mozilla.net/pub/firefox/releases/"
       },
-      "version": "145.0",
+      "version": "145.0.1",
       "autobump": true,
       "no_autobump_message": null,
       "skip_livecheck": false,
@@ -1390,7 +1390,7 @@
       "bundle_version": "14425.10.27",
       "bundle_short_version": "144.0.2",
       "outdated": false,
-      "sha256": "1c4556480deac8424049f3081a6de1e2c6de619bab3e8ce53e5a497b8d6d919e",
+      "sha256": "828ccfc48534ac976dbb71113b79045cbfeab401c81298ea5b75a8dd62232484",
       "artifacts": [
         {
           "preflight": null
@@ -1409,7 +1409,7 @@
         },
         {
           "binary": [
-            "/opt/homebrew/Caskroom/firefox/145.0/firefox.wrapper.sh",
+            "/opt/homebrew/Caskroom/firefox/145.0.1/firefox.wrapper.sh",
             {
               "target": "firefox"
             }
@@ -1470,7 +1470,7 @@
       "disable_reason": null,
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
-      "tap_git_head": "73c3689302e44a6c356ba843bd312b1332b570fa",
+      "tap_git_head": "8fa065ea5089308e36ac637ddb4220415c7078ed",
       "languages": [
         "ach",
         "af",
@@ -1578,7 +1578,7 @@
       ],
       "ruby_source_path": "Casks/f/firefox.rb",
       "ruby_source_checksum": {
-        "sha256": "3a3ac321611c2190188edf2018accd6202a092f712d2aceccb6f8475783ef0ff"
+        "sha256": "f5ac3ee74e61d9e1bb7301c43fc8a06d9ebf9ea2c235b02e2344dc513d7084c1"
       }
     },
     {
@@ -1591,9 +1591,9 @@
       ],
       "desc": "Terminal emulator as alternative to Apple's Terminal app",
       "homepage": "https://iterm2.com/",
-      "url": "https://iterm2.com/downloads/stable/iTerm2-3_6_5.zip",
+      "url": "https://iterm2.com/downloads/stable/iTerm2-3_6_6.zip",
       "url_specs": {},
-      "version": "3.6.5",
+      "version": "3.6.6",
       "autobump": true,
       "no_autobump_message": null,
       "skip_livecheck": false,
@@ -1602,7 +1602,7 @@
       "bundle_version": "3.6.5",
       "bundle_short_version": "3.6.5",
       "outdated": false,
-      "sha256": "3e480cf0b94c9eadde3d870a49ef62c2a75d3d00d2dd17e6676880dbe9a64ec4",
+      "sha256": "68293d89ddf2140407879a651b42d9d05e12f403f69633ec635a96a29d90b4f3",
       "artifacts": [
         {
           "app": [
@@ -1660,11 +1660,83 @@
       "disable_reason": null,
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
-      "tap_git_head": "73c3689302e44a6c356ba843bd312b1332b570fa",
+      "tap_git_head": "8fa065ea5089308e36ac637ddb4220415c7078ed",
       "languages": [],
       "ruby_source_path": "Casks/i/iterm2.rb",
       "ruby_source_checksum": {
-        "sha256": "953336003f9dea58120cafa65ff812c4766e796cbe567a29bbc6f3cf8b796fbf"
+        "sha256": "adebbdfc4dfae5b9a0f69ce317f0d30920c3fd81205513022e1bd1bf1da58c7d"
+      }
+    },
+    {
+      "token": "jellyfin",
+      "full_token": "jellyfin",
+      "old_tokens": [],
+      "tap": "homebrew/cask",
+      "name": [
+        "Jellyfin"
+      ],
+      "desc": "Media system",
+      "homepage": "https://jellyfin.org/",
+      "url": "https://repo.jellyfin.org/files/server/macos/stable/v10.11.3/arm64/jellyfin_10.11.3-arm64.dmg",
+      "url_specs": {},
+      "version": "10.11.3",
+      "autobump": true,
+      "no_autobump_message": null,
+      "skip_livecheck": false,
+      "installed": "10.11.3",
+      "installed_time": 1763362656,
+      "bundle_version": "10.11.3",
+      "bundle_short_version": "10.11.3",
+      "outdated": false,
+      "sha256": "b50f8774c4c71cb255875bf6ac90893c316eceb80f2951a4ec1047091cd5fbbd",
+      "artifacts": [
+        {
+          "app": [
+            "Jellyfin.app"
+          ]
+        },
+        {
+          "zap": [
+            {
+              "trash": [
+                "/Library/Logs/DiagnosticReports/jellyfin*.diag",
+                "~/.cache/jellyfin/",
+                "~/.config/jellyfin/",
+                "~/.local/share/jellyfin/",
+                "~/Library/Application Support/jellyfin",
+                "~/Library/Preferences/Jellyfin.Server.plist"
+              ]
+            }
+          ]
+        }
+      ],
+      "caveats": null,
+      "depends_on": {
+        "macos": {
+          ">=": [
+            "12"
+          ]
+        }
+      },
+      "conflicts_with": null,
+      "container": null,
+      "rename": [],
+      "auto_updates": null,
+      "deprecated": false,
+      "deprecation_date": null,
+      "deprecation_reason": null,
+      "deprecation_replacement_formula": null,
+      "deprecation_replacement_cask": null,
+      "disabled": false,
+      "disable_date": null,
+      "disable_reason": null,
+      "disable_replacement_formula": null,
+      "disable_replacement_cask": null,
+      "tap_git_head": "8fa065ea5089308e36ac637ddb4220415c7078ed",
+      "languages": [],
+      "ruby_source_path": "Casks/j/jellyfin.rb",
+      "ruby_source_checksum": {
+        "sha256": "5bc631ef04eab80a5a62cea1f31d171a8cd5674cfd1740b50dd40a24f00c3231"
       }
     },
     {
@@ -1779,11 +1851,100 @@
       "disable_reason": null,
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
-      "tap_git_head": "73c3689302e44a6c356ba843bd312b1332b570fa",
+      "tap_git_head": "8fa065ea5089308e36ac637ddb4220415c7078ed",
       "languages": [],
       "ruby_source_path": "Casks/k/karabiner-elements.rb",
       "ruby_source_checksum": {
         "sha256": "93e37ed092519699b97b3d6e864d152e30ade6b8c1df0e5ea88b9241ae0c687a"
+      }
+    },
+    {
+      "token": "lm-studio",
+      "full_token": "lm-studio",
+      "old_tokens": [],
+      "tap": "homebrew/cask",
+      "name": [
+        "LM Studio"
+      ],
+      "desc": "Discover, download, and run local LLMs",
+      "homepage": "https://lmstudio.ai/",
+      "url": "https://installers.lmstudio.ai/darwin/arm64/0.3.32-2/LM-Studio-0.3.32-2-arm64.dmg",
+      "url_specs": {},
+      "version": "0.3.32,2",
+      "autobump": true,
+      "no_autobump_message": null,
+      "skip_livecheck": false,
+      "installed": "0.3.31,7",
+      "installed_time": 1763344925,
+      "bundle_version": "0.3.31",
+      "bundle_short_version": "0.3.31",
+      "outdated": false,
+      "sha256": "ec607409c7daeff12e58b969f0833fd5d6f44e1b1a2913262e2536e6b676b164",
+      "artifacts": [
+        {
+          "uninstall": [
+            {
+              "quit": [
+                "ai.elementlabs.lmstudio",
+                "ai.elementlabs.lmstudio.helper"
+              ]
+            }
+          ]
+        },
+        {
+          "app": [
+            "LM Studio.app"
+          ]
+        },
+        {
+          "zap": [
+            {
+              "trash": [
+                "~/Library/Application Support/LM Studio",
+                "~/Library/Caches/ai.elementlabs.lmstudio",
+                "~/Library/Caches/ai.elementlabs.lmstudio.ShipIt",
+                "~/Library/HTTPStorages/ai.elementlabs.lmstudio",
+                "~/Library/Logs/LM Studio",
+                "~/Library/Preferences/ai.elementlabs.lmstudio.plist",
+                "~/Library/Saved Application State/ai.elementlabs.lmstudio.savedState"
+              ]
+            }
+          ]
+        }
+      ],
+      "caveats": null,
+      "depends_on": {
+        "arch": [
+          {
+            "type": "arm",
+            "bits": 64
+          }
+        ],
+        "macos": {
+          ">=": [
+            "10.15"
+          ]
+        }
+      },
+      "conflicts_with": null,
+      "container": null,
+      "rename": [],
+      "auto_updates": true,
+      "deprecated": false,
+      "deprecation_date": null,
+      "deprecation_reason": null,
+      "deprecation_replacement_formula": null,
+      "deprecation_replacement_cask": null,
+      "disabled": false,
+      "disable_date": null,
+      "disable_reason": null,
+      "disable_replacement_formula": null,
+      "disable_replacement_cask": null,
+      "tap_git_head": "8fa065ea5089308e36ac637ddb4220415c7078ed",
+      "languages": [],
+      "ruby_source_path": "Casks/l/lm-studio.rb",
+      "ruby_source_checksum": {
+        "sha256": "9b9183f636901846a9fe0f6ab6e8f8c5d097c7f787647304331b008a1c978d61"
       }
     },
     {
@@ -1856,7 +2017,7 @@
       "disable_reason": null,
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
-      "tap_git_head": "73c3689302e44a6c356ba843bd312b1332b570fa",
+      "tap_git_head": "8fa065ea5089308e36ac637ddb4220415c7078ed",
       "languages": [],
       "ruby_source_path": "Casks/n/notion.rb",
       "ruby_source_checksum": {
@@ -1946,7 +2107,7 @@
       "disable_reason": null,
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
-      "tap_git_head": "73c3689302e44a6c356ba843bd312b1332b570fa",
+      "tap_git_head": "8fa065ea5089308e36ac637ddb4220415c7078ed",
       "languages": [],
       "ruby_source_path": "Casks/n/nutstore.rb",
       "ruby_source_checksum": {
@@ -2018,7 +2179,7 @@
       "disable_reason": null,
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
-      "tap_git_head": "73c3689302e44a6c356ba843bd312b1332b570fa",
+      "tap_git_head": "8fa065ea5089308e36ac637ddb4220415c7078ed",
       "languages": [],
       "ruby_source_path": "Casks/o/obsidian.rb",
       "ruby_source_checksum": {
@@ -2035,9 +2196,9 @@
       ],
       "desc": "Desktop virtualization software",
       "homepage": "https://www.parallels.com/products/desktop/",
-      "url": "https://download.parallels.com/desktop/v26/26.1.1-57288/ParallelsDesktop-26.1.1-57288.dmg",
+      "url": "https://download.parallels.com/desktop/v26/26.1.2-57293/ParallelsDesktop-26.1.2-57293.dmg",
       "url_specs": {},
-      "version": "26.1.1-57288",
+      "version": "26.1.2-57293",
       "autobump": true,
       "no_autobump_message": null,
       "skip_livecheck": false,
@@ -2046,7 +2207,7 @@
       "bundle_version": "57288",
       "bundle_short_version": "26.1.1",
       "outdated": false,
-      "sha256": "d75232288da839f7f348f4c1eb95e4b192373c3f56dbed123d921fa5bd112ee5",
+      "sha256": "d2c2fab8a630fc3ee061867201693170ffca6c9d6b06795720a603bba3254cb4",
       "artifacts": [
         {
           "preflight": null
@@ -2160,11 +2321,81 @@
       "disable_reason": null,
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
-      "tap_git_head": "73c3689302e44a6c356ba843bd312b1332b570fa",
+      "tap_git_head": "8fa065ea5089308e36ac637ddb4220415c7078ed",
       "languages": [],
       "ruby_source_path": "Casks/p/parallels.rb",
       "ruby_source_checksum": {
-        "sha256": "1fe8cdb28768119057cab94f4d06dac2bec5d6e847e11be5a1fec769c0f4ef75"
+        "sha256": "f3f7f85ad51205b2fc6029f398f411a07137f893dbb2dd648c147c88241b96ba"
+      }
+    },
+    {
+      "token": "qianwen",
+      "full_token": "qianwen",
+      "old_tokens": [],
+      "tap": "homebrew/cask",
+      "name": [
+        "qianwen",
+        "千问"
+      ],
+      "desc": "AI assistant and chatbot powered by Alibaba's Qwen model",
+      "homepage": "https://www.tongyi.com/qianwen",
+      "url": "https://qianwen-portal-cdn.tongyi.com/native/app/1.2.0/darwin/universal/qwenclient_setup_1.2.0.2511182224.dmg",
+      "url_specs": {},
+      "version": "1.2.0,2511182224",
+      "autobump": true,
+      "no_autobump_message": null,
+      "skip_livecheck": false,
+      "installed": "1.2.0,2511182224",
+      "installed_time": 1763600820,
+      "bundle_version": "1.2.0.2511182224",
+      "bundle_short_version": "1.2.0",
+      "outdated": false,
+      "sha256": "31a724dc3da342fe8ce725957153d31a9d9b1de0ce1372ff4a4d5507cdfd33ad",
+      "artifacts": [
+        {
+          "app": [
+            "Qianwen.app"
+          ]
+        },
+        {
+          "zap": [
+            {
+              "trash": [
+                "~/Library/Application Support/Qianwen",
+                "~/Library/Logs/Qianwen",
+                "~/Library/Preferences/com.alibaba.tongyi.plist"
+              ]
+            }
+          ]
+        }
+      ],
+      "caveats": null,
+      "depends_on": {
+        "macos": {
+          ">=": [
+            "10.15"
+          ]
+        }
+      },
+      "conflicts_with": null,
+      "container": null,
+      "rename": [],
+      "auto_updates": null,
+      "deprecated": false,
+      "deprecation_date": null,
+      "deprecation_reason": null,
+      "deprecation_replacement_formula": null,
+      "deprecation_replacement_cask": null,
+      "disabled": false,
+      "disable_date": null,
+      "disable_reason": null,
+      "disable_replacement_formula": null,
+      "disable_replacement_cask": null,
+      "tap_git_head": "8fa065ea5089308e36ac637ddb4220415c7078ed",
+      "languages": [],
+      "ruby_source_path": "Casks/q/qianwen.rb",
+      "ruby_source_checksum": {
+        "sha256": "065da7326ce4d76f40f3698b762abedfa39715b390e0486d62adcbb90ad95a8a"
       }
     },
     {
@@ -2179,9 +2410,9 @@
       ],
       "desc": "Mesh VPN based on WireGuard",
       "homepage": "https://tailscale.com/",
-      "url": "https://pkgs.tailscale.com/stable/Tailscale-1.90.6-macos.pkg",
+      "url": "https://pkgs.tailscale.com/stable/Tailscale-1.90.8-macos.pkg",
       "url_specs": {},
-      "version": "1.90.6",
+      "version": "1.90.8",
       "autobump": true,
       "no_autobump_message": null,
       "skip_livecheck": false,
@@ -2190,7 +2421,7 @@
       "bundle_version": null,
       "bundle_short_version": null,
       "outdated": false,
-      "sha256": "8e0634a531c9207ee77402c6211a854ea5864b527e63b33ac4e3e2c4a12a721c",
+      "sha256": "4349b178f5d775a9e2b2d9cddef8032ce05fe649c86e695f76a9847665ba06c7",
       "artifacts": [
         {
           "preflight": null
@@ -2206,12 +2437,12 @@
         },
         {
           "pkg": [
-            "Tailscale-1.90.6-macos.pkg"
+            "Tailscale-1.90.8-macos.pkg"
           ]
         },
         {
           "binary": [
-            "/opt/homebrew/Caskroom/tailscale-app/1.90.6/tailscale.wrapper.sh",
+            "/opt/homebrew/Caskroom/tailscale-app/1.90.8/tailscale.wrapper.sh",
             {
               "target": "tailscale"
             }
@@ -2263,11 +2494,11 @@
       "disable_reason": null,
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
-      "tap_git_head": "73c3689302e44a6c356ba843bd312b1332b570fa",
+      "tap_git_head": "8fa065ea5089308e36ac637ddb4220415c7078ed",
       "languages": [],
       "ruby_source_path": "Casks/t/tailscale-app.rb",
       "ruby_source_checksum": {
-        "sha256": "2468c43c36b27c209909090f74b1a8a131ddfe074f6f22a23e305a7bd40ccb62"
+        "sha256": "68d24fa8064ea6e70de35efb42616ba50becdeae4c9c8ef08d3f500dc9438599"
       }
     },
     {
@@ -2350,7 +2581,7 @@
       "disable_reason": null,
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
-      "tap_git_head": "73c3689302e44a6c356ba843bd312b1332b570fa",
+      "tap_git_head": "8fa065ea5089308e36ac637ddb4220415c7078ed",
       "languages": [],
       "ruby_source_path": "Casks/t/tunnelblick.rb",
       "ruby_source_checksum": {
@@ -2459,7 +2690,7 @@
       "disable_reason": null,
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
-      "tap_git_head": "73c3689302e44a6c356ba843bd312b1332b570fa",
+      "tap_git_head": "8fa065ea5089308e36ac637ddb4220415c7078ed",
       "languages": [],
       "ruby_source_path": "Casks/v/virtualbox.rb",
       "ruby_source_checksum": {
@@ -2477,18 +2708,18 @@
       ],
       "desc": "Open-source code editor",
       "homepage": "https://code.visualstudio.com/",
-      "url": "https://update.code.visualstudio.com/1.106.0/darwin-arm64/stable",
+      "url": "https://update.code.visualstudio.com/1.106.2/darwin-arm64/stable",
       "url_specs": {},
-      "version": "1.106.0",
+      "version": "1.106.2",
       "autobump": true,
       "no_autobump_message": null,
       "skip_livecheck": false,
       "installed": "1.105.1",
       "installed_time": 1760655104,
-      "bundle_version": "1.105.1",
-      "bundle_short_version": "1.105.1",
+      "bundle_version": "1.106.0",
+      "bundle_short_version": "1.106.0",
       "outdated": false,
-      "sha256": "ed73be63c4fce44786394cbcb6b696b7e30e161b4298f429d1b7a763a649092e",
+      "sha256": "e66a9b63758a27b57694b7a50a84a20f8defa4fd9869b99a99ac98dec5fb71bc",
       "artifacts": [
         {
           "uninstall": [
@@ -2554,11 +2785,11 @@
       "disable_reason": null,
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
-      "tap_git_head": "73c3689302e44a6c356ba843bd312b1332b570fa",
+      "tap_git_head": "8fa065ea5089308e36ac637ddb4220415c7078ed",
       "languages": [],
       "ruby_source_path": "Casks/v/visual-studio-code.rb",
       "ruby_source_checksum": {
-        "sha256": "0a88248071fcbba40da52796df8d91a58f6a537232b862052602687c75308d0e"
+        "sha256": "fdb87b7afb7cae08016d8537d8ae0f8dfb198b34a6f9369a3873421c3d5d300e"
       }
     },
     {
@@ -2643,7 +2874,7 @@
       "disable_reason": null,
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
-      "tap_git_head": "73c3689302e44a6c356ba843bd312b1332b570fa",
+      "tap_git_head": "8fa065ea5089308e36ac637ddb4220415c7078ed",
       "languages": [],
       "ruby_source_path": "Casks/v/vlc.rb",
       "ruby_source_checksum": {
@@ -2660,18 +2891,18 @@
       ],
       "desc": "Tencent AI Assistant with Hunyuan and DeepSeek LLMs",
       "homepage": "https://yuanbao.tencent.com/",
-      "url": "https://cdn-hybrid-prod.hunyuan.tencent.com/Desktop/official/b071b022d74825089f7ce4fd57f58a0f/yuanbao_2.44.0.613_universal.dmg",
+      "url": "https://cdn-hybrid-prod.hunyuan.tencent.com/Desktop/official/33278385c937dac291143a5a0585274b/yuanbao_2.45.0.612_universal.dmg",
       "url_specs": {},
-      "version": "2.44.0.613,b071b022d74825089f7ce4fd57f58a0f",
+      "version": "2.45.0.612,33278385c937dac291143a5a0585274b",
       "autobump": true,
       "no_autobump_message": null,
       "skip_livecheck": false,
       "installed": "2.43.11.614,1b0a6c507253d92f9cf57aee52582150",
       "installed_time": 1762476228,
-      "bundle_version": "613",
-      "bundle_short_version": "2.44.0",
+      "bundle_version": "612",
+      "bundle_short_version": "2.45.0",
       "outdated": true,
-      "sha256": "25e2dfadf4bc3deb675761485d48b26fa06f557aa8fd9aa2b4722d41605bc03f",
+      "sha256": "bb1a0d7ec84e88e0439cb222b8a1965ab172022e58d7c697300a54d5bc48a856",
       "artifacts": [
         {
           "app": [
@@ -2716,11 +2947,11 @@
       "disable_reason": null,
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
-      "tap_git_head": "73c3689302e44a6c356ba843bd312b1332b570fa",
+      "tap_git_head": "8fa065ea5089308e36ac637ddb4220415c7078ed",
       "languages": [],
       "ruby_source_path": "Casks/y/yuanbao.rb",
       "ruby_source_checksum": {
-        "sha256": "8ced2dff95b2696d245ea940117f0dac54baea8e7c792cbf4e36ac17e3c16d7e"
+        "sha256": "88199246783d61cc0a64cddb9f6a8ae9ec872a4e69262619c3aaf8284932e0d8"
       }
     },
     {
@@ -2733,9 +2964,9 @@
       ],
       "desc": "Video communication and virtual meeting platform",
       "homepage": "https://www.zoom.us/",
-      "url": "https://cdn.zoom.us/prod/6.6.6.67409/arm64/zoomusInstallerFull.pkg",
+      "url": "https://cdn.zoom.us/prod/6.6.10.69071/arm64/zoomusInstallerFull.pkg",
       "url_specs": {},
-      "version": "6.6.6.67409",
+      "version": "6.6.10.69071",
       "autobump": true,
       "no_autobump_message": null,
       "skip_livecheck": false,
@@ -2744,7 +2975,7 @@
       "bundle_version": null,
       "bundle_short_version": null,
       "outdated": false,
-      "sha256": "a6ea14fee4ca931f57d998674b4f982330f0aedd4cd2d1d220575be6d027c01d",
+      "sha256": "066e64315fc580a3f1776df5878fd75f9ccd5491ff4e91d444af3b7c5752c190",
       "artifacts": [
         {
           "uninstall": [
@@ -2834,11 +3065,11 @@
       "disable_reason": null,
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
-      "tap_git_head": "73c3689302e44a6c356ba843bd312b1332b570fa",
+      "tap_git_head": "8fa065ea5089308e36ac637ddb4220415c7078ed",
       "languages": [],
       "ruby_source_path": "Casks/z/zoom.rb",
       "ruby_source_checksum": {
-        "sha256": "1d1b6ed3bf533682e8f34637b1807ac543aa85a83fe6414b51bacb42ae6284f7"
+        "sha256": "e9153eac0c8a880f79d6c680e288efc3874804fd13148c7d2f0868b6ee23970f"
       }
     }
   ]
