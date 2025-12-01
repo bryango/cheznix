@@ -76,7 +76,7 @@ let
       lsof
       wget
       trash-cli
-      git-branchless
+      # git-branchless # moved to local dev build
       dust
       bottom
       jujutsu
