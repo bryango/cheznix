@@ -79,7 +79,7 @@ let
       # git-branchless # moved to local dev build
       dust
       bottom
-      jujutsu
+      jujutsu-unstable
       faketty
       procs
       wol

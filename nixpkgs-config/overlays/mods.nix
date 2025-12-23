@@ -31,6 +31,35 @@ with prev;
   #   ];
   # });
 
+  jujutsu-unstable = jujutsu.overrideAttrs (finalAttrs: { preCheck ? "", ... }: {
+    ## do not override version, otherwise versionCheckHook would fail
+    # version = "0.36.0-unstable-2025-12-22";
+
+    src = fetchFromGitHub {
+      owner = "jj-vcs";
+      repo = "jj";
+      rev = "1e521f564dcec8f93ba3b0a494259d38ef0d8341";
+      hash = "sha256-/AsSdKo/iZ8Ub/5ljB6FL+/3o/0lsa/pIodEcqbUfzs=";
+    };
+
+    cargoHash = "sha256-alfaTAgtJLRGI34Bz3ylhY84GHJTqJ0Qg+OqLkU4OR4=";
+    # rebuild cargoDeps by hand because `.overrideAttrs cargoHash`
+    # does not reconstruct cargoDeps (a known limitation):
+    cargoDeps = rustPlatform.fetchCargoVendor {
+      inherit (finalAttrs) src;
+      name = "${finalAttrs.pname}-${finalAttrs.version}";
+      hash = finalAttrs.cargoHash;
+      patches = finalAttrs.cargoPatches or [];
+    };
+
+    # necessary when not sandboxed
+    preCheck = ''
+      export LANG=C.UTF-8
+      export LC_ALL=C.UTF-8
+      ${preCheck}
+    '';
+  });
+
   # many flaky tests
   tailscale = tailscale.overrideAttrs {
     # doCheck = false;
