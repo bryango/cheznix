@@ -49,8 +49,8 @@ let
       nixpkgs-pr-checker # ./nixpkgs-config/niz/scripts/pr-checker.sh
       nixpkgs-hammering
       nixpkgs-review
-      # hydra-check
-      # nixd  # future lsp ## not stable # needs llvmPackages.llvm.lib
+      nixd  # future lsp ## not stable # needs llvmPackages.llvm.lib
+      # hydra-check  # now managed in `bryango/flakes`
       # nvd  # version diff
     ] ++ lib.optionals isLinux [
       system-manager  # to be stabilized
@@ -83,6 +83,7 @@ let
       faketty
       procs
       wol
+      sshuttle
       openssh  # need to unset SSH_AUTH_SOCK, maybe
       # trashy  # better, but its zsh completion is broken
 
