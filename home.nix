@@ -260,7 +260,9 @@ in {
     ];
   };
 
-  services.redshift-many = lib.optionalAttrs isLinux {
+  # disabled: not working for the moment
+  # probably due to xorg -> wayland switch
+  services.redshift-many = lib.optionalAttrs /* isLinux */ false {
     redshift = {
       settings.randr.crtc = 0;
       temperature.always = 3200;
