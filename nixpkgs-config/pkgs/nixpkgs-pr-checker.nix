@@ -1,3 +1,4 @@
+# obselete: this has been moved to `niz` as `niz pkgs`
 {
   stdenvNoCC,
   gh,

@@ -65,7 +65,8 @@ with prev;
     # doCheck = false;
   };
 
-  nixpkgs-pr-checker = callPackage ../pkgs/nixpkgs-pr-checker.nix { };
+  # # obselete: this has been moved to `niz` as `niz pkgs`
+  # nixpkgs-pr-checker = callPackage ../pkgs/nixpkgs-pr-checker.nix { };
   open-webui-cli = callPackage ../pkgs/open-webui-cli.nix { };
 
   texstudio-lazy_resize = texstudio.overrideAttrs ({ patches ? [ ], ... }: {

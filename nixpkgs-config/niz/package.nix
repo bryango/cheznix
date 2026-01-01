@@ -53,6 +53,15 @@ in
       gh # for pr checker
     ];
 
+    preBuild = ''
+      install -D -t $out/share/niz/scripts ./scripts/*
+      (
+        pushd $out/share/niz/scripts
+        sed '0,/^#!/s|^.*$|#!/bin/bash|' -i pr-checker.sh
+        popd
+      )
+    '';
+
     postInstall = lib.optionalString (stdenv.buildPlatform.canExecute stdenv.hostPlatform) ''
       installShellCompletion --cmd ${mainProgram} \
         --bash <($out/bin/${mainProgram} completions bash) \
@@ -87,5 +96,9 @@ in
       # for debugging
       RUST_LIB_BACKTRACE = "1";
     };
+
+    shellHook = ''
+      unset out
+    ''; # prevent confusion with `$out` within nix build
 
   })

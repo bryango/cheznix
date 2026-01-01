@@ -46,7 +46,8 @@ let
       nix-update
       nix-output-monitor
       nix-flake-tree # ./nixpkgs-config/niz/scripts/flake-tree.py
-      nixpkgs-pr-checker # ./nixpkgs-config/niz/scripts/pr-checker.sh
+      # nixpkgs-pr-checker # ./nixpkgs-config/niz/scripts/pr-checker.sh
+      # niz # ./nixpkgs-config/niz
       nixpkgs-hammering
       nixpkgs-review
       nixd  # future lsp ## not stable # needs llvmPackages.llvm.lib

@@ -50,7 +50,7 @@
     flake-compat.url = "git+https://git.lix.systems/lix-project/flake-compat.git";
 
     determinate-nix-src = {
-      url = "github:DeterminateSystems/nix-src/v3.11.2";
+      url = "github:DeterminateSystems/nix-src/v3.15.1";
       inputs.nixpkgs.follows = "nixpkgs";
       inputs.nixpkgs-regression.follows = "nixpkgs";
       inputs.nixpkgs-23-11.follows = "nixpkgs";

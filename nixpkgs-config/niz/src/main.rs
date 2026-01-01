@@ -73,19 +73,19 @@ fn main() -> anyhow::Result<()> {
     let cli = NizCli::parse();
     let _log_handle = utils::set_up_logger(cli.verbosity.log_level_filter()).start()?;
 
-    let niz_dir = env::var("out")
-        .and_then(|x| match x.trim() {
-            "" => Err(env::VarError::NotPresent),
-            x => {
-                let scripts_head = format!("{x}/share/niz");
+    let niz_dir = option_env!("out")
+        .map_or(None, |out| match out.trim() {
+            "" => None,
+            out => {
+                let scripts_head = format!("{out}/share/niz");
                 if Path::new(&scripts_head).exists() {
-                    Ok(scripts_head)
+                    Some(scripts_head)
                 } else {
-                    Err(env::VarError::NotPresent)
+                    None
                 }
             }
         })
-        .unwrap_or(env!("CARGO_MANIFEST_DIR").to_string());
+        .unwrap_or_else(|| env!("CARGO_MANIFEST_DIR").to_string());
 
     let scripts_dir = PathBuf::from(niz_dir).join("scripts");
     let exec_script = |path, args| {

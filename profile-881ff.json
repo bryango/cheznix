@@ -7,16 +7,27 @@
       "outputs": null,
       "priority": 5,
       "storePaths": [
-        "/nix/store/i9ljg1q9zdc3xq7zblmqcpkmqwv8rya0-home-apps"
+        "/nix/store/5wdls2mc7zzk8kpifawcrn9kk2inhskl-home-apps"
       ],
-      "url": "git+file:///Users/bryan/apps/flakes?ref=refs/heads/dev&rev=a0bd32f57c89d07c04d0c75b594bd31e8d81a52f&submodules=1"
+      "url": "git+file:///Users/bryan/apps/flakes?ref=refs/heads/dev&rev=2533efba6b6e942ed3d2d82abad65703d4569612&submodules=1"
     },
     "home-manager-path": {
       "active": true,
       "priority": 5,
       "storePaths": [
-        "/nix/store/kmi9x6062capxrqpb61k8nwwpxvvhyaz-home-manager-path"
+        "/nix/store/wgkxmnvzvgdwh5c5wzd487hrssd8l77j-home-manager-path"
       ]
+    },
+    "niz": {
+      "active": true,
+      "attrPath": "packages.aarch64-darwin.niz",
+      "originalUrl": "flake:nixpkgs-config",
+      "outputs": null,
+      "priority": 5,
+      "storePaths": [
+        "/nix/store/v7nqdmaf7l7q2v29347vfwkc914hndcm-niz-0.1.0"
+      ],
+      "url": "path:/Users/bryan/.config/home-manager/nixpkgs-config?lastModified=1767261095&narHash=sha256-esIhKscgcypjdA3RXCgQqWM2Zz0BcoI3nLWdDRIhAeM%3D"
     }
   },
   "version": 3
