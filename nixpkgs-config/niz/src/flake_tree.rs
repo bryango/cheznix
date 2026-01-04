@@ -1,39 +1,61 @@
 use std::{collections::BTreeMap, fmt::Display};
 
-use anyhow::anyhow;
+use anyhow::bail;
 use serde::{Deserialize, Serialize};
 use termtree::Tree;
 
-/// Deserialized flake.lock file
+/// Deserialized flake.lock file.
 #[non_exhaustive]
 #[derive(Deserialize, Debug, Clone)]
 pub(crate) struct FlakeLock {
-    version: u32,
+    pub(crate) version: u32,
     pub(crate) nodes: AllLockNodes,
 }
 
 #[derive(Deserialize, Debug, Clone)]
-pub(crate) struct AllLockNodes(BTreeMap<NodeID, LockNode>);
+pub(crate) struct AllLockNodes(BTreeMap<NodeID, NodeWithInputs>);
 
 /// Unique identifier of a flake input, as defined in `flake.lock`.
 ///
 /// For example, if there are multiple inputs named `nixpkgs`, they might be
 /// represented as "nixpkgs" and "nixpkgs_2" in `flake.lock`.
 #[derive(
-    Deserialize, Serialize, derive_more::Display, Debug, Clone, PartialEq, Eq, PartialOrd, Ord,
+    Deserialize,
+    Serialize,
+    derive_more::Display,
+    derive_more::From,
+    Debug,
+    Clone,
+    PartialEq,
+    Eq,
+    PartialOrd,
+    Ord,
 )]
-pub(crate) struct NodeID(String);
+struct NodeID(String);
 
+/// "Flattened" flake inputs as specified in `flake.lock`.
+///
+/// Each flake input is a map from a user facing, user friendly name to
+/// an actual `FlakeNode`.
 #[non_exhaustive]
 #[derive(Deserialize, Debug, Clone)]
-struct LockNode {
+struct NodeWithInputs {
     inputs: Option<BTreeMap<String, FlakeNode>>,
 }
 
-/// Link to another flake input, used for the `.follows` redirection/
+/// Flake input node, either an ID (resolved) or a link to another input
+/// (unresolved).
+#[derive(Deserialize, Serialize, Debug, Clone)]
+#[serde(untagged)]
+enum FlakeNode {
+    Id(NodeID),
+    Link(NodeLink),
+}
+
+/// Link to another flake input, used for the `.follows` redirection.
 ///
-/// For example, `.follows = "nix-darwin/nixpkgs"` is represented as
-/// `NodeLink(vec!["nix-darwin", "nixpkgs"])`.
+/// For example, `follows = "nix-darwin/nixpkgs"` is represented as
+/// `["nix-darwin", "nixpkgs"]`.
 #[derive(Deserialize, Serialize, Debug, Clone)]
 struct NodeLink(Vec<String>);
 
@@ -43,22 +65,10 @@ impl Display for NodeLink {
     }
 }
 
-/// Flake input node, either an ID (resolved) or a link to another input
-/// (unresolved).
-///
-/// Each flake input is a map from a user facing, user friendly name to
-/// an actual `FlakeNode`. In the unresolved case, the user facing name is
-/// the last component of a `NodeLink`.
-#[derive(Deserialize, Serialize, Debug, Clone)]
-#[serde(untagged)]
-enum FlakeNode {
-    Id(NodeID),
-    Link(NodeLink),
-}
-
 #[derive(Serialize, Debug, Clone)]
 pub(crate) struct ResolvedInput {
-    flake_node: FlakeNode,
+    name: String,
+    follows: FlakeNode,
     id: NodeID,
 }
 
@@ -66,83 +76,60 @@ impl Display for ResolvedInput {
     fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
         write!(
             f,
-            "{}", // "{}{}"
+            "{}{}",
             self.id,
-            // match &self.flake_node {
-            //     FlakeNode::Id(node_id) =>
-            //         if *node_id == self.id {
-            //             "".into()
-            //         } else {
-            //             format!(" <- {node_id}")
-            //         },
-            //     FlakeNode::Link(node_link) => match node_link.0.as_slice() {
-            //         [x] if x.as_str() == self.id.0 => "".into(),
-            //         _ => format!(" <- {node_link}"),
-            //     },
-            // }
+            if self.name != self.id.0 {
+                format!(" <- {}", self.name)
+            } else {
+                "".into()
+            }
         )
     }
 }
 
 #[derive(Debug, Clone)]
-pub(crate) struct ResolvedInputsMap(BTreeMap<String, ResolvedInput>);
-
-impl Display for ResolvedInputsMap {
-    fn fmt(&self, f: &mut std::fmt::Formatter<'_>) -> std::fmt::Result {
-        for (idx, (key, value)) in self.0.iter().enumerate() {
-            if idx > 0 {
-                write!(f, ", ")?;
-            }
-            write!(
-                f,
-                "{}{}",
-                value,
-                if *key == value.id.0 {
-                    "".into()
-                } else {
-                    format!(" <- {key}")
-                }
-            )?;
-        }
-        Ok(())
-    }
-}
-
-fn get_node_link(node: FlakeNode) -> NodeLink {
-    match node {
-        FlakeNode::Id(id) => NodeLink(vec![id.0]),
-        FlakeNode::Link(link) => link,
-    }
-}
+struct ResolvedInputsMap(BTreeMap<String, ResolvedInput>);
 
 fn error_key_not_found(key: impl Display) -> anyhow::Error {
-    anyhow!("could not find flake input node {key}")
+    anyhow::anyhow!("could not find flake input node {key}")
 }
 
 impl AllLockNodes {
-    fn resolve_node(&self, node: &FlakeNode) -> anyhow::Result<NodeID> {
+    fn resolve_node(&self, node: FlakeNode) -> anyhow::Result<NodeID> {
         match node {
-            FlakeNode::Id(id) => Ok(NodeID(id.0.clone())),
+            FlakeNode::Id(id) => Ok(NodeID(id.0)),
             FlakeNode::Link(link) => {
-                if link.0.len() == 1 {
-                    return Ok(NodeID(link.0[0].clone()));
+                let link = link.0;
+                if link.is_empty() {
+                    bail!(
+                        "found an input that follows an empty set; {}",
+                        "this may be useful but is currently unsupported."
+                    );
                 }
-                let first_part = &link.0[0];
-                let second_part = &link.0[1];
-                let resolved_tag = &self
+                let toplevel_node = NodeID(link[0].clone());
+                if link.len() == 1 {
+                    return Ok(toplevel_node);
+                }
+                let inputs_ref = &link[1];
+                let inputs = self
                     .0
-                    .get(&NodeID(first_part.clone()))
-                    .ok_or_else(|| error_key_not_found(first_part))?
+                    .get(&toplevel_node)
+                    .ok_or_else(|| error_key_not_found(toplevel_node))?
                     .inputs
                     .clone()
-                    .unwrap_or_default()
-                    .get(second_part)
-                    .ok_or_else(|| error_key_not_found(second_part))?
+                    .unwrap_or_default();
+                let resolved_node = inputs
+                    .get(inputs_ref)
+                    .ok_or_else(|| error_key_not_found(inputs_ref))?
                     .clone();
-                let mut new_link_parts = get_node_link(resolved_tag.clone()).0;
-                new_link_parts.extend_from_slice(&link.0[2..]);
-                let new_link = NodeLink(new_link_parts);
-                self.resolve_node(&FlakeNode::Link(new_link))
+                let mut new_link = match resolved_node {
+                    FlakeNode::Id(id) => NodeLink(vec![id.0]),
+                    FlakeNode::Link(link) => link,
+                }
+                .0;
+                new_link.extend_from_slice(&link[2..]);
+                let new_link = NodeLink(new_link);
+                self.resolve_node(FlakeNode::Link(new_link))
             }
         }
     }
@@ -156,8 +143,9 @@ impl AllLockNodes {
         let mut resolved_inputs = BTreeMap::new();
         for (flake_ref, flake_node) in inputs.clone().unwrap_or_default() {
             let resolved = ResolvedInput {
-                flake_node: flake_node.clone(),
-                id: self.resolve_node(&flake_node)?,
+                name: flake_ref.clone(),
+                follows: flake_node.clone(),
+                id: self.resolve_node(flake_node)?,
             };
             resolved_inputs.insert(flake_ref.clone(), resolved);
         }
@@ -172,42 +160,29 @@ impl AllLockNodes {
         Ok(all_resolved)
     }
 
-    pub(crate) fn make_tree(&self) -> anyhow::Result<termtree::Tree<ResolvedInputsMap>> {
+    pub(crate) fn make_tree(&self) -> anyhow::Result<termtree::Tree<ResolvedInput>> {
         let all_resolved = self.resolve_all()?;
         make_tree(
             &all_resolved,
-            ResolvedInputsMap(BTreeMap::from([(
-                "root".to_string(),
-                ResolvedInput {
-                    flake_node: FlakeNode::Id(NodeID("root".to_string())),
-                    id: NodeID("root".to_string()),
-                },
-            )])),
+            ResolvedInput {
+                name: "root".to_string(),
+                follows: FlakeNode::Id(NodeID("root".to_string())),
+                id: NodeID("root".to_string()),
+            },
         )
     }
 }
 
 fn make_tree(
     all_resolved: &BTreeMap<NodeID, ResolvedInputsMap>,
-    resolved_inputs_map: ResolvedInputsMap, // singlet
-) -> anyhow::Result<termtree::Tree<ResolvedInputsMap>> {
-    let mut tree = Tree::new(resolved_inputs_map.clone());
+    resolved_input: ResolvedInput, // singlet
+) -> anyhow::Result<termtree::Tree<ResolvedInput>> {
+    let mut tree = Tree::new(resolved_input.clone());
     let inputs = all_resolved
-        .get(
-            &resolved_inputs_map
-                .0
-                .clone()
-                .first_entry()
-                .ok_or_else(|| error_key_not_found(""))?
-                .get()
-                .id,
-        )
-        .ok_or_else(|| error_key_not_found(resolved_inputs_map))?;
-    for resolved_input in inputs.0.clone() {
-        tree.push(make_tree(
-            all_resolved,
-            ResolvedInputsMap(BTreeMap::from([resolved_input])),
-        )?);
+        .get(&resolved_input.id)
+        .ok_or_else(|| error_key_not_found(resolved_input.id))?;
+    for (_, resolved_input) in inputs.0.clone() {
+        tree.push(make_tree(all_resolved, resolved_input)?);
     }
     Ok(tree)
 }
