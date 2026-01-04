@@ -4,6 +4,8 @@ use anyhow::bail;
 use serde::{Deserialize, Serialize};
 use termtree::Tree;
 
+const FLAKE_TOPLEVEL_NODE: &str = "root";
+
 /// Deserialized flake.lock file.
 #[non_exhaustive]
 #[derive(Deserialize, Debug, Clone)]
@@ -67,6 +69,7 @@ impl Display for NodeLink {
 
 #[derive(Serialize, Debug, Clone)]
 pub(crate) struct ResolvedInput {
+    #[serde(skip)]
     name: String,
     follows: FlakeNode,
     id: NodeID,
@@ -95,6 +98,10 @@ fn error_key_not_found(key: impl Display) -> anyhow::Error {
 }
 
 impl AllLockNodes {
+    /// Resolves a single FlakeNode into a unique node ID.
+    ///
+    /// This function is recursive since the `.follows` NodeLink
+    /// is recursive by its nature.
     fn resolve_node(&self, node: FlakeNode) -> anyhow::Result<NodeID> {
         match node {
             FlakeNode::Id(id) => Ok(NodeID(id.0)),
@@ -134,11 +141,12 @@ impl AllLockNodes {
         }
     }
 
+    /// Resolves flake inputs starting from a top level node.
     fn resolve_inputs(&self, node: &NodeID) -> anyhow::Result<ResolvedInputsMap> {
         let inputs = &self
             .0
             .get(node)
-            .ok_or_else(|| error_key_not_found(node.0.clone()))?
+            .ok_or_else(|| error_key_not_found(&node.0))?
             .inputs;
         let mut resolved_inputs = BTreeMap::new();
         for (flake_ref, flake_node) in inputs.clone().unwrap_or_default() {
@@ -147,11 +155,12 @@ impl AllLockNodes {
                 follows: flake_node.clone(),
                 id: self.resolve_node(flake_node)?,
             };
-            resolved_inputs.insert(flake_ref.clone(), resolved);
+            resolved_inputs.insert(flake_ref, resolved);
         }
         Ok(ResolvedInputsMap(resolved_inputs))
     }
 
+    /// Resolves all top level flake inputs.
     fn resolve_all(&self) -> anyhow::Result<BTreeMap<NodeID, ResolvedInputsMap>> {
         let mut all_resolved = BTreeMap::new();
         for (node, _) in self.0.clone() {
@@ -160,14 +169,16 @@ impl AllLockNodes {
         Ok(all_resolved)
     }
 
+    /// Turns the resolved inputs into a [`termtree::Tree<ResolvedInput>`].
     pub(crate) fn make_tree(&self) -> anyhow::Result<termtree::Tree<ResolvedInput>> {
         let all_resolved = self.resolve_all()?;
+        let root = FLAKE_TOPLEVEL_NODE.to_string();
         make_tree(
             &all_resolved,
             ResolvedInput {
-                name: "root".to_string(),
-                follows: FlakeNode::Id(NodeID("root".to_string())),
-                id: NodeID("root".to_string()),
+                name: root.clone(),
+                follows: FlakeNode::Id(NodeID(root.clone())),
+                id: NodeID(root.clone()),
             },
         )
     }
@@ -175,107 +186,14 @@ impl AllLockNodes {
 
 fn make_tree(
     all_resolved: &BTreeMap<NodeID, ResolvedInputsMap>,
-    resolved_input: ResolvedInput, // singlet
+    resolved_input: ResolvedInput,
 ) -> anyhow::Result<termtree::Tree<ResolvedInput>> {
     let mut tree = Tree::new(resolved_input.clone());
     let inputs = all_resolved
         .get(&resolved_input.id)
         .ok_or_else(|| error_key_not_found(resolved_input.id))?;
-    for (_, resolved_input) in inputs.0.clone() {
+    for (_flake_ref, resolved_input) in inputs.0.clone() {
         tree.push(make_tree(all_resolved, resolved_input)?);
     }
     Ok(tree)
-}
-
-#[derive(Deserialize, Debug, Clone)]
-pub(crate) struct FlakeTree {
-    #[serde(flatten)]
-    deps: BTreeMap<String, FlakeTree>,
-}
-
-#[derive(Debug)]
-pub(crate) struct FlakeTreeWithRoot {
-    root: String,
-    deps: Vec<FlakeTreeWithRoot>,
-}
-
-const FLAKE_TOPLEVEL_NODE: &str = "root";
-
-impl From<FlakeTree> for FlakeTreeWithRoot {
-    fn from(flake_tree: FlakeTree) -> Self {
-        if flake_tree.deps.len() == 1 && flake_tree.deps.contains_key(FLAKE_TOPLEVEL_NODE) {
-            let (_root, subtree) = flake_tree.deps.into_iter().next().unwrap();
-            return Self::from(subtree);
-        }
-        let deps: Vec<FlakeTreeWithRoot> = flake_tree
-            .deps
-            .into_iter()
-            .map(|(root, subtree)| {
-                let mut subtree_with_root: FlakeTreeWithRoot = Self::from(subtree);
-                subtree_with_root.root = root;
-                subtree_with_root
-            })
-            .collect();
-        Self {
-            root: FLAKE_TOPLEVEL_NODE.to_string(),
-            deps,
-        }
-    }
-}
-
-#[test]
-fn flake_tree_from_json() {
-    let data = r#"
-        {
-          "root": {
-            "darwin-apps": {},
-            "home-attrs": {},
-            "nix-darwin": {
-              "nixpkgs": {}
-            },
-            "nixpkgs": {},
-            "nixpkgs-config": {
-              "determinate-nix-src": {
-                "nixpkgs": {}
-              },
-              "flake-compat": {},
-              "flake-utils": {
-                "systems": {}
-              },
-              "haumea": {
-                "nixpkgs": {}
-              },
-              "infuse": {},
-              "nixgl": {
-                "flake-utils": {
-                  "systems": {}
-                },
-                "nixpkgs": {}
-              },
-              "nixpkgs": {},
-              "yants": {}
-            },
-            "system-manager": {
-              "nixpkgs": {}
-            }
-          }
-        }
-    "#;
-
-    let flake_tree = serde_json::from_str::<FlakeTree>(data).unwrap();
-    println!("{:#?}", flake_tree);
-    let flake_tree_with_root: FlakeTreeWithRoot = flake_tree.clone().into();
-    println!("{:#?}", flake_tree_with_root);
-    let tree: termtree::Tree<String> = flake_tree_with_root.into();
-    println!("{tree}");
-}
-
-impl From<FlakeTreeWithRoot> for termtree::Tree<String> {
-    fn from(flake_tree_with_root: FlakeTreeWithRoot) -> Self {
-        let mut tree = termtree::Tree::new(flake_tree_with_root.root);
-        for subtree in flake_tree_with_root.deps {
-            tree.push(subtree);
-        }
-        tree
-    }
 }

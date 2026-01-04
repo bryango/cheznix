@@ -3,8 +3,7 @@ use clap_complete::Shell;
 use clap_verbosity_flag::{InfoLevel, Verbosity};
 use log::debug;
 use std::{
-    env,
-    fs::read_to_string,
+    env, fs,
     os::unix::process::CommandExt,
     path::{Path, PathBuf},
     process::Command,
@@ -125,21 +124,7 @@ fn main() -> anyhow::Result<()> {
             Flake::Tree {
                 // placeholder_arg: _
             } => {
-                // let output = script_command("flake-tree.py", &["--json"])
-                //     .output()?;
-                // if !output.status.success() {
-                //     anyhow::bail!(
-                //         "flake-tree.py failed with exit code {}, output: {}\n{}",
-                //         output.status.code().unwrap_or(-1),
-                //         String::from_utf8_lossy(&output.stdout),
-                //         String::from_utf8_lossy(&output.stderr),
-                //     );
-                // }
-                // let flake_tree: FlakeTree = serde_json::from_slice(&output.stdout)?;
-                // let flake_tree_with_root: FlakeTreeWithRoot = flake_tree.into();
-                // let tree: termtree::Tree<String> = flake_tree_with_root.into();
-                let lock_file = read_to_string("./flake.lock")?;
-                debug!("{}", lock_file);
+                let lock_file = fs::read_to_string("./flake.lock")?;
                 let json: FlakeLock = serde_json::from_str(&lock_file)?;
                 let tree = json.nodes.make_tree()?;
                 println!("{tree}");
