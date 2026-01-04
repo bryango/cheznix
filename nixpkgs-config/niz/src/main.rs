@@ -4,12 +4,16 @@ use clap_verbosity_flag::{InfoLevel, Verbosity};
 use log::debug;
 use std::{
     env,
+    fs::read_to_string,
     os::unix::process::CommandExt,
     path::{Path, PathBuf},
     process::Command,
 };
 
+mod flake_tree;
 mod utils;
+
+use crate::flake_tree::FlakeLock;
 
 #[derive(Parser)]
 struct NizCli {
@@ -21,6 +25,7 @@ struct NizCli {
 }
 
 #[derive(Subcommand)]
+#[command(disable_help_subcommand = true)]
 enum Operations {
     /// Nixpkgs git revisions & pull requests status
     Pkgs {
@@ -38,11 +43,13 @@ enum Operations {
         #[arg(verbatim_doc_comment)]
         args: Vec<String>,
     },
+
     /// Nix build planning & execution
     Build {
         #[command(subcommand)]
         op: Build,
     },
+
     /// Flake metadata improved
     Flake {
         #[command(subcommand)]
@@ -66,7 +73,10 @@ enum Build {
 #[derive(Subcommand)]
 enum Flake {
     /// nix flake metadata, simplified
-    Tree,
+    Tree {
+        // #[arg(long)]
+        // placeholder_arg: Option<String>,
+    },
 }
 
 fn main() -> anyhow::Result<()> {
@@ -88,25 +98,51 @@ fn main() -> anyhow::Result<()> {
         .unwrap_or_else(|| env!("CARGO_MANIFEST_DIR").to_string());
 
     let scripts_dir = PathBuf::from(niz_dir).join("scripts");
-    let exec_script = |path, args| {
+    let script_command = |path, args: &[&str]| -> Command {
         let program = scripts_dir.join(path);
-        debug!("exec {}", program.to_string_lossy());
-        let err = Command::new(program).args(args).exec();
+        let mut cmd = Command::new(program);
+        cmd.args(args);
+        cmd
+    };
+    let exec_script = |path, args| {
+        let mut cmd = script_command(path, args);
+        debug!("exec {}", cmd.get_program().to_string_lossy());
+        let err = cmd.exec();
         Err(err)
     };
 
     match cli.op {
         Operations::Pkgs { args } => {
-            exec_script("pr-checker.sh", args)?;
+            let args: Vec<&str> = args.iter().map(String::as_str).collect();
+            exec_script("pr-checker.sh", args.as_slice())?;
         }
         Operations::Build { op } => match op {
             Build::Plan => {
-                exec_script("build-plan.py", vec![])?;
+                exec_script("build-plan.py", &[])?;
             }
         },
         Operations::Flake { op } => match op {
-            Flake::Tree => {
-                exec_script("flake-tree.py", vec![])?;
+            Flake::Tree {
+                // placeholder_arg: _
+            } => {
+                // let output = script_command("flake-tree.py", &["--json"])
+                //     .output()?;
+                // if !output.status.success() {
+                //     anyhow::bail!(
+                //         "flake-tree.py failed with exit code {}, output: {}\n{}",
+                //         output.status.code().unwrap_or(-1),
+                //         String::from_utf8_lossy(&output.stdout),
+                //         String::from_utf8_lossy(&output.stderr),
+                //     );
+                // }
+                // let flake_tree: FlakeTree = serde_json::from_slice(&output.stdout)?;
+                // let flake_tree_with_root: FlakeTreeWithRoot = flake_tree.into();
+                // let tree: termtree::Tree<String> = flake_tree_with_root.into();
+                let lock_file = read_to_string("./flake.lock")?;
+                debug!("{}", lock_file);
+                let json: FlakeLock = serde_json::from_str(&lock_file)?;
+                let tree = json.nodes.make_tree()?;
+                println!("{tree}");
             }
         },
         Operations::Completions { shell } => {
