@@ -67,7 +67,7 @@ let
       diff-so-fancy
       shellcheck
       git
-      lazygit
+      gitui
       chezmoi
       age
       fd
@@ -80,7 +80,7 @@ let
       # git-branchless # moved to local dev build
       dust
       bottom
-      jujutsu-unstable
+      jujutsu #-unstable
       faketty
       procs
       wol
