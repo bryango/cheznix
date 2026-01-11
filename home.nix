@@ -135,7 +135,8 @@ let
       (writeShellScriptBin "biber-for-tectonic" ''exec ${lib.getExe tectonic.biber} "$@"'')
       inetutils # telnet
       dufs # file server
-      (if isLinux then miktex else texliveSmall.withPackages (ps: with ps; [
+      (# if isLinux then miktex else ## disable for the moment (currently failing)
+      texliveSmall.withPackages (ps: with ps; [
         texdoc
         enumitem
         doublestroke
