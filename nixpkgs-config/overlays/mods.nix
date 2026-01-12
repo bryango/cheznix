@@ -38,11 +38,11 @@ with prev;
     src = fetchFromGitHub {
       owner = "jj-vcs";
       repo = "jj";
-      rev = "af5b024e464bbce08ec19978a8a9d06e08caec77";
-      hash = "sha256-hbnMO31vzZkSOC1s7sMdKdzS5ZqokYNUyG/Wx+F48aY=";
+      rev = "41b8d432e770f0ba2e5c75078dad956521cfd0a3";
+      hash = "sha256-+xb/4CjddmcXCvHiICtvIt+UYBqnnbX7R15Dgdlzq68=";
     };
 
-    cargoHash = "sha256-QnP8xds5COxU+DMUfDUKjxonursvkoaT6dN84yWn7Mk=";
+    cargoHash = "sha256-MtPpx6ODsiiWjy0vhpT7mVtRkrayWwRnGTw5bdKAq0U=";
     # rebuild cargoDeps by hand because `.overrideAttrs cargoHash`
     # does not reconstruct cargoDeps (a known limitation):
     cargoDeps = rustPlatform.fetchCargoVendor {
