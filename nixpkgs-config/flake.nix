@@ -133,7 +133,8 @@
         #   # python2 = final.pkgsPython2.python2;
         # };
 
-        determinate-nix-oss = determinate-nix-src.packages.${system}.nix;
+        ## disabled for the moment due to https://github.com/DeterminateSystems/nix-src/pull/313
+        # determinate-nix-oss = determinate-nix-src.packages.${system}.nix;
 
         ## nixpkgs source, i.e. `outPath`, in `pkgs`
         inherit (nixpkgs) outPath;
