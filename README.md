@@ -89,7 +89,9 @@ nix why-depends \
   --precise
 ## sanitize the outputs: `sed -E 's|/nix/store/.{32}-| |g'`
 
-nix-store --query
+nix-store --query --referrers-closure
+
+nix-store --query --roots
 ```
 
 ### garbage collection
@@ -120,11 +122,14 @@ nix-collect-garbage  # --delete-older-than, --max-freed, --dry-run
 
 To get an overview of package sizes,
 ```bash
-nix path-info --all -hs | sort -hk2
-nix path-info --json --all \
-  | jq 'map(.narSize) | add' \
-  | numfmt --to=iec-i --format=%.2f
-  ## total size of the store
+## find the largest store paths
+nix path-info --json --all | jq --raw-output 'to_entries[] | "\(.value.narSize)\t\(.key)" ' | numfmt --to=iec-i --format=%.1f --field=1 | sort -hk1
+
+## slower: by reading /nix/store directly
+dust --ignore-directory=.links --depth=1 --full-paths /nix/store
+
+## total size of the store
+nix path-info --json --all | jq 'map(.narSize) | add' | numfmt --to=iec-i --format=%.2f
 ```
 
 # nix intro
