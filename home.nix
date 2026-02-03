@@ -47,7 +47,7 @@ let
       nix-output-monitor
       nix-flake-tree # ./nixpkgs-config/niz/scripts/flake-tree.py
       # nixpkgs-pr-checker # ./nixpkgs-config/niz/scripts/pr-checker.sh
-      # niz # ./nixpkgs-config/niz
+      niz # ./nixpkgs-config/niz
       nixpkgs-hammering
       nixpkgs-review
       nixd  # future lsp ## not stable # needs llvmPackages.llvm.lib
@@ -123,6 +123,7 @@ let
       # getoptions  # shell argument parser
       # diffoscopeMinimal  # too heavy, use distro package instead
       # devbox  # cool but I am mostly using vanilla nix flake
+      zig zig-shell-completions
     ] ++ lib.optionals isLinux [
       mold  # linker for non-nix projects; for nix, use `mold-wrapped`
             # ... currently broken on darwin
@@ -154,6 +155,7 @@ let
       uxplay  # airplay server
     ] ++ lib.optionals isDarwin [
       nightlight
+      colima docker devcontainer
     ];
 
     cli.python = let

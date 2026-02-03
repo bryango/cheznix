@@ -1,31 +1,31 @@
-From 67e796e6822babedb4746444d74771facb2dd4b4 Mon Sep 17 00:00:00 2001
+From bd9e5b5f55682cfc1c13fc84ade80adeb90d868b Mon Sep 17 00:00:00 2001
 From: "R. Ryantm" <ryantm-bot@ryantm.com>
-Date: Thu, 8 Jan 2026 02:38:20 +0000
-Subject: [PATCH] home-manager: 0-unstable-2025-12-25 -> 0-unstable-2026-01-07
+Date: Wed, 28 Jan 2026 01:27:55 +0000
+Subject: [PATCH] home-manager: 0-unstable-2026-01-20 -> 0-unstable-2026-01-27
 
 ---
  pkgs/by-name/ho/home-manager/package.nix | 6 +++---
  1 file changed, 3 insertions(+), 3 deletions(-)
 
 diff --git a/pkgs/by-name/ho/home-manager/package.nix b/pkgs/by-name/ho/home-manager/package.nix
-index e70d5ad093571..8028067996606 100644
+index 0368fc0fbd8b0..049a996b547f7 100644
 --- a/pkgs/by-name/ho/home-manager/package.nix
 +++ b/pkgs/by-name/ho/home-manager/package.nix
 @@ -19,14 +19,14 @@
  
  stdenvNoCC.mkDerivation (finalAttrs: {
    pname = "home-manager";
--  version = "0-unstable-2025-12-25";
-+  version = "0-unstable-2026-01-07";
+-  version = "0-unstable-2026-01-20";
++  version = "0-unstable-2026-01-27";
  
    src = fetchFromGitHub {
      name = "home-manager-source";
      owner = "nix-community";
      repo = "home-manager";
--    rev = "91cdb0e2d574c64fae80d221f4bf09d5592e9ec2";
--    hash = "sha256-GKO35onS711ThCxwWcfuvbIBKXwriahGqs+WZuJ3v9E=";
-+    rev = "4fee4bd14b5e4178855ad0041df89fa44f3f2bea";
-+    hash = "sha256-DRhbz2dZaEmj5MgLFMXjEPfmKYfMG6LwNT9Bv8zeLPQ=";
+-    rev = "9997de2f62d1875644f02ddf96cf485a4baecb6f";
+-    hash = "sha256-i25tkhqjsfo0YKz8To/+gzazW1v4f8qUGqJQ8OLrkqE=";
++    rev = "d505dc46dc9831d1db4e7d6e323b2c42d5eba3e6";
++    hash = "sha256-tJzEPNC6fMCzF4W8h2YdnvjlI4TpRV/yJg9cTnbwkfc=";
    };
  
    nativeBuildInputs = [
