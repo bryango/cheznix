@@ -31,6 +31,7 @@
     brews = [
       "cocoapods"
       "unbound"
+      "qwen-code"
     ];
     casks = [
       # trusted

@@ -3,6 +3,7 @@
 # Brews
 brew "cocoapods"
 brew "unbound"
+brew "qwen-code"
 
 # Casks
 cask "firefox"
