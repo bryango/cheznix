@@ -156,6 +156,7 @@ let
     ] ++ lib.optionals isDarwin [
       nightlight
       colima docker devcontainer
+      tart
     ];
 
     cli.python = let
@@ -171,6 +172,7 @@ let
       ruff  # exposes `ruff`
       poetry
       pipx
+      uv
     ];
 
     gui.app = [
