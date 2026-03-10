@@ -21,17 +21,29 @@
     histSize = 1000000;
   };
 
+  environment.variables = {
+    HOMEBREW_AUTO_UPDATE_SECS = "86400";
+    HOMEBREW_API_AUTO_UPDATE_SECS = "86400";
+    HOMEBREW_API_DOMAIN = "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api";
+    HOMEBREW_BOTTLE_DOMAIN = "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles";
+
+  };
+
   /** homebrew managed incrementally; need to install first */
   homebrew = {
     enable = true;
     onActivation = {
-      cleanup = "uninstall";
+      cleanup = "check";
       extraFlags = [ "--verbose" ];
     };
+    taps = [
+      "bryango/ccswitch"
+    ];
     brews = [
       "cocoapods"
       "unbound"
       "qwen-code"
+      "openclaw-cli"
     ];
     casks = [
       # trusted
@@ -45,18 +57,23 @@
       "visual-studio-code"
       "tailscale-app"
       "obsidian"
-      "parallels"
       "yuanbao"
       "notion"
       "betterdisplay"
       "lm-studio"
       "qianwen"
+      "codex-app"
+      "clash-verge-rev"
+      "chatgpt"
+      "daisydisk"
+      "claude-code"
 
       # probably okay
       "iterm2"
       "jellyfin"
       "karabiner-elements"
       "tunnelblick" # openvpn client
+      "cc-switch"
     ];
   };
 

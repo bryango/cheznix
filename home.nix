@@ -79,6 +79,7 @@ let
       trash-cli
       # git-branchless # moved to local dev build
       dust
+      dua # dust & dua both for disk usage
       bottom
       jujutsu #-unstable
       faketty
@@ -106,6 +107,7 @@ let
     ];
 
     cli.dev = [
+      bashdb
       aichat
       geminicommit
       mosh
@@ -194,7 +196,7 @@ let
     ] ++ lib.optionals isLinux [
       xorg.xinput
       remmina
-      pulsar  # atom fork
+      # pulsar  # atom fork
 
       nixgl.nixGLIntel
       nixgl.nixVulkanIntel
