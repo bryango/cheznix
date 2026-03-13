@@ -38,6 +38,15 @@
       };
     };
 
+    nix-snapshotter = {
+      url = "github:pdtpartners/nix-snapshotter";
+      inputs = {
+        nixpkgs.follows = "nixpkgs";
+        flake-compat.follows = "nixpkgs-config/flake-compat";
+        flake-parts.follows = "system-manager/userborn/flake-parts";
+      };
+    };
+
     nix-darwin = {
       url = "github:nix-darwin/nix-darwin/master";
       # /** https://github.com/nix-darwin/nix-darwin/pull/1635 */
@@ -53,7 +62,7 @@
 
   };
 
-  outputs = { self, home-attrs, system-manager, nix-darwin, ... }:
+  outputs = { self, home-attrs, system-manager, nix-darwin, nix-snapshotter, ... }:
     let
 
       ## consistent namings
@@ -77,7 +86,7 @@
       overlay = final: prev: import ./overlay.nix final prev // (with final; {
         inherit cheznix;
         system-manager = system-manager.packages.${system}.default;
-      });
+      } // ( nix-snapshotter.overlays.default final prev ));
 
       machines = lib.mapAttrs updateHomeAttrs home-attrs.outputs;
       isLinux = lib.hasSuffix "linux";
@@ -130,6 +139,17 @@
                 # must set for `nix.settings` and stuff
                 nix.package = pkgs.nixPackage; # defined in `nixpkgs-config`
               }
+              (lib.optionalAttrs (isLinux system) {
+                imports = [ nix-snapshotter.homeModules.default ];
+                virtualisation.containerd.rootless = {
+                  enable = true;
+                  nixSnapshotterIntegration = true;
+                };
+                services.nix-snapshotter.rootless = {
+                  enable = true;
+                };
+                home.packages = [ pkgs.nerdctl ];
+              })
             ];
 
             ## pass through arguments to home.nix

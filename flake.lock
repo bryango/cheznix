@@ -132,6 +132,27 @@
         "type": "github"
       }
     },
+    "globset": {
+      "inputs": {
+        "nixpkgs-lib": [
+          "nix-snapshotter",
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1729844927,
+        "narHash": "sha256-nBkQx23jgpGPk3aU2KcqJCoYvzjsKEjWBePmc2z8N3k=",
+        "owner": "pdtpartners",
+        "repo": "globset",
+        "rev": "eb9d9e64b7ab0a64c34ba4a5a990b66506401c35",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pdtpartners",
+        "repo": "globset",
+        "type": "github"
+      }
+    },
     "haumea": {
       "inputs": {
         "nixpkgs": [
@@ -203,6 +224,36 @@
         "owner": "nix-darwin",
         "ref": "master",
         "repo": "nix-darwin",
+        "type": "github"
+      }
+    },
+    "nix-snapshotter": {
+      "inputs": {
+        "flake-compat": [
+          "nixpkgs-config",
+          "flake-compat"
+        ],
+        "flake-parts": [
+          "system-manager",
+          "userborn",
+          "flake-parts"
+        ],
+        "globset": "globset",
+        "nixpkgs": [
+          "nixpkgs"
+        ]
+      },
+      "locked": {
+        "lastModified": 1771962270,
+        "narHash": "sha256-uPdgkgNV4nOKeGRH2Ucy0XlR0pVgfxvi7w55GfBVo3A=",
+        "owner": "pdtpartners",
+        "repo": "nix-snapshotter",
+        "rev": "8e875fb8eeb28947e2b4c3e7552f511d8d1f405a",
+        "type": "github"
+      },
+      "original": {
+        "owner": "pdtpartners",
+        "repo": "nix-snapshotter",
         "type": "github"
       }
     },
@@ -301,6 +352,7 @@
         "darwin-apps": "darwin-apps",
         "home-attrs": "home-attrs",
         "nix-darwin": "nix-darwin",
+        "nix-snapshotter": "nix-snapshotter",
         "nixpkgs": [
           "nixpkgs-config",
           "nixpkgs"
