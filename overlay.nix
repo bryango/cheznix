@@ -2,6 +2,8 @@ final: prev: with prev; {
 
   ## do NOT overlay `nix`, otherwise issues may propagate!
 
+  snapshotted-images = callPackage ./containers.nix {};
+
   darwin-apps = pkgs.buildEnv {
     name = "darwin-apps";
     paths = [

@@ -144,6 +144,9 @@
                 virtualisation.containerd.rootless = {
                   enable = true;
                   nixSnapshotterIntegration = true;
+                  path = [
+                    "/usr"
+                  ];
                 };
                 services.nix-snapshotter.rootless = {
                   enable = true;
