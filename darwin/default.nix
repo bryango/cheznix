@@ -38,12 +38,14 @@
     };
     taps = [
       "bryango/ccswitch"
+      "jundot/omlx"
     ];
     brews = [
       "cocoapods"
       "unbound"
       "qwen-code"
       "openclaw-cli"
+      "omlx"
     ];
     casks = [
       # trusted
@@ -67,6 +69,7 @@
       "chatgpt"
       "daisydisk"
       "claude-code"
+      "spotify"
 
       # probably okay
       "iterm2"
