@@ -133,6 +133,7 @@ let
 
     cli.app = [
       gh
+      codex
       circumflex  # hacker news terminal
       tectonic
       (writeShellScriptBin "biber-for-tectonic" ''exec ${lib.getExe tectonic.biber} "$@"'')
