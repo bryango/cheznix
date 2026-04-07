@@ -3,7 +3,13 @@
   ... across _all_ platforms
 */
 
-{ pkgs, lib, config, ... }:
+{ pkgs, lib, config, attrs, ... }:
+
+if (attrs.hostname or "") == "crab"
+then {
+}
+
+else
 
 let
 

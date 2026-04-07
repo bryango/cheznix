@@ -31,6 +31,7 @@
       url = "github:numtide/system-manager";
       inputs = {
         nixpkgs.follows = "nixpkgs";
+        userborn.url = "github:jfroche/userborn/system-manager";
         userborn.inputs = {
           flake-compat.follows = "nixpkgs-config/flake-compat";
           systems.follows = "nixpkgs-config/flake-utils/systems";
@@ -139,7 +140,7 @@
                 # must set for `nix.settings` and stuff
                 nix.package = pkgs.nixPackage; # defined in `nixpkgs-config`
               }
-              (lib.optionalAttrs (isLinux system) {
+              (lib.optionalAttrs (hostname == "btrsamsung") {
                 imports = [ nix-snapshotter.homeModules.default ];
                 virtualisation.containerd.rootless = {
                   enable = true;
