@@ -1,5 +1,12 @@
 {
   "elements": {
+    "cc-switch-cli": {
+      "active": true,
+      "priority": 5,
+      "storePaths": [
+        "/nix/store/gv9ycf80zj0jjmgb2n0q28ks8jq4bbjm-cc-switch-cli-5.0.1"
+      ]
+    },
     "flakes": {
       "active": true,
       "attrPath": "packages.aarch64-darwin.default",
@@ -7,15 +14,15 @@
       "outputs": null,
       "priority": 5,
       "storePaths": [
-        "/nix/store/m95yk07ind0lg17bwfnc0gjfxxrxsryd-home-apps"
+        "/nix/store/qjh025df0c5dkcf64s1r2i776xbnxf0d-home-apps"
       ],
-      "url": "git+file:///Users/bryan/apps/flakes?ref=refs/heads/dev&rev=a9428ca8359c8770b653f1d65e1ac68c1fe04dd5&submodules=1"
+      "url": "git+file:///Users/bryan/apps/flakes?ref=refs/heads/dev&rev=cd21540bdf34ba3d75cd93ba65f60cd11510123e&submodules=1"
     },
     "home-manager-path": {
       "active": true,
       "priority": 5,
       "storePaths": [
-        "/nix/store/lwhl0sqcvjqkrf8yp78l115zav71hcdj-home-manager-path"
+        "/nix/store/7zc15n0xzysg3xn3f3xpr8whcvy1l38c-home-manager-path"
       ]
     }
   },
