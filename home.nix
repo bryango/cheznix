@@ -7,6 +7,9 @@
 
 if (attrs.hostname or "") == "crab"
 then {
+  imports = [
+    ./machines/crab
+  ];
 }
 
 else
