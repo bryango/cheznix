@@ -11,6 +11,18 @@
   nixos-rebuild build --build-host $BUILD_SERVER --target-host root@$TARGET:$PORT --flake .#$TARGET --use-substitutes
   ```
   One can also use `nix copy` with related flags.
+
+- In later updates one can simply call `clan machines update $TARGET --upload-inputs`.
+  When there is signature issues try `nix copy --to ssh-ng://... --no-check-sigs`.
+  Also mix in `--substitute-on-destination`.
+  Also probably login as root in the remote target: `ssh-ng://root@...`.
+
+- When run on hostA
+    nix copy --from ssh://hostB --to ssh-ng://hostC /nix/store/xxx-path
+  the data goes from B to A to C, so A is used as a relay. This may be suboptimal.
+  So one should probably ssh into hostB and run the copy there directly.
+
+- Edit secrets: clan vars generate $TARGET --regenerate --generator $SERVICE
 ## Introduction
 
 Clan integrates all the state of the arts solutions to provision and manage servers
@@ -32,4 +44,4 @@ Some notes:
 For servers one should follow the "Prepare _virtual_ machines" step in the guide:
 - https://docs.clan.lol/getting-started/prepare-virtual-machines/
 
-
+When migrating an existing machine to clan one should regenerate its secrets with `clan vars generate $TARGET`.
