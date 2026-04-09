@@ -45,7 +45,7 @@
       "unbound"
       "qwen-code"
       "openclaw-cli"
-      "omlx"
+      "omlx" "python@3.11" # runtime dep for omlx
     ];
     casks = [
       # trusted
@@ -70,6 +70,7 @@
       "daisydisk"
       "claude-code"
       "spotify"
+      "typora"
 
       # probably okay
       "iterm2"
@@ -77,6 +78,8 @@
       "karabiner-elements"
       "tunnelblick" # openvpn client
       "cc-switch"
+      "racket"
+      "rustdesk"
     ];
   };
 
