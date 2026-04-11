@@ -63,7 +63,6 @@
       "notion"
       "betterdisplay"
       "lm-studio"
-      "qianwen"
       "codex-app"
       "clash-verge-rev"
       "chatgpt"

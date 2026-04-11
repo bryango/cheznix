@@ -7,6 +7,8 @@ let
 in
 
 {
+  imports = [ ./system-locale.nix ];
+
   config = {
 
     home = {
@@ -30,6 +32,7 @@ in
 
         ## better `modules/misc/xdg-system-dirs.nix`
         ## .. see `modules/home-environment.nix`
+        ## also useful for darwin, but the system dirs should be set by nix-darwin
         XDG_DATA_DIRS = "${config.home.profileDirectory}/share:\${XDG_DATA_DIRS:-/usr/local/share:/usr/share}";
 
       };

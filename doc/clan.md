@@ -23,6 +23,8 @@
   So one should probably ssh into hostB and run the copy there directly.
 
 - Edit secrets: clan vars generate $TARGET --regenerate --generator $SERVICE
+-
+- Trick: use nixos-rebuild dry-build, find out the .drv and then simply do the nix build .drv on the build machine (this way one can safely detach).
 ## Introduction
 
 Clan integrates all the state of the arts solutions to provision and manage servers

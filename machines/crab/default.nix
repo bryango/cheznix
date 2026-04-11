@@ -11,23 +11,6 @@
     ## ^ process & pass home attrs with basic setup
   ];
 
-  disabledModules = [
-
-    ## https://github.com/nix-community/home-manager/issues/2333
-    ## https://github.com/nix-community/home-manager/blob/master/modules/config/i18n.nix
-    ## use system locale; see `sessionVariables`
-    "config/i18n.nix"
-
-  ];
-
-  home.sessionVariables = {
-    ## use system locale; see `disabledModules`
-    LOCALE_ARCHIVE = "/usr/lib/locale/locale-archive";
-
-    # EDITOR = "nvim";
-    # NIX_PATH = "nixpkgs=${pkgs.outPath}";
-  };
-
   home.username = attrs.username;
   home.stateVersion = "26.05";
   programs.zsh = {

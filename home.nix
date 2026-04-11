@@ -312,14 +312,7 @@ in {
     enable = true;  ## `disable` to use system manpage
   };
 
-  disabledModules = [
-
-    ## https://github.com/nix-community/home-manager/issues/2333
-    ## https://github.com/nix-community/home-manager/blob/master/modules/config/i18n.nix
-    ## use system locale; see `sessionVariables`
-    "config/i18n.nix"
-
-  ];
+  disabledModules = [ ];
 
   ## nix settings
   ## `nix.package` set in `flake.nix` (must set for `nix.settings` and stuff)
@@ -372,9 +365,6 @@ in {
   #
   # if you don't want to manage your shell through Home Manager.
   home.sessionVariables = {
-    ## use system locale; see `disabledModules`
-    LOCALE_ARCHIVE = "/usr/lib/locale/locale-archive";
-
     # EDITOR = "nvim";
     # NIX_PATH = "nixpkgs=${pkgs.outPath}";
   };
