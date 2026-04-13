@@ -62,7 +62,7 @@ let
       nixd  # future lsp ## not stable # needs llvmPackages.llvm.lib
       # hydra-check  # now managed in `bryango/flakes`
       # nvd  # version diff
-    ] ++ lib.optionals isLinux [
+    # ] ++ lib.optionals isLinux [
       system-manager  # to be stabilized
     ];
 
