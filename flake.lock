@@ -363,17 +363,21 @@
     },
     "system-manager": {
       "inputs": {
+        "flake-compat": [
+          "nixpkgs-config",
+          "flake-compat"
+        ],
         "nixpkgs": [
           "nixpkgs"
         ],
         "userborn": "userborn"
       },
       "locked": {
-        "lastModified": 1770993295,
-        "narHash": "sha256-jB6Y+wkSjFXNsUQ50eaIFkwDJOtKd96FvbHHVm5hCUI=",
+        "lastModified": 1776157262,
+        "narHash": "sha256-bqjt0B5j0IBoc3IwM25srMZuZ26Jlk4uZi+9kTuU9ME=",
         "owner": "numtide",
         "repo": "system-manager",
-        "rev": "25eab8ad5028363a4cc1326a94f2c63308a6f0d2",
+        "rev": "39b3806f065ed131d7abb607ad194a63891e020a",
         "type": "github"
       },
       "original": {

@@ -10,7 +10,7 @@ in
 
   disabledModules = [
     ## currently broken so disabled:
-    upstreamModules
+    # upstreamModules
   ];
 
   imports = [

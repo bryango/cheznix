@@ -31,6 +31,7 @@
       url = "github:numtide/system-manager";
       inputs = {
         nixpkgs.follows = "nixpkgs";
+        flake-compat.follows = "nixpkgs-config/flake-compat";
         userborn.url = "github:jfroche/userborn/system-manager";
         userborn.inputs = {
           flake-compat.follows = "nixpkgs-config/flake-compat";
