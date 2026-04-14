@@ -3615,7 +3615,7 @@
             }
           ],
           "installed_as_dependency": true,
-          "installed_on_request": false
+          "installed_on_request": true
         }
       ],
       "linked_keg": "3.11.15",
@@ -5488,8 +5488,8 @@
       "skip_livecheck": false,
       "installed": "1.2026.049,1774576178",
       "installed_time": 1774751342,
-      "bundle_version": "1774576178",
-      "bundle_short_version": "1.2026.049",
+      "bundle_version": "1775834670",
+      "bundle_short_version": "1.2026.051",
       "outdated": false,
       "sha256": "874916159fc6e723c3f38364270726fc1ed294ecaa1b2962c45226932b71f4f0",
       "artifacts": [
@@ -6738,81 +6738,6 @@
       }
     },
     {
-      "token": "qianwen",
-      "full_token": "qianwen",
-      "old_tokens": [],
-      "tap": "homebrew/cask",
-      "name": [
-        "qianwen",
-        "千问"
-      ],
-      "desc": "AI assistant and chatbot powered by Alibaba's Qwen model",
-      "homepage": "https://www.qianwen.com/qianwen",
-      "url": "https://qianwen-portal-cdn.tongyi.com/native/app/2.3.1/darwin/universal/qwenclient_setup_2.3.1.2602272247.dmg",
-      "url_specs": {
-        "verified": "qianwen-portal-cdn.tongyi.com/native/app/"
-      },
-      "version": "2.3.1,2602272247",
-      "autobump": true,
-      "no_autobump_message": null,
-      "skip_livecheck": false,
-      "installed": "1.2.4,2601061928",
-      "installed_time": 1769462868,
-      "bundle_version": "1.2.4.2601061928",
-      "bundle_short_version": "1.2.4",
-      "outdated": true,
-      "sha256": "85e5ac5742c4bc4ae296ae6a3d87b72a59a4e5b2570dec74592fc847aacdad65",
-      "artifacts": [
-        {
-          "app": [
-            "Qianwen.app"
-          ]
-        },
-        {
-          "zap": [
-            {
-              "trash": [
-                "~/Library/Application Support/Qianwen",
-                "~/Library/Logs/Qianwen",
-                "~/Library/Preferences/com.alibaba.tongyi.plist"
-              ]
-            }
-          ]
-        }
-      ],
-      "caveats": null,
-      "caveats_rosetta": null,
-      "depends_on": {
-        "macos": {
-          ">=": [
-            "10.15"
-          ]
-        }
-      },
-      "conflicts_with": null,
-      "container": null,
-      "rename": [],
-      "auto_updates": null,
-      "deprecated": false,
-      "deprecation_date": null,
-      "deprecation_reason": null,
-      "deprecation_replacement_formula": null,
-      "deprecation_replacement_cask": null,
-      "deprecate_args": null,
-      "disabled": false,
-      "disable_date": null,
-      "disable_reason": null,
-      "disable_replacement_formula": null,
-      "disable_replacement_cask": null,
-      "disable_args": null,
-      "tap_git_head": "01a33ecb51e2c40fe1857b24475c446a1c8487d2",
-      "languages": [],
-      "ruby_source_path": "Casks/q/qianwen.rb",
-      "ruby_source_checksum": {
-        "sha256": "da724901b5d0b44e1e28ee3e5cea0aa615e63b3335ddd88844f172b1df7c22f2"
-      }
-    },
-    {
       "token": "racket",
       "full_token": "racket",
       "old_tokens": [],
@@ -7622,9 +7547,9 @@
       "skip_livecheck": false,
       "installed": "1.108.2",
       "installed_time": 1769463365,
-      "bundle_version": "1.114.0",
-      "bundle_short_version": "1.114.0",
-      "outdated": true,
+      "bundle_version": "1.115.0",
+      "bundle_short_version": "1.115.0",
+      "outdated": false,
       "sha256": "4fb027d7eaa404ed909dc3efa32ca68deaf02f0b62dbf320c263892426f6361c",
       "artifacts": [
         {
@@ -7811,9 +7736,9 @@
       "skip_livecheck": false,
       "installed": "2.48.0.620,eb25a02ccd08f7e2235e6d4e3456a33a",
       "installed_time": 1766385065,
-      "bundle_version": "634",
-      "bundle_short_version": "2.62.0",
-      "outdated": true,
+      "bundle_version": "628",
+      "bundle_short_version": "2.63.1",
+      "outdated": false,
       "sha256": "3a30efd34842dca654a8301ed7443845690ba41b1e232cc8ae8aaf8bba6734c4",
       "artifacts": [
         {
