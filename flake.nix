@@ -56,6 +56,11 @@
       inputs.nixpkgs.follows = "nixpkgs";
     };
 
+    home-manager = {
+      url = "github:nix-community/home-manager";
+      inputs.nixpkgs.follows = "nixpkgs";
+    };
+
     /** provide store path for some homemade darwin .apps */
     darwin-apps = {
       url = "git+https://gist.github.com/0057346dbf85981e58518be49d36fc06.git";
@@ -64,7 +69,7 @@
 
   };
 
-  outputs = { self, home-attrs, system-manager, nix-darwin, nix-snapshotter, ... }:
+  outputs = { self, home-attrs, system-manager, nix-darwin, home-manager, nix-snapshotter, ... }:
     let
 
       ## consistent namings
@@ -131,7 +136,7 @@
       mkHomeConfig = id: { system, username, hostname, pkgs, ... }@attrs:
         mkConfigWithAliases id attrs {
           name = "${username}@${hostname}";
-          value = pkgs.home-manager.flake.lib.homeManagerConfiguration {
+          value = home-manager.lib.homeManagerConfiguration {
             inherit pkgs;
 
             ## specify your home configuration modules
@@ -211,6 +216,7 @@
       let
         pkgs = self.legacyPackages.${system};
         nixDarwinPackages = nix-darwin.packages.${system};
+        homeManagerPackages = home-manager.packages.${system};
 
         darwinConfigs = self.darwinConfigurations.${system} or { };
         homeConfigs = self.homeConfigurations.${system} or { };
@@ -229,9 +235,11 @@
               packages = nixDarwinPackages;
             };
           }
-        // rec {
-            home-manager = pkgs.home-manager // {
-              packages = home-manager.flake.packages.${system};
+        // lib.optionalAttrs (homeManagerPackages ? home-manager)
+          {
+            home-manager = homeManagerPackages.home-manager // {
+              flake = home-manager;
+              packages = homeManagerPackages;
             };
           };
       in packages // {
