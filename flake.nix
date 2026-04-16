@@ -107,7 +107,7 @@
           packages = home-manager.packages.${system};
         };
 
-        darwin-rebuild = nix-darwin.packages.${system}.darwin-rebuild.override {
+        darwin-rebuild = nix-darwin.packages.${system}.darwin-rebuild // {
           flake = nix-darwin;
           packages = nix-darwin.packages.${system};
         };
