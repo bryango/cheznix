@@ -92,7 +92,26 @@
       ## home overlay:
       overlay = final: prev: import ./overlay.nix final prev // (with final; {
         inherit cheznix;
-        system-manager = system-manager.packages.${system}.default;
+
+        system-manager = system-manager.packages.${system}.default // {
+          flake = system-manager;
+          packages = system-manager.packages.${system};
+        };
+
+        home-manager = (home-manager.packages.${system}.home-manager.override ({ pkgs, ... }:  {
+          ## option inspection does not work for flakes
+          ## so simply drop this dependency to save space
+          pkgs = pkgs // { nixos-option = null; };
+        })) // {
+          flake = home-manager;
+          packages = home-manager.packages.${system};
+        };
+
+        darwin-rebuild = nix-darwin.packages.${system}.darwin-rebuild.override {
+          flake = nix-darwin;
+          packages = nix-darwin.packages.${system};
+        };
+
       } // ( nix-snapshotter.overlays.default final prev ));
 
       machines = lib.mapAttrs updateHomeAttrs home-attrs.outputs;
@@ -215,8 +234,6 @@
       packages = forMySystems (system:
       let
         pkgs = self.legacyPackages.${system};
-        nixDarwinPackages = nix-darwin.packages.${system};
-        homeManagerPackages = home-manager.packages.${system};
 
         darwinConfigs = self.darwinConfigurations.${system} or { };
         homeConfigs = self.homeConfigurations.${system} or { };
@@ -228,19 +245,13 @@
         homeConfigNames = mkConfigNames homeConfigs;
 
         packages =
-        lib.optionalAttrs (nixDarwinPackages ? darwin-rebuild)
+        lib.optionalAttrs ((nix-darwin.packages.${system}.darwin-rebuild or {}) != {})
           {
-            darwin-rebuild = nixDarwinPackages.darwin-rebuild // {
-              flake = nix-darwin;
-              packages = nixDarwinPackages;
-            };
+            inherit (pkgs) darwin-rebuild;
           }
-        // lib.optionalAttrs (homeManagerPackages ? home-manager)
+        // lib.optionalAttrs ((home-manager.packages.${system}.home-manager or {}) != {})
           {
-            home-manager = homeManagerPackages.home-manager // {
-              flake = home-manager;
-              packages = homeManagerPackages;
-            };
+            inherit (pkgs) home-manager;
           };
       in packages // {
         config-manager = pkgs.writeShellApplication rec {
