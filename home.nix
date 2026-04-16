@@ -204,7 +204,7 @@ let
       ## vscode dummy:
       (binaryFallback "code" (writeShellScriptBin "code" ''echo "$@"''))
     ] ++ lib.optionals isLinux [
-      xorg.xinput
+      xinput
       remmina
       # pulsar  # atom fork
 

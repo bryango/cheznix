@@ -28,7 +28,7 @@ let
     allInstanceNames = toString (lib.attrNames allInstances);
   };
 
-  xrandr = pkgs.xorg.xrandr;
+  xrandr = pkgs.xrandr;
 
   xrandr-brightness = pkgs.binarySubstitute "xrandr-brightness" {
     src = ./xrandr-brightness.sh;
