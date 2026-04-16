@@ -1,10 +1,13 @@
-{ pkgs, nixosModulesPath, cheznix, ... }:
+{
+  pkgs,
+  nixosModulesPath,
+  cheznix,
+  ...
+}:
 
 let
-  upstreamModules = (
-    cheznix.inputs.system-manager.outPath
-    + "/nix/modules/upstream/nixpkgs"
-  );
+  /** modules migrated from nixpkgs upstream */
+  upstreamModules = (cheznix.inputs.system-manager.outPath + "/nix/modules/upstream/nixpkgs");
 in
 {
 
@@ -16,8 +19,8 @@ in
   imports = [
     ## non-NixOS modules
     ./zsh.nix
-  ] ++
-  map (path: nixosModulesPath + path) [
+  ]
+  ++ map (path: nixosModulesPath + path) [
     ## NixOS modules, with a leading "/"
   ];
 
