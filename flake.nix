@@ -90,7 +90,11 @@
 
       ## upstream overrides: inputs.${nixpkgs-follows}
       ## home overlay:
-      overlay = final: prev: import ./overlay.nix final prev // (with final; {
+      overlay = final: prev: import ./overlay.nix final prev // (with final;
+      let
+        inherit (stdenv.hostPlatform) system;
+      in
+      {
         inherit cheznix;
 
         system-manager = system-manager.packages.${system}.default // {
