@@ -27,7 +27,7 @@ in
   config = {
     programs.zsh.enable = true;
     system-manager.allowAnyDistro = true;
-    nixpkgs.hostPlatform = pkgs.system;
+    nixpkgs.hostPlatform = pkgs.stdenv.hostPlatform.system;
 
     # environment.systemPackages = with pkgs; [
     #   zsh

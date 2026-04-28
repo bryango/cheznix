@@ -202,7 +202,7 @@
               #   nix.package = pkgs.nixPackage; # defined in `nixpkgs-config`
               # }
             ];
-            extraSpecialArgs = mkSpecialAttrs attrs // {
+            specialArgs = mkSpecialAttrs attrs // {
               inherit pkgs;
               ## ^ add overlaid nixpkgs
               ## ^ override github:numtide/system-manager/main/nix/lib.nix
