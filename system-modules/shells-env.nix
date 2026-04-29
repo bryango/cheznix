@@ -42,8 +42,7 @@ in
   };
 
   config = {
-    ## system-manager:nix/modules/default.nix
-    build.scripts.etcShellsScript =
+    systemd.services.etc-shells =
       let
         etcShells = "/etc/shells";
         shells = map utils.toShellPath config.environment.shells;
@@ -55,17 +54,37 @@ in
           fi
         '';
       in
-      ## https://wiki.archlinux.org/title/Shell_package_guidelines
-      pkgs.writeShellScript "etc-shells" ''
+      {
+        enable = true;
+        description = "Update /etc/shells for system-manager shells";
+        wantedBy = [ "system-manager.target" ];
+        after = [ "system-manager-path.service" ];
+        requires = [ "system-manager-path.service" ];
 
-        ## remove all ${pathDir} from ${etcShells}
-        sed -i -r "/^${lib.escape ["/"] pathDir}.*$/d" "${etcShells}"
+        serviceConfig = {
+          Type = "oneshot";
+          RemainAfterExit = true;
+        };
 
-        ## remove all /nix/store paths from ${etcShells}
-        sed -i -r "/^${lib.escape ["/"] "/nix/store"}.*$/d" "${etcShells}"
+        path = with pkgs; [
+          coreutils
+          gnugrep
+          gnused
+        ];
 
-        ${concatStringsSep "\n" (map addShell shells)}
-      '';
+        ## https://wiki.archlinux.org/title/Shell_package_guidelines
+        script = ''
+          touch "${etcShells}"
+
+          ## remove all ${pathDir} from ${etcShells}
+          sed -i -r "/^${lib.escape ["/"] pathDir}.*$/d" "${etcShells}"
+
+          ## remove all /nix/store paths from ${etcShells}
+          sed -i -r "/^${lib.escape ["/"] "/nix/store"}.*$/d" "${etcShells}"
+
+          ${concatStringsSep "\n" (map addShell shells)}
+        '';
+      };
   };
 
 }
