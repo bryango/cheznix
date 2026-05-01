@@ -2,6 +2,7 @@
   pkgs,
   nixosModulesPath,
   cheznix,
+  attrs,
   ...
 }:
 
@@ -18,10 +19,12 @@ in
 
   imports = [
     ## non-NixOS modules
-    ./zsh.nix
+    # ./zsh.nix
+    ./shells-env.nix
   ]
   ++ map (path: nixosModulesPath + path) [
     ## NixOS modules, with a leading "/"
+    "/programs/zsh/zsh.nix"
   ];
 
   config = {

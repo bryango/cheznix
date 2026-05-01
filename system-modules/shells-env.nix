@@ -1,6 +1,6 @@
 ## a fork of nixpkgs:nixos/modules/config/shells-environment.nix
 
-{ lib, pkgs, config, ... }:
+{ lib, pkgs, config, utils, ... }:
 
 let
 
@@ -11,25 +11,14 @@ let
     concatStringsSep
     ;
 
-  ## TODO: passed from system-manager:nix/modules/environment.nix
-  ## ... instead of hard-coding
-  pathDir = "/run/system-manager/sw";
-
-  ## nixpkgs:nixos/lib/utils.nix
-  utils = {
-    # Returns a system path for a given shell package
-    toShellPath = shell:
-      if types.shellPackage.check shell then
-        "${pathDir}${shell.shellPath}"
-      else if types.package.check shell then
-        throw "${shell} is not a shell package"
-      else
-        shell;
-  };
-
 in
 
 {
+  imports = [
+    ./stubs/shells-environment.nix
+    ./stubs/network-interfaces.nix
+  ];
+
   options = {
     environment.shells = mkOption {
       default = [ ];
@@ -73,13 +62,12 @@ in
         ];
 
         ## https://wiki.archlinux.org/title/Shell_package_guidelines
+        ## first clean up all Nix managed shells, then add the ones we want
         script = ''
           touch "${etcShells}"
 
-          ## remove all ${pathDir} from ${etcShells}
-          sed -i -r "/^${lib.escape ["/"] pathDir}.*$/d" "${etcShells}"
-
-          ## remove all /nix/store paths from ${etcShells}
+          sed -i -r "/^${lib.escape ["/"] "/run/system-manager/sw"}.*$/d" "${etcShells}"
+          sed -i -r "/^${lib.escape ["/"] "/run/current-system/sw"}.*$/d" "${etcShells}"
           sed -i -r "/^${lib.escape ["/"] "/nix/store"}.*$/d" "${etcShells}"
 
           ${concatStringsSep "\n" (map addShell shells)}

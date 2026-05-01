@@ -197,6 +197,9 @@
 
             modules = [
               ./system-modules
+              {
+                networking.hostName = attrs.hostname;
+              }
               # {
               #   # not yet implemented upstream
               #   nix.package = pkgs.nixPackage; # defined in `nixpkgs-config`
