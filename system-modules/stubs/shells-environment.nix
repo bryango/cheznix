@@ -13,25 +13,25 @@ let
 
   cfg = config.environment;
 
-  exportedEnvVars =
-    let
-      absoluteVariables = lib.mapAttrs (n: lib.toList) cfg.variables;
+  # exportedEnvVars =
+  #   let
+  #     absoluteVariables = lib.mapAttrs (n: lib.toList) cfg.variables;
 
-      suffixedVariables = lib.flip lib.mapAttrs cfg.profileRelativeEnvVars (
-        envVar: listSuffixes:
-        lib.concatMap (profile: map (suffix: "${profile}${suffix}") listSuffixes) cfg.profiles
-      );
+  #     suffixedVariables = lib.flip lib.mapAttrs cfg.profileRelativeEnvVars (
+  #       envVar: listSuffixes:
+  #       lib.concatMap (profile: map (suffix: "${profile}${suffix}") listSuffixes) cfg.profiles
+  #     );
 
-      allVariables = lib.zipAttrsWith (n: lib.concatLists) [
-        absoluteVariables
-        suffixedVariables
-      ];
+  #     allVariables = lib.zipAttrsWith (n: lib.concatLists) [
+  #       absoluteVariables
+  #       suffixedVariables
+  #     ];
 
-      exportVariables = lib.mapAttrsToList (
-        n: v: ''export ${n}="${lib.concatStringsSep ":" v}"''
-      ) allVariables;
-    in
-    lib.concatStringsSep "\n" exportVariables;
+  #     exportVariables = lib.mapAttrsToList (
+  #       n: v: ''export ${n}="${lib.concatStringsSep ":" v}"''
+  #     ) allVariables;
+  #   in
+  #   lib.concatStringsSep "\n" exportVariables;
 in
 
 {
@@ -64,22 +64,22 @@ in
     #   type = lib.types.listOf lib.types.str;
     # };
 
-    environment.profileRelativeEnvVars = lib.mkOption {
-      type = lib.types.attrsOf (lib.types.listOf lib.types.str);
-      example = {
-        PATH = [ "/bin" ];
-        MANPATH = [
-          "/man"
-          "/share/man"
-        ];
-      };
-      description = ''
-        Attribute set of environment variable.  Each attribute maps to a list
-        of relative paths.  Each relative path is appended to the each profile
-        of {option}`environment.profiles` to form the content of the
-        corresponding environment variable.
-      '';
-    };
+    # environment.profileRelativeEnvVars = lib.mkOption {
+    #   type = lib.types.attrsOf (lib.types.listOf lib.types.str);
+    #   example = {
+    #     PATH = [ "/bin" ];
+    #     MANPATH = [
+    #       "/man"
+    #       "/share/man"
+    #     ];
+    #   };
+    #   description = ''
+    #     Attribute set of environment variable.  Each attribute maps to a list
+    #     of relative paths.  Each relative path is appended to the each profile
+    #     of {option}`environment.profiles` to form the content of the
+    #     corresponding environment variable.
+    #   '';
+    # };
 
     environment.shellInit = lib.mkOption {
       default = "";
@@ -192,19 +192,30 @@ in
 #       /bin/sh
 #     '';
 
-#     # For resetting environment with `. /etc/set-environment` when needed
-#     # and discoverability (see motivation of #30418).
-#     environment.etc.set-environment.source = config.system.build.setEnvironment;
+    # For resetting environment with `. /etc/set-environment` when needed
+    # and discoverability (see motivation of #30418).
+    environment.etc.set-environment.source = config.system.build.setEnvironment;
 
+    /**
+      `setEnvironment` is essential in NixOS, similar to /etc/profile in
+      usual Linux distros. In fact in NixOS /etc/profile simply sources
+      `setEnvironment` (exposed as /etc/set-environment).
+      
+      However, most of its functionalities have now been reimplemented
+      in system-manager through other mechanisms such as
+      /etc/profile.d/system-manager-path.sh. Here we removed the parts
+      that have been reimplemented so it becomes more of a stub,
+      which is still useful for module dependencies.
+    */
     system.build.setEnvironment = pkgs.writeText "set-environment" ''
       # DO NOT EDIT -- this file has been generated automatically.
 
       # Prevent this file from being sourced by child shells.
       export __NIXOS_SET_ENVIRONMENT_DONE=1
 
-      ${exportedEnvVars}
+      # ''${exportedEnvVars} # handled by upstream system-manager
 
-      ${cfg.extraInit}
+      # ''${cfg.extraInit} # handled by upstream system-manager
 
       ${lib.optionalString cfg.homeBinInPath ''
         # ~/bin if it exists overrides other bin directories.
