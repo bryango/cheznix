@@ -33,6 +33,12 @@ in
   ];
 
   config = {
+    users.mutableUsers = true; # preserve existing users
+    users.users.bryan = {
+      isNormalUser = true;
+      extraGroups = [ "wheel" ];
+      shell = pkgs.zsh;
+    };
     system-manager.allowAnyDistro = true;
     nixpkgs.hostPlatform = pkgs.stdenv.hostPlatform.system;
     programs.zsh = {
