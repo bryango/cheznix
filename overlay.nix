@@ -119,9 +119,9 @@ final: prev: with prev; {
       (buildEnv attrs).overrideAttrs (prevAttrs: {
 
         ## blacklist glibcLocales
-        disallowedRequisites = [ final.glibcLocales ] ++ (
-          prevAttrs.disallowedRequisites or [ ]
-        );
+        # disallowedRequisites = [ final.glibcLocales ] ++ (
+        #   prevAttrs.disallowedRequisites or [ ]
+        # );
 
       });
 
