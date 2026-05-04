@@ -54,6 +54,7 @@
       "vlc"
 
       # proprietary but necessary
+      "typeless"
       "nutstore"
       "zoom"
       "visual-studio-code"
