@@ -191,14 +191,14 @@ let
 
     gui.app = [
       djview
-      (gimp2-with-plugins.override {
-        plugins = # with gimpPlugins;
-        [
-          # # broken since removal of enum34
-          # # https://github.com/NixOS/nixpkgs/pull/389263
-          # resynthesizer
-        ];
-      })
+      # (gimp2-with-plugins.override {
+      #   plugins = # with gimpPlugins;
+      #   [
+      #     # # broken since removal of enum34
+      #     # # https://github.com/NixOS/nixpkgs/pull/389263
+      #     # resynthesizer
+      #   ];
+      # })
 
       zed-editor
       texstudio-lazy_resize # fork from nixpkgs-config

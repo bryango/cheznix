@@ -116,4 +116,11 @@ with prev;
     };
   };
 
+  wol = prev.wol.overrideAttrs (old: lib.optionalAttrs stdenv.hostPlatform.isDarwin {
+    # wol's bundled gettext sources do not compile as gnu23 with Apple clang.
+    env = (old.env or { }) // {
+      NIX_CFLAGS_COMPILE = toString ((old.env.NIX_CFLAGS_COMPILE or "") + " -std=gnu17");
+    };
+  });
+
 }
