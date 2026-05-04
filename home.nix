@@ -67,6 +67,7 @@ let
     ];
 
     cli.basic = [
+      _7zz # 7zip
       neovim
       jq
       bat
@@ -117,6 +118,7 @@ let
 
     cli.dev = [
       bashdb
+      imagemagick
       aichat
       geminicommit
       mosh
