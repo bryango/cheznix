@@ -24,6 +24,7 @@ in
     # ./zsh.nix
     ./shells-env.nix
     ./shells-config.nix
+    ./nix-conf.nix
   ]
   ++ map (path: nixosModulesPath + path) [
     ## NixOS modules, with a leading "/"

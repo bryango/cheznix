@@ -199,11 +199,8 @@
               ./system-modules
               {
                 networking.hostName = attrs.hostname;
+                nix.package = pkgs.nixPackage; # defined in `nixpkgs-config`
               }
-              # {
-              #   # not yet implemented upstream
-              #   nix.package = pkgs.nixPackage; # defined in `nixpkgs-config`
-              # }
             ];
             specialArgs = mkSpecialAttrs attrs // {
               inherit pkgs;
