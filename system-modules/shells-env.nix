@@ -1,13 +1,17 @@
 ## a fork of nixpkgs:nixos/modules/config/shells-environment.nix
 
-{ lib, pkgs, config, utils, ... }:
+{
+  lib,
+  pkgs,
+  config,
+  utils,
+  ...
+}:
 
 let
 
   inherit (lib)
-    types
     mkOption
-    literalExpression
     concatStringsSep
     ;
 
@@ -21,12 +25,23 @@ in
 
   options = {
     environment.shells = mkOption {
-      default = [ ];
-      example = literalExpression "[ pkgs.bashInteractive pkgs.zsh ]";
-      description = lib.mdDoc ''
-        A list of permissible login shells for user accounts.
-      '';
-      type = types.listOf (types.either types.shellPackage types.path);
+      /**
+        hook to add /run/system-manager prefixed shells,
+        compatible with what system manager puts in /etc/passwd.
+      */
+      apply =
+        shells:
+        let
+          currentSystemPrefix = "/run/current-system";
+          systemManagerPrefix = "/run/system-manager";
+          toSystemManagerShell =
+            shell:
+            let
+              shellPath = toString (utils.toShellPath shell);
+            in
+            lib.optional (lib.hasPrefix currentSystemPrefix shellPath) "${systemManagerPrefix}${lib.removePrefix currentSystemPrefix shellPath}";
+        in
+        lib.unique (shells ++ lib.concatMap toSystemManagerShell shells);
     };
   };
 
@@ -66,9 +81,9 @@ in
         script = ''
           touch "${etcShells}"
 
-          sed -i -r "/^${lib.escape ["/"] "/run/system-manager/sw"}.*$/d" "${etcShells}"
-          sed -i -r "/^${lib.escape ["/"] "/run/current-system/sw"}.*$/d" "${etcShells}"
-          sed -i -r "/^${lib.escape ["/"] "/nix/store"}.*$/d" "${etcShells}"
+          sed -i -r "/^${lib.escape [ "/" ] "/run/system-manager/sw"}.*$/d" "${etcShells}"
+          sed -i -r "/^${lib.escape [ "/" ] "/run/current-system/sw"}.*$/d" "${etcShells}"
+          sed -i -r "/^${lib.escape [ "/" ] "/nix/store"}.*$/d" "${etcShells}"
 
           ${concatStringsSep "\n" (map addShell shells)}
         '';

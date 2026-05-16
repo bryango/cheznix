@@ -155,16 +155,16 @@ in
     #   '';
     # };
 
-    # environment.shells = lib.mkOption {
-    #   default = [ ];
-    #   example = lib.literalExpression "[ pkgs.bashInteractive pkgs.zsh ]";
-    #   description = ''
-    #     A list of permissible login shells for user accounts.
-    #     No need to mention `/bin/sh`
-    #     here, it is placed into this list implicitly.
-    #   '';
-    #   type = lib.types.listOf (lib.types.either lib.types.shellPackage lib.types.path);
-    # };
+    environment.shells = lib.mkOption {
+      default = [ ];
+      example = lib.literalExpression "[ pkgs.bashInteractive pkgs.zsh ]";
+      description = ''
+        A list of permissible login shells for user accounts.
+        No need to mention `/bin/sh`
+        here, it is placed into this list implicitly.
+      '';
+      type = lib.types.listOf (lib.types.either lib.types.shellPackage lib.types.path);
+    };
 
   };
 
