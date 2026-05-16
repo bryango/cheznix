@@ -49,6 +49,9 @@ in
     users.groups.bryan = { };
     system-manager.allowAnyDistro = true;
     nixpkgs.hostPlatform = pkgs.stdenv.hostPlatform.system;
+    programs.zsh.shellInit = ''
+      fpath=($fpath /usr/share/zsh/site-functions)
+    '';
 
     # environment.systemPackages = with pkgs; [
     #   zsh
