@@ -144,7 +144,7 @@ let
 
     cli.app = [
       gh
-      codex
+      # codex # nixpkgs too slow to update
       circumflex  # hacker news terminal
       tectonic
       (writeShellScriptBin "biber-for-tectonic" ''exec ${lib.getExe tectonic.biber} "$@"'')
