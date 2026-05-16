@@ -2,7 +2,6 @@
   pkgs,
   nixosModulesPath,
   cheznix,
-  attrs,
   ...
 }:
 
@@ -22,6 +21,7 @@ in
   imports = [
     ## non-NixOS modules
     # ./zsh.nix
+    ./etc-entries.nix
     ./shells-env.nix
     ./shells-config.nix
     ./nix-conf.nix
