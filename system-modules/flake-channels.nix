@@ -22,12 +22,16 @@ in
   };
 
   config.nix.registry = lib.mkIf (cfg.nixpkgs != null) {
-    nixpkgs.to = {
-      type = "github";
-      owner = "NixOS";
-      repo = "nixpkgs";
-      rev = cfg.nixpkgs.rev or cfg.nixpkgs.sourceInfo.rev or "nixpkgs-unstable";
-      narHash = cfg.nixpkgs.narHash or cfg.nixpkgs.sourceInfo.narHash or null;
-    };
+    nixpkgs.to =
+      let
+        narHash = cfg.nixpkgs.narHash or cfg.nixpkgs.sourceInfo.narHash or null;
+      in
+      {
+        type = "github";
+        owner = "NixOS";
+        repo = "nixpkgs";
+        rev = cfg.nixpkgs.rev or cfg.nixpkgs.sourceInfo.rev or "nixpkgs-unstable";
+      }
+      // lib.optionalAttrs (narHash != null) { inherit narHash; };
   };
 }
