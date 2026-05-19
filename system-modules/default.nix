@@ -34,7 +34,7 @@ in
     "/programs/zsh/zsh-autosuggestions.nix"
     "/programs/zsh/zsh-syntax-highlighting.nix"
     "/programs/neovim.nix"
-    "/config/nix-flakes.nix"
+    ## Note: if a module is a dependency of another module, import it there!
   ];
 
   config = {
