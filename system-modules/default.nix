@@ -25,6 +25,7 @@ in
     ./shells-env.nix
     ./shells-config.nix
     ./nix-conf.nix
+    ./flake-channels.nix
   ]
   ++ map (path: nixosModulesPath + path) [
     ## NixOS modules, with a leading "/"
@@ -33,6 +34,7 @@ in
     "/programs/zsh/zsh-autosuggestions.nix"
     "/programs/zsh/zsh-syntax-highlighting.nix"
     "/programs/neovim.nix"
+    "/config/nix-flakes.nix"
   ];
 
   config = {

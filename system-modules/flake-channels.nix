@@ -9,7 +9,7 @@ let
 in
 
 {
-  options.system.nixos = {
+  options.system.nixos.flake = {
     nixpkgs = lib.mkOption {
       type = lib.types.nullOr lib.types.attrs;
       default = null;

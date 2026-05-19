@@ -200,6 +200,7 @@
               {
                 networking.hostName = attrs.hostname;
                 nix.package = pkgs.nixPackage; # defined in `nixpkgs-config`
+                system.nixos.flake.nixpkgs = self.inputs.nixpkgs;
               }
             ];
             specialArgs = mkSpecialAttrs attrs // {
