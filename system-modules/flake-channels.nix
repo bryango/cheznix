@@ -2,6 +2,7 @@
   config,
   lib,
   nixosModulesPath,
+  pkgs,
   ...
 }:
 
@@ -15,6 +16,15 @@ let
   narHash = nixpkgs.narHash or nixpkgs.sourceInfo.narHash or null;
   rev = nixpkgs.rev or nixpkgs.sourceInfo.rev or null;
   storePath = nixpkgs.outPath or nixpkgs.sourceInfo.outPath or null;
+
+  flakeSourceTree =
+    if cfg.source == null then
+      null
+    else
+      pkgs.callPackage ./scripts/flake-tree.nix {
+        name = "system-flake-inputs-tree";
+        flakeSource = cfg.source;
+      };
 
 in
 
@@ -62,22 +72,28 @@ in
     };
   };
 
-  config = lib.mkIf (nixpkgs != null) {
-    nix.registry.nixpkgs.to = {
-      type = "github";
-      owner = "NixOS";
-      repo = "nixpkgs";
-    }
-    // lib.optionalAttrs (narHash != null) { inherit narHash; }
-    // lib.optionalAttrs (rev != null) { inherit rev; }
-    // lib.optionalAttrs (rev == null) { ref = "nixpkgs-unstable"; };
+  config = lib.mkMerge [
+    (lib.mkIf (nixpkgs != null) {
+      nix.registry.nixpkgs.to = {
+        type = "github";
+        owner = "NixOS";
+        repo = "nixpkgs";
+      }
+      // lib.optionalAttrs (narHash != null) { inherit narHash; }
+      // lib.optionalAttrs (rev != null) { inherit rev; }
+      // lib.optionalAttrs (rev == null) { ref = "nixpkgs-unstable"; };
 
-    systemd.tmpfiles.rules = lib.mkIf (nixpkgs != null) (
-      lib.optionals (storePath != null) [
+      systemd.tmpfiles.rules = lib.optionals (storePath != null) [
         "d ${prefix} 0755 root root -"
         "L+ ${prefix}/nixpkgs - - - - ${storePath}"
-      ]
-    );
+      ];
+    })
 
-  };
+    (lib.mkIf (cfg.source != null) {
+      systemd.tmpfiles.rules = [
+        "d /etc/nixos 0755 root root -"
+        "L+ /etc/nixos/flake-inputs - - - - ${flakeSourceTree}"
+      ];
+    })
+  ];
 }
