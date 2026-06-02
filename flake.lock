@@ -3,11 +3,11 @@
     "darwin-apps": {
       "flake": false,
       "locked": {
-        "lastModified": 1774778123,
-        "narHash": "sha256-CwL3K/pTmugPwkgSSVmQBh1V3Adfv5uZ0URl6dpTQp8=",
+        "lastModified": 1780403175,
+        "narHash": "sha256-qKmYqva0Vuie7q+GO8D7C2yF6OTWsrTVNQeVur5PYJQ=",
         "ref": "refs/heads/master",
-        "rev": "59f9450612b93e6822ea4739c12486189a961576",
-        "revCount": 32,
+        "rev": "59b93f8e84d5d93a79395ee4dafd010fc4a27c6e",
+        "revCount": 34,
         "type": "git",
         "url": "https://gist.github.com/0057346dbf85981e58518be49d36fc06.git"
       },
