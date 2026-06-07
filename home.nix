@@ -186,8 +186,17 @@ let
       python3Packages.jedi-language-server
       ruff  # exposes `ruff`
       poetry
-      pipx
       uv
+    ] ++ lib.optionals isLinux [
+      # See https://github.com/NixOS/nixpkgs/issues/522307
+      (pipx.overridePythonAttrs (prev: {
+        disabledTests =
+          (prev.disabledTests or [])
+          ++ [
+            "test_fix_package_name"
+            "test_parse_specifier_for_metadata"
+          ];
+      }))
     ];
 
     gui.app = [
