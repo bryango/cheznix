@@ -39,6 +39,7 @@
     taps = [
       "bryango/ccswitch"
       "jundot/omlx"
+      "nohajc/anylinuxfs"
     ];
     brews = [
       "cocoapods"
@@ -46,6 +47,7 @@
       "qwen-code"
       "openclaw-cli"
       "omlx" "python@3.11" # runtime dep for omlx
+      "anylinuxfs" "util-linux" "gettext" "libunistring"
     ];
     casks = [
       # trusted
@@ -71,6 +73,7 @@
       "claude-code"
       "spotify"
       "typora"
+      "whatsapp"
 
       # probably okay
       "iterm2"

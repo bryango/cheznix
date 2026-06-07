@@ -14,9 +14,9 @@
       "outputs": null,
       "priority": 5,
       "storePaths": [
-        "/nix/store/2f8qcqfrjcxi27ir222b7dkbji9x64aj-home-apps"
+        "/nix/store/krm5hshq9fx9vsmqyzz84asq09v5kxh3-home-apps"
       ],
-      "url": "git+file:///Users/bryan/apps/flakes?ref=refs/heads/dev&rev=2329ee2c26a99e7c96d090863bdc707a2f73d008&submodules=1"
+      "url": "git+file:///Users/bryan/apps/flakes?ref=refs/heads/dev&rev=f0f4d0c293c15504d7b261f8b2d961728f431d24&submodules=1"
     },
     "gnutar": {
       "active": true,
@@ -33,7 +33,7 @@
       "active": true,
       "priority": 5,
       "storePaths": [
-        "/nix/store/mzg9n9ig0h27583dlhjdx2jkbmg4rcny-home-manager-path"
+        "/nix/store/hpb9ifaxxp0qc3d5rdz6vn58mlhcpiy3-home-manager-path"
       ]
     }
   },

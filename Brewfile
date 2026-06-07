@@ -3,6 +3,7 @@
 # Taps
 tap "bryango/ccswitch"
 tap "jundot/omlx"
+tap "nohajc/anylinuxfs"
 
 # Brews
 brew "cocoapods"
@@ -11,6 +12,10 @@ brew "qwen-code"
 brew "openclaw-cli"
 brew "omlx"
 brew "python@3.11"
+brew "anylinuxfs"
+brew "util-linux"
+brew "gettext"
+brew "libunistring"
 
 # Casks
 cask "firefox"
@@ -33,6 +38,7 @@ cask "daisydisk"
 cask "claude-code"
 cask "spotify"
 cask "typora"
+cask "whatsapp"
 cask "iterm2"
 cask "jellyfin"
 cask "karabiner-elements"
