@@ -46,8 +46,10 @@
       "unbound"
       "qwen-code"
       "openclaw-cli"
-      "omlx" "python@3.11" # runtime dep for omlx
-      "anylinuxfs" "util-linux" "gettext" "libunistring"
+
+      # must use full name for custom taps
+      "jundot/omlx/omlx"
+      "nohajc/anylinuxfs/anylinuxfs"
     ];
     casks = [
       # trusted
@@ -80,9 +82,9 @@
       "jellyfin"
       "karabiner-elements"
       "tunnelblick" # openvpn client
-      "cc-switch"
       "racket"
       "rustdesk"
+      "bryango/ccswitch/cc-switch"
     ];
   };
 

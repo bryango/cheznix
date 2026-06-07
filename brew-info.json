@@ -3311,7 +3311,7 @@
               "declared_directly": true
             }
           ],
-          "installed_on_request": true
+          "installed_on_request": false
         }
       ],
       "linked_keg": "3.11.15",
