@@ -131,7 +131,6 @@ let
       cargo-tarpaulin  # show test coverage
       cargo-nextest  # better test runner
       nodejs  # required by coc.nvim
-      watchman  # as git fsmonitor
       # mise  # dev runtime manager
       # evcxr  # too heavy, instead `cargo quickinstall evcxr_repl`
       # getoptions  # shell argument parser
@@ -139,6 +138,7 @@ let
       # devbox  # cool but I am mostly using vanilla nix flake
       zig zig-shell-completions
     ] ++ lib.optionals isLinux [
+      watchman  # as git fsmonitor, not needed for macos
       mold  # linker for non-nix projects; for nix, use `mold-wrapped`
             # ... currently broken on darwin
     ];
