@@ -3,11 +3,11 @@
     "darwin-apps": {
       "flake": false,
       "locked": {
-        "lastModified": 1780403175,
-        "narHash": "sha256-qKmYqva0Vuie7q+GO8D7C2yF6OTWsrTVNQeVur5PYJQ=",
+        "lastModified": 1780496004,
+        "narHash": "sha256-y3icUHqtZ84PSo/y8ANc2DG7+zzop2y1ma2ouKP1NKg=",
         "ref": "refs/heads/master",
-        "rev": "59b93f8e84d5d93a79395ee4dafd010fc4a27c6e",
-        "revCount": 34,
+        "rev": "097340913a79d6822f2d9852c2956dcf803a53e6",
+        "revCount": 35,
         "type": "git",
         "url": "https://gist.github.com/0057346dbf85981e58518be49d36fc06.git"
       },
@@ -304,11 +304,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1777826146,
-        "narHash": "sha256-wQ/iN5Zp5VIa3ebBibijPnLyKhor+xEbDy4d0goa9Zs=",
+        "lastModified": 1780747962,
+        "narHash": "sha256-IX7G1dlKrOqPOImfbo7ADDfV5yU1+j+MRChI3TL4tAA=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "73c703c22422b8951895a960959dbbaca7296492",
+        "rev": "cbb5cf358f50aa6acc9efd6113b7bcfbc352cd73",
         "type": "github"
       },
       "original": {

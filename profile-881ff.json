@@ -18,11 +18,22 @@
       ],
       "url": "git+file:///Users/bryan/apps/flakes?ref=refs/heads/dev&rev=2329ee2c26a99e7c96d090863bdc707a2f73d008&submodules=1"
     },
+    "gnutar": {
+      "active": true,
+      "attrPath": "legacyPackages.aarch64-darwin.gnutar",
+      "originalUrl": "flake:nixpkgs",
+      "outputs": null,
+      "priority": 10,
+      "storePaths": [
+        "/nix/store/z5c2rlpy5g8jgyz1l5ngf23ks3li9i10-gnutar-1.35"
+      ],
+      "url": "github:NixOS/nixpkgs/73c703c22422b8951895a960959dbbaca7296492?narHash=sha256-wQ/iN5Zp5VIa3ebBibijPnLyKhor%2BxEbDy4d0goa9Zs%3D"
+    },
     "home-manager-path": {
       "active": true,
       "priority": 5,
       "storePaths": [
-        "/nix/store/nzx5d6i5a33sxkx9z8a6zbm08bv3gxgz-home-manager-path"
+        "/nix/store/mzg9n9ig0h27583dlhjdx2jkbmg4rcny-home-manager-path"
       ]
     }
   },
