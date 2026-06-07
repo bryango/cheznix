@@ -150,7 +150,11 @@ let
       tectonic
       (writeShellScriptBin "biber-for-tectonic" ''exec ${lib.getExe tectonic.biber} "$@"'')
       inetutils # telnet
-      dufs # file server
+      (if isDarwin then dufs else (dufs.overrideAttrs ({ preCheck ? "", ... }: {
+        preCheck = preCheck + ''
+          export SSL_CERT_FILE=${cacert}/etc/ssl/certs/ca-bundle.crt
+        ''; # https://github.com/NixOS/nixpkgs/pull/526701
+      }))) # file server
       (# if isLinux then miktex else ## disable for the moment (currently failing)
       texliveSmall.withPackages (ps: with ps; [
         texdoc
