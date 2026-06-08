@@ -1,14 +1,12 @@
-{ options, config, pkgs, lib, cheznix, nixpkgs-follows, ... }:
+{ options, pkgs, lib, cheznix, nixpkgs-follows, ... }:
 
 let
-
-  inherit (config.home) homeDirectory;
 
   ## backward compatible to nix channels
   prefix = ".nix-defexpr/channels";
 
   flakeSelfName = "cheznix";
-  flakeInputs' = lib.collectFlakeInputs flakeSelfName cheznix;
+  flakeInputs' = pkgs.lib.collectFlakeInputs flakeSelfName cheznix;
 
   ## remove the local flakes
   ## to reduce trivial rebuilds
@@ -25,58 +23,88 @@ let
     darwin = flakeInputs''.nix-darwin;
   };
 
-  generateLinks = prefix: name: flake: {
-    source = flake.outPath;
-    target = "${prefix}/${name}";
+  sourceInfo = flake: flake.sourceInfo or { };
+  revOf = flake: flake.rev or (sourceInfo flake).rev or null;
+  narHashOf = flake: flake.narHash or (sourceInfo flake).narHash or null;
+  outPathOf = flake: flake.outPath or (sourceInfo flake).outPath or null;
+
+  mkChannel = name: flake: {
+    name = "${prefix}/${name}";
+    value.source = outPathOf flake;
   };
 
-  links = lib.mapAttrs (generateLinks prefix) flakeInputs;
+  channels = lib.mapAttrs' mkChannel flakeInputs;
 
-  addActivationScript = lib.mapAttrs (name: script:
-    lib.hm.dag.entryAfter [ "installPackages" ] script
-  );
+  query = attrs:
+    lib.optionalString (attrs != { }) (
+      "?" + lib.concatStringsSep "&" (
+        lib.mapAttrsToList
+          (name: value: "${name}=${lib.strings.escapeURL value}")
+          attrs
+      )
+    );
+
+  githubRef = { owner, repo, flake }:
+    let
+      rev = revOf flake;
+      narHash = narHashOf flake;
+    in
+    assert rev != null;
+    "github:${owner}/${repo}/${rev}"
+    + query (lib.optionalAttrs (narHash != null) { inherit narHash; });
+
+  registryRefs = {
+    nixpkgs = githubRef {
+      owner = "NixOS";
+      repo = "nixpkgs";
+      flake = flakeInputs.nixpkgs;
+    };
+    home-manager = githubRef {
+      owner = "nix-community";
+      repo = "home-manager";
+      flake = flakeInputs.home-manager;
+    };
+    nix-darwin = githubRef {
+      owner = "nix-darwin";
+      repo = "nix-darwin";
+      flake = flakeInputs.nix-darwin;
+    };
+  };
 
 in {
 
-  config.home.activation = addActivationScript {
+  config = lib.mkMerge [
+    {
+      home.file = channels;
 
-    ## add `nixpkgs-follows` to flake registry at "runtime"
-    userFlakeRegistry = ''
-      flake=''${FLAKE_CONFIG_URI%#*}  ## scheme: "path:$HOME/..."
-      nixpkgs="$flake/${nixpkgs-follows}"
-      # ^ relies on the subdir structure of the input!
+      home.activation.userFlakeRegistry = lib.hm.dag.entryAfter [ "installPackages" ] ''
+        flake=''${FLAKE_CONFIG_URI%#*}  ## scheme: "path:$HOME/..."
+        nixpkgs="$flake/${nixpkgs-follows}"
+        # ^ relies on the subdir structure of the input!
 
-      if [[ $flake == path:* ]] || [[ $flake == /* ]]; then
-        nix registry add "${nixpkgs-follows}" "$nixpkgs"
-        nix registry add "${flakeSelfName}" "$flake"
-      else
-        # guard against illegal flake refs
-        >&2 echo "nix registry: illegal home-manager \$FLAKE_CONFIG_URI: $flake"
-      fi
-      nix registry add "home-manager" "${links.home-manager.source}"
+        if [[ $flake == path:* ]] || [[ $flake == /* ]]; then
+          nix registry add "${nixpkgs-follows}" "$nixpkgs"
+          nix registry add "${flakeSelfName}" "$flake"
+        else
+          # guard against illegal flake refs
+          >&2 echo "nix registry: illegal home-manager \$FLAKE_CONFIG_URI: $flake"
+        fi
 
-      nix registry add "nixpkgs" "github:NixOS/nixpkgs/${flakeInputs.nixpkgs.sourceInfo.rev}"
-      nix registry add "nix-darwin" "github:LnL7/nix-darwin/${flakeInputs.nix-darwin.sourceInfo.rev}"
-    '';
+        nix registry add "nixpkgs" "${registryRefs.nixpkgs}"
+        nix registry add "home-manager" "${registryRefs.home-manager}"
+        nix registry add "nix-darwin" "${registryRefs.nix-darwin}"
+      '';
+    }
 
-    ## prevent cheznix inputs from being garbage collected
-    userFlakeChannels = lib.concatStrings (
-      lib.mapAttrsToList
-        (name: link: ''
-          ln -sfT "${link.source}" "${homeDirectory}/${link.target}"
-        '')
-        links
-    );
-  };
+    (lib.mkIf (options.programs ? nixpkgs-helpers) {
 
-  config.programs = lib.mkIf (options.programs ? nixpkgs-helpers) {
+      programs.nixpkgs-helpers = {
+        ## use `nixpkgs-follows` as a flakeref
+        enable = true;
+        flakeref = nixpkgs-follows;
+      };
 
-    ## use `nixpkgs-follows` as a flakeref
-    nixpkgs-helpers = {
-      enable = true;
-      flakeref = nixpkgs-follows;
-    };
-
-  };
+    })
+  ];
 
 }
