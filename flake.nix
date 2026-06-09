@@ -97,10 +97,16 @@
       {
         inherit cheznix;
 
-        system-manager = system-manager.packages.${system}.default // {
-          flake = system-manager;
-          packages = system-manager.packages.${system};
-        };
+        system-manager =
+          let
+            system-manager-packages = import ./system-modules/scripts/system-manager-packages-patching.nix {
+              inherit system-manager system;
+            };
+          in
+          system-manager-packages.default // {
+            flake = system-manager;
+            packages = system-manager-packages;
+          };
 
         home-manager = (home-manager.packages.${system}.home-manager.override ({ pkgs, ... }:  {
           ## option inspection does not work for flakes
