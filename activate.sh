@@ -14,9 +14,6 @@ if [[ $HOSTNAME != crab ]]; then
   chezmoi init --ssh bryango/chezmoi --branch dev
 fi
 
-# ensure that `home-attrs` is cached
-nix eval --raw cheznix#cheznix.inputs.home-attrs.outPath | cachix push chezbryan &
-
 # # chores
 # # verify downstream overrides of upstream files
 # if [[ $HOSTNAME == memoriam ]]; then
@@ -26,6 +23,10 @@ nix eval --raw cheznix#cheznix.inputs.home-attrs.outPath | cachix push chezbryan
 
 # the following commands will be silent
 set +x
+
+# ensure that `home-attrs` is cached
+store_path=$(nix eval --raw cheznix#cheznix.inputs.home-attrs.outPath)
+echo "$store_path" | cachix push chezbryan &
 
 if [[ $HOSTNAME != crab ]]; then
 
