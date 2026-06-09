@@ -248,6 +248,7 @@
 
         darwinConfigs = self.darwinConfigurations.${system} or { };
         homeConfigs = self.homeConfigurations.${system} or { };
+        systemConfigs = self.systemConfigs.${system} or { };
         mkConfigNames = configs: lib.pipe configs [
           lib.attrNames
           lib.escapeShellArgs
@@ -292,13 +293,14 @@
         };
         default =
         let
-          mapConfigs = configs: prefix: (lib.mapAttrs' (name: value: {
+          mapConfigs = getPackage: configs: prefix: (lib.mapAttrs' (name: value: {
             name = "${prefix}-${name}";
-            value = value.activationPackage /* hm */ or value.system /* darwin */;
+            value = getPackage value;
           }) configs);
-          homePackages = mapConfigs homeConfigs "home";
-          darwinPackages = mapConfigs darwinConfigs "darwin";
-          allPackages = darwinPackages // homePackages;
+          homePackages = mapConfigs (value: value.activationPackage) homeConfigs "home";
+          darwinPackages = mapConfigs (value: value.system) darwinConfigs "darwin";
+          systemPackages = mapConfigs (value: value) systemConfigs "system";
+          allPackages = darwinPackages // homePackages // systemPackages;
         in pkgs.linkFarm "activation-packages" allPackages;
       });
       apps = forMySystems (system: {
