@@ -39,11 +39,12 @@ in
 
       activation.userScript = lib.hm.dag.entryAfter [ "installPackages" ] ''
         flake=''${FLAKE_CONFIG_URI%#*}
+        flake=''${flake#path:}  ## "$HOME/..."
         export hmConfigRef="${attrs.username}@${attrs.hostname}"
         if [[ $flake == path:* ]] || [[ $flake == /* ]]; then
           flakePath=$(
             nix eval --raw --impure \
-              --expr "toString (builtins.getFlake (toString \"$flake\"))" \
+              --expr "toString (builtins.getFlake (toString \"git+file://$flake\"))" \
               | xargs
           )  ## the /nix/store path of $flake
           "$flakePath/activate.sh"

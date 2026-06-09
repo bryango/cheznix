@@ -78,13 +78,14 @@ in {
       home.file = channels;
 
       home.activation.userFlakeRegistry = lib.hm.dag.entryAfter [ "installPackages" ] ''
-        flake=''${FLAKE_CONFIG_URI%#*}  ## scheme: "path:$HOME/..."
-        nixpkgs="$flake/${nixpkgs-follows}"
+        flake=''${FLAKE_CONFIG_URI%#*}
+        flake=''${flake#path:}  ## "$HOME/..."
+        nixpkgs="$flake?dir=${nixpkgs-follows}"
         # ^ relies on the subdir structure of the input!
 
-        if [[ $flake == path:* ]] || [[ $flake == /* ]]; then
-          nix registry add "${nixpkgs-follows}" "$nixpkgs"
-          nix registry add "${flakeSelfName}" "$flake"
+        if [[ $flake == /* ]]; then
+          nix registry add "${nixpkgs-follows}" "git+file://$nixpkgs"
+          nix registry add "${flakeSelfName}" "git+file://$flake"
         else
           # guard against illegal flake refs
           >&2 echo "nix registry: illegal home-manager \$FLAKE_CONFIG_URI: $flake"
