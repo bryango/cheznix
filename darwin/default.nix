@@ -44,7 +44,7 @@
     brews = [
       "cocoapods"
       "unbound"
-      "qwen-code"
+      # "qwen-code"
       "openclaw-cli"
 
       # must use full name for custom taps

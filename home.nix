@@ -211,12 +211,11 @@ let
       ## vscode dummy:
       (binaryFallback "code" (writeShellScriptBin "code" ''echo "$@"''))
     ] ++ lib.optionals isLinux [
+      ## gimp v2 & v3 do not build on darwin
       (gimp3-with-plugins.override {
-        plugins = # with gimpPlugins;
+        plugins = with gimpPlugins;
         [
-          # # broken since removal of enum34
-          # # https://github.com/NixOS/nixpkgs/pull/389263
-          # resynthesizer
+          resynthesizer
         ];
       })
       xinput
