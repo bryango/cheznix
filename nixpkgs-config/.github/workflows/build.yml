@@ -67,4 +67,13 @@ jobs:
                 target=$(readlink "$entry")
                 echo "| \`$name\` | \`$target\` |"
               done
+          echo
+          echo "<details>"
+          echo "<summary>Runtime dependency tree</summary>"
+          echo
+          echo '```text'
+          nix-store -q --tree "$OUT_PATH"
+          echo '```'
+          echo
+          echo "</details>"
         } >> "$GITHUB_STEP_SUMMARY"
