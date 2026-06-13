@@ -11,9 +11,14 @@ with prev;
     # hydra-check
     tectonic
     texpresso
-    # python2  # removed from top-level nixpkgs in NixOS/nixpkgs#516241
     code-cursor
   ;
+
+  # Top-level python2 was removed in NixOS/nixpkgs#516241, but resholve still
+  # carries an internal CPython 2.7 derivation.
+  python2 = final.callPackage (final.outPath + "/pkgs/development/misc/resholve/python27.nix") {
+    pkgsBuildHost = final;
+  };
 
   /** nix package used for the `nix.package` configuration */
   nixPackage = (nixVersions.latest.appendPatches [
