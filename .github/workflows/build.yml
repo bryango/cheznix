@@ -36,4 +36,35 @@ jobs:
         extraPullNames: nix-community
     - run: nix config show
     - run: ./build.sh --dry-run
-    - run: ./build.sh
+    - name: Build
+      id: build
+      run: |
+        set -euo pipefail
+
+        ./build.sh
+        out_path=$(readlink result)
+        echo "out_path=$out_path" >> "$GITHUB_OUTPUT"
+
+    - name: Report store paths
+      env:
+        OUT_PATH: ${{ steps.build.outputs.out_path }}
+      run: |
+        set -euo pipefail
+
+        echo "::notice title=nix-store-path (${{ matrix.os }})::$OUT_PATH"
+
+        {
+          echo "## Nix store paths (${{ matrix.os }})"
+          echo
+          echo "**built output:** \`$OUT_PATH\`"
+          echo
+          echo "| entry | store path |"
+          echo "| --- | --- |"
+          find "$OUT_PATH" -mindepth 1 -maxdepth 1 -type l -print \
+            | sort \
+            | while IFS= read -r entry; do
+                name=$(basename "$entry")
+                target=$(readlink "$entry")
+                echo "| \`$name\` | \`$target\` |"
+              done
+        } >> "$GITHUB_STEP_SUMMARY"
