@@ -11,7 +11,7 @@ with prev;
     # hydra-check
     tectonic
     texpresso
-    python2
+    # python2  # removed from top-level nixpkgs in NixOS/nixpkgs#516241
     code-cursor
   ;
 
@@ -117,6 +117,7 @@ with prev;
   };
 
   wol = prev.wol.overrideAttrs (old: lib.optionalAttrs stdenv.hostPlatform.isDarwin {
+    ## FIXME: drop once https://github.com/NixOS/nixpkgs/pull/519842 lands upstream.
     # wol's bundled gettext sources do not compile as gnu23 with Apple clang.
     env = (old.env or { }) // {
       NIX_CFLAGS_COMPILE = toString ((old.env.NIX_CFLAGS_COMPILE or "") + " -std=gnu17");

@@ -128,6 +128,8 @@
         #   inherit (prev) system config;
         # };
 
+        ## Removed after Python 2 support was dropped from GIMP; see:
+        ## https://github.com/NixOS/nixpkgs/pull/479956
         # gimp = prev.gimp.override {
         #   withPython = prev.stdenv.hostPlatform.isLinux;
         #   # python2 = final.pkgsPython2.python2;
