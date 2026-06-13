@@ -19,7 +19,7 @@ jobs:
         fetch-depth: 0       ## not shallow
         filter: 'blob:none'  ## but blob-less
         submodules: true
-    - uses: wimpysworld/nothing-but-nix@10c936d9e46521bf923f75458e0cbd4fa309300d # main
+    - uses: wimpysworld/nothing-but-nix@dd6ef566962bfa4656301706035da97ebbe90e9b # v9
       if: matrix.os == 'ubuntu-latest'
     - uses: cachix/install-nix-action@6ed004b9ccb68dbc28e7c85bee15fa93dbd214ac # v22
       with:
