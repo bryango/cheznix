@@ -1,0 +1,33 @@
+# Derived from ~/.config/nix/nix.conf plus the system nix.conf it includes.
+
+[server]
+ip = "127.0.0.1"
+port = 5496
+
+[proxy]
+rewrite_nar_url = true
+rewrite_to_target = "self"
+
+[network]
+nar_info_timeout_secs = 60
+tolerance_msecs = 100
+
+[cache]
+nar_info_lookup_ttl_secs = 1
+
+[[substituters]]
+url = "https://mirrors.tuna.tsinghua.edu.cn/nix-channels/store/"
+priority = 20
+
+[[substituters]]
+url = "https://chezbryan.cachix.org/"
+priority = 40
+nar_info_timeout_secs = 120
+
+[[substituters]]
+url = "https://cache.nixos.org/"
+priority = 40
+
+[[substituters]]
+url = "https://nix-community.cachix.org/"
+priority = 40
