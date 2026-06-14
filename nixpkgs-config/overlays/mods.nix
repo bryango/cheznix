@@ -9,8 +9,8 @@ with prev;
   inherit
     # gitbutler
     # hydra-check
-    tectonic
-    texpresso
+    # tectonic
+    # texpresso
     code-cursor
   ;
 
@@ -36,34 +36,34 @@ with prev;
   #   ];
   # });
 
-  jujutsu-unstable = jujutsu.overrideAttrs (finalAttrs: { preCheck ? "", ... }: {
-    ## do not override version, otherwise versionCheckHook would fail
-    # version = "0.36.0-unstable-2025-12-22";
-
-    src = fetchFromGitHub {
-      owner = "jj-vcs";
-      repo = "jj";
-      rev = "41b8d432e770f0ba2e5c75078dad956521cfd0a3";
-      hash = "sha256-+xb/4CjddmcXCvHiICtvIt+UYBqnnbX7R15Dgdlzq68=";
-    };
-
-    cargoHash = "sha256-MtPpx6ODsiiWjy0vhpT7mVtRkrayWwRnGTw5bdKAq0U=";
-    # rebuild cargoDeps by hand because `.overrideAttrs cargoHash`
-    # does not reconstruct cargoDeps (a known limitation):
-    cargoDeps = rustPlatform.fetchCargoVendor {
-      inherit (finalAttrs) src;
-      name = "${finalAttrs.pname}-${finalAttrs.version}";
-      hash = finalAttrs.cargoHash;
-      patches = finalAttrs.cargoPatches or [];
-    };
-
-    # necessary when not sandboxed
-    preCheck = ''
-      export LANG=C.UTF-8
-      export LC_ALL=C.UTF-8
-      ${preCheck}
-    '';
-  });
+  # jujutsu-unstable = jujutsu.overrideAttrs (finalAttrs: { preCheck ? "", ... }: {
+  #   ## override version with care, otherwise versionCheckHook would fail
+  #   # version = "0.36.0-unstable-2025-12-22";
+  #
+  #   src = fetchFromGitHub {
+  #     owner = "jj-vcs";
+  #     repo = "jj";
+  #     rev = "41b8d432e770f0ba2e5c75078dad956521cfd0a3";
+  #     hash = "sha256-+xb/4CjddmcXCvHiICtvIt+UYBqnnbX7R15Dgdlzq68=";
+  #   };
+  #
+  #   cargoHash = "sha256-MtPpx6ODsiiWjy0vhpT7mVtRkrayWwRnGTw5bdKAq0U=";
+  #   # rebuild cargoDeps by hand because `.overrideAttrs cargoHash`
+  #   # does not reconstruct cargoDeps (a known limitation):
+  #   cargoDeps = rustPlatform.fetchCargoVendor {
+  #     inherit (finalAttrs) src;
+  #     name = "${finalAttrs.pname}-${finalAttrs.version}";
+  #     hash = finalAttrs.cargoHash;
+  #     patches = finalAttrs.cargoPatches or [];
+  #   };
+  #
+  #   # necessary when not sandboxed
+  #   preCheck = ''
+  #     export LANG=C.UTF-8
+  #     export LC_ALL=C.UTF-8
+  #     ${preCheck}
+  #   '';
+  # });
 
   # many flaky tests
   tailscale = tailscale.overrideAttrs {
@@ -99,7 +99,8 @@ with prev;
     '';
   }));
 
-  pulsar = callPackage ../pkgs/pulsar-from-ci.nix { inherit pulsar; };
+  # ## not actively used
+  # pulsar = callPackage ../pkgs/pulsar-from-ci.nix { inherit pulsar; };
 
   # we do not need kcm support on e.g. gnome
   fcitx5-configtool-no-kcm = kdePackages.fcitx5-configtool.override {
