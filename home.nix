@@ -130,7 +130,8 @@ let
       cargo-binstall  # then `cargo binstall cargo-quickinstall`
       cargo-tarpaulin  # show test coverage
       cargo-nextest  # better test runner
-      nodejs  # required by coc.nvim
+      nodejs-slim  # required by coc.nvim, -slim to rm npm
+      pnpm  # replacement for npm
       # mise  # dev runtime manager
       # evcxr  # too heavy, instead `cargo quickinstall evcxr_repl`
       # getoptions  # shell argument parser
