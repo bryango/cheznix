@@ -8,8 +8,6 @@ tap "nohajc/anylinuxfs"
 # Brews
 brew "cocoapods"
 brew "unbound"
-brew "qwen-code"
-brew "openclaw-cli"
 brew "jundot/omlx/omlx"
 brew "nohajc/anylinuxfs/anylinuxfs"
 

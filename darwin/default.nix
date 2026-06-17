@@ -1,5 +1,16 @@
 { pkgs, lib, cheznix, attrs, config, ... }:
 
+let
+
+  homebrewEnv = {
+    HOMEBREW_AUTO_UPDATE_SECS = "86400";
+    HOMEBREW_API_AUTO_UPDATE_SECS = "86400";
+    HOMEBREW_API_DOMAIN = "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api";
+    HOMEBREW_BOTTLE_DOMAIN = "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles";
+  };
+
+in
+
 {
   system.primaryUser = attrs.username;
 
@@ -21,11 +32,7 @@
     histSize = 1000000;
   };
 
-  environment.variables = {
-    HOMEBREW_AUTO_UPDATE_SECS = "86400";
-    HOMEBREW_API_AUTO_UPDATE_SECS = "86400";
-    HOMEBREW_API_DOMAIN = "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles/api";
-    HOMEBREW_BOTTLE_DOMAIN = "https://mirrors.tuna.tsinghua.edu.cn/homebrew-bottles";
+  environment.variables = homebrewEnv // {
 
   };
 
@@ -33,8 +40,12 @@
   homebrew = {
     enable = true;
     onActivation = {
-      cleanup = "check";
+      # cleanup = "check"; # currently failing due to brew trust & not passing `extraEnv` below
       extraFlags = [ "--verbose" ];
+      extraEnv = homebrewEnv // {
+        # note: should not set this in environment.variables as it's user dependent
+        XDG_CONFIG_HOME = "/Users/${config.homebrew.user}/.config";
+      };
     };
     taps = [
       "bryango/ccswitch"
@@ -45,7 +56,7 @@
       "cocoapods"
       "unbound"
       # "qwen-code"
-      "openclaw-cli"
+      # "openclaw-cli"
 
       # must use full name for custom taps
       "jundot/omlx/omlx"
