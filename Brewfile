@@ -6,38 +6,38 @@ tap "jundot/omlx"
 tap "nohajc/anylinuxfs"
 
 # Brews
-brew "cocoapods"
-brew "unbound"
-brew "jundot/omlx/omlx"
-brew "nohajc/anylinuxfs/anylinuxfs"
+brew "cocoapods", trusted: true
+brew "unbound", trusted: true
+brew "jundot/omlx/omlx", trusted: true
+brew "nohajc/anylinuxfs/anylinuxfs", trusted: true
 
 # Casks
-cask "firefox"
-cask "virtualbox"
-cask "vlc"
-cask "typeless"
-cask "nutstore"
-cask "zoom"
-cask "visual-studio-code"
-cask "tailscale-app"
-cask "obsidian"
-cask "yuanbao"
-cask "notion"
-cask "betterdisplay"
-cask "lm-studio"
-cask "codex-app"
-cask "clash-verge-rev"
-cask "chatgpt"
-cask "daisydisk"
-cask "claude-code"
-cask "spotify"
-cask "typora"
-cask "whatsapp"
-cask "iterm2"
-cask "jellyfin"
-cask "karabiner-elements"
-cask "tunnelblick"
-cask "racket"
-cask "rustdesk"
-cask "bryango/ccswitch/cc-switch"
+cask "firefox", trusted: true
+cask "virtualbox", trusted: true
+cask "vlc", trusted: true
+cask "typeless", trusted: true
+cask "nutstore", trusted: true
+cask "zoom", trusted: true
+cask "visual-studio-code", trusted: true
+cask "tailscale-app", trusted: true
+cask "obsidian", trusted: true
+cask "yuanbao", trusted: true
+cask "notion", trusted: true
+cask "betterdisplay", trusted: true
+cask "lm-studio", trusted: true
+cask "codex-app", trusted: true
+cask "clash-verge-rev", trusted: true
+cask "chatgpt", trusted: true
+cask "daisydisk", trusted: true
+cask "claude-code", trusted: true
+cask "spotify", trusted: true
+cask "typora", trusted: true
+cask "whatsapp", trusted: true
+cask "iterm2", trusted: true
+cask "jellyfin", trusted: true
+cask "karabiner-elements", trusted: true
+cask "tunnelblick", trusted: true
+cask "racket", trusted: true
+cask "rustdesk", trusted: true
+cask "bryango/ccswitch/cc-switch", trusted: true
 

@@ -40,7 +40,7 @@ in
   homebrew = {
     enable = true;
     onActivation = {
-      # cleanup = "check"; # currently failing due to brew trust & not passing `extraEnv` below
+      cleanup = "check"; # currently failing due to brew trust & not passing `extraEnv` below
       extraFlags = [ "--verbose" ];
       extraEnv = homebrewEnv // {
         # note: should not set this in environment.variables as it's user dependent
