@@ -33,7 +33,8 @@ let
       ## <nixpkgs> pkgs/stdenv/generic/common-path.nix
       coreutils util-linux findutils diffutils
       gnused gnugrep gnumake
-      which tree file procps less
+      which tree file less
+      (if isDarwin then (binaryFallback "top" procps) else procps)
     ] ++ lib.optionals isLinux [
       iputils
     ];
@@ -118,6 +119,7 @@ let
     ];
 
     cli.dev = [
+      opencode
       bashdb
       imagemagick
       aichat
@@ -175,6 +177,7 @@ let
       fuse-overlayfs
       uxplay  # airplay server
     ] ++ lib.optionals isDarwin [
+      yabai # window management
       nightlight
       colima docker devcontainer
       tart

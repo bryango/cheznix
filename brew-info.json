@@ -89,7 +89,7 @@
       "post_install_steps": [],
       "post_install_defined": true,
       "service": null,
-      "tap_git_head": "87aa9553fe95d6099d65776567f79e5e99496051",
+      "tap_git_head": "26b85baec413d8d1cfb9fea4b10aced73295eaad",
       "ruby_source_path": "Formula/c/ca-certificates.rb",
       "ruby_source_checksum": {
         "sha256": "e86d1b505df40804d9605e0a28ca868b122c5c4f64300ba1c2a67ad821efe874"
@@ -225,7 +225,7 @@
       "post_install_steps": [],
       "post_install_defined": false,
       "service": null,
-      "tap_git_head": "87aa9553fe95d6099d65776567f79e5e99496051",
+      "tap_git_head": "26b85baec413d8d1cfb9fea4b10aced73295eaad",
       "ruby_source_path": "Formula/c/cocoapods.rb",
       "ruby_source_checksum": {
         "sha256": "4d0a01e6dec4690e460cf5374e0a52c1f551f5f241ee4f0fa195378af926efad"
@@ -344,7 +344,7 @@
       "post_install_steps": [],
       "post_install_defined": false,
       "service": null,
-      "tap_git_head": "87aa9553fe95d6099d65776567f79e5e99496051",
+      "tap_git_head": "26b85baec413d8d1cfb9fea4b10aced73295eaad",
       "ruby_source_path": "Formula/lib/libevent.rb",
       "ruby_source_checksum": {
         "sha256": "31f0fee4928e91c42e8b1f8491515d3bd37c0a9b027c5fb4bb794904eca92f94"
@@ -454,7 +454,7 @@
       "post_install_steps": [],
       "post_install_defined": false,
       "service": null,
-      "tap_git_head": "87aa9553fe95d6099d65776567f79e5e99496051",
+      "tap_git_head": "26b85baec413d8d1cfb9fea4b10aced73295eaad",
       "ruby_source_path": "Formula/lib/libnghttp2.rb",
       "ruby_source_checksum": {
         "sha256": "8bcff8d4606c7d90c62a36925dcd2eda1488a1b6f65e59252010a8aaaccda79c"
@@ -567,7 +567,7 @@
       "post_install_steps": [],
       "post_install_defined": false,
       "service": null,
-      "tap_git_head": "87aa9553fe95d6099d65776567f79e5e99496051",
+      "tap_git_head": "26b85baec413d8d1cfb9fea4b10aced73295eaad",
       "ruby_source_path": "Formula/lib/libyaml.rb",
       "ruby_source_checksum": {
         "sha256": "b968a3183e5e7eab2ea9c2d951ddba8f4c9c5d92609cd5d9fff49baa15ae07aa"
@@ -591,20 +591,41 @@
       "license": "Apache-2.0",
       "homepage": "https://openssl-library.org",
       "versions": {
-        "stable": "3.6.2",
+        "stable": "3.6.3",
         "head": null,
         "bottle": true
       },
       "urls": {
         "stable": {
-          "url": "https://github.com/openssl/openssl/releases/download/openssl-3.6.2/openssl-3.6.2.tar.gz",
+          "url": "https://github.com/openssl/openssl/releases/download/openssl-3.6.3/openssl-3.6.3.tar.gz",
           "tag": null,
           "revision": null,
           "using": null,
-          "checksum": "aaf51a1fe064384f811daeaeb4ec4dce7340ec8bd893027eee676af31e83a04f"
+          "checksum": "243a86649cf6f23eeb6a2ff2456e09e5d77dd9018a54d3d96b0c6bdd6ba6c7f1"
         }
       },
-      "patches": [],
+      "patches": [
+        {
+          "strip": "p1",
+          "url": "https://github.com/openssl/openssl/commit/9061e9381306a053908177aca8509c262015cdf3.patch?full_index=1",
+          "sha256": "9f68feae9abfaabe65f79d2877f3dde7aa0428c669ed6af45dc193544268438e"
+        },
+        {
+          "strip": "p1",
+          "url": "https://github.com/openssl/openssl/commit/2e2438b494e7f661be5212e4732f7fab86bf6303.patch?full_index=1",
+          "sha256": "543a5998951fe540444642123398ffaa6306938be573f95c0bc915f1e6af7a36"
+        },
+        {
+          "strip": "p1",
+          "url": "https://github.com/openssl/openssl/commit/ea598f5dd23f1d64d8952e20fcf95d9f3a21d654.patch?full_index=1",
+          "sha256": "05bb323a3495d68961fa8cf7a989edfb0fa6e6dcc7ccdcc4e55a4e3f946d2762"
+        },
+        {
+          "strip": "p1",
+          "url": "https://github.com/openssl/openssl/commit/cffb97915813aeeef58ee9a0d33c05d3d45e1fe6.patch?full_index=1",
+          "sha256": "fc34b4bf106c44a89ded746e35d587d73e8485393a93b52110ba95b06717dd69"
+        }
+      ],
       "revision": 0,
       "version_scheme": 0,
       "compatibility_version": null,
@@ -618,8 +639,8 @@
           "files": {
             "arm64_sequoia": {
               "cellar": "/opt/homebrew/Cellar",
-              "url": "https://ghcr.io/v2/homebrew/core/openssl/3/blobs/sha256:2cedb13f5dc6fb1480f3cb4c92dce58d6cfef2a7bfe46026dd4a5f7305d951ac",
-              "sha256": "2cedb13f5dc6fb1480f3cb4c92dce58d6cfef2a7bfe46026dd4a5f7305d951ac"
+              "url": "https://ghcr.io/v2/homebrew/core/openssl/3/blobs/sha256:638cbf9a395d2a3e97465c99997705736e228cd4c98db254c108946236c1de29",
+              "sha256": "638cbf9a395d2a3e97465c99997705736e228cd4c98db254c108946236c1de29"
             }
           }
         }
@@ -675,7 +696,7 @@
       ],
       "linked_keg": "3.6.2",
       "pinned": false,
-      "outdated": false,
+      "outdated": true,
       "deprecated": false,
       "deprecation_date": null,
       "deprecation_reason": null,
@@ -691,10 +712,10 @@
       "post_install_steps": [],
       "post_install_defined": true,
       "service": null,
-      "tap_git_head": "87aa9553fe95d6099d65776567f79e5e99496051",
+      "tap_git_head": "26b85baec413d8d1cfb9fea4b10aced73295eaad",
       "ruby_source_path": "Formula/o/openssl@3.rb",
       "ruby_source_checksum": {
-        "sha256": "6beade5a35b6f896239d5c47c230b178823323df8854f10946669c2b7cd9ed09"
+        "sha256": "5aee0c6bba9bc316142c1d6587be11bc71b89c54a7b0b449cfbad64bdcf18dd6"
       }
     },
     {
@@ -759,7 +780,6 @@
       "keg_only_reason": null,
       "options": [],
       "build_dependencies": [
-        "autoconf",
         "pkgconf",
         "rust"
       ],
@@ -771,12 +791,10 @@
       "recommended_dependencies": [],
       "optional_dependencies": [],
       "uses_from_macos": [
-        "gperf",
         "libffi",
         "libxcrypt"
       ],
       "uses_from_macos_bounds": [
-        {},
         {},
         {}
       ],
@@ -839,10 +857,32 @@
       "post_install_steps": [],
       "post_install_defined": true,
       "service": null,
-      "tap_git_head": "87aa9553fe95d6099d65776567f79e5e99496051",
+      "tap_git_head": "26b85baec413d8d1cfb9fea4b10aced73295eaad",
       "ruby_source_path": "Formula/r/ruby.rb",
       "ruby_source_checksum": {
-        "sha256": "b9b0db81965715a73a445692a0915ae0a21aa3eeb97bf8d1e959b25b5d40df97"
+        "sha256": "b7242dc747e01d1f6f0a2aba07b3c167198e455bf369c48bbb301b6f9501ed6a"
+      },
+      "head_dependencies": {
+        "build_dependencies": [
+          "autoconf",
+          "pkgconf",
+          "rust"
+        ],
+        "dependencies": [
+          "libyaml",
+          "openssl@3"
+        ],
+        "test_dependencies": [],
+        "recommended_dependencies": [],
+        "optional_dependencies": [],
+        "uses_from_macos": [
+          "libffi",
+          "libxcrypt"
+        ],
+        "uses_from_macos_bounds": [
+          {},
+          {}
+        ]
       }
     },
     {
@@ -992,10 +1032,10 @@
         },
         "require_root": true
       },
-      "tap_git_head": "87aa9553fe95d6099d65776567f79e5e99496051",
+      "tap_git_head": "26b85baec413d8d1cfb9fea4b10aced73295eaad",
       "ruby_source_path": "Formula/u/unbound.rb",
       "ruby_source_checksum": {
-        "sha256": "e92ee5292ccd8aed3f6ef2bc2fbf0c7a5229add9318160887b0c4ce2dc9164bc"
+        "sha256": "022799d746e26e1daa7187ff4c50dd2066ba472528e6a38fd4135d4d283929af"
       }
     }
   ],
@@ -1092,7 +1132,7 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/b/betterdisplay.rb",
       "ruby_source_checksum": {
@@ -1173,7 +1213,7 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "dec654221a8e42fa862c2885c55e18ad0e89d9bf",
+      "tap_git_head": "bcbe7e66d04ac58434c578462ad2176cb30df7fa",
       "languages": [],
       "ruby_source_path": "../../../../Caskroom/cc-switch/.metadata/3.16.3/20260615054927.308/Casks/cc-switch.rb",
       "ruby_source_checksum": {
@@ -1190,22 +1230,22 @@
       ],
       "desc": "OpenAI's official ChatGPT desktop app",
       "homepage": "https://chatgpt.com/",
-      "url": "https://persistent.oaistatic.com/sidekick/public/ChatGPT_Desktop_public_1.2026.153_1780942906.dmg",
+      "url": "https://persistent.oaistatic.com/sidekick/public/ChatGPT_Desktop_public_1.2026.160_1781312926.dmg",
       "url_specs": {
         "verified": "persistent.oaistatic.com/sidekick/public/"
       },
-      "version": "1.2026.153,1780942906",
+      "version": "1.2026.160,1781312926",
       "autobump": true,
       "no_autobump_message": null,
       "skip_livecheck": false,
-      "installed": "1.2026.153,1780942906",
-      "installed_time": 1781309676,
-      "bundle_version": "1780942906",
-      "bundle_short_version": "1.2026.153",
+      "installed": "1.2026.160,1781312926",
+      "installed_time": 1782209469,
+      "bundle_version": "1781312926",
+      "bundle_short_version": "1.2026.160",
       "pinned": false,
       "pinned_version": null,
       "outdated": false,
-      "sha256": "bf0b98a45bff614ddc926080e72a8e3eb51de3f1017a1c8c501c7e9fdf308214",
+      "sha256": "37e043abd3ffa592c4c2ba9ce8494bc3fa3b157ae4e6f7872a792ffd089edf07",
       "artifacts": [
         {
           "uninstall": [
@@ -1224,14 +1264,20 @@
           "zap": [
             {
               "trash": [
+                "~/Library/Application Scripts/com.openai.chat.Widgets",
+                "~/Library/Application Scripts/group.com.openai.chat",
                 "~/Library/Application Support/ChatGPT",
                 "~/Library/Application Support/com.openai.chat",
                 "~/Library/Caches/com.openai.chat",
+                "~/Library/Containers/com.openai.chat.Widgets",
+                "~/Library/Group Containers/group.com.openai.chat",
+                "~/Library/HTTPStorages/ChatGPTHelper.binarycookies",
                 "~/Library/HTTPStorages/com.openai.chat",
                 "~/Library/HTTPStorages/com.openai.chat.binarycookies",
                 "~/Library/Preferences/com.openai.chat.*.plist",
                 "~/Library/Preferences/com.openai.chat.plist",
-                "~/Library/Saved Application State/com.openai.chat.savedState"
+                "~/Library/Saved Application State/com.openai.chat.savedState",
+                "~/Library/WebKit/com.openai.chat"
               ]
             }
           ]
@@ -1268,11 +1314,11 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/c/chatgpt.rb",
       "ruby_source_checksum": {
-        "sha256": "65845222f9bce740bceb8514673c18043e3e884d0d62ae20d988601219ed7e5a"
+        "sha256": "aeec344aabd08c161d6dcd0a2d9bb41f47061265d8296ce81aca87eb5a8586bd"
       }
     },
     {
@@ -1345,7 +1391,7 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/c/clash-verge-rev.rb",
       "ruby_source_checksum": {
@@ -1362,11 +1408,11 @@
       ],
       "desc": "Terminal-based AI coding assistant",
       "homepage": "https://claude.com/product/claude-code",
-      "url": "https://downloads.claude.ai/claude-code-releases/2.1.153/darwin-arm64/claude",
+      "url": "https://downloads.claude.ai/claude-code-releases/2.1.185/darwin-arm64/claude",
       "url_specs": {
         "verified": "downloads.claude.ai/claude-code-releases/"
       },
-      "version": "2.1.153",
+      "version": "2.1.185",
       "autobump": true,
       "no_autobump_message": null,
       "skip_livecheck": false,
@@ -1376,8 +1422,8 @@
       "bundle_short_version": null,
       "pinned": false,
       "pinned_version": null,
-      "outdated": false,
-      "sha256": "449d9c89d7a63b1d427d912a7bd6e6f23f9a7b363866697c9fa9a0012546b254",
+      "outdated": true,
+      "sha256": "a280c23b210525218f5bd86f001c9dbc89b9e07410175c5a9355044bfadc0af1",
       "artifacts": [
         {
           "binary": [
@@ -1421,11 +1467,11 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/c/claude-code.rb",
       "ruby_source_checksum": {
-        "sha256": "dcb0aaee98393a9185034c0f70183b44dc5d1480fb45a26dbcf6738833efdafd"
+        "sha256": "3376cca79f741b5229bf5cd3f6b3313bd01a26b0ea1bd9862e5c98e19383823c"
       }
     },
     {
@@ -1438,22 +1484,22 @@
       ],
       "desc": "OpenAI's Codex desktop app for managing coding agents",
       "homepage": "https://openai.com/codex",
-      "url": "https://persistent.oaistatic.com/codex-app-prod/Codex-darwin-arm64-26.609.71450.zip",
+      "url": "https://persistent.oaistatic.com/codex-app-prod/Codex-darwin-arm64-26.623.70822.zip",
       "url_specs": {
         "verified": "persistent.oaistatic.com/codex-app-prod/"
       },
-      "version": "26.609.71450",
+      "version": "26.623.70822",
       "autobump": true,
       "no_autobump_message": null,
       "skip_livecheck": false,
       "installed": "26.417.41555",
       "installed_time": 1776901440,
-      "bundle_version": "4008",
-      "bundle_short_version": "26.611.61753",
+      "bundle_version": "4598",
+      "bundle_short_version": "26.623.81905",
       "pinned": false,
       "pinned_version": null,
       "outdated": false,
-      "sha256": "e773c824d5ad0d8567bbabb1d39f32ce730dd4699e4a9de5b838ea6955e268b7",
+      "sha256": "4a29862faa4e4ceb177f7cb9fcbf93b65f42a3ddfda69ed9c1e8dfe2a0edb58b",
       "artifacts": [
         {
           "uninstall": [
@@ -1511,11 +1557,11 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/c/codex-app.rb",
       "ruby_source_checksum": {
-        "sha256": "cc8435220a2347c7efb3b4424e1d60768f7e27da3e5c4694a7d1533176faa69a"
+        "sha256": "45b4a0f0e81d0bd121d9bbe30c6032b538a9ebf6097616178452f7241990c9fa"
       }
     },
     {
@@ -1590,7 +1636,7 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/d/daisydisk.rb",
       "ruby_source_checksum": {
@@ -1607,22 +1653,22 @@
       ],
       "desc": "Web browser",
       "homepage": "https://www.mozilla.org/firefox/",
-      "url": "https://download-installer.cdn.mozilla.net/pub/firefox/releases/151.0.4/mac/en-US/Firefox%20151.0.4.dmg",
+      "url": "https://download-installer.cdn.mozilla.net/pub/firefox/releases/152.0.4/mac/en-US/Firefox%20152.0.4.dmg",
       "url_specs": {
         "verified": "download-installer.cdn.mozilla.net/pub/firefox/releases/"
       },
-      "version": "151.0.4",
+      "version": "152.0.4",
       "autobump": true,
       "no_autobump_message": null,
       "skip_livecheck": false,
-      "installed": "151.0.2",
-      "installed_time": 1780820178,
-      "bundle_version": "15126.5.25",
-      "bundle_short_version": "151.0.2",
+      "installed": "152.0.1",
+      "installed_time": 1782209293,
+      "bundle_version": "15226.6.17",
+      "bundle_short_version": "152.0.1",
       "pinned": false,
       "pinned_version": null,
       "outdated": true,
-      "sha256": "bc2e72f6abf31aa854b30a3e2841d3f2b8b8e153eaa0a5c3ab285728b7f9b160",
+      "sha256": "b7391215608c8f0171c29200bb7add9328d186a60c10386b67acfa5f757a42b8",
       "artifacts": [
         {
           "preflight": null
@@ -1642,7 +1688,7 @@
         },
         {
           "binary": [
-            "/opt/homebrew/Caskroom/firefox/151.0.4/firefox.wrapper.sh",
+            "/opt/homebrew/Caskroom/firefox/152.0.4/firefox.wrapper.sh",
             {
               "target": "firefox"
             }
@@ -1703,7 +1749,7 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [
         "ach",
         "af",
@@ -1811,7 +1857,7 @@
       ],
       "ruby_source_path": "Casks/f/firefox.rb",
       "ruby_source_checksum": {
-        "sha256": "cb3e68bc119f7883362c1d12ce96e324b97c1b9300f4012a9701c5452dd39b82"
+        "sha256": "92b30b8ebbe3ee51ab7f1099af08a322341f2e2cbf41ef0ac74791ee49c65135"
       }
     },
     {
@@ -1899,7 +1945,7 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/i/iterm2.rb",
       "ruby_source_checksum": {
@@ -1977,7 +2023,7 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/j/jellyfin.rb",
       "ruby_source_checksum": {
@@ -2098,7 +2144,7 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/k/karabiner-elements.rb",
       "ruby_source_checksum": {
@@ -2115,9 +2161,9 @@
       ],
       "desc": "Discover, download, and run local LLMs",
       "homepage": "https://lmstudio.ai/",
-      "url": "https://installers.lmstudio.ai/darwin/arm64/0.4.16-2/LM-Studio-0.4.16-2-arm64.dmg",
+      "url": "https://installers.lmstudio.ai/darwin/arm64/0.4.18-1/LM-Studio-0.4.18-1-arm64.dmg",
       "url_specs": {},
-      "version": "0.4.16,2",
+      "version": "0.4.18,1",
       "autobump": true,
       "no_autobump_message": null,
       "skip_livecheck": false,
@@ -2127,8 +2173,8 @@
       "bundle_short_version": "0.4.16+1",
       "pinned": false,
       "pinned_version": null,
-      "outdated": false,
-      "sha256": "1a3f2632b34d0d7343c858f6a777a689cdb19ace2d592a154b65d72ec11e102e",
+      "outdated": true,
+      "sha256": "1fcd8f8f4d26f2c0be139eb3408674338c1d6025ffdf139fa18c584c82d85bd2",
       "artifacts": [
         {
           "uninstall": [
@@ -2165,7 +2211,6 @@
       "caveats": null,
       "caveats_rosetta": null,
       "depends_on": {
-        "macos": {},
         "arch": [
           {
             "type": "arm",
@@ -2189,11 +2234,11 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/l/lm-studio.rb",
       "ruby_source_checksum": {
-        "sha256": "64e32c91268c2a44678e11d10efab68a1be18be1194d30910a6e206c4d727530"
+        "sha256": "1e6b5ae4b212834827e4d5836613bc074e91bf13b2e02e8fbb87d4f2df81bc25"
       }
     },
     {
@@ -2206,11 +2251,11 @@
       ],
       "desc": "App to write, plan, collaborate, and get organised",
       "homepage": "https://www.notion.com/",
-      "url": "https://desktop-release.notion-static.com/Notion-7.21.0-arm64.dmg",
+      "url": "https://desktop-release.notion-static.com/Notion-7.24.0-arm64.dmg",
       "url_specs": {
         "verified": "desktop-release.notion-static.com/"
       },
-      "version": "7.21.0",
+      "version": "7.24.0",
       "autobump": true,
       "no_autobump_message": null,
       "skip_livecheck": false,
@@ -2221,7 +2266,7 @@
       "pinned": false,
       "pinned_version": null,
       "outdated": true,
-      "sha256": "efafe9dd532fb155e15d64eb06670f66828b8a97bb2f47a1c3d87e6ee7154f41",
+      "sha256": "cd60b41350e1e48b31d83e46b5cf7e68112d66d356fa820a86f50ea382232097",
       "artifacts": [
         {
           "app": [
@@ -2272,11 +2317,11 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/n/notion.rb",
       "ruby_source_checksum": {
-        "sha256": "4421db9bb5c60bed0a12f947db25da655fc63527151c7544641571d7ea3cf379"
+        "sha256": "9698107e558ac3f3e62caffc30783c1279288581a4b100254dd19ab61b69458b"
       }
     },
     {
@@ -2363,7 +2408,7 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/n/nutstore.rb",
       "ruby_source_checksum": {
@@ -2450,7 +2495,7 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/o/obsidian.rb",
       "ruby_source_checksum": {
@@ -2715,7 +2760,7 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/r/racket.rb",
       "ruby_source_checksum": {
@@ -2732,11 +2777,11 @@
       ],
       "desc": "Open source virtual/remote desktop application",
       "homepage": "https://rustdesk.com/",
-      "url": "https://github.com/rustdesk/rustdesk/releases/download/1.4.7/rustdesk-1.4.7-aarch64.dmg",
+      "url": "https://github.com/rustdesk/rustdesk/releases/download/1.4.8/rustdesk-1.4.8-aarch64.dmg",
       "url_specs": {
         "verified": "github.com/rustdesk/rustdesk/"
       },
-      "version": "1.4.7",
+      "version": "1.4.8",
       "autobump": true,
       "no_autobump_message": null,
       "skip_livecheck": false,
@@ -2747,7 +2792,7 @@
       "pinned": false,
       "pinned_version": null,
       "outdated": true,
-      "sha256": "f77e517fa792c8d46eb9eade3a2ce74f68d7f585924fc4202719f4ed82038ead",
+      "sha256": "7f8acfb0dcab21d4c8fe570902be70a02ed0db007daa5ebfe1e0119487a5fc17",
       "artifacts": [
         {
           "uninstall": [
@@ -2801,11 +2846,11 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/r/rustdesk.rb",
       "ruby_source_checksum": {
-        "sha256": "6c03da4ad2b480a0c5a983d0eb3482bd4df95296c274d306a8d898412fe5c9f6"
+        "sha256": "d716cef4b63dfe156cc63ec5392861d8ad6c3a30dad569a07c8e3547c1851a66"
       }
     },
     {
@@ -2898,7 +2943,7 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/s/spotify.rb",
       "ruby_source_checksum": {
@@ -2917,9 +2962,9 @@
       ],
       "desc": "Mesh VPN based on WireGuard",
       "homepage": "https://tailscale.com/",
-      "url": "https://pkgs.tailscale.com/stable/Tailscale-1.98.5-macos.pkg",
+      "url": "https://pkgs.tailscale.com/stable/Tailscale-1.98.8-macos.pkg",
       "url_specs": {},
-      "version": "1.98.5",
+      "version": "1.98.8",
       "autobump": true,
       "no_autobump_message": null,
       "skip_livecheck": false,
@@ -2930,7 +2975,7 @@
       "pinned": false,
       "pinned_version": null,
       "outdated": false,
-      "sha256": "afb7bc68a356697d69b08d1adeca214d4bfcc6652ff2879b1ff9dd8de1cba150",
+      "sha256": "140090acbc9911967bff294572656f3b367c395be85e8427ee2249d412279864",
       "artifacts": [
         {
           "uninstall": [
@@ -2947,7 +2992,7 @@
         },
         {
           "pkg": [
-            "Tailscale-1.98.5-macos.pkg"
+            "Tailscale-1.98.8-macos.pkg"
           ]
         },
         {
@@ -2999,11 +3044,11 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/t/tailscale-app.rb",
       "ruby_source_checksum": {
-        "sha256": "f71d6a464e3c760203552cbc3c2eeecbbcdcb8239b579c74454eb71b86d01213"
+        "sha256": "3d89e0886128543f611bc271c11c916d3243867320a52e3ce76a34cc93285087"
       }
     },
     {
@@ -3092,7 +3137,7 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/t/tunnelblick.rb",
       "ruby_source_checksum": {
@@ -3169,7 +3214,7 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/t/typeless.rb",
       "ruby_source_checksum": {
@@ -3254,7 +3299,7 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/t/typora.rb",
       "ruby_source_checksum": {
@@ -3271,9 +3316,9 @@
       ],
       "desc": "Virtualiser for arm64 hardware",
       "homepage": "https://www.virtualbox.org/",
-      "url": "https://download.virtualbox.org/virtualbox/7.2.8/VirtualBox-7.2.8-173730-macOSArm64.dmg",
+      "url": "https://download.virtualbox.org/virtualbox/7.2.12/VirtualBox-7.2.12-174389-macOSArm64.dmg",
       "url_specs": {},
-      "version": "7.2.8,173730",
+      "version": "7.2.12,174389",
       "autobump": true,
       "no_autobump_message": null,
       "skip_livecheck": false,
@@ -3284,7 +3329,7 @@
       "pinned": false,
       "pinned_version": null,
       "outdated": true,
-      "sha256": "60d164cc5afc059e44591bcc70f63c7ad3378495f19564cecd1ad9a4461dd935",
+      "sha256": "e6e7158592392486974f312ce85a8a2fff3673eca2c643cbd6a0a9bbf8fac07b",
       "artifacts": [
         {
           "uninstall": [
@@ -3364,11 +3409,11 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/v/virtualbox.rb",
       "ruby_source_checksum": {
-        "sha256": "46c08ad978fbdb8c25034124108922b3c4fda1049d9a493638844e19b2c18e40"
+        "sha256": "31b51235688bc764f970a6abae1a809b227d823d33db586abac9768e1b949abc"
       }
     },
     {
@@ -3382,9 +3427,9 @@
       ],
       "desc": "Open-source code editor",
       "homepage": "https://code.visualstudio.com/",
-      "url": "https://update.code.visualstudio.com/1.124.2/darwin-arm64/stable",
+      "url": "https://update.code.visualstudio.com/1.126.0/darwin-arm64/stable",
       "url_specs": {},
-      "version": "1.124.2",
+      "version": "1.126.0",
       "autobump": true,
       "no_autobump_message": null,
       "skip_livecheck": false,
@@ -3395,7 +3440,7 @@
       "pinned": false,
       "pinned_version": null,
       "outdated": true,
-      "sha256": "d0955f81c63181d69e59f78616b7c6deac695878a542d7bf74b896df7cb19bca",
+      "sha256": "ee3e2ed4eb87a290b58a1fcf1963da1224b7e7fc454594c0eae101fcb5ead1ec",
       "artifacts": [
         {
           "uninstall": [
@@ -3463,11 +3508,11 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/v/visual-studio-code.rb",
       "ruby_source_checksum": {
-        "sha256": "191e688b66eb8932907e04add0201614340fc0092f3a14ec22ed0bbfe5c8a3f3"
+        "sha256": "e6aa8526206a5b797b78b6dac4317bdb81f50dd02227f074a5630889e3bf15a0"
       }
     },
     {
@@ -3555,7 +3600,7 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/v/vlc.rb",
       "ruby_source_checksum": {
@@ -3572,20 +3617,20 @@
       ],
       "desc": "Native desktop client for WhatsApp",
       "homepage": "https://www.whatsapp.com/",
-      "url": "https://web.whatsapp.com/desktop/mac_native/release/?version=2.26.24.12&extension=zip&configuration=Release&branch=master&is_buck=true",
+      "url": "https://web.whatsapp.com/desktop/mac_native/release/?version=2.26.26.12&extension=zip&configuration=Release&branch=master&is_buck=true",
       "url_specs": {},
-      "version": "2.26.24.12",
+      "version": "26.26.12",
       "autobump": true,
       "no_autobump_message": null,
       "skip_livecheck": false,
       "installed": "2.26.21.17",
       "installed_time": 1779939847,
-      "bundle_version": "980736315",
-      "bundle_short_version": "26.21.19",
+      "bundle_version": "996994418",
+      "bundle_short_version": "26.24.17",
       "pinned": false,
       "pinned_version": null,
-      "outdated": false,
-      "sha256": "bcc81c89f9d65f4a939e7a8d05676331d65776b8de8cbacb604ad1ce91c15605",
+      "outdated": true,
+      "sha256": "4a5031b1985d0c9289b8f62129d97f67bcb22d7b24f79722cce446b705ff8d09",
       "artifacts": [
         {
           "uninstall": [
@@ -3644,11 +3689,11 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/w/whatsapp.rb",
       "ruby_source_checksum": {
-        "sha256": "254eb87b382e7fc1c29ef2a60bbde806da58af862fc4b92c69efaef0fa8d772d"
+        "sha256": "a8eeb3331f417e5879cf46cf909ac8c95c0eb3907211fb268312c5727682d0f1"
       }
     },
     {
@@ -3661,20 +3706,20 @@
       ],
       "desc": "Tencent AI Assistant with Hunyuan and DeepSeek LLMs",
       "homepage": "https://yuanbao.tencent.com/",
-      "url": "https://cdn-hybrid-prod.hunyuan.tencent.com/Desktop/official/33cf44faa4d732498e25a84672db3113/yuanbao_2.72.0.613_universal.dmg",
+      "url": "https://cdn-hybrid-prod.hunyuan.tencent.com/Desktop/official/f1fbfe63f8864afe036926111699dbfe/yuanbao_2.74.0.623_universal.dmg",
       "url_specs": {},
-      "version": "2.72.0.613,33cf44faa4d732498e25a84672db3113",
+      "version": "2.74.0.623,f1fbfe63f8864afe036926111699dbfe",
       "autobump": true,
       "no_autobump_message": null,
       "skip_livecheck": false,
       "installed": "2.65.0.636,39a13267cfd82307786c3b62939288cc",
       "installed_time": 1776901604,
-      "bundle_version": "613",
-      "bundle_short_version": "2.72.0",
+      "bundle_version": "623",
+      "bundle_short_version": "2.74.0",
       "pinned": false,
       "pinned_version": null,
       "outdated": false,
-      "sha256": "bb84f0c558a5fd760b7e3cd71df51b0cdef5602eb5a18d8312bc4fb12935650b",
+      "sha256": "60fb605eb612faccd05a65eff66ff5c15885b6d0e8cae73f92c0dbe649d9728f",
       "artifacts": [
         {
           "app": [
@@ -3723,11 +3768,11 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/y/yuanbao.rb",
       "ruby_source_checksum": {
-        "sha256": "11b7b921f293bd09f52f0df89287a32f3008b980c74a858db684c92052573662"
+        "sha256": "f17c5192c2b7fb6896f090ec74e1057e0935e8f55264eacb36bc7141921a0c37"
       }
     },
     {
@@ -3740,9 +3785,9 @@
       ],
       "desc": "Video communication and virtual meeting platform",
       "homepage": "https://www.zoom.us/",
-      "url": "https://cdn.zoom.us/prod/7.0.5.81138/arm64/zoomusInstallerFull.pkg",
+      "url": "https://cdn.zoom.us/prod/7.1.0.83064/arm64/zoomusInstallerFull.pkg",
       "url_specs": {},
-      "version": "7.0.5.81138",
+      "version": "7.1.0.83064",
       "autobump": true,
       "no_autobump_message": null,
       "skip_livecheck": false,
@@ -3753,7 +3798,7 @@
       "pinned": false,
       "pinned_version": null,
       "outdated": false,
-      "sha256": "b859f0055667e625132073581b65aa8942c0f2c8865896aa63405c442a14ea08",
+      "sha256": "1d17b20e4b50f8488733ce7b920bf3403f2d487b52158ac07efd5849354508bc",
       "artifacts": [
         {
           "uninstall": [
@@ -3842,11 +3887,11 @@
       "disable_replacement_formula": null,
       "disable_replacement_cask": null,
       "disable_args": null,
-      "tap_git_head": "2537fd694b85e23cddbcb5afac757bc585399d90",
+      "tap_git_head": "fed3f497d82864257d40924851507fe1b1082ac6",
       "languages": [],
       "ruby_source_path": "Casks/z/zoom.rb",
       "ruby_source_checksum": {
-        "sha256": "b3d31cb39e88503c81b4f5e5303b1fdae550f2a251db4c3422855cca39bd0ba7"
+        "sha256": "4fa9090c5eae2f4d7ea27d70b24a3c4e6fa169a8040ed921cf5172e6a240316e"
       }
     }
   ]
