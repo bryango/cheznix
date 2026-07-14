@@ -253,6 +253,7 @@ in {
     ./modules/v2ray-ctrl
     ./modules/nixpkgs-helpers
     ./modules/flake-channels.nix
+    ./modules/codex-disable-auto-update.nix
     ./modules/home-setup.nix
     ## ^ process & pass home attrs with basic setup
   ];
