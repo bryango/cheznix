@@ -15,6 +15,8 @@ brew "nohajc/anylinuxfs/anylinuxfs", trusted: true
 cask "firefox", trusted: true
 cask "virtualbox", trusted: true
 cask "vlc", trusted: true
+cask "darktable", trusted: true
+cask "google-chrome", trusted: true
 cask "typeless", trusted: true
 cask "nutstore", trusted: true
 cask "zoom", trusted: true
@@ -25,9 +27,9 @@ cask "yuanbao", trusted: true
 cask "notion", trusted: true
 cask "betterdisplay", trusted: true
 cask "lm-studio", trusted: true
-cask "codex-app", trusted: true
 cask "clash-verge-rev", trusted: true
 cask "chatgpt", trusted: true
+cask "chatgpt-classic", trusted: true
 cask "daisydisk", trusted: true
 cask "claude-code", trusted: true
 cask "spotify", trusted: true

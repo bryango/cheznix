@@ -67,8 +67,10 @@ in
       "firefox"
       "virtualbox"
       "vlc"
+      "darktable"
 
       # proprietary but necessary
+      "google-chrome"
       "typeless"
       "nutstore"
       "zoom"
