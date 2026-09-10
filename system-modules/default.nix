@@ -55,11 +55,9 @@ in
       fpath=($fpath /usr/share/zsh/site-functions)
     '';
 
-    # environment.systemPackages = with pkgs; [
-    #   zsh
-    #   neovim
-    #   nix
-    # ];  ## wait for better ecosystem support
+    environment.systemPackages = with pkgs; [
+      inetutils # hostname, telnet, ...
+    ];
 
   };
 }
