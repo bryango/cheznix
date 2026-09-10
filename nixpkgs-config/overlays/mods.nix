@@ -5,6 +5,12 @@ with prev;
 {
   ## be careful of `rec`, might not work
 
+  nixd = nixd.overrideAttrs (old: {
+    mesonFlags = old.mesonFlags ++ [
+      (lib.mesonOption "default_library" "static")
+    ];
+  });
+
   ## inherit to trigger ci builds
   inherit
     # gitbutler
