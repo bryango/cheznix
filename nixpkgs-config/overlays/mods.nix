@@ -5,11 +5,33 @@ with prev;
 {
   ## be careful of `rec`, might not work
 
-  nixd = nixd.overrideAttrs (old: {
-    mesonFlags = old.mesonFlags ++ [
-      (lib.mesonOption "default_library" "static")
-    ];
-  });
+  # TODO: drop after https://github.com/nix-community/nixd/pull/885 is released.
+  nixd = nixd.overrideAttrs (
+    {
+      patches ? [ ],
+      nativeBuildInputs ? [ ],
+      mesonFlags ? [ ],
+      ...
+    }:
+    {
+      patches = patches ++ [
+        (fetchpatch2 {
+          name = "nixd-static-llvm-cli-fix.patch";
+          url = "https://github.com/nix-community/nixd/commit/2d9ba164379145161cd9c1f2422696b5d6f680ed.diff?full_index=1";
+          relative = "nixd";
+          excludes = [
+            "default.nix"
+            "tools/nixd/test/cli-options.md"
+            "tools/nixd/test/cli-options.py"
+          ];
+          hash = "sha256-12B92Hz7Egvy0MiYryAg0VCQnOJ/aYH6kVfwZZ9/JiE=";
+        })
+      ];
+
+      nativeBuildInputs = lib.remove cmake nativeBuildInputs;
+      mesonFlags = lib.remove (lib.mesonBool "llvm_static" true) mesonFlags;
+    }
+  );
 
   ## inherit to trigger ci builds
   inherit
