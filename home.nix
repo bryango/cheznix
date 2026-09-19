@@ -132,7 +132,7 @@ let
       cargo-binstall  # then `cargo binstall cargo-quickinstall`
       cargo-tarpaulin  # show test coverage
       cargo-nextest  # better test runner
-      nodejs-slim  # required by coc.nvim, -slim to rm npm
+      nodejs-slim_latest  # required by coc.nvim, -slim to rm npm
       pnpm  # replacement for npm
       # mise  # dev runtime manager
       # evcxr  # too heavy, instead `cargo quickinstall evcxr_repl`
@@ -254,6 +254,7 @@ in {
     ./modules/nixpkgs-helpers
     ./modules/flake-channels.nix
     ./modules/codex-disable-auto-update.nix
+    ./modules/codex-models-sync
     ./modules/home-setup.nix
     ## ^ process & pass home attrs with basic setup
   ];
