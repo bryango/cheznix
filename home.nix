@@ -133,6 +133,7 @@ let
       cargo-tarpaulin  # show test coverage
       cargo-nextest  # better test runner
       nodejs-slim_latest  # required by coc.nvim, -slim to rm npm
+      fnm  # node version manager
       pnpm  # replacement for npm
       # mise  # dev runtime manager
       # evcxr  # too heavy, instead `cargo quickinstall evcxr_repl`
@@ -255,6 +256,8 @@ in {
     ./modules/flake-channels.nix
     ./modules/codex-disable-auto-update.nix
     ./modules/codex-models-sync
+    ./modules/codex-reset-credit-expiry
+    ./modules/personal-dashboard
     ./modules/home-setup.nix
     ## ^ process & pass home attrs with basic setup
   ];
@@ -281,6 +284,11 @@ in {
     #   echo "Hello, ${config.home.username}!"
     # '')
   ];
+
+  services.personal-dashboard = lib.mkIf ((attrs.hostname or "") == "memoriam") {
+    enable = true;
+    directory = "${config.home.homeDirectory}/Documents/codex/dashboard";
+  };
 
   programs.v2ray-ctrl = {
     # enable = false;
