@@ -97,7 +97,7 @@ in
       "tunnelblick" # openvpn client
       "racket"
       "rustdesk"
-      "bryango/ccswitch/cc-switch"
+      # "bryango/ccswitch/cc-switch" # now building manually
     ];
   };
 

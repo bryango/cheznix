@@ -41,5 +41,4 @@ cask "karabiner-elements", trusted: true
 cask "tunnelblick", trusted: true
 cask "racket", trusted: true
 cask "rustdesk", trusted: true
-cask "bryango/ccswitch/cc-switch", trusted: true
 
