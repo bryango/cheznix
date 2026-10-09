@@ -257,6 +257,7 @@ in {
     ./modules/codex-disable-auto-update.nix
     ./modules/codex-models-sync
     ./modules/codex-reset-credit-expiry
+    ./modules/keep-alive
     ./modules/personal-dashboard
     ./modules/home-setup.nix
     ## ^ process & pass home attrs with basic setup
@@ -288,6 +289,13 @@ in {
   services.personal-dashboard = lib.mkIf ((attrs.hostname or "") == "memoriam") {
     enable = true;
     directory = "${config.home.homeDirectory}/Documents/codex/dashboard";
+  };
+
+  services.keep-alive = {
+    enable = true;
+    apps = {
+      Mail = "/System/Applications/Mail.app";
+    };
   };
 
   programs.v2ray-ctrl = {
