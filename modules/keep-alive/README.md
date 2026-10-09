@@ -21,11 +21,12 @@ An entry is either a path or an attrset with `path`, `args`,
 `environmentVariables`, `restart`, `pollInterval`, and `throttleInterval`.
 
 Every entry generates a supervisor script and a LaunchAgent named
-`keep-alive.<name>`. Each `pollInterval` seconds, by default 10, the supervisor
-looks for a process whose executable lives in the bundle's `Contents/MacOS`. If
-none is running it asks LaunchServices to open the app in the background
-(`open -g -a`). It never executes the bundle binary, and it never launches a
-second copy while one is already running.
+`keep-alive.<name>`. Each `pollInterval` seconds, 3607 (a prime just above an
+hour) by default, the supervisor looks for a process whose executable lives in
+the bundle's `Contents/MacOS`. If none is running it asks LaunchServices to open
+the app in the background (`open -g -a`). It never executes the bundle binary,
+and it never launches a second copy while one is already running. Lower
+`pollInterval` for apps that should come back within seconds of being quit.
 
 `restart = "always"` (the default) reopens the app whenever it disappears,
 including after a deliberate quit, and keeps the supervisor itself alive under

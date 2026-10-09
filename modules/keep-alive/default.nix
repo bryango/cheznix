@@ -177,8 +177,12 @@ in {
 
     pollInterval = lib.mkOption {
       type = lib.types.ints.positive;
-      default = 10;
-      description = "Seconds between two liveness checks.";
+      default = 3607;
+      example = 10;
+      description = ''
+        Seconds between two liveness checks, 3607 (a prime just above an hour)
+        by default. Lower it for apps that should come back faster.
+      '';
     };
 
     throttleInterval = lib.mkOption {
