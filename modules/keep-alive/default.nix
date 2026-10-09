@@ -1,4 +1,10 @@
-/** Keep bundled macOS apps alive through one LaunchAgent per app. */
+/** Keep bundled macOS apps running through one LaunchAgent per app.
+
+    macOS refuses to execute a protected app bundle directly: the kernel kills
+    the process at startup with `SIGKILL (Code Signature Invalid)` and reports a
+    launch-constraint violation in the crash log. Each agent therefore asks
+    LaunchServices to open the app, and reopens it whenever it disappears.
+*/
 
 { config, lib, pkgs, ... }:
 
@@ -21,20 +27,10 @@ let
         description = "Absolute path to an app bundle.";
       };
 
-      executable = lib.mkOption {
-        type = lib.types.nullOr lib.types.str;
-        default = null;
-        example = "Mail";
-        description = ''
-          Binary inside the bundle's `Contents/MacOS` directory. Defaults to
-          the bundle's `CFBundleExecutable` at runtime.
-        '';
-      };
-
       args = lib.mkOption {
         type = lib.types.listOf lib.types.str;
         default = [ ];
-        description = "Extra arguments passed to the app executable.";
+        description = "Arguments handed to the app through `open --args`.";
       };
 
       environmentVariables = lib.mkOption {
@@ -43,10 +39,16 @@ let
         description = "Environment variables set for the LaunchAgent.";
       };
 
-      keepAlive = lib.mkOption {
-        type = lib.types.enum [ "always" "onCrash" ];
-        default = cfg.keepAlive;
-        description = "Override the module-wide `keepAlive` policy.";
+      restart = lib.mkOption {
+        type = lib.types.enum [ "always" "onLogin" ];
+        default = cfg.restart;
+        description = "Override the module-wide `restart` policy.";
+      };
+
+      pollInterval = lib.mkOption {
+        type = lib.types.ints.positive;
+        default = cfg.pollInterval;
+        description = "Override the module-wide liveness poll, in seconds.";
       };
 
       throttleInterval = lib.mkOption {
@@ -61,54 +63,68 @@ let
     (_: value: if lib.isString value then { path = value; } else value)
     cfg.apps;
 
-  keepAliveFor = app: app.keepAlive or cfg.keepAlive;
+  restartFor = app: app.restart or cfg.restart;
+  pollFor = app: toString (app.pollInterval or cfg.pollInterval);
   throttleFor = app: app.throttleInterval or cfg.throttleInterval;
 
-  /* The wrapper resolves the real executable and replaces itself with it, so
-      launchd supervises the app process rather than the shell. */
-  mkWrapper = name: app:
+  /* The supervisor never executes the bundle binary; it asks LaunchServices to
+      open the bundle, then watches for a process running from that bundle. */
+  mkScript = name: app:
     let
-      executable = app.executable or null;
+      args = app.args or [ ];
+      openArgs = lib.escapeShellArgs (
+        [ "-g" "-a" app.path ] ++ lib.optionals (args != [ ]) ([ "--args" ] ++ args)
+      );
     in
     pkgs.writeShellScriptBin "${module}-${name}" ''
       set -eu
 
       app=${lib.escapeShellArg app.path}
-      executable=${lib.escapeShellArg (if executable == null then "" else executable)}
+      bundleDir="$app/Contents/MacOS/"
 
-      if [[ ! -d $app/Contents/MacOS ]]; then
-        echo >&2 "${module}: ${name}: app bundle is missing: $app"
-        exit 1
-      fi
+      # Any process running from the bundle's MacOS directory is the app; an
+      # exact prefix match keeps this free of pattern escaping.
+      isRunning() {
+        /bin/ps -Ao comm= \
+          | /usr/bin/awk -v dir="$bundleDir" 'index($0, dir) == 1 { found = 1 } END { exit !found }'
+      }
 
-      if [[ -z $executable ]]; then
-        executable=$(/usr/libexec/PlistBuddy -c 'Print :CFBundleExecutable' \
-          "$app/Contents/Info.plist" 2>/dev/null || true)
-      fi
+      launch() {
+        if ! /usr/bin/open ${openArgs}; then
+          echo >&2 "${module}: ${name}: could not open $app"
+        fi
+      }
 
-      if [[ ! -x $app/Contents/MacOS/$executable ]]; then
-        echo >&2 "${module}: ${name}: no executable in $app/Contents/MacOS"
-        exit 1
-      fi
-
-      exec "$app/Contents/MacOS/$executable" "$@"
+      ${if restartFor app == "onLogin" then ''
+        if ! isRunning; then
+          launch
+        fi
+      '' else ''
+        while :; do
+          if ! isRunning; then
+            launch
+          fi
+          sleep ${pollFor app}
+        done
+      ''}
     '';
 
   mkAgent = name: app: {
     enable = true;
     config = {
       Label = agentLabel name;
-      ProgramArguments = [ "${mkWrapper name app}/bin/${module}-${name}" ] ++ (app.args or [ ]);
+      ProgramArguments = [ "${mkScript name app}/bin/${module}-${name}" ];
       LimitLoadToSessionType = "Aqua";
       ProcessType = cfg.processType;
       RunAtLoad = true;
-      KeepAlive =
-        if keepAliveFor app == "always" then true else { SuccessfulExit = false; };
       ThrottleInterval = throttleFor app;
-      /* Apps that fork helpers must not have them killed on every respawn. */
-      AbandonProcessGroup = true;
     } // lib.optionalAttrs ((app.environmentVariables or { }) != { }) {
       EnvironmentVariables = app.environmentVariables;
+    } // lib.optionalAttrs (restartFor app == "always") {
+      KeepAlive = true;
+      /* LaunchServices starts the app outside this process group, so launchd
+          must not clean it up when the supervisor is restarted. */
+      AbandonProcessGroup = true;
     };
   };
 
@@ -130,7 +146,7 @@ in {
       example = lib.literalExpression ''
         {
           Mail = "/System/Applications/Mail.app";
-          Clash = { path = "/Applications/Clash Verge.app"; keepAlive = "onCrash"; };
+          Clash = { path = "/Applications/Clash Verge.app"; restart = "onLogin"; };
         }
       '';
       description = ''
@@ -149,25 +165,35 @@ in {
       '';
     };
 
-    processType = lib.mkOption {
-      type = lib.types.enum [ "Background" "Standard" "Adaptive" "Interactive" ];
-      default = "Interactive";
-      description = "launchd process type for the agents.";
-    };
-
-    keepAlive = lib.mkOption {
-      type = lib.types.enum [ "always" "onCrash" ];
+    restart = lib.mkOption {
+      type = lib.types.enum [ "always" "onLogin" ];
       default = "always";
       description = ''
-        `always` restarts the app after every exit, including a normal quit.
-        `onCrash` restarts it only after an unsuccessful exit.
+        `always` reopens the app within `pollInterval` seconds whenever it is
+        not running, including after a normal quit. `onLogin` only opens it
+        once, when the agent loads.
       '';
+    };
+
+    pollInterval = lib.mkOption {
+      type = lib.types.ints.positive;
+      default = 10;
+      description = "Seconds between two liveness checks.";
     };
 
     throttleInterval = lib.mkOption {
       type = lib.types.ints.positive;
       default = 10;
-      description = "Minimum seconds between two launches of the same app.";
+      description = "Minimum seconds between two launches of an agent.";
+    };
+
+    processType = lib.mkOption {
+      type = lib.types.enum [ "Background" "Standard" "Adaptive" "Interactive" ];
+      default = "Background";
+      description = ''
+        launchd process type for the supervisor. It does not affect the app,
+        which LaunchServices starts as a regular application.
+      '';
     };
   };
 
