@@ -12,13 +12,13 @@ services.keep-alive = {
   enable = true;
   apps = {
     Mail = "/System/Applications/Mail.app";
-    Clash = { path = "/Applications/Clash Verge.app"; restart = "onLogin"; };
   };
 };
 ```
 
 An entry is either a path or an attrset with `path`, `args`,
-`environmentVariables`, `restart`, `pollInterval`, and `throttleInterval`.
+`environmentVariables`, `restart`, `pollInterval`, and `throttleInterval`, for
+example `SomeApp = { path = "/Applications/SomeApp.app"; restart = "onLogin"; }`.
 
 Every entry generates a supervisor script and a LaunchAgent named
 `keep-alive.<name>`. Each `pollInterval` seconds, 3607 (a prime just above an

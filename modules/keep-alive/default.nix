@@ -146,12 +146,13 @@ in {
       example = lib.literalExpression ''
         {
           Mail = "/System/Applications/Mail.app";
-          Clash = { path = "/Applications/Clash Verge.app"; restart = "onLogin"; };
         }
       '';
       description = ''
         Apps to keep alive, as `name -> path` or `name -> { ... }`. Each entry
-        becomes a LaunchAgent named `keep-alive.<name>`.
+        becomes a LaunchAgent named `keep-alive.<name>`; the attrset form takes
+        `path`, `args`, `environmentVariables`, `restart`, `pollInterval`, and
+        `throttleInterval`.
       '';
     };
 
