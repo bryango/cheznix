@@ -120,6 +120,10 @@ in
 
   system.defaults = {
     NSGlobalDomain = {
+      # adjust status whitespace
+      NSStatusItemSpacing = 4;
+      NSStatusItemSelectionPadding = 4;
+
       AppleShowAllExtensions = true;
       # AppleShowAllFiles = true;
     };
@@ -128,9 +132,6 @@ in
     };
     CustomUserPreferences = {
       NSGlobalDomain = {
-        # adjust status whitespace
-        NSStatusItemSpacing = 12;
-        NSStatusItemSelectionPadding = 8;
       };
     };
   };
