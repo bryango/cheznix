@@ -16,7 +16,7 @@
 }).overrideAttrs (prevAttrs: {
 
   ## do not generate `$textPath` automatically
-  passAsFile = lib.remove "text" prevAttrs.passAsFile;
+  passAsFile = lib.remove "text" (prevAttrs.passAsFile or [ ]);
 
   ## manually pass `$textPath`
   textPath = concatText name [
